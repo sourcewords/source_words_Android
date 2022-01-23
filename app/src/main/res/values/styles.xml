@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources><!-- 圆形图片 -->
+    <style name="circleImageStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="MyEditView">
+        <item name="colorControlNormal">#92D9D8</item>
+        <item name="colorControlActivated">#9B99F3</item>
+    </style>
+</resources>
