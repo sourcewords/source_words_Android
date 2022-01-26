@@ -23,18 +23,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void addMainFragment() {
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.main_container,new MainFragment(),"mainFragment")
+                .add(R.id.main_container, new MainFragment(), "mainFragment")
                 .commit();
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        if (System.currentTimeMillis()-lastBackTime<=2000){
+        if (System.currentTimeMillis() - lastBackTime <= 2000) {
             super.onBackPressed();
-        }else {
-            Toast.makeText(this,"再按一次退出",Toast.LENGTH_LONG).show();
-            lastBackTime=System.currentTimeMillis();
+        } else {
+            Toast.makeText(this, "再按一次退出", Toast.LENGTH_LONG).show();
+            lastBackTime = System.currentTimeMillis();
 
         }
     }
