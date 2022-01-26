@@ -3,6 +3,9 @@ package com.example.sourcewords.ui.review.dataBean;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
+
+import com.example.sourcewords.utils.Converters;
 
 import java.util.List;
 
@@ -16,9 +19,6 @@ public class WordRoot {
     private String meaningOfRoot;
     @ColumnInfo(name = "单词表")
     private List<Word> list;
-
-    public WordRoot() {
-    }
 
     public WordRoot(int id, String englishRoot, String meaningOfRoot, List<Word> list) {
         this.id = id;
