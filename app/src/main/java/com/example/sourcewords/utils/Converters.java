@@ -9,13 +9,16 @@ import java.util.List;
 
 //数据转换类
 public class Converters {
-    public static Gson gs = new Gson();
+    private static Gson gs = new Gson();
+
     @TypeConverter
-    public static List<String> jsonToList(String json){
-        return gs.fromJson(json,new TypeToken<List<String>>(){}.getType());
+    public static List<String> jsonToList(String json) {
+        return gs.fromJson(json, new TypeToken<List<String>>() {
+        }.getType());
     }
+
     @TypeConverter
-    public static String listToJson(List<String> list){
+    public static String listToJson(List<String> list) {
         return gs.toJson(list);
     }
 }

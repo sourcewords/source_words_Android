@@ -21,7 +21,8 @@ public class Word {
     @ColumnInfo(name = "例句")
     private List<String> examples;
 
-    public Word() {}
+    public Word() {
+    }
 
     public Word(int id, String chinese, String english, String soundMark, String structure, List<String> examples) {
         this.id = id;
