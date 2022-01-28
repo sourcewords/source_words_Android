@@ -1,4 +1,4 @@
-package com.example.sourcewords.ui.mine;
+package com.example.sourcewords.ui.mine.view;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
