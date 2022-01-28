@@ -17,7 +17,7 @@ import com.example.sourcewords.ui.review.dataBean.WordRootDao;
 public abstract class WordDatabase extends RoomDatabase {
     private static WordDatabase INSTANCE;
 
-    static WordDatabase getDatabase() {
+    public static WordDatabase getDatabase() {
         if (INSTANCE == null) {
             //这里加互斥锁，是为了防止多线程重复创建数据库，保证单例在多线程操作的安全性
             synchronized (WordDatabase.class) {
