@@ -19,6 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.mine.view.AddPlanActivity"></activity>
+        <activity android:name=".ui.mine.view.ChangePwdActivity"></activity>
+        <activity android:name=".ui.mine.view.UserInfoActivity"></activity>
     </application>
 
 </manifest>

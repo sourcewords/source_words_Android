@@ -9,4 +9,9 @@
         <item name="colorControlNormal">#92D9D8</item>
         <item name="colorControlActivated">#9B99F3</item>
     </style>
+
+    <style name="UserEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">#64BEBC</item>
+        <item name="colorControlActivated">#64BEBC</item>
+    </style>
 </resources>
