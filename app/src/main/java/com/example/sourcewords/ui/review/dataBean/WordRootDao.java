@@ -22,4 +22,7 @@ public interface WordRootDao {
 
     @Query("SELECT * FROM WORDROOT ORDER BY ID")
     LiveData<List<WordRoot>> getAllWordRoot();
+
+    @Query("SELECT * FROM WORDROOT WHERE ID =:id")
+    WordRoot getWordRootById(int id);
 }

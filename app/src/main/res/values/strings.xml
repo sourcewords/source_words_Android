@@ -3,4 +3,7 @@
     <string name="learn">学</string>
     <string name="review">习</string>
     <string name="mine">我</string>
+    <string name="RelatedWords">相关词汇：</string>
+    <string name="wordRootLearned">已学习完本词根</string>
+
 </resources>
