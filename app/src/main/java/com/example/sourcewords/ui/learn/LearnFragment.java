@@ -2,6 +2,7 @@ package com.example.sourcewords.ui.learn;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -46,10 +47,11 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
     private void initView(View v) {
         imageButton = v.findViewById(R.id.learn_searcher);
         videoView = v.findViewById(R.id.learn_player);
-        final String path = Environment.getExternalStorageDirectory().getPath() + "test.mp4";
-        videoView.setVideoPath(path);
+        Uri uri = Uri.parse("https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4");
+        videoView.setVideoURI(uri);
         MediaController controller = new MediaController(getContext());
         videoView.setMediaController(controller);
+        videoView.requestFocus();
 
         recyclerView = v.findViewById(R.id.learn_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

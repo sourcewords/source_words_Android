@@ -16,7 +16,7 @@ import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import java.util.List;
 
 public class WordRootAdapter extends RecyclerView.Adapter<WordRootAdapter.WordRootHolder>  {
-    private List<WordRoot> wordRoots;
+    private List<Test.DataBean> wordRoots;
     private final LayoutInflater mInflater;
     @SuppressLint("StaticFieldLeak")
     private static Context mContext;
@@ -26,7 +26,7 @@ public class WordRootAdapter extends RecyclerView.Adapter<WordRootAdapter.WordRo
         mInflater = LayoutInflater.from(mContext.getApplicationContext());
     }
 
-    public void setWordRoots(List<WordRoot> list){
+    public void setWordRoots(List<Test.DataBean> list){
         wordRoots = list;
     }
 
@@ -39,7 +39,7 @@ public class WordRootAdapter extends RecyclerView.Adapter<WordRootAdapter.WordRo
 
     @Override
     public void onBindViewHolder(@NonNull WordRootHolder holder, int position) {
-        WordRoot root = wordRoots.get(position);
+        Test.DataBean root = wordRoots.get(position);
         holder.bind(root);
     }
 
@@ -62,8 +62,8 @@ public class WordRootAdapter extends RecyclerView.Adapter<WordRootAdapter.WordRo
         }
 
         @SuppressLint("SetTextI18n")
-        public void bind(WordRoot wordRoot) {
-            textView.setText(wordRoot.getEnglishRoot() + " " + wordRoot.getMeaningOfRoot());
+        public void bind(Test.DataBean wordRoot) {
+            textView.setText(wordRoot.getRoot() + " " + wordRoot.getMeaning());
             layout.setOnClickListener(view -> {
                 int id = wordRoot.getId();
                 Intent intent = WordRootPage.newInstance(mContext,id);
