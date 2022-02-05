@@ -3,6 +3,7 @@ package com.example.sourcewords.utils;
 import androidx.room.TypeConverter;
 
 import com.example.sourcewords.ui.review.dataBean.Word;
+import com.example.sourcewords.ui.review.dataBean.WordInfoBean;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -21,5 +22,10 @@ public class Converters {
     @TypeConverter
     public static String listToJson(List<Word> list) {
         return gs.toJson(list);
+    }
+
+    @TypeConverter
+    public static String wordsInfoToJson(WordInfoBean wordsInfo) {
+        return gs.toJson(wordsInfo);
     }
 }
