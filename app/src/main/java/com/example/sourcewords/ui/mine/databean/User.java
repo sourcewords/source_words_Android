@@ -19,4 +19,20 @@ public class User {
 
     private String password;
     private String name;
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    private String token;
+
+    public User(){}
+    public User(String password, String name, String token){
+        this.password = password;
+        this.name = name;
+    }
 }
