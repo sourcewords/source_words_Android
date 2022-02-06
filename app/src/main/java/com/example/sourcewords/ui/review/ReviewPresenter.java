@@ -1,6 +1,7 @@
 package com.example.sourcewords.ui.review;
 
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
+import com.example.sourcewords.ui.review.model.WordRepository;
 
 public class ReviewPresenter implements ReviewContract.Presenter {
 
