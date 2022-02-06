@@ -1,4 +1,4 @@
-package com.example.sourcewords.ui.review;
+package com.example.sourcewords.ui.review.view;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

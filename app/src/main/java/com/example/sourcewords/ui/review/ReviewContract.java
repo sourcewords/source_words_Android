@@ -4,7 +4,7 @@ import com.example.sourcewords.ui.review.dataBean.WordRoot;
 
 public class ReviewContract {
 
-    interface View {
+    public interface View {
 
         void setPresenter(Presenter presenter);
 
@@ -13,7 +13,7 @@ public class ReviewContract {
         void initWordView(WordRoot wordRoot);
     }
 
-    interface Presenter {
+    public interface Presenter {
         void initData();
     }
 }

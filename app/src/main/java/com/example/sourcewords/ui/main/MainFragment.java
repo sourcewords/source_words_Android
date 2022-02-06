@@ -16,12 +16,11 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.learn.LearnFragment;
 import com.example.sourcewords.ui.mine.MineFragment;
-import com.example.sourcewords.ui.review.ReviewFragment;
+import com.example.sourcewords.ui.review.view.ReviewFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 public class MainFragment extends Fragment {
 

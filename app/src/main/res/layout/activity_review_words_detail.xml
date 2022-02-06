@@ -36,6 +36,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/wordEng"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -49,11 +50,13 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:id="@+id/horn_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/horn_foreground" />
 
                 <TextView
+                    android:id="@+id/soundMark"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -70,6 +73,7 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/meaning"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/shape_orange_meaning"
@@ -97,6 +101,7 @@
                 android:textSize="20sp" />
 
             <TextView
+                android:id="@+id/structure"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
@@ -128,6 +133,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/examples"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"

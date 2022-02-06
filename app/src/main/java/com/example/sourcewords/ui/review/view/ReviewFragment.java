@@ -1,4 +1,4 @@
-package com.example.sourcewords.ui.review;
+package com.example.sourcewords.ui.review.view;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,10 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.sourcewords.App;
 import com.example.sourcewords.R;
-import com.example.sourcewords.ui.main.MainFragment;
+import com.example.sourcewords.ui.review.ReviewContract;
+import com.example.sourcewords.ui.review.ReviewPresenter;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
+import com.example.sourcewords.ui.review.model.WordRepository;
+import com.example.sourcewords.ui.review.view.NoneFragment;
+import com.example.sourcewords.ui.review.view.ReciteFragment;
 
 
 //TODO 习模块

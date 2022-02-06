@@ -31,6 +31,16 @@ public class WordRoot {
     @ColumnInfo(name = "单词列表")
     private List<Word> wordlist;
 
+    public WordRoot(int ID, String meaning, String video_url, int id, String source, String root, List<Word> wordlist) {
+        this.ID = ID;
+        this.meaning = meaning;
+        this.video_url = video_url;
+        this.id = id;
+        this.source = source;
+        this.root = root;
+        this.wordlist = wordlist;
+    }
+
     public String getMeaning() {
         return meaning;
     }
