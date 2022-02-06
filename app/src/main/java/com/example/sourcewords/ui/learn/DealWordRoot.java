@@ -10,6 +10,7 @@ import retrofit2.http.HEAD;
 import retrofit2.http.Header;
 import retrofit2.http.Query;
 
+//TODO 网络请求部分
 public interface DealWordRoot {
     @GET("roots/list")
     Observable<Test> getWordList(@Header("Authorization") String Authorization

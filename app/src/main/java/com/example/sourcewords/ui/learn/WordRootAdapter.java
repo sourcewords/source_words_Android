@@ -6,9 +6,9 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
@@ -16,7 +16,7 @@ import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import java.util.List;
 
 public class WordRootAdapter extends RecyclerView.Adapter<WordRootAdapter.WordRootHolder>  {
-    private List<Test.DataBean> wordRoots;
+    private List<WordRoot> wordRoots;
     private final LayoutInflater mInflater;
     @SuppressLint("StaticFieldLeak")
     private static Context mContext;
@@ -26,7 +26,7 @@ public class WordRootAdapter extends RecyclerView.Adapter<WordRootAdapter.WordRo
         mInflater = LayoutInflater.from(mContext.getApplicationContext());
     }
 
-    public void setWordRoots(List<Test.DataBean> list){
+    public void setWordRoots(List<WordRoot> list){
         wordRoots = list;
     }
 
@@ -39,7 +39,7 @@ public class WordRootAdapter extends RecyclerView.Adapter<WordRootAdapter.WordRo
 
     @Override
     public void onBindViewHolder(@NonNull WordRootHolder holder, int position) {
-        Test.DataBean root = wordRoots.get(position);
+        WordRoot root = wordRoots.get(position);
         holder.bind(root);
     }
 
@@ -54,7 +54,7 @@ public class WordRootAdapter extends RecyclerView.Adapter<WordRootAdapter.WordRo
 
     static class WordRootHolder extends RecyclerView.ViewHolder{
         private final TextView textView;
-        private final LinearLayout layout;
+        private final ConstraintLayout layout;
         public WordRootHolder(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.wordRoot_text);
@@ -62,8 +62,8 @@ public class WordRootAdapter extends RecyclerView.Adapter<WordRootAdapter.WordRo
         }
 
         @SuppressLint("SetTextI18n")
-        public void bind(Test.DataBean wordRoot) {
-            textView.setText(wordRoot.getRoot() + " " + wordRoot.getMeaning());
+        public void bind(WordRoot wordRoot) {
+            textView.setText(wordRoot.getEnglishRoot() + " " + wordRoot.getMeaningOfRoot());
             layout.setOnClickListener(view -> {
                 int id = wordRoot.getId();
                 Intent intent = WordRootPage.newInstance(mContext,id);

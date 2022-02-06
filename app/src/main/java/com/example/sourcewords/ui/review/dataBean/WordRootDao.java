@@ -25,4 +25,8 @@ public interface WordRootDao {
 
     @Query("SELECT * FROM WORDROOT WHERE ID =:id")
     WordRoot getWordRootById(int id);
+
+    @Query("SELECT * FROM WORDROOT WHERE 英文词根 LIKE '%' || :searchMessage || '%'")
+    List<WordRoot> getWordRootsSimilar(String searchMessage);
+
 }

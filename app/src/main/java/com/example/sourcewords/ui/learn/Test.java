@@ -2,6 +2,7 @@ package com.example.sourcewords.ui.learn;
 
 import java.io.Serializable;
 import java.util.List;
+//TODO 网络请求的接受类，以后再说
 public class Test implements Serializable {
 
     /**
