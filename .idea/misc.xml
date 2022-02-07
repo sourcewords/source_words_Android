@@ -6,6 +6,11 @@
         <entry key="app/src/main/res/drawable/background_mine.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/ic_baseline_chevron_left_24.xml" value="0.23703703703703705" />
         <entry key="app/src/main/res/drawable/ic_baseline_keyboard_arrow_right_24.xml" value="0.23703703703703705" />
+        <entry key="app/src/main/res/drawable/login_background.xml" value="0.23981481481481481" />
+        <entry key="app/src/main/res/drawable/login_rectangle.xml" value="0.23981481481481481" />
+        <entry key="app/src/main/res/drawable/login_select1_frame.xml" value="0.23981481481481481" />
+        <entry key="app/src/main/res/drawable/login_select2_frame.xml" value="0.23981481481481481" />
+        <entry key="app/src/main/res/drawable/login_select_frame.xml" value="0.23981481481481481" />
         <entry key="app/src/main/res/drawable/mine_background.xml" value="0.23703703703703705" />
         <entry key="app/src/main/res/drawable/mine_shape_stroke.xml" value="0.23703703703703705" />
         <entry key="app/src/main/res/drawable/shape_corner_up.xml" value="0.16020566506173872" />
@@ -13,11 +18,15 @@
         <entry key="app/src/main/res/drawable/shape_rectangle.xml" value="0.23703703703703705" />
         <entry key="app/src/main/res/layout/activity_addplan.xml" value="0.14402173913043478" />
         <entry key="app/src/main/res/layout/activity_changepwd.xml" value="0.1956832317970166" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.29583333333333334" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_login_messge.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_login_regiser.xml" value="0.15172101449275363" />
+        <entry key="app/src/main/res/layout/activity_login_register.xml" value="0.3302611367127496" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_userinfo.xml" value="0.335" />
         <entry key="app/src/main/res/layout/fragment_learn.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.2953125" />
-        <entry key="app/src/main/res/layout/fragment_mine.xml" value="0.17907153143480234" />
+        <entry key="app/src/main/res/layout/fragment_mine.xml" value="0.38568520126617045" />
         <entry key="app/src/main/res/layout/fragment_review.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/menu/navigation_items.xml" value="0.2953125" />
       </map>
