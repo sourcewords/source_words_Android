@@ -1,4 +1,4 @@
-package com.example.sourcewords.ui.mine.databean;
+package com.example.sourcewords.ui.mine.model.databean;
 
 import androidx.annotation.Nullable;
 
@@ -49,7 +49,7 @@ public class UserWrapper {
     }
 
     public void setUser(User user){
-        this.user = user;
+        user = user;
         String json = JSONObject.toJSONString(user);
         try{
             json = encryption.encryptAES(json);

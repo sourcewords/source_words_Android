@@ -1,4 +1,4 @@
-package com.example.sourcewords.ui.mine.databean;
+package com.example.sourcewords.ui.mine.model.databean;
 
 public class User {
     public String getPassword() {
