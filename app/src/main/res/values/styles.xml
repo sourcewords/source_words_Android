@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources><!-- 圆形图片 -->
+    <style name="circleImageStyle">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="MyEditView">
+        <item name="colorControlNormal">#92D9D8</item>
+        <item name="colorControlActivated">#9B99F3</item>
+    </style>
+
+    <style name="UserEditText" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">#64BEBC</item>
+        <item name="colorControlActivated">#64BEBC</item>
+    </style>
+
+    <style name="update_progress_horizontal" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:indeterminateOnly">false</item>
+        <!--进度条的进度颜色drawable文件-->
+        <item name="android:progressDrawable">@drawable/progress_indeterminate_horizontal</item>
+        <!--进度条的最小高度-->
+        <item name="android:minHeight">17dp</item>
+        <!--进度条的最大高度-->
+        <item name="android:maxHeight">17dp</item>
+    </style>
 
     <style name="bottom_menu_title_active">
         <item name="android:textSize">14sp</item>
