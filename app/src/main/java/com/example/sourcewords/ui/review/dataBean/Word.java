@@ -8,6 +8,91 @@ import java.util.List;
 
 @Entity
 public class Word {
+    /**
+     * zh_source : id
+     * pronunciation_url : http://hdqqnj.nr/wcsbg
+     * meaning : amet do cupidatat cillum ea
+     * exam_grading : [false,false]
+     * phonetic : 18165035413
+     * id : 80
+     * root : 6
+     * example_sentences : [{"zh":"in est Lorem sed ad","en":"ad ea quis amet cupidatat"}]
+     * variation : eu mollit culpa
+     * word : occaecat in esse aliquip
+     */
+    private WordInfoBean word_info;
+    /**
+     * word_info : {"zh_source":"id","pronunciation_url":"http://hdqqnj.nr/wcsbg","meaning":"amet do cupidatat cillum ea","exam_grading":[false,false],"phonetic":"18165035413","id":80,"root":6,"example_sentences":[{"zh":"in est Lorem sed ad","en":"ad ea quis amet cupidatat"}],"variation":"eu mollit culpa","word":"occaecat in esse aliquip"}
+     * id : 88
+     * meaning : aliqua nostrud reprehenderit commodo est
+     * word : quis
+     * explanation : sed in ut pariatur irure
+     * property : laboris elit
+     */
+    private int id;
+    private String meaning;
+    private String word;
+    private String explanation;
+    private String property;
+
+    public Word(WordInfoBean word_info, int id, String meaning, String word, String explanation, String property) {
+        this.word_info = word_info;
+        this.id = id;
+        this.meaning = meaning;
+        this.word = word;
+        this.explanation = explanation;
+        this.property = property;
+    }
+
+    public WordInfoBean getWord_info() {
+        return word_info;
+    }
+
+    public void setWord_info(WordInfoBean word_info) {
+        this.word_info = word_info;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getMeaning() {
+        return meaning;
+    }
+
+    public void setMeaning(String meaning) {
+        this.meaning = meaning;
+    }
+
+    public String getWord() {
+        return word;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
+    }
+
+    public String getExplanation() {
+        return explanation;
+    }
+
+    public void setExplanation(String explanation) {
+        this.explanation = explanation;
+    }
+
+    public String getProperty() {
+        return property;
+    }
+
+    public void setProperty(String property) {
+        this.property = property;
+    }
+
+    /*
     @PrimaryKey(autoGenerate = true)
     private int id;
     @ColumnInfo(name = "中文单词")
@@ -80,4 +165,5 @@ public class Word {
     public void setExamples(List<String> examples) {
         this.examples = examples;
     }
+     */
 }

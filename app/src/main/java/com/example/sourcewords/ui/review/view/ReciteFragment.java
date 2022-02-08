@@ -1,4 +1,4 @@
-package com.example.sourcewords.ui.review;
+package com.example.sourcewords.ui.review.view;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -33,7 +33,7 @@ public class ReciteFragment extends Fragment {
     Iterator<Word> iterator;
 
     public ReciteFragment(WordRoot wordRoot) {
-        this.words = wordRoot.getList();
+        this.words = wordRoot.getWordlist();
         iterator = words.iterator();
         difficultCount = 0;
         middleCount = 0;
@@ -64,8 +64,8 @@ public class ReciteFragment extends Fragment {
     private void initView() {
         if(iterator.hasNext()) {
             Word word = iterator.next();
-            wordEng.setText(word.getEnglish());
-            soundMark.setText(word.getSoundMark());
+            wordEng.setText(word.getWord());
+            //soundMark.setText(word.getSoundMark());
             difficultCount++;
             difficult.setText(difficultCount+" ");
         }
