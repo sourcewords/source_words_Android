@@ -14,4 +14,23 @@
         <item name="colorControlNormal">#64BEBC</item>
         <item name="colorControlActivated">#64BEBC</item>
     </style>
+
+    <style name="update_progress_horizontal" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:indeterminateOnly">false</item>
+        <!--进度条的进度颜色drawable文件-->
+        <item name="android:progressDrawable">@drawable/progress_indeterminate_horizontal</item>
+        <!--进度条的最小高度-->
+        <item name="android:minHeight">17dp</item>
+        <!--进度条的最大高度-->
+        <item name="android:maxHeight">17dp</item>
+    </style>
+
+    <style name="bottom_menu_title_active">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="bottom_menu_title_inactive">
+        <item name="android:textSize">12sp</item>
+    </style>
+
 </resources>

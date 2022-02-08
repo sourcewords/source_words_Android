@@ -1,17 +1,15 @@
 package com.example.sourcewords.ui.mine.view;
 
 import android.os.Bundle;
-import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.sourcewords.R;
 import com.example.sourcewords.databinding.ActivityChangepwdBinding;
 import com.example.sourcewords.ui.mine.viewmodel.ChangePwdViewModel;
-import com.example.sourcewords.ui.mine.viewmodel.PassWord;
+import com.example.sourcewords.ui.mine.model.databean.PassWord;
 
 public class ChangePwdActivity extends AppCompatActivity {
 
