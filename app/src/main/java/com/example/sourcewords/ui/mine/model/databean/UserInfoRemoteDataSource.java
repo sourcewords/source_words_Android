@@ -29,7 +29,7 @@ public class UserInfoRemoteDataSource {
 
     private UserInfoRemoteDataSource(){};
 
-    public void getRemoteUserInfo(MutableLiveData<UserInfo> myUserInfo) {
+    public void getRemoteUserInfo(UserInfo myUserInfo) {
 
         UserInfo[] userInfo = new UserInfo[1];
         NetUtil.getInstance().getApi().getUserInfo(token)

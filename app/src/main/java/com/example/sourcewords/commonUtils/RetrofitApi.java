@@ -14,6 +14,6 @@ public interface RetrofitApi {
     @GET("user/info")
     Call<UserInfo> getUserInfo(@Header("token") String token);
 
-    @PUT("user/info")
-    Call<Message> putUserInfo(@Body UserInfo userInfo);
+//    @PUT("user/info")
+//    Call<Message> putUserInfo(@Body UserInfo userInfo);
 }
