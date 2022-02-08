@@ -48,9 +48,6 @@ public class ReviewFragment extends Fragment implements ReviewContract.View {
 
     @Override
     public void initNoneView() {
-//        getFragmentManager().beginTransaction()
-//                .add(R.id.main_container, new MainFragment(), "mainFragment")
-//                .commit();
         getChildFragmentManager().beginTransaction().add(R.id.review_container,new NoneFragment(),"NoneFragment")
                 .commit();
     }

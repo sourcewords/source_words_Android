@@ -2,7 +2,7 @@ package com.example.sourcewords.ui.review;
 
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 
-public class ReviewContract {
+public interface ReviewContract {
 
     interface View {
 
