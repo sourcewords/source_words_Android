@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,7 +35,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
     private VideoView videoView;
     private RecyclerView recyclerView;
     private TextView textView_learned, textView_wordRoot;
-    private Bundle bundle;
+    private LearnViewModel viewModel;
 
     @Nullable
     @Override
@@ -45,6 +46,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initView(View v) {
+        viewModel = ViewModelProviders.of(this).get(LearnViewModel.class);
         imageButton = v.findViewById(R.id.learn_searcher);
         videoView = v.findViewById(R.id.learn_player);
         Uri uri = Uri.parse("https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4");
@@ -61,6 +63,8 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         adapter.setList(list);//设置加载的单词列表
         recyclerView.setAdapter(adapter);
         textView_wordRoot = v.findViewById(R.id.learn_wordroot);
+        //等待算法实现
+        //textView_wordRoot.setText("词根："+ );
         textView_learned = v.findViewById(R.id.learn_AllLearned);
         textView_learned.setOnClickListener(this);
         imageButton.setOnClickListener(this);
@@ -73,6 +77,8 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
             case R.id.learn_AllLearned:
                 textView_learned.setBackground(getResources().getDrawable(R.drawable.learned_selected));
                 textView_learned.setTextColor(getResources().getColor(R.color.theme_green));
+                //待实现获取每日词根的算法
+                //viewModel.getWordRoot();
                 break;
             case R.id.learn_searcher:
                 Intent intent = new Intent(getActivity(),LearnSearchActivity.class);

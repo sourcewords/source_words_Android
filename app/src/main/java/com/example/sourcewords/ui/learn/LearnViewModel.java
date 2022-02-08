@@ -41,6 +41,10 @@ public class LearnViewModel extends AndroidViewModel {
         return repository.getWordRootById(id);
     }
 
+    public void updateRoot(int root_id){
+        repository.learnedTodayRoot(root_id);
+    }
+
 
 
 

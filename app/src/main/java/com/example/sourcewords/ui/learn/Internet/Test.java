@@ -1,4 +1,4 @@
-package com.example.sourcewords.ui.learn;
+package com.example.sourcewords.ui.learn.Internet;
 
 import java.io.Serializable;
 import java.util.List;
