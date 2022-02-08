@@ -13,6 +13,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
+            android:id="@+id/btn1_login_account"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -23,7 +24,7 @@
             app:backgroundTint="@color/white" />
 
         <Button
-            android:id="@+id/login_message"
+            android:id="@+id/btn1_login_message"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -59,6 +60,7 @@
                 android:textSize="16sp" />
 
             <EditText
+                android:id="@+id/et_account"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="15dp"
@@ -85,6 +87,7 @@
                 android:textSize="16sp" />
 
             <EditText
+                android:id="@+id/et_password"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="15dp"
