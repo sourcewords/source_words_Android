@@ -24,10 +24,13 @@ public class UserInfoActivity extends AppCompatActivity {
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_userinfo);
         userInfoViewModel = new UserInfoViewModel();
 
-    }
+        dataBinding.changePwd.setOnClickListener(view -> {
+            Intent intent = new Intent(this, ChangePwdActivity.class);
+        });
 
-    public void changePwd(View view) {
-        Intent intent = new Intent(UserInfoActivity.this,ChangePwdActivity.class);
-        startActivity(intent);
+        dataBinding.commit.setOnClickListener(v -> {
+
+        });
+
     }
 }

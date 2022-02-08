@@ -1,4 +1,4 @@
-package com.example.sourcewords.ui.review;
+package com.example.sourcewords.ui.review.view;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,13 +11,11 @@ import androidx.fragment.app.Fragment;
 
 import com.example.sourcewords.R;
 
-
-//TODO 习模块
-public class ReviewFragment extends Fragment {
-
+public class NoneFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_review,null);
+
+        return inflater.inflate(R.layout.review_none,container,false);
     }
 }

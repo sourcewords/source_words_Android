@@ -1,4 +1,4 @@
-package com.example.sourcewords.ui.mine.viewmodel;
+package com.example.sourcewords.ui.mine.model.databean;
 
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;

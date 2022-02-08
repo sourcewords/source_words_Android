@@ -1,6 +1,8 @@
 <resources>
-    <string name="app_name">SourceWords</string>
+    <string name="app_name">所思单词</string>
     <string name="learn">学</string>
     <string name="review">习</string>
     <string name="mine">我</string>
+    <string name="review_tip1">请先进入"学"板块</string>
+    <string name="review_tip2">至少学完一个词根才能开启"习"板块</string>
 </resources>

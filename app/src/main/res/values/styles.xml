@@ -25,5 +25,12 @@
         <item name="android:maxHeight">17dp</item>
     </style>
 
+    <style name="bottom_menu_title_active">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="bottom_menu_title_inactive">
+        <item name="android:textSize">12sp</item>
+    </style>
 
 </resources>
