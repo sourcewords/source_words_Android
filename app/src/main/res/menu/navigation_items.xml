@@ -4,18 +4,18 @@
     <item
         android:id="@+id/learn"
         android:title="@string/learn"
-        android:icon="@drawable/learn_icon_passive"
+        android:icon="@drawable/learn_selector"
         />
 
     <item
         android:id="@+id/review"
         android:title="@string/review"
-        android:icon="@drawable/review_icon_passive"/>
+        android:icon="@drawable/review_selector"/>
 
 
     <item
         android:id="@+id/mine"
         android:title="@string/mine"
-        android:icon="@drawable/mine_icon_passive" />
+        android:icon="@drawable/mine_selector" />
 
 </menu>

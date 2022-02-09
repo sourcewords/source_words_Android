@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="50dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="150dp"
+            app:cardCornerRadius="15dp"
+            app:cardElevation="5dp"
+            app:cardBackgroundColor="#B9EBEA">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/word"
+                    android:layout_width="wrap_content"
+                    android:text="Word"
+                    android:textColor="@color/black"
+                    android:textSize="35dp"
+                    android:layout_marginTop="50dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/sound_mark"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    android:text="音标"
+                    android:textColor="@color/white"
+                    android:textSize="35dp"
+                    android:layout_below="@id/word"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:background="@drawable/tree" />
+            </RelativeLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/next_btn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_above="@id/area"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"
+            android:backgroundTint="@color/theme_green"
+            android:tint="@color/white"
+            android:src="@drawable/fanhui"/>
+
+
+        <LinearLayout
+            android:id="@+id/area"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="5dp">
+
+            <TextView
+                android:textSize="30dp"
+                android:layout_weight="1"
+                android:id="@+id/defficult"
+                android:layout_width="0dp"
+                android:text="5"
+                android:gravity="center"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:textSize="30dp"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:id="@+id/sign"
+                android:text="+"/>
+
+            <TextView
+                android:gravity="center"
+                android:textSize="30dp"
+                android:text="5"
+                android:layout_weight="1"
+                android:id="@+id/middle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:gravity="center"
+                android:textSize="30dp"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="+"/>
+
+            <TextView
+                android:gravity="center"
+                android:textSize="30dp"
+                android:text="5"
+                android:layout_weight="1"
+                android:id="@+id/easy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</FrameLayout>
+
