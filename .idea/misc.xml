@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <entry key="..\:/source_words_Android/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.2335" />
         <entry key="..\:/source_words_Android/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2335" />
         <entry key="..\:/source_words_Android/app/src/main/res/drawable/mine_background.xml" value="0.159" />
@@ -40,11 +41,23 @@
 =======
         <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/layout/activity_review_words_detail.xml" value="0.264" />
         <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/layout/fragment_review.xml" value="0.18020833333333333" />
+=======
+        <entry key="app/src/main/res/drawable/cells_edge.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/change_wordslearned_bg.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/change_wordslearned_text.xml" value="0.1645" />
+        <entry key="app/src/main/res/drawable/choose_change_wordslearned.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.1" />
+>>>>>>> qyh-dev
         <entry key="app/src/main/res/drawable/learn_selector.xml" value="0.27037037037037037" />
+        <entry key="app/src/main/res/drawable/learned_change.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/learned_normal.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/learned_selected.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/mine_selector.xml" value="0.17395833333333333" />
         <entry key="app/src/main/res/drawable/review_seletor.xml" value="0.17395833333333333" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.29583333333333334" />
-        <entry key="app/src/main/res/layout/fragment_learn.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/activity_searchwordsroot.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_word_root_page.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_learn.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.2953125" />
         <entry key="app/src/main/res/layout/fragment_mine.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/fragment_recite.xml" value="0.18084220652393507" />
@@ -63,7 +76,14 @@
         <entry key="app/src/main/res/layout/fragment_mine.xml" value="0.38568520126617045" />
 >>>>>>> origin/xiaozhu-dev
         <entry key="app/src/main/res/layout/fragment_review.xml" value="0.3098958333333333" />
+<<<<<<< HEAD
         <entry key="app/src/main/res/layout/review_none.xml" value="0.2953125" />
+=======
+        <entry key="app/src/main/res/layout/fragment_searchwordsroot.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/wordroot_cells.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/words_cells.xml" value="0.335" />
+        <entry key="app/src/main/res/menu/learn_search_item.xml" value="0.15416666666666667" />
+>>>>>>> qyh-dev
         <entry key="app/src/main/res/menu/navigation_items.xml" value="0.2953125" />
       </map>
     </option>

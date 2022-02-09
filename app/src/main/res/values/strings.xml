@@ -5,4 +5,6 @@
     <string name="mine">我</string>
     <string name="review_tip1">请先进入"学"板块</string>
     <string name="review_tip2">至少学完一个词根才能开启"习"板块</string>
+    <string name="RelatedWords">相关词汇：</string>
+    <string name="wordRootLearned">已学习完本词根</string>
 </resources>

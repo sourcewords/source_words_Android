@@ -17,12 +17,13 @@ import com.example.sourcewords.ui.review.dataBean.WordRootDao;
 public abstract class WordDatabase extends RoomDatabase {
     private static WordDatabase INSTANCE;
 
-    public static WordDatabase getDatabase() {
+
+    public static WordDatabase getDatabase(Context mContext) {
         if (INSTANCE == null) {
             //这里加互斥锁，是为了防止多线程重复创建数据库，保证单例在多线程操作的安全性
             synchronized (WordDatabase.class) {
                 // 这里的上下文我已经在App里写明了，不需要重复传参
-                INSTANCE = Room.databaseBuilder(App.getAppContext(), WordDatabase.class, "WordDatabase")
+                INSTANCE = Room.databaseBuilder(mContext.getApplicationContext(), WordDatabase.class, "WordDatabase")
                         //性能出发，为防止查询时ui卡顿，不建议在主线程查询，采用异步查询
                         //.allowMainThreadQueries()
                         // 为之后数据库添加字段删除字段的和平过渡
