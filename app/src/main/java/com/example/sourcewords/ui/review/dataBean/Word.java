@@ -109,6 +109,11 @@ public class Word {
     public Word() {
     }
 
+    public Word(String English,String Chinese){
+        this.chinese = Chinese;
+        english = English;
+    }
+
     public Word(int id, String chinese, String english, String soundMark, String structure, List<String> examples) {
         this.id = id;
         this.chinese = chinese;

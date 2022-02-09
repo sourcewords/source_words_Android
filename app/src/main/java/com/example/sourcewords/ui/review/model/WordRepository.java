@@ -1,6 +1,7 @@
 package com.example.sourcewords.ui.review.model;
 
 
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
@@ -22,8 +23,8 @@ public class WordRepository {
     private WordRootDao dao;
     private LiveData<WordRoot> wordRootList;
 
-    public WordRepository() {
-        WordDatabase db = WordDatabase.getDatabase();
+    public WordRepository(Context mContext) {
+        WordDatabase db = WordDatabase.getDatabase(mContext);
         dao = db.getWordDao();
     }
 
