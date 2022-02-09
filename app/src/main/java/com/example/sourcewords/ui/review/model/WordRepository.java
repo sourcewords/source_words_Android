@@ -20,7 +20,7 @@ import java.util.List;
 
 public class WordRepository {
     private WordRootDao dao;
-    private LiveData<WordRoot> wordRootList;
+    private LiveData<WordRoot> wordRootList ;
 
     public WordRepository() {
         WordDatabase db = WordDatabase.getDatabase();
