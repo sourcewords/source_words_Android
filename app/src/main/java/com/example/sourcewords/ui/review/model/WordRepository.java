@@ -21,7 +21,7 @@ import java.util.List;
 
 public class WordRepository {
     private WordRootDao dao;
-    private LiveData<WordRoot> wordRootList;
+    private LiveData<WordRoot> wordRootList ;
 
     public WordRepository(Context mContext) {
         WordDatabase db = WordDatabase.getDatabase(mContext);
