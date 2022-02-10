@@ -25,4 +25,11 @@ public interface WordRootDao {
 
     @Query("SELECT * FROM WORDROOT WHERE id like :id")
     LiveData<WordRoot> getWordRoot(int id);
+
+    @Query("SELECT * FROM WORDROOT WHERE ID =:id")
+    WordRoot getWordRootById(int id);
+
+    @Query("SELECT * FROM WORDROOT WHERE 词根 LIKE '%' || :searchMessage || '%'")
+    List<WordRoot> getWordRootsSimilar(String searchMessage);
+
 }

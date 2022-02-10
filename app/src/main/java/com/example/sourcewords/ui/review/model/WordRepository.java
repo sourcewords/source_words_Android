@@ -1,6 +1,8 @@
 package com.example.sourcewords.ui.review.model;
 
-
+import android.content.Context;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
@@ -19,9 +21,21 @@ public class WordRepository {
     private WordRootDao dao;
     private LiveData<WordRoot> wordRootList ;
 
-    public WordRepository() {
-        WordDatabase db = WordDatabase.getDatabase();
+    public WordRepository(Context mContext) {
+        WordDatabase db = WordDatabase.getDatabase(mContext);
         dao = db.getWordDao();
+    }
+
+    public void Insert(WordRoot...wordRoots){
+        new Insert(dao).execute(wordRoots);
+    }
+
+    public void Delete(WordRoot...wordRoots){
+        new Delete(dao).execute(wordRoots);
+    }
+
+    public void Update(WordRoot...wordRoots){
+        new Update(dao).execute(wordRoots);
     }
 
     public LiveData<WordRoot> getWordRoot(int id) {
@@ -30,6 +44,8 @@ public class WordRepository {
     public void insert(WordRoot...wordRoots){new Insert(dao).execute(wordRoots);}
     public void delete(WordRoot...wordRoots){new Delete(dao).execute(wordRoots);}
     public void update(WordRoot...wordRoots){new Update(dao).execute(wordRoots);}
+
+    public LiveData<List<WordRoot>> getAllWordRoot(){return  dao.getAllWordRoot();}
 
     public WordRoot getWordRootTest(int id) {
         List<Word> list = new ArrayList<>();

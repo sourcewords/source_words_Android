@@ -1,7 +1,7 @@
 package com.example.sourcewords.ui.review.dataBean;
 
 import java.util.List;
-
+//网络请求的/words/list的基础接受类
 public class WordInfoBean {
     /**
      * zh_source:中文词源
@@ -130,6 +130,13 @@ public class WordInfoBean {
     public static class ExampleSentencesBean {
         private String zh;
         private String en;
+
+        public ExampleSentencesBean(){}
+
+        public ExampleSentencesBean(String zh,String en){
+            this.zh = zh;
+            this.en = en;
+        }
 
         public String getZh() {
             return zh;
