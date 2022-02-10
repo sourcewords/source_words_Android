@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -16,6 +17,10 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.review.dataBean.Word;
+import com.example.sourcewords.ui.review.dataBean.WordRoot;
+import com.example.sourcewords.ui.review.viewmodel.ReviewViewModel;
+import com.example.sourcewords.utils.DateUtils;
+import com.example.sourcewords.utils.PreferenceUtils;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -24,8 +29,12 @@ public class DetailActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private MediaPlayer mMediaPlayer;
     private ImageButton playerButton;
+    private Button again,hard,good,easy;
     private TextView wordEng, soundMark, meaning, structure, examples;
     private String url;
+    private ReviewViewModel mViewModel;
+    private Word mWord;
+    private WordRoot mWordRoot;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,15 +47,23 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         init();
+        listener();
     }
 
     public void init(){
+        mViewModel = new ReviewViewModel(getApplication());
+
         playerButton.findViewById(R.id.horn_button);
         wordEng.findViewById(R.id.wordEng);
         soundMark.findViewById(R.id.soundMark);
         meaning.findViewById(R.id.meaning);
         structure.findViewById(R.id.structure);
         examples.findViewById(R.id.examples);
+        again.findViewById(R.id.again);
+        hard.findViewById(R.id.hard);
+        good.findViewById(R.id.good);
+        easy.findViewById(R.id.easy);
+
         mToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
@@ -66,10 +83,44 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void listener(){
+        int id = mWord.getId();
+
         playerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mMediaPlayer.start();
+            }
+        });
+
+        again.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mWord.getWord_info().setNextTime(DateUtils.addTime(PreferenceUtils.AGAIN));
+                mViewModel.Update(mWordRoot);
+            }
+        });
+
+        hard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mWord.getWord_info().setNextTime(DateUtils.addTime(PreferenceUtils.HARD));
+                mViewModel.Update(mWordRoot);
+            }
+        });
+
+        good.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mWord.getWord_info().setNextTime(DateUtils.addTime(PreferenceUtils.GOOD));
+                mViewModel.Update(mWordRoot);
+            }
+        });
+
+        easy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mWord.getWord_info().setNextTime(DateUtils.addTime(PreferenceUtils.EASY));
+                mViewModel.Update(mWordRoot);
             }
         });
     }
