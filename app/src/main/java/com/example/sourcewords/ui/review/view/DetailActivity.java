@@ -1,6 +1,8 @@
 package com.example.sourcewords.ui.review.view;
 
+import android.annotation.SuppressLint;
 import android.app.AppComponentFactory;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
@@ -8,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.review.dataBean.Word;
+import com.example.sourcewords.ui.review.dataBean.WordInfoBean;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.viewmodel.ReviewViewModel;
 import com.example.sourcewords.utils.DateUtils;
@@ -25,12 +29,13 @@ import java.io.IOException;
 public class DetailActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private MediaPlayer mMediaPlayer;
-    private ImageButton playerButton;
+    private ImageView playerButton;
     private Button again,hard,good,easy;
     private TextView wordEng, soundMark, meaning, structure, examples;
     private String url;
     private ReviewViewModel mViewModel;
     private Word mWord;
+    private WordInfoBean mWordInfo;
     private WordRoot mWordRoot;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +52,40 @@ public class DetailActivity extends AppCompatActivity {
 //        listener();
     }
 
-    public void init(){
 
+    public void init(){
         mViewModel = new ReviewViewModel(getApplication());
+        int wordId = getIntent().getIntExtra("indexWord",0);
+        int rootId = getIntent().getIntExtra("indexWordRoot",0);
+        mWordRoot = mViewModel.getWordRootTest(1);
+        mWord = mWordRoot.getWordlist().get(1);
+        mWordInfo = mWord.getWord_info();
+
+        playerButton = findViewById(R.id.horn_button);
+
+        wordEng = findViewById(R.id.wordEng);
+        wordEng.setText(mWordInfo.getWord());
+
+        soundMark = findViewById(R.id.soundMark);
+        soundMark.setText(mWordInfo.getPhonetic());
+
+        meaning = findViewById(R.id.meaning);
+        meaning.setText(mWordInfo.getMeaning());
+
+        structure = findViewById(R.id.structure);
+        structure.setText(mWordInfo.getZh_source());
+
+        examples = findViewById(R.id.examples);
+        StringBuilder stringBuilder = new StringBuilder();
+        for(int i=0; i<mWordInfo.getExample_sentences().size(); i++) {
+            stringBuilder.append(mWordInfo.getExample_sentences().get(i).getEn())
+                    .append("\n")
+                    .append(mWordInfo.getExample_sentences().get(i).getZh())
+                    .append("\n");
+        }
+         examples.setText(stringBuilder);
+
+
 
         playerButton.findViewById(R.id.horn_button);
         wordEng.findViewById(R.id.wordEng);

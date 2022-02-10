@@ -68,10 +68,14 @@ public class ReciteFragment extends Fragment {
 
         mWordCard.setOnClickListener(v -> {
             Intent intent = new Intent(App.getAppContext(), DetailActivity.class);
-            intent.putExtra("index", cursor);
-            if(reviewWords.size() == 0)
-                startActivityForResult(intent, DETAIL_WORD_ACTIVITY_REQUEST_CODE_NEW);
-            else startActivityForResult(intent, DETAIL_WORD_ACTIVITY_REQUEST_CODE_OLD);
+//            intent.putExtra("index", cursor);
+//            if(reviewWords.size() == 0)
+//                startActivityForResult(intent, DETAIL_WORD_ACTIVITY_REQUEST_CODE_NEW);
+//            else startActivityForResult(intent, DETAIL_WORD_ACTIVITY_REQUEST_CODE_OLD);
+            intent.putExtra("indexWord", cursor);
+            WordRoot mWordRoot = null;
+            intent.putExtra("indexWordRoot",mWordRoot.getId());
+            startActivity(intent);
         });
         button.setOnClickListener(v -> {
             getPreWord();
