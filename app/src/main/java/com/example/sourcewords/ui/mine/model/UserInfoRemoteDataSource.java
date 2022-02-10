@@ -1,10 +1,10 @@
-package com.example.sourcewords.ui.mine.model.databean;
+package com.example.sourcewords.ui.mine.model;
 
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.sourcewords.commonUtils.NetUtil;
-
-import java.util.concurrent.Callable;
+import com.example.sourcewords.ui.mine.model.databean.UserInfo;
+import com.example.sourcewords.ui.mine.model.databean.UserWrapper;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,18 +29,18 @@ public class UserInfoRemoteDataSource {
 
     private UserInfoRemoteDataSource(){};
 
-    public void getRemoteUserInfo(UserInfo myUserInfo) {
+    public void getRemoteUserInfo(MutableLiveData<UserInfo> myUserInfo) {
 
-        UserInfo[] userInfo = new UserInfo[1];
+        MutableLiveData<UserInfo>[] userInfo = new MutableLiveData[1];
         NetUtil.getInstance().getApi().getUserInfo(token)
-                .enqueue(new Callback<UserInfo>() {
+                .enqueue(new Callback<MutableLiveData<UserInfo>>() {
                     @Override
-                    public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
+                    public void onResponse(Call<MutableLiveData<UserInfo>> call, Response<MutableLiveData<UserInfo>> response) {
                         userInfo[0] = response.body();
                     }
 
                     @Override
-                    public void onFailure(Call<UserInfo> call, Throwable t) {
+                    public void onFailure(Call<MutableLiveData<UserInfo>> call, Throwable t) {
 
                     }
                 });
