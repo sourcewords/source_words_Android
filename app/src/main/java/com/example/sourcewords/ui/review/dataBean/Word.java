@@ -8,26 +8,14 @@ import java.util.List;
 
 @Entity
 public class Word {
-    /**
-     * zh_source : id
-     * pronunciation_url : http://hdqqnj.nr/wcsbg
-     * meaning : amet do cupidatat cillum ea
-     * exam_grading : [false,false]
-     * phonetic : 18165035413
-     * id : 80
-     * root : 6
-     * example_sentences : [{"zh":"in est Lorem sed ad","en":"ad ea quis amet cupidatat"}]
-     * variation : eu mollit culpa
-     * word : occaecat in esse aliquip
-     */
     private WordInfoBean word_info;
     /**
      * word_info : {"zh_source":"id","pronunciation_url":"http://hdqqnj.nr/wcsbg","meaning":"amet do cupidatat cillum ea","exam_grading":[false,false],"phonetic":"18165035413","id":80,"root":6,"example_sentences":[{"zh":"in est Lorem sed ad","en":"ad ea quis amet cupidatat"}],"variation":"eu mollit culpa","word":"occaecat in esse aliquip"}
      * id : 88
-     * meaning : aliqua nostrud reprehenderit commodo est
-     * word : quis
-     * explanation : sed in ut pariatur irure
-     * property : laboris elit
+     * meaning : 基本意思
+     * word : 单词
+     * explanation : 解释
+     * property : 词性
      */
     private int id;
     private String meaning;
@@ -107,6 +95,11 @@ public class Word {
     private List<String> examples;
 
     public Word() {
+    }
+
+    public Word(String English,String Chinese){
+        this.chinese = Chinese;
+        english = English;
     }
 
     public Word(int id, String chinese, String english, String soundMark, String structure, List<String> examples) {
