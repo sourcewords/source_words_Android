@@ -1,16 +1,18 @@
 package com.example.sourcewords.ui.review.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import com.example.sourcewords.App;
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
@@ -31,6 +33,7 @@ public class ReciteFragment extends Fragment {
     private int middleCount;
     private int easyCount;
     Iterator<Word> iterator;
+    private CardView mWordCard;
 
     public ReciteFragment(WordRoot wordRoot) {
         this.words = wordRoot.getWordlist();
@@ -50,6 +53,12 @@ public class ReciteFragment extends Fragment {
         difficult = view.findViewById(R.id.defficult);
         middle = view.findViewById(R.id.middle);
         easy = view.findViewById(R.id.easy);
+        mWordCard = view.findViewById(R.id.card);
+
+        mWordCard.setOnClickListener(v -> {
+            Intent intent = new Intent(App.getAppContext(), DetailActivity.class);
+            startActivity(intent);
+        });
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

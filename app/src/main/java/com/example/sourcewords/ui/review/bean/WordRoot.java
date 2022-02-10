@@ -17,8 +17,7 @@ public class WordRoot {
     @ColumnInfo(name = "单词表")
     private List<Word> list;
 
-    public WordRoot() {
-    }
+
 
     public WordRoot(int id, String englishRoot, String meaningOfRoot, List<Word> list) {
         this.id = id;

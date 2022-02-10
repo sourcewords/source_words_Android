@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SourceWords">
         <activity
-            android:name=".ui.login.LoginActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,6 +25,7 @@
         <activity android:name=".ui.mine.view.ChangePwdActivity"></activity>
         <activity android:name=".ui.mine.view.UserInfoActivity"></activity>
         <activity android:name=".ui.login.RegisterActivity"></activity>
+        <activity android:name=".ui.review.view.DetailActivity"></activity>
     </application>
 
 </manifest>

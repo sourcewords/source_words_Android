@@ -2,9 +2,7 @@ package com.example.sourcewords.ui.review.view;
 
 import android.app.AppComponentFactory;
 import android.media.AudioManager;
-import android.media.MediaExtractor;
 import android.media.MediaPlayer;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -15,10 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.sourcewords.R;
-import com.example.sourcewords.ui.review.dataBean.Word;
 
 import java.io.IOException;
-import java.util.Iterator;
 
 public class DetailActivity extends AppCompatActivity {
     private Toolbar mToolbar;
@@ -41,16 +37,16 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void init(){
-        playerButton.findViewById(R.id.horn_button);
-        wordEng.findViewById(R.id.wordEng);
-        soundMark.findViewById(R.id.soundMark);
-        meaning.findViewById(R.id.meaning);
-        structure.findViewById(R.id.structure);
-        examples.findViewById(R.id.examples);
+//        playerButton.findViewById(R.id.horn_button);
+//        wordEng.findViewById(R.id.wordEng);
+//        soundMark.findViewById(R.id.soundMark);
+//        meaning.findViewById(R.id.meaning);
+//        structure.findViewById(R.id.structure);
+//        examples.findViewById(R.id.examples);
         mToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
-        initMediaPlayer();
+//        initMediaPlayer();
     }
 
     //初始化播放器
@@ -77,21 +73,21 @@ public class DetailActivity extends AppCompatActivity {
     //重写返回键以释放该播放器
     @Override
     public void onBackPressed() {
-        mMediaPlayer.release();
-        mMediaPlayer = null;
+//        mMediaPlayer.release();
+//        mMediaPlayer = null;
         super.onBackPressed();
     }
 
     @Override
     protected void onPause() {
-        mMediaPlayer.release();
-        mMediaPlayer = null;
+//        mMediaPlayer.release();
+//        mMediaPlayer = null;
         super.onPause();
     }
 
     @Override
     protected void onResume() {
-        initMediaPlayer();
+//        initMediaPlayer();
         super.onResume();
     }
 }
