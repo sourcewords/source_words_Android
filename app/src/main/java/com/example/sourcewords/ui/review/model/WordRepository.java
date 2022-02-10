@@ -84,7 +84,7 @@ public class WordRepository {
                 "[pəˈtɜ:nl]",
                 85, 41,"","paternal",listB,listE2
         );
-        Word word2 = new Word(wordInfo1,84);
+        Word word2 = new Word(wordInfo2,84);
         list.add(word2);
 
         return new WordRoot(1,"w","w",1,"w","w",list);

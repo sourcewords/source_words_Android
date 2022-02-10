@@ -29,6 +29,7 @@ public class ReviewFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        wordRepository = new WordRepository();
     }
 
     @Nullable
@@ -36,7 +37,7 @@ public class ReviewFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_review,null);
         frameLayout = view.findViewById(R.id.review_container);
-        initWordView(wordRepository.getWordRootTest(1));
+        initWordView(wordRepository.getWordRootTest2(1));
         return view;
     }
 
