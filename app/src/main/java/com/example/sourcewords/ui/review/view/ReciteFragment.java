@@ -34,6 +34,7 @@ public class ReciteFragment extends Fragment {
     private int easyCount;
     Iterator<Word> iterator;
     private CardView mWordCard;
+    private int cursor = -1;
 
     public ReciteFragment(WordRoot wordRoot) {
         this.words = wordRoot.getWordlist();
@@ -57,6 +58,7 @@ public class ReciteFragment extends Fragment {
 
         mWordCard.setOnClickListener(v -> {
             Intent intent = new Intent(App.getAppContext(), DetailActivity.class);
+            intent.putExtra("index", cursor);
             startActivity(intent);
         });
         button.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +75,7 @@ public class ReciteFragment extends Fragment {
     private void initView() {
         if(iterator.hasNext()) {
             Word word = iterator.next();
+            cursor++;
             wordEng.setText(word.getWord());
             //soundMark.setText(word.getSoundMark());
             difficultCount++;
