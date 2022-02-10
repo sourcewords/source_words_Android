@@ -12,7 +12,7 @@ public class ReviewViewModel extends AndroidViewModel {
     private WordRepository mWordRepository;
     public ReviewViewModel(@NonNull Application application) {
         super(application);
-        mWordRepository = new WordRepository(application);
+        mWordRepository = new WordRepository();
     }
 
     public void Insert(WordRoot...wordRoots){

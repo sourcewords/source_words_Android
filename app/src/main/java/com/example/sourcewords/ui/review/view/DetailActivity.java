@@ -43,17 +43,12 @@ public class DetailActivity extends AppCompatActivity {
                             View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
 
-        init();
-        listener();
+//        init();
+//        listener();
     }
 
     public void init(){
-//        playerButton.findViewById(R.id.horn_button);
-//        wordEng.findViewById(R.id.wordEng);
-//        soundMark.findViewById(R.id.soundMark);
-//        meaning.findViewById(R.id.meaning);
-//        structure.findViewById(R.id.structure);
-//        examples.findViewById(R.id.examples);
+
         mViewModel = new ReviewViewModel(getApplication());
 
         playerButton.findViewById(R.id.horn_button);
@@ -70,7 +65,7 @@ public class DetailActivity extends AppCompatActivity {
         mToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
-//        initMediaPlayer();
+        initMediaPlayer();
     }
 
     //初始化播放器
