@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 else {
 //                    binding.lblEmailAnswer.setText(localPage.getName());
-//                    rq(new LoginUser(localPage.getName(),localPage.getPassword()));
+                    rq(new LoginUser(localPage.getName(),localPage.getPassword()));
                 }
 
             }

@@ -43,6 +43,13 @@ public class UserWrapper {
         return user.getName();
     }
 
+    public String getPwd(){
+        if(user == null){
+            return "";
+        }
+        return user.getPassword();
+    }
+
     @Nullable
     public User getUser(){
         return user;

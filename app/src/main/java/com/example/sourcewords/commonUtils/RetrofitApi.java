@@ -25,4 +25,8 @@ public interface RetrofitApi {
 
 //    @PUT("user/info")
 //    Call<Message> putUserInfo(@Body UserInfo userInfo);
+
+//    //chang-pwd
+//    @PUT("user/reset")
+//    Call<LoginResponse> changPwd(@Body )
 }

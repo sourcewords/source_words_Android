@@ -11,10 +11,10 @@ public class UserInfoViewModel extends ViewModel {
     public MutableLiveData<UserInfo> userInfo;
     UserInfoRemoteDataSource source;
 
-    public MutableLiveData<UserInfo> getUserInfo(){
+    public MutableLiveData<UserInfo> getUserInfo() {
         if(userInfo == null){
             userInfo = new MutableLiveData<>();
-            //source.getRemoteUserInfo(userInfo);
+            source.getRemoteUserInfo(userInfo);
         }
         return userInfo;
     }
