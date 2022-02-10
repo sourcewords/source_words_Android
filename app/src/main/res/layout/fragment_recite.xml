@@ -50,9 +50,9 @@
                     android:layout_height="wrap_content"/>
 
                 <ImageView
-                    android:layout_alignParentBottom="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
 
                     android:background="@drawable/tree" />
             </RelativeLayout>

@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
+import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.model.WordRepository;
 
@@ -26,5 +27,9 @@ public class ReviewViewModel extends AndroidViewModel {
     public void Update(WordRoot...wordRoots){
         mWordRepository.Update(wordRoots);
     }
+
+    public WordRoot getWordRoot(int id){ return mWordRepository.getWordRootByID(id); }
+
+    public WordRoot getWordRootTest(int id){return mWordRepository.getWordRootTest2(id);}
 
 }
