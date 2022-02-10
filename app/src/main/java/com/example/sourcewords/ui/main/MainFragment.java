@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.sourcewords.R;
-import com.example.sourcewords.ui.learn.LearnFragment;
+import com.example.sourcewords.ui.learn.view.LearnFragment;
 import com.example.sourcewords.ui.mine.view.MineFragment;
 import com.example.sourcewords.ui.review.view.ReviewFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
