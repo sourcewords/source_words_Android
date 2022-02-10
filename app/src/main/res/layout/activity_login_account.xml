@@ -1,163 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/login_background">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+    <data>
+        <variable
+            name="LoginViewModel"
+            type="com.example.sourcewords.ui.login.viewmodel.LoginViewModel" />
+    </data>
 
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="账号登陆"
-            android:textSize="16sp"
-            android:textColor="@color/black"
-            android:background="@drawable/login_button_frame"
-            app:backgroundTint="@color/white" />
-
-        <Button
-            android:id="@+id/login_message"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="短信验证登陆"
-            android:background="@android:color/transparent"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/login_select1_frame"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/login_background">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="账号"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
-                android:layout_weight="5"
-                android:background="@drawable/login_input_frame"
-                android:hint="请输入正确的账号"
-                android:paddingStart="10dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="密码"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
-
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
-                android:layout_weight="5"
-                android:background="@drawable/login_input_frame"
-                android:hint="请输入密码~"
-                android:inputType="textWebPassword"
-                android:paddingStart="10dp" />
-
-        </LinearLayout>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/mine_shape_stroke"
-            android:text="登陆"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            app:backgroundTint="#9CDFDD" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp">
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
             <Button
-                android:id="@+id/forgetpwd_button"
+                android:id="@+id/btn1_login_account"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:text="忘记密码"
-                android:textColor="#606060" />
-
-            <View
-                android:id="@+id/view1"
-                android:layout_width="1dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="5dp"
-                android:background="#C5C5C5" />
+                android:text="账号登陆"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:background="@drawable/login_button_frame"
+                app:backgroundTint="@color/white" />
 
             <Button
-                android:id="@+id/register_button"
+                android:id="@+id/btn1_login_message"
                 android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:text="账号注册"
-                android:textColor="#606060" />
+                android:text="短信验证登陆"
+                android:background="@android:color/transparent"/>
 
         </LinearLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
-
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:text="已阅且同意《用户使用协议》和《隐私政策》" />
-    </LinearLayout>
+            android:background="@drawable/login_select1_frame"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="账号"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/et_account"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:layout_weight="5"
+                    android:background="@drawable/login_input_frame"
+                    android:hint="请输入正确的账号"
+                    android:text="@={LoginViewModel.Account}"
+                    android:paddingStart="10dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="密码"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/et_password"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="15dp"
+                    android:layout_weight="5"
+                    android:background="@drawable/login_input_frame"
+                    android:hint="请输入密码~"
+                    android:inputType="textWebPassword"
+                    android:text="@={LoginViewModel.Password}"
+                    android:paddingStart="10dp" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/mine_shape_stroke"
+                android:text="登陆"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:onClick="@{(v) -> LoginViewModel.onClick(v)}"
+                app:backgroundTint="#9CDFDD" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <Button
+                    android:id="@+id/forgetpwd_button"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:text="忘记密码"
+                    android:textColor="#606060" />
+
+                <View
+                    android:id="@+id/view1"
+                    android:layout_width="1dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="#C5C5C5" />
+
+                <Button
+                    android:id="@+id/register_button"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:text="账号注册"
+                    android:textColor="#606060" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
+
+            <CheckBox
+                android:id="@+id/checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="@={LoginViewModel.checkBox}"
+                android:text="已阅且同意《用户使用协议》和《隐私政策》"
+                />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

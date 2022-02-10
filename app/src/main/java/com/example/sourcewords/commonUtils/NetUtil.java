@@ -12,7 +12,8 @@ public class NetUtil {
     private OkHttpClient client;
     private RetrofitApi api;
     private Gson gson;
-    private static final String baseUrl = "http://127.0.0.1:4523/mock/615381/";
+    //private static final String baseUrl = "http://127.0.0.1:4523/mock/615381/";
+    private static final String baseUrl = "http://112.126.76.187:9999/api/v1/";
 
     private NetUtil() {
         gson = new Gson();

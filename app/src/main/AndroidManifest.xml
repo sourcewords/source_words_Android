@@ -3,7 +3,6 @@
     package="com.example.sourcewords">
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -13,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SourceWords">
         <activity
-            android:name=".ui.login.LoginActivity"
+            android:name=".ui.login.view.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,9 +21,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.mine.view.MyPlanActivity"></activity>
+        <activity android:name=".ui.main.MainActivity"></activity>
         <activity android:name=".ui.mine.view.ChangePwdActivity"></activity>
         <activity android:name=".ui.mine.view.UserInfoActivity"></activity>
-        <activity android:name=".ui.login.RegisterActivity"></activity>
+        <activity android:name=".ui.login.view.RegisterActivity"></activity>
     </application>
 
 </manifest>

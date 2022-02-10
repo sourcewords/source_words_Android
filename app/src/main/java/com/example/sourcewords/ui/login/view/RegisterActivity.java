@@ -1,4 +1,4 @@
-package com.example.sourcewords.ui.login;
+package com.example.sourcewords.ui.login.view;
 
 import android.os.Bundle;
 
