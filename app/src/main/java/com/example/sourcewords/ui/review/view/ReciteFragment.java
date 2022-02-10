@@ -1,16 +1,18 @@
 package com.example.sourcewords.ui.review.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import com.example.sourcewords.App;
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
@@ -20,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class ReciteFragment extends Fragment {
+    private WordRoot mWordRoot;
     private List<Word> words;
     private FloatingActionButton button;
     private TextView wordEng;
@@ -31,8 +34,11 @@ public class ReciteFragment extends Fragment {
     private int middleCount;
     private int easyCount;
     Iterator<Word> iterator;
+    private CardView mWordCard;
+    private int cursor = -1;
 
     public ReciteFragment(WordRoot wordRoot) {
+        mWordRoot = wordRoot;
         this.words = wordRoot.getWordlist();
         iterator = words.iterator();
         difficultCount = 0;
@@ -50,6 +56,14 @@ public class ReciteFragment extends Fragment {
         difficult = view.findViewById(R.id.defficult);
         middle = view.findViewById(R.id.middle);
         easy = view.findViewById(R.id.easy);
+        mWordCard = view.findViewById(R.id.card);
+
+        mWordCard.setOnClickListener(v -> {
+            Intent intent = new Intent(App.getAppContext(), DetailActivity.class);
+            intent.putExtra("indexWord", cursor);
+            intent.putExtra("indexWordRoot",mWordRoot.getId());
+            startActivity(intent);
+        });
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -64,6 +78,7 @@ public class ReciteFragment extends Fragment {
     private void initView() {
         if(iterator.hasNext()) {
             Word word = iterator.next();
+            cursor++;
             wordEng.setText(word.getWord());
             //soundMark.setText(word.getSoundMark());
             difficultCount++;

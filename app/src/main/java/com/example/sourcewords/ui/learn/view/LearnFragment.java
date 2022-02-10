@@ -41,7 +41,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         @SuppressLint("InflateParams") View v = inflater.inflate(R.layout.fragment_learn, null);
-        initView(v);
+        //initView(v);
         return v;
     }
 

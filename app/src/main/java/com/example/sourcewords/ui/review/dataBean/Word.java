@@ -23,13 +23,9 @@ public class Word {
     private String explanation;
     private String property;
 
-    public Word(WordInfoBean word_info, int id, String meaning, String word, String explanation, String property) {
+    public Word(WordInfoBean word_info, int id) {
         this.word_info = word_info;
         this.id = id;
-        this.meaning = meaning;
-        this.word = word;
-        this.explanation = explanation;
-        this.property = property;
     }
 
     public WordInfoBean getWord_info() {

@@ -31,6 +31,19 @@ public class WordInfoBean {
 
     private List<ExampleSentencesBean> example_sentences;
 
+    public WordInfoBean(String zh_source, String pronunciation_url, String meaning, String phonetic, int id, int root, String variation, String word, List<Boolean> exam_grading, List<ExampleSentencesBean> example_sentences) {
+        this.zh_source = zh_source;
+        this.pronunciation_url = pronunciation_url;
+        this.meaning = meaning;
+        this.phonetic = phonetic;
+        this.id = id;
+        this.root = root;
+        this.variation = variation;
+        this.word = word;
+        this.exam_grading = exam_grading;
+        this.example_sentences = example_sentences;
+    }
+
     public String getZh_source() {
         return zh_source;
     }
