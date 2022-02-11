@@ -16,13 +16,13 @@ public class Converters {
 
     @TypeConverter
     public static List<Word> jsonToList(String json) {
-        return gs.fromJson(json, new TypeToken<List<String>>() {
+        return gs.fromJson(json, new TypeToken<List<Word>>() {
         }.getType());
     }
 
     @TypeConverter
     public static List<WordRoot> WordRootJsonToList(String json){
-        return gs.fromJson(json, new TypeToken<List<String>>(){
+        return gs.fromJson(json, new TypeToken<List<Word>>(){
 
         }.getType());
     }
@@ -34,6 +34,7 @@ public class Converters {
 
     @TypeConverter
     public static String wordsInfoToJson(WordInfoBean wordsInfo) {
+
         return gs.toJson(wordsInfo);
     }
 }

@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.sourcewords.ui.learn.model.Internet.DealWordRoot;
 import com.example.sourcewords.ui.learn.model.Internet.Demo;
@@ -40,9 +41,6 @@ public class WordRootRepository {
         dealWordRoot = getRetrofit();
     }
     //获取全部的词根
-    public LiveData<List<WordRoot>> getAllWordRoots(){
-        return wordRootDao.getAllWordRoot();
-    }
 
     //模糊搜索
     public List<WordRoot> searchSimilar(String message){
@@ -152,7 +150,7 @@ public class WordRootRepository {
                         Log.d("接受","呼啦呼啦？？？？？？？？？？？？？？？？");
                         for(WordRoot wordRoot : wordList){
                             Log.d("test",wordRoot.getRoot() + wordRoot.getMeaning() + wordRoot.getVideo_url() );
-                            //insertRoots(wordRoot);
+                            insertRoots(wordRoot);
                         }
                     }
 
