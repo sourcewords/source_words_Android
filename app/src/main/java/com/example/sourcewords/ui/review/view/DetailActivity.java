@@ -94,7 +94,7 @@ public class DetailActivity extends AppCompatActivity {
         mToolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
-//        initMediaPlayer();
+        initMediaPlayer();
     }
 
     //初始化播放器
