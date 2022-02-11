@@ -1,11 +1,10 @@
 package com.example.sourcewords.ui.review.model;
 
-import android.content.Context;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
+
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordInfoBean;
@@ -21,8 +20,8 @@ public class WordRepository {
     private WordRootDao dao;
     private LiveData<WordRoot> wordRootList ;
 
-    public WordRepository(Context mContext) {
-        WordDatabase db = WordDatabase.getDatabase(mContext);
+    public WordRepository() {
+        WordDatabase db = WordDatabase.getDatabase();
         dao = db.getWordDao();
     }
 
@@ -85,7 +84,7 @@ public class WordRepository {
                 "[pəˈtɜ:nl]",
                 85, 41,"","paternal",listB,listE2
         );
-        Word word2 = new Word(wordInfo1,84);
+        Word word2 = new Word(wordInfo2,84);
         list.add(word2);
 
         return new WordRoot(1,"w","w",1,"w","w",list);

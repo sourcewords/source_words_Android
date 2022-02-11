@@ -7,6 +7,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -55,10 +56,10 @@ public class DetailActivity extends AppCompatActivity {
 
     public void init(){
         mViewModel = new ReviewViewModel(getApplication());
-        int wordId = getIntent().getIntExtra("indexWord",0);
+        int wordId = getIntent().getIntExtra("indexWord", 0);
         int rootId = getIntent().getIntExtra("indexWordRoot",0);
         mWordRoot = mViewModel.getWordRootTest(1);
-        mWord = mWordRoot.getWordlist().get(1);
+        mWord = mWordRoot.getWordlist().get(wordId);
         mWordInfo = mWord.getWord_info();
 
         playerButton = findViewById(R.id.horn_button);
@@ -74,6 +75,7 @@ public class DetailActivity extends AppCompatActivity {
 
         structure = findViewById(R.id.structure);
         structure.setText(mWordInfo.getZh_source());
+        url = mWordInfo.getPronunciation_url();
 
         examples = findViewById(R.id.examples);
         StringBuilder stringBuilder = new StringBuilder();
@@ -86,6 +88,13 @@ public class DetailActivity extends AppCompatActivity {
          examples.setText(stringBuilder);
 
 
+
+        playerButton = findViewById(R.id.horn_button);
+        wordEng = findViewById(R.id.wordEng);
+        soundMark = findViewById(R.id.soundMark);
+        meaning = findViewById(R.id.meaning);
+        structure = findViewById(R.id.structure);
+        examples = findViewById(R.id.examples);
         again = findViewById(R.id.again);
         hard = findViewById(R.id.hard);
         good = findViewById(R.id.good);
@@ -124,6 +133,10 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 mWord.getWord_info().setNextTime(DateUtils.addTime(PreferenceUtils.AGAIN));
                 mViewModel.Update(mWordRoot);
+                Intent intent = new Intent();
+                intent.putExtra("result", 0);
+                DetailActivity.this.setResult(RESULT_OK, intent);
+                DetailActivity.this.finish();
             }
         });
 
@@ -132,6 +145,10 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 mWord.getWord_info().setNextTime(DateUtils.addTime(PreferenceUtils.HARD));
                 mViewModel.Update(mWordRoot);
+                Intent intent = new Intent();
+                intent.putExtra("result", 1);
+                DetailActivity.this.setResult(RESULT_OK, intent);
+                DetailActivity.this.finish();
             }
         });
 
@@ -140,6 +157,10 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 mWord.getWord_info().setNextTime(DateUtils.addTime(PreferenceUtils.GOOD));
                 mViewModel.Update(mWordRoot);
+                Intent intent = new Intent();
+                intent.putExtra("result", 2);
+                DetailActivity.this.setResult(RESULT_OK, intent);
+                DetailActivity.this.finish();
             }
         });
 
@@ -148,6 +169,10 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 mWord.getWord_info().setNextTime(DateUtils.addTime(PreferenceUtils.EASY));
                 mViewModel.Update(mWordRoot);
+                Intent intent = new Intent();
+                intent.putExtra("result", 4);
+                DetailActivity.this.setResult(RESULT_OK, intent);
+                DetailActivity.this.finish();
             }
         });
     }

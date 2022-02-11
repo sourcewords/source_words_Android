@@ -25,7 +25,7 @@ public class WordRootRepository {
     private final String Authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDQ0MjIwMTgsImlhdCI6MTY0NDMzNTYxOCwidWlkIjoxN30.gHUsZwfKjTiPoajaSYSTn8FqVIRO7gF09GO96ESxJCY";
 
     public WordRootRepository(Context mContext){
-        final WordDatabase wordDatabase = WordDatabase.getDatabase(mContext);
+        final WordDatabase wordDatabase = WordDatabase.getDatabase();
         wordRootDao = wordDatabase.getWordDao();
     }
     //获取全部的词根
