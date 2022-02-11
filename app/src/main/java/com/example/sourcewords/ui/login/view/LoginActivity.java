@@ -1,9 +1,10 @@
 package com.example.sourcewords.ui.login.view;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.widget.CheckBox;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -70,7 +71,6 @@ public class LoginActivity extends AppCompatActivity {
                     binding.checkbox.requestFocus();
                 }
                 else {
-//                    binding.lblEmailAnswer.setText(localPage.getName());
                     rq(new LoginUser(localPage.getName(),localPage.getPassword()));
                 }
 
@@ -82,6 +82,12 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
         });
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().
+                    setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+                            View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
     }
 
     private void rq(LoginUser user){

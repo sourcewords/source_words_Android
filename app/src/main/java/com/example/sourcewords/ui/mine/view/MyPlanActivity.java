@@ -1,5 +1,6 @@
 package com.example.sourcewords.ui.mine.view;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.example.sourcewords.R;
 import com.example.sourcewords.ui.mine.model.databean.PlanAdapter;
 import com.example.sourcewords.ui.mine.model.databean.PlanBean;
 import com.example.sourcewords.ui.mine.model.databean.SpacesItemDecoration;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ public class MyPlanActivity extends AppCompatActivity {
 
     MaterialCalendarView calendarView;
     RecyclerView recyclerView;
+    FloatingActionButton floatButton;
     List<PlanBean> mList = new ArrayList<>();
     private int spaceTag = 1;
 
@@ -36,6 +39,12 @@ public class MyPlanActivity extends AppCompatActivity {
         initList();
         calendarView = findViewById(R.id.calendar);
         calendarView.setSelectionMode(MaterialCalendarView.SELECTION_MODE_MULTIPLE);
+
+        floatButton = findViewById(R.id.float_button);
+        floatButton.setOnClickListener(v->{
+            Intent intent = new Intent(MyPlanActivity.this, AddPlanActivity.class);
+            startActivity(intent);
+        });
 
         recyclerView = findViewById(R.id.myplan_rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
