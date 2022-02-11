@@ -18,15 +18,13 @@ public class LearnViewModel extends AndroidViewModel {
     @SuppressLint("StaticFieldLeak")
     private final Context mContext;
     private final WordRootRepository repository;
-//    private DealWordRoot dealWordRoot;
     private final LiveData<List<WordRoot>> wordRootLiveData;
     //    private final String Authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDM5ODI0NTMsImlhdCI6MTY0Mzg5NjA1MywidWlkIjoxN30.Lx1tkjDiTAgiG6GL65WMPA6dfFAKgLSPV0rqNqqoblU";
 
-    LearnViewModel(@NonNull Application application) {
+    public LearnViewModel(@NonNull Application application) {
         super(application);
         this.mContext = application;
         repository = new WordRootRepository(mContext);
-        //dealWordRoot = WordRootRepository.getRetrofit().create(DealWordRoot.class);
         wordRootLiveData = repository.getAllWordRoots();
     }
 
@@ -44,6 +42,10 @@ public class LearnViewModel extends AndroidViewModel {
 
     public void updateRoot(int root_id){
         repository.learnedTodayRoot(root_id);
+    }
+
+    public void insertRoots(WordRoot root){
+        repository.insertRoots(root);
     }
 
 

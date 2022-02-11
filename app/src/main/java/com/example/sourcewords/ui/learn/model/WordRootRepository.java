@@ -1,17 +1,26 @@
 package com.example.sourcewords.ui.learn.model;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
 import com.example.sourcewords.ui.learn.model.Internet.DealWordRoot;
+import com.example.sourcewords.ui.learn.model.Internet.Demo;
 import com.example.sourcewords.ui.learn.model.Internet.Learned;
+import com.example.sourcewords.ui.learn.model.Internet.Test;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.dataBean.WordRootDao;
 import com.example.sourcewords.ui.review.db.WordDatabase;
+
+import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -21,12 +30,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 //TODO 各种数据处理
 public class WordRootRepository {
     private final WordRootDao wordRootDao;
-    private static Retrofit retrofit;
-    private final String Authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDQ0MjIwMTgsImlhdCI6MTY0NDMzNTYxOCwidWlkIjoxN30.gHUsZwfKjTiPoajaSYSTn8FqVIRO7gF09GO96ESxJCY";
+    private static DealWordRoot dealWordRoot;
+    private final String Authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDQ0Nzk5NDksImlhdCI6MTY0NDM5MzU0OSwidWlkIjoxN30.3fA571_ktll7xL1aBSwEiAyoXc0QvmwdXt3XlyCw1VQ";
+    private List<WordRoot> wordList;
 
     public WordRootRepository(Context mContext){
         final WordDatabase wordDatabase = WordDatabase.getDatabase(mContext);
         wordRootDao = wordDatabase.getWordDao();
+        dealWordRoot = getRetrofit();
     }
     //获取全部的词根
     public LiveData<List<WordRoot>> getAllWordRoots(){
@@ -38,27 +49,32 @@ public class WordRootRepository {
         return wordRootDao.getWordRootsSimilar(message);
     }
 
+    //
+    public void insertRoots(WordRoot wordRoot){
+        new InsertWordRoot(wordRootDao).execute(wordRoot);
+    }
+
     //获取单词词根
     public WordRoot getWordRootById(int id){
         return wordRootDao.getWordRootById(id);
     }
 
-    public static Retrofit getRetrofit() {
-        if (retrofit == null){
+    public static DealWordRoot getRetrofit() {
+        if (dealWordRoot == null){
             synchronized(WordRootRepository.class){
-                retrofit = new Retrofit.Builder()
+                dealWordRoot = new Retrofit.Builder()
                         .baseUrl("http://112.126.76.187:9999/api/v1/")
+                        .client(Demo.getInstance().build())
                         .addConverterFactory(GsonConverterFactory.create())
                         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                        .build();
+                        .build()
+                        .create(DealWordRoot.class);
             }
         }
-        return retrofit;
+        return dealWordRoot;
     }
 
     public void learnedTodayRoot(int root_id){
-        retrofit = getRetrofit();
-        DealWordRoot dealWordRoot = retrofit.create(DealWordRoot.class);
         Learned learned = new Learned(root_id,1);
         dealWordRoot.haveLearnedRoots(Authorization,learned).enqueue(new Callback<Void>() {
             @Override
@@ -71,6 +87,19 @@ public class WordRootRepository {
 
             }
         });
+    }
+
+    static class InsertWordRoot extends AsyncTask<WordRoot,Void,Void>{
+        private final WordRootDao dao;
+        InsertWordRoot(WordRootDao dao){
+            this.dao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(WordRoot... wordRoots) {
+            dao.insertRoot(wordRoots);
+            return null;
+        }
     }
 
     /*奇怪的异步类
@@ -105,37 +134,38 @@ public class WordRootRepository {
      */
 
 
-    /*
-    public List<Test.DataBean> getWordList(String keyWord) {
-        Log.d("Search!!!",keyWord);
-        dealWordRoot.getWordList(Authorization, keyWord,"false")
+
+    public void initWordRootList() {
+        Log.d("Search!!!", "/////////////////////////");
+        dealWordRoot.getWordList(Authorization, "true")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Test>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
+                        Log.d("something","wrong-------------------");
                     }
 
                     @Override
                     public void onNext(Test test) {
-                        wordRootList = test.getData();
-                        for(Test.DataBean a : wordRootList){
-                            Log.d("why!!!",a.getRoot() + a.getMeaning());
+                        wordList = test.getData();
+                        Log.d("接受","呼啦呼啦？？？？？？？？？？？？？？？？");
+                        for(WordRoot wordRoot : wordList){
+                            Log.d("test",wordRoot.getRoot() + wordRoot.getMeaning() + wordRoot.getVideo_url() );
+                            //insertRoots(wordRoot);
                         }
-                        Log.d("Test","成功！");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("Error","失败了..............................");
+                        Log.d("更新！", "拉取数据网络错误......");
                     }
 
                     @Override
                     public void onComplete() {
-
+                        Log.d("完成！", "啦啦啦啦啦啦啦啦啦啦！！！！！！");
                     }
+
                 });
-        return wordRootList;
-    }*/
+    }
 }

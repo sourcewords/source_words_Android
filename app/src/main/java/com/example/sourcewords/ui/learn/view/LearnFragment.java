@@ -23,7 +23,6 @@ import com.example.sourcewords.R;
 import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.ui.learn.viewModel.WordsAdapter;
 import com.example.sourcewords.ui.review.dataBean.Word;
-import com.example.sourcewords.ui.review.dataBean.WordInfoBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,13 +40,14 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         @SuppressLint("InflateParams") View v = inflater.inflate(R.layout.fragment_learn, null);
+        viewModel = ViewModelProviders.of(this).get(LearnViewModel.class);
         initView(v);
+
         return v;
     }
 
     private void initView(View v) {
-        viewModel = ViewModelProviders.of(this).get(LearnViewModel.class);
-        imageButton = v.findViewById(R.id.learn_searcher);
+         imageButton = v.findViewById(R.id.learn_searcher);
         videoView = v.findViewById(R.id.learn_player);
         Uri uri = Uri.parse("https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4");
         videoView.setVideoURI(uri);

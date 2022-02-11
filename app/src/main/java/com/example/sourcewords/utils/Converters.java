@@ -4,6 +4,7 @@ import androidx.room.TypeConverter;
 
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordInfoBean;
+import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -16,6 +17,13 @@ public class Converters {
     @TypeConverter
     public static List<Word> jsonToList(String json) {
         return gs.fromJson(json, new TypeToken<List<String>>() {
+        }.getType());
+    }
+
+    @TypeConverter
+    public static List<WordRoot> WordRootJsonToList(String json){
+        return gs.fromJson(json, new TypeToken<List<String>>(){
+
         }.getType());
     }
 

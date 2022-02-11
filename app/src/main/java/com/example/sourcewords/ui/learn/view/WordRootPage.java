@@ -59,7 +59,7 @@ public class WordRootPage extends AppCompatActivity {
         adapter.setList(list);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        final Uri uri = Uri.parse(root.getPath());
+        final Uri uri = Uri.parse(root.getVideo_url());
         videoView.setVideoURI(uri);
         videoView.setMediaController(new MediaController(this));
         videoView.requestFocus();
