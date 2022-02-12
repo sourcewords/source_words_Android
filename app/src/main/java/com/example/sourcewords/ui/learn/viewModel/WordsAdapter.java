@@ -19,8 +19,8 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordsHolder>
     private List<Word> list;
     private final LayoutInflater mInflater;
 
-    public WordsAdapter( Context context) {
-        mInflater = LayoutInflater.from(context.getApplicationContext());
+    public WordsAdapter(Context context) {
+        mInflater = LayoutInflater.from(context);
     }
 
     public void setList(List<Word> list){

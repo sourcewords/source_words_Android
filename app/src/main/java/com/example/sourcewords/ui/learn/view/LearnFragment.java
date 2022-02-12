@@ -52,9 +52,11 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         Uri uri = Uri.parse("https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4");
         videoView.setVideoURI(uri);
         MediaController controller = new MediaController(getContext());
+        controller.setVisibility(View.GONE);
         videoView.setMediaController(controller);
         videoView.requestFocus();
-
+        videoView.start();
+        videoView.setOnClickListener(this);
         recyclerView = v.findViewById(R.id.learn_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         final WordsAdapter adapter = new WordsAdapter(Objects.requireNonNull(getContext()));
@@ -82,6 +84,12 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
             case R.id.learn_searcher:
                 Intent intent = new Intent(getActivity(), LearnSearchActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.learn_player:
+                if(videoView.isPlaying())
+                    videoView.pause();
+                else
+                    videoView.start();
                 break;
         }
     }

@@ -18,6 +18,7 @@ import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WordRootPage extends AppCompatActivity {
@@ -26,9 +27,8 @@ public class WordRootPage extends AppCompatActivity {
     private RecyclerView recyclerView;
     private VideoView videoView;
     private ImageButton back,search;
-    private List<Word> list;
     private LearnViewModel viewModel;
-    private WordRoot root;
+    private static int id;
 
     public static Intent newInstance(Context mContext, int id){
         Intent intent = new Intent(mContext,WordRootPage.class);
@@ -42,25 +42,20 @@ public class WordRootPage extends AppCompatActivity {
         setContentView(R.layout.activity_word_root_page);
         viewModel = ViewModelProviders.of(this).get(LearnViewModel.class);
         Intent intent = getIntent();
-        final int id = intent.getIntExtra(GET_ID,0);
-        root = viewModel.getWordRoot(id);
-        list = root.getWordlist();
+        id = intent.getIntExtra(GET_ID,0);
         init();
     }
 
     private void init(){
         textView = findViewById(R.id.page_wordRoot);
-        recyclerView = findViewById(R.id.search_recyclerView);
+        recyclerView = findViewById(R.id.page_recyclerView);
         videoView = findViewById(R.id.page_videoView);
         back = findViewById(R.id.page_back);
         search = findViewById(R.id.page_search);
-        textView.setText(root.getRoot());
         final WordsAdapter adapter = new WordsAdapter(this);
-        adapter.setList(list);
         recyclerView.setAdapter(adapter);
+        viewModel.getWordRoot(id,textView,adapter,videoView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        final Uri uri = Uri.parse(root.getVideo_url());
-        videoView.setVideoURI(uri);
         videoView.setMediaController(new MediaController(this));
         videoView.requestFocus();
     }

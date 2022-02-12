@@ -40,7 +40,6 @@ public class WordRootRepository {
         wordRootDao = wordDatabase.getWordDao();
         dealWordRoot = getRetrofit();
     }
-    //获取全部的词根
 
     //模糊搜索
     public List<WordRoot> searchSimilar(String message){
@@ -99,40 +98,7 @@ public class WordRootRepository {
             return null;
         }
     }
-
-    /*奇怪的异步类
-    static class SearchSimilar extends AsyncTask<String,Void,Void>{
-        private final WordRootDao dao;
-
-        SearchSimilar(WordRootDao wordRootDao){
-            this.dao = wordRootDao;
-        }
-
-        @Override
-        protected Void doInBackground(String... strings) {
-            String message = strings[0];
-            dao.getWordRootsSimilar(message);
-            return null;
-        }
-    }
-
-    static class GetWordRootById extends AsyncTask<Integer,Void,Void>{
-        private final WordRootDao dao;
-
-        GetWordRootById(WordRootDao dao){
-            this.dao = dao;
-        }
-        @Override
-        protected Void doInBackground(Integer... integers) {
-            int id = integers[0];
-            dao.getWordRootById(id);
-            return null;
-        }
-    }
-     */
-
-
-
+    //从远端拉入词根并插入本地数据库
     public void initWordRootList() {
         Log.d("Search!!!", "/////////////////////////");
         dealWordRoot.getWordList(Authorization, "true")
@@ -166,4 +132,6 @@ public class WordRootRepository {
 
                 });
     }
+
+
 }
