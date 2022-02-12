@@ -2,6 +2,8 @@ package com.example.sourcewords.utils;
 
 import android.annotation.SuppressLint;
 
+import com.example.sourcewords.ui.review.view.DetailActivity;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -20,10 +22,10 @@ public class DateUtils {
 
     public static String addTime(int key){
         calendar.setTime(c.getTime());
-        if(key == PreferenceUtils.AGAIN) calendar.add(Calendar.MINUTE,10);
-        else if(key == PreferenceUtils.HARD) calendar.add(Calendar.DATE,2);
-        else if(key == PreferenceUtils.GOOD) calendar.add(Calendar.DATE, 3);
-        else if(key == PreferenceUtils.EASY) calendar.add(Calendar.DATE, 4);
+        if(key == DetailActivity.AGAIN) calendar.add(Calendar.MINUTE,10);
+        else if(key == DetailActivity.HARD) calendar.add(Calendar.DATE,2);
+        else if(key == DetailActivity.GOOD) calendar.add(Calendar.DATE, 3);
+        else if(key == DetailActivity.EASY) calendar.add(Calendar.DATE, 4);
         return s.format(calendar.getTime());
     }
 }

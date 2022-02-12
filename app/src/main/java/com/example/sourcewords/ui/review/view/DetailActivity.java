@@ -1,16 +1,13 @@
 package com.example.sourcewords.ui.review.view;
 
-import android.annotation.SuppressLint;
-import android.app.AppComponentFactory;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,16 +15,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.sourcewords.R;
+import com.example.sourcewords.ui.learn.view.LearnSearchActivity;
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordInfoBean;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.viewmodel.ReviewViewModel;
 import com.example.sourcewords.utils.DateUtils;
-import com.example.sourcewords.utils.PreferenceUtils;
 
 import java.io.IOException;
 
 public class DetailActivity extends AppCompatActivity {
+    public static final int AGAIN = 1;
+    public static final int HARD = 2;
+    public static final int GOOD = 3;
+    public static final int EASY = 4;
     private Toolbar mToolbar;
     private MediaPlayer mMediaPlayer;
     private ImageView playerButton;
@@ -118,6 +119,21 @@ public class DetailActivity extends AppCompatActivity {
         mMediaPlayer.prepareAsync();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.detail_back:
+                finish();
+                break;
+            case R.id.search:
+                Intent intent = new Intent(this, LearnSearchActivity.class);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void listener(){
         int id = mWord.getId();
 
@@ -131,7 +147,7 @@ public class DetailActivity extends AppCompatActivity {
         again.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mWord.getWord_info().setNextTime(DateUtils.addTime(PreferenceUtils.AGAIN));
+                mWord.getWord_info().setNextTime(DateUtils.addTime(AGAIN));
                 mViewModel.Update(mWordRoot);
                 Intent intent = new Intent();
                 intent.putExtra("result", 0);
@@ -143,7 +159,7 @@ public class DetailActivity extends AppCompatActivity {
         hard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mWord.getWord_info().setNextTime(DateUtils.addTime(PreferenceUtils.HARD));
+                mWord.getWord_info().setNextTime(DateUtils.addTime(HARD));
                 mViewModel.Update(mWordRoot);
                 Intent intent = new Intent();
                 intent.putExtra("result", 1);
@@ -155,7 +171,7 @@ public class DetailActivity extends AppCompatActivity {
         good.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mWord.getWord_info().setNextTime(DateUtils.addTime(PreferenceUtils.GOOD));
+                mWord.getWord_info().setNextTime(DateUtils.addTime(GOOD));
                 mViewModel.Update(mWordRoot);
                 Intent intent = new Intent();
                 intent.putExtra("result", 2);
@@ -167,7 +183,7 @@ public class DetailActivity extends AppCompatActivity {
         easy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mWord.getWord_info().setNextTime(DateUtils.addTime(PreferenceUtils.EASY));
+                mWord.getWord_info().setNextTime(DateUtils.addTime(EASY));
                 mViewModel.Update(mWordRoot);
                 Intent intent = new Intent();
                 intent.putExtra("result", 4);
@@ -177,24 +193,16 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
-    //重写返回键以释放该播放器
-    @Override
-    public void onBackPressed() {
-//        mMediaPlayer.release();
-//        mMediaPlayer = null;
-        super.onBackPressed();
-    }
-
     @Override
     protected void onPause() {
-//        mMediaPlayer.release();
-//        mMediaPlayer = null;
+        mMediaPlayer.release();
+        mMediaPlayer = null;
         super.onPause();
     }
 
     @Override
     protected void onResume() {
-//        initMediaPlayer();
+        initMediaPlayer();
         super.onResume();
     }
 }

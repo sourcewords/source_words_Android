@@ -41,6 +41,7 @@
 
             <TextView
                 android:id="@+id/wordEng"
+                android:paddingTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -49,15 +50,20 @@
                 android:textSize="40sp"
                 android:textStyle="bold" />
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp">
 
                 <ImageView
                     android:id="@+id/horn_button"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/horn_foreground" />
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/soundMark"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/soundMark"
+                    app:srcCompat="@drawable/horn_foreground"
+                    tools:ignore="UnknownIdInLayout" />
 
                 <TextView
                     android:id="@+id/soundMark"
@@ -66,9 +72,13 @@
                     android:gravity="center"
                     android:text="[O:di'to:riem]"
                     android:textColor="@color/white"
-                    android:textSize="30sp" />
+                    android:textSize="30sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 
@@ -85,7 +95,7 @@
                 android:paddingLeft="10dp"
                 android:text="n. 会堂;礼堂;观众席"
                 android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -102,7 +112,7 @@
                 android:paddingTop="10dp"
                 android:text="结构分析"
                 android:textColor="#137B66"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/structure"
@@ -112,7 +122,7 @@
                 android:paddingBottom="10dp"
                 android:text="auditorium = audi(去听)+oruim(听的场所)"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -130,7 +140,7 @@
                 android:paddingTop="10dp"
                 android:text="例句"
                 android:textColor="#137B66"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -144,7 +154,7 @@
                     android:paddingBottom="10dp"
                     android:text="The auditorium pulsed with excitement.礼堂里洋溢着快乐的气氛"
                     android:textColor="@color/black"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
             </ScrollView>
 
@@ -156,6 +166,7 @@
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_marginBottom="10dp"
         android:background="#96D2D1"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout5"
@@ -165,49 +176,50 @@
         android:id="@id/linearLayout6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="20dp"
         android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent" >
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/again"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_review_again"
             android:text="10m&#10;again"
-            android:textColor="@color/white"
-            android:background="@drawable/shape_review_again"/>
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/hard"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_review_hard"
             android:text="2d&#10;hard"
-            android:textColor="@color/white"
-            android:background="@drawable/shape_review_hard"/>
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/good"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_review_good"
             android:text="3d&#10;good"
-            android:textColor="@color/white"
-            android:background="@drawable/shape_review_good"/>
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/easy"
-            android:layout_margin="5dp"
-            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_review_easy"
             android:text="4d&#10;easy"
-            android:textColor="@color/white"
-            android:background="@drawable/shape_review_easy"/>
+            android:textColor="@color/white" />
 
     </LinearLayout>
 
