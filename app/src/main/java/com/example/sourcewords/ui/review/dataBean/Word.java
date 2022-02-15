@@ -76,6 +76,7 @@ public class Word {
         this.property = property;
     }
 
+
     /*
     @PrimaryKey(autoGenerate = true)
     private int id;

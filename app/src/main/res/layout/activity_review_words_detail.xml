@@ -188,7 +188,7 @@
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@drawable/shape_review_again"
-            android:text="10m&#10;again"
+            android:text="10 mins&#10;again"
             android:textColor="@color/white" />
 
         <Button
@@ -198,7 +198,7 @@
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@drawable/shape_review_hard"
-            android:text="2d&#10;hard"
+            android:text="2 days&#10;hard"
             android:textColor="@color/white" />
 
         <Button
@@ -208,7 +208,7 @@
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@drawable/shape_review_good"
-            android:text="3d&#10;good"
+            android:text="3 days&#10;good"
             android:textColor="@color/white" />
 
         <Button
@@ -218,7 +218,7 @@
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@drawable/shape_review_easy"
-            android:text="4d&#10;easy"
+            android:text="4 days&#10;easy"
             android:textColor="@color/white" />
 
     </LinearLayout>

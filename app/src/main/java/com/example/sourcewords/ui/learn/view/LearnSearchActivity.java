@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,7 +22,7 @@ import java.util.List;
 //TODO 词根搜索栏
 public class LearnSearchActivity extends AppCompatActivity {
     private SearchView searchView;
-    private LiveData<List<WordRoot>> wordRoots;
+    private MutableLiveData<List<WordRoot>> wordRoots;
     private LearnViewModel viewModel;
 
     @Override
@@ -37,7 +38,7 @@ public class LearnSearchActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.search_recyclerView);
         final WordRootAdapter wordRootAdapter = new WordRootAdapter(this);
         viewModel = ViewModelProviders.of(this).get(LearnViewModel.class);
-        wordRoots = viewModel.getAllWordRoots();
+        wordRoots = new MutableLiveData<>();
         wordRoots.observe(this, wordRoots -> {
             wordRootAdapter.setWordRoots(wordRoots);
             wordRootAdapter.notifyDataSetChanged();
@@ -49,7 +50,7 @@ public class LearnSearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //搜索时触发该方法
-                wordRootAdapter.setWordRoots(viewModel.getList(query));
+                viewModel.getList(query,wordRoots);
                 Log.d("search","现在在搜索！！！！！！！！！！！！！！！！！！！！");
                 return false;
             }
@@ -57,7 +58,7 @@ public class LearnSearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 //输入内容变化时，触发该方法
-                wordRootAdapter.setWordRoots(viewModel.getList(newText));
+                viewModel.getList(newText,wordRoots);
                 Log.d("Change","现在是changing......................................");
                 return false;
             }

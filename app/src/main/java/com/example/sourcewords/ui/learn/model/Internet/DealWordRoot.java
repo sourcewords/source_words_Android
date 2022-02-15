@@ -1,5 +1,10 @@
 package com.example.sourcewords.ui.learn.model.Internet;
 
+import com.example.sourcewords.ui.review.dataBean.Word;
+import com.example.sourcewords.ui.review.dataBean.WordRoot;
+
+import java.util.List;
+
 import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -12,7 +17,7 @@ import retrofit2.http.Query;
 public interface DealWordRoot {
     @GET("roots/list")
     Observable<Test> getWordList(@Header("Authorization") String Authorization
-            , @Query("kw") String keyword , @Query("verbose") String verbose);
+            , @Query("verbose") String verbose);
 
     @PUT("roots/status")
     Call<Void> haveLearnedRoots(@Header("Authorization") String Authorization,

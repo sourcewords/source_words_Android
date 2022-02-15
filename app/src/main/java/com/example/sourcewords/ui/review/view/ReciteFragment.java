@@ -44,8 +44,14 @@ public class ReciteFragment extends Fragment {
 
     private CardView mWordCard;
     private int cursor = 0;
-    private static final int DETAIL_WORD_ACTIVITY_REQUEST_CODE_NEW = 0;
-    private static final int DETAIL_WORD_ACTIVITY_REQUEST_CODE_OLD = 1;
+    /**
+     * 刚刚进入 习 这个板块的新单词 状态为 0
+     * 今天已经复习过的单词但今天仍需复习的状态为 1
+     * 过去学过、复习过，今天要复习的的状态为 2
+     */
+    private static final int WORD_NEW = 0;
+    private static final int WORD_TODAY_REVIEW_AGAIN = 1;
+    private static final int WORD_PAST_REVIEWED = 2;
     private ViewStub stub;
 
 
@@ -81,6 +87,8 @@ public class ReciteFragment extends Fragment {
         reviewBkg = view.findViewById(R.id.easy_bkg);
 
         mWordCard.setOnClickListener(v -> {
+            //放一个临时变量
+            WordInfoBean wordInfo = mWordRoot.getWordlist().get(cursor).getWord_info();
             Intent intent = new Intent(App.getAppContext(), DetailActivity.class);
 //            intent.putExtra("index", cursor);
 //            if(reviewWords.size() == 0)
@@ -88,7 +96,23 @@ public class ReciteFragment extends Fragment {
 //            else startActivityForResult(intent, DETAIL_WORD_ACTIVITY_REQUEST_CODE_OLD);
             intent.putExtra("indexWord", cursor);
             intent.putExtra("indexWordRoot",mWordRoot.getId());
-            startActivityForResult(intent, DETAIL_WORD_ACTIVITY_REQUEST_CODE_NEW);
+            intent.putExtra("code", WORD_NEW);
+            startActivityForResult(intent, WORD_NEW);
+            //TODO:根据单词的状态选择request code
+            /*TODO:DCY'S CODE
+            if(wordInfo.getStatus() == WORD_NEW) {
+                intent.putExtra("code", WORD_NEW);
+                startActivityForResult(intent, WORD_NEW);
+            }
+            else if(wordInfo.getStatus() == WORD_TODAY_REVIEW_AGAIN){
+                intent.putExtra("code", WORD_TODAY_REVIEW_AGAIN);
+                startActivityForResult(intent, WORD_TODAY_REVIEW_AGAIN);
+            }
+            else if(wordInfo.getStatus() == WORD_PAST_REVIEWED){
+                intent.putExtra("code", WORD_PAST_REVIEWED);
+                startActivityForResult(intent, WORD_PAST_REVIEWED);
+            }
+             */
         });
         button.setOnClickListener(v -> {
             getPreWord();
@@ -136,7 +160,7 @@ public class ReciteFragment extends Fragment {
         int result = -1;
         if(data != null)
             result = data.getIntExtra("result", -1);
-        if (requestCode == DETAIL_WORD_ACTIVITY_REQUEST_CODE_NEW && resultCode == RESULT_OK && (result == 2 || result == 3 || result == 1)) {
+        if (requestCode == WORD_NEW && resultCode == RESULT_OK && (result == 2 || result == 3 || result == 1)) {
             if(currentList == newLearnedWords) {
                 newLearnedCount--;
             }
@@ -148,7 +172,7 @@ public class ReciteFragment extends Fragment {
             else reviewCount--;
             getNextWord();
         }
-        else if(requestCode == DETAIL_WORD_ACTIVITY_REQUEST_CODE_NEW && resultCode == RESULT_OK && result == 0) {
+        else if(requestCode == WORD_NEW && resultCode == RESULT_OK && result == 0) {
             if(currentList == newLearnedWords) {
                 haveLearnedCount++;
                 haveLearnedWords.add(currentList.get(cursor));

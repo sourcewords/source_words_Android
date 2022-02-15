@@ -1,18 +1,14 @@
 package com.example.sourcewords.ui.main;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.sourcewords.App;
 import com.example.sourcewords.R;
+import com.example.sourcewords.ui.learn.model.WordRootRepository;
 
 
 //TODO 开机动画 引导页
@@ -32,6 +28,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         addMainFragment();
+        /*
+        WordRootRepository repository = new WordRootRepository(this);
+        repository.initWordRootList();
+
+         */
     }
 
     private void addMainFragment() {

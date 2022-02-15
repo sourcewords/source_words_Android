@@ -97,11 +97,4 @@ public class WordRoot {
         this.wordlist = wordlist;
     }
 
-    public String getPath() {
-        return video_url;
-    }
-
-    public void setPath(String path) {
-        this.video_url = path;
-    }
 }

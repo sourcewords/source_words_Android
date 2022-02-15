@@ -1,5 +1,6 @@
 package com.example.sourcewords.ui.review.view;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -29,10 +30,12 @@ public class DetailActivity extends AppCompatActivity {
     public static final int HARD = 2;
     public static final int GOOD = 3;
     public static final int EASY = 4;
+    private int code;
     private Toolbar mToolbar;
     private MediaPlayer mMediaPlayer;
     private ImageView playerButton;
     private Button again,hard,good,easy;
+    private Time againTime, hardTime, goodTime, easyTime;
     private TextView wordEng, soundMark, meaning, structure, examples;
     private String url;
     private ReviewViewModel mViewModel;
@@ -51,11 +54,38 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         init();
+        initButton();
         listener();
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void initButton(){
+        if(code == 0){
+            againTime = new Time(1,"MINS");
+            hardTime = new Time(5,"MINS");
+            goodTime = new Time(10, "MINS");
+            easyTime = new Time(4,"DAYS");
+        } else if(code == 1){
+            againTime = new Time(5, "MINS");
+            hardTime = new Time(10,"MINS");
+            goodTime = new Time(1,"DAYS");
+            easyTime = new Time(2,"DAYS");
+        } else if(code == 2){
+            againTime = new Time(10,"MINS");
+            hardTime = new Time(1,"DAYS");
+            goodTime = new Time(2,"DAYS");
+            easyTime = new Time(4,"DAYS");
+        }
+        again.setText(againTime.toString()+"\nagain");
+        hard.setText(hardTime.toString()+"\nhard");
+        good.setText(goodTime.toString()+"\ngood");
+        easy.setText(easyTime.toString()+"\neasy");
     }
 
 
     public void init(){
+        code = getIntent().getIntExtra("code",0);
+
         mViewModel = new ReviewViewModel(getApplication());
         int wordId = getIntent().getIntExtra("indexWord", 0);
         int rootId = getIntent().getIntExtra("indexWordRoot",0);
@@ -86,9 +116,7 @@ public class DetailActivity extends AppCompatActivity {
                     .append(mWordInfo.getExample_sentences().get(i).getZh())
                     .append("\n");
         }
-         examples.setText(stringBuilder);
-
-
+        examples.setText(stringBuilder);
 
         playerButton = findViewById(R.id.horn_button);
         wordEng = findViewById(R.id.wordEng);
@@ -119,6 +147,7 @@ public class DetailActivity extends AppCompatActivity {
         mMediaPlayer.prepareAsync();
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -147,7 +176,7 @@ public class DetailActivity extends AppCompatActivity {
         again.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mWord.getWord_info().setNextTime(DateUtils.addTime(AGAIN));
+                mWord.getWord_info().setNextTime(DateUtils.addTime(againTime.getValue(),againTime.getUnit()));
                 mViewModel.Update(mWordRoot);
                 Intent intent = new Intent();
                 intent.putExtra("result", 0);
@@ -159,7 +188,7 @@ public class DetailActivity extends AppCompatActivity {
         hard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mWord.getWord_info().setNextTime(DateUtils.addTime(HARD));
+                mWord.getWord_info().setNextTime(DateUtils.addTime(againTime.getValue(),againTime.getUnit()));
                 mViewModel.Update(mWordRoot);
                 Intent intent = new Intent();
                 intent.putExtra("result", 1);
@@ -171,7 +200,7 @@ public class DetailActivity extends AppCompatActivity {
         good.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mWord.getWord_info().setNextTime(DateUtils.addTime(GOOD));
+                mWord.getWord_info().setNextTime(DateUtils.addTime(againTime.getValue(),againTime.getUnit()));
                 mViewModel.Update(mWordRoot);
                 Intent intent = new Intent();
                 intent.putExtra("result", 2);
@@ -183,7 +212,7 @@ public class DetailActivity extends AppCompatActivity {
         easy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mWord.getWord_info().setNextTime(DateUtils.addTime(EASY));
+                mWord.getWord_info().setNextTime(DateUtils.addTime(againTime.getValue(),againTime.getUnit()));
                 mViewModel.Update(mWordRoot);
                 Intent intent = new Intent();
                 intent.putExtra("result", 4);
@@ -204,5 +233,28 @@ public class DetailActivity extends AppCompatActivity {
     protected void onResume() {
         initMediaPlayer();
         super.onResume();
+    }
+
+    static class Time{
+        int value;
+        String unit;
+
+        public Time(int value, String unit) {
+            this.value = value;
+            this.unit = unit;
+        }
+
+        public int getValue() {
+            return value;
+        }
+
+        public String getUnit() {
+            return unit;
+        }
+
+        @Override
+        public String toString() {
+            return value+" "+unit;
+        }
     }
 }

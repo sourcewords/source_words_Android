@@ -24,7 +24,6 @@ public class WordInfoBean {
     private List<Boolean> exam_grading;
     /**
      * nextTime:下一次复习时间
-     * status:现在复习的状态  每当点击easy按钮则+1  到达？次归档
      */
     private String nextTime;
     private int status;

@@ -12,7 +12,6 @@ import java.util.TimeZone;
 
 public class DateUtils {
     static final Calendar c = Calendar.getInstance(TimeZone.getTimeZone("GMT+08:00"));
-    static final Calendar calendar = new GregorianCalendar();
     @SuppressLint("SimpleDateFormat")
     static SimpleDateFormat s=new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
@@ -20,12 +19,11 @@ public class DateUtils {
         return s.format(c.getTime());
     }
 
-    public static String addTime(int key){
+    public static String addTime(int value, String unit){
+        Calendar calendar = new GregorianCalendar();
         calendar.setTime(c.getTime());
-        if(key == DetailActivity.AGAIN) calendar.add(Calendar.MINUTE,10);
-        else if(key == DetailActivity.HARD) calendar.add(Calendar.DATE,2);
-        else if(key == DetailActivity.GOOD) calendar.add(Calendar.DATE, 3);
-        else if(key == DetailActivity.EASY) calendar.add(Calendar.DATE, 4);
+        if(unit.equals("MINS")) calendar.add(Calendar.MINUTE,value);
+        else if(unit.equals("DAYS")) calendar.add(Calendar.DATE,value);
         return s.format(calendar.getTime());
     }
 }

@@ -68,6 +68,7 @@ public class WordRootAdapter extends RecyclerView.Adapter<WordRootAdapter.WordRo
             layout.setOnClickListener(view -> {
                 int id = wordRoot.getId();
                 Intent intent = WordRootPage.newInstance(mContext,id);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.getApplicationContext().startActivity(intent);
             });
         }
