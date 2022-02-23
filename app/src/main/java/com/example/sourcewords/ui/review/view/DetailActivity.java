@@ -89,6 +89,7 @@ public class DetailActivity extends AppCompatActivity {
         mViewModel = new ReviewViewModel(getApplication());
         int wordId = getIntent().getIntExtra("indexWord", 0);
         int rootId = getIntent().getIntExtra("indexWordRoot",0);
+        //测试
         mWordRoot = mViewModel.getWordRootTest(1);
         mWord = mWordRoot.getWordlist().get(wordId);
         mWordInfo = mWord.getWord_info();
@@ -177,6 +178,7 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mWord.getWord_info().setNextTime(DateUtils.addTime(againTime.getValue(),againTime.getUnit()));
+                mWord.getWord_info().setStatus(WordInfoBean.WORD_TODAY_REVIEW_AGAIN);
                 mViewModel.Update(mWordRoot);
                 Intent intent = new Intent();
                 intent.putExtra("result", 0);
@@ -189,9 +191,11 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mWord.getWord_info().setNextTime(DateUtils.addTime(againTime.getValue(),againTime.getUnit()));
+                int status = againTime.getUnit().equals("MINS") ? WordInfoBean.WORD_TODAY_REVIEW_AGAIN : WordInfoBean.WORD_PAST_REVIEWED;
+                mWord.getWord_info().setStatus(status);
                 mViewModel.Update(mWordRoot);
                 Intent intent = new Intent();
-                intent.putExtra("result", 1);
+                intent.putExtra("result", 2);
                 DetailActivity.this.setResult(RESULT_OK, intent);
                 DetailActivity.this.finish();
             }
@@ -201,9 +205,11 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mWord.getWord_info().setNextTime(DateUtils.addTime(againTime.getValue(),againTime.getUnit()));
+                int status = againTime.getUnit().equals("MINS") ? WordInfoBean.WORD_TODAY_REVIEW_AGAIN : WordInfoBean.WORD_PAST_REVIEWED;
+                mWord.getWord_info().setStatus(status);
                 mViewModel.Update(mWordRoot);
                 Intent intent = new Intent();
-                intent.putExtra("result", 2);
+                intent.putExtra("result", 3);
                 DetailActivity.this.setResult(RESULT_OK, intent);
                 DetailActivity.this.finish();
             }
@@ -213,6 +219,8 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mWord.getWord_info().setNextTime(DateUtils.addTime(againTime.getValue(),againTime.getUnit()));
+                int status = againTime.getUnit().equals("MINS") ? WordInfoBean.WORD_TODAY_REVIEW_AGAIN : WordInfoBean.WORD_PAST_REVIEWED;
+                mWord.getWord_info().setStatus(status);
                 mViewModel.Update(mWordRoot);
                 Intent intent = new Intent();
                 intent.putExtra("result", 4);

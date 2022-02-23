@@ -11,19 +11,44 @@ import com.example.sourcewords.ui.review.dataBean.WordInfoBean;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.dataBean.WordRootDao;
 import com.example.sourcewords.ui.review.db.WordDatabase;
+import com.example.sourcewords.utils.DateUtils;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
 public class WordRepository {
     private WordRootDao dao;
     private LiveData<WordRoot> wordRootList ;
+    private List<Word> tobeReview = new LinkedList<>();
+    private List<Word> reviewAgainToday = new ArrayList<>();
+    private List<Word> newWordsToday = new ArrayList<>();
 
     public WordRepository() {
         WordDatabase db = WordDatabase.getDatabase();
         dao = db.getWordDao();
+
+        List<WordRoot> list = dao.getAllWordRootInSimple();
+        String time = DateUtils.getTime();
+        for(WordRoot wordRoot : list){
+            for(Word word : wordRoot.getWordlist()){
+                if(word.getWord_info().getStatus() == WordInfoBean.WORD_NEW) newWordsToday.add(word);
+                else if(word.getWord_info().getStatus() == WordInfoBean.WORD_TODAY_REVIEW_AGAIN) reviewAgainToday.add(word);
+                else if(word.getWord_info().getStatus() == WordInfoBean.WORD_PAST_REVIEWED) {
+                    if(time.substring(0,9).compareTo(word.getWord_info().getNextTime().substring(0,9)) <= 0){
+                        tobeReview.add(word);
+                    }
+                }
+            }
+        }
     }
+
+    public List<Word> getTobeReview() { return tobeReview; }
+
+    public List<Word> getReviewAgainToday() { return reviewAgainToday; }
+
+    public List<Word> getNewWordsToday() { return newWordsToday; }
 
     public void Insert(WordRoot...wordRoots){
         new Insert(dao).execute(wordRoots);
@@ -37,9 +62,7 @@ public class WordRepository {
         new Update(dao).execute(wordRoots);
     }
 
-    public LiveData<WordRoot> getWordRoot(int id) {
-        return dao.getWordRoot(id);
-    }
+    public LiveData<WordRoot> getWordRoot(int id) { return dao.getWordRoot(id); }
 
     public LiveData<List<WordRoot>> getAllWordRoot(){return  dao.getAllWordRoot();}
 
