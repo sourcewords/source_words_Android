@@ -2,7 +2,9 @@ package com.example.sourcewords.ui.review.model;
 
 
 import android.os.AsyncTask;
+import android.os.Build;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -13,9 +15,12 @@ import com.example.sourcewords.ui.review.dataBean.WordRootDao;
 import com.example.sourcewords.ui.review.db.WordDatabase;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.PriorityQueue;
 
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class WordRepository {
     private WordRootDao dao;
     private LiveData<WordRoot> wordRootList ;
@@ -90,6 +95,55 @@ public class WordRepository {
         return new WordRoot(1,"w","w",1,"w","w",list);
     }
 
+    PriorityQueue<InnerWord> priorityQueue = new PriorityQueue<InnerWord>(new Comparator<InnerWord>() {
+        @Override
+        public int compare(InnerWord innerWord1, InnerWord innerWord2) {
+            return innerWord1.priority - innerWord2.priority;
+        }
+    });
+
+    List<Word> currentWords = new ArrayList<>();
+
+    /**
+     * 我们采用这种复习的策略，在刷新单词状态时因为单词有在今天不要复习，可以直接在数据库修改nexttime，但是对于今
+     * 天要复习的单词，我们将现在日期的所有要复习的单词按照下次要复习分钟数做成一个优先队列，我们在这里写一个内部
+     * 类，根据word和下次复习的分钟数，这样的话，我们每次往viewmodel传一个队列，当viewmodel的队列用完了以后，
+     * 会再次向这里请求队列，由于在复习的时候，会调用上面的单词状态刷新方法，所以每一轮会有单词的复习日期变化，存储
+     * 进数据库，最后这个队列会变成一个空队列，然后，viewmodel那里请求单词也请求不到，我们在这个时候把数据同步到云端
+     */
+
+
+    //TODO:设置当日学到的词根，应该从learn那里调用
+//    public WordRoot setWordRootToday(String time) {
+//
+//    }
+
+    //TODO:拿到学完当日词根而要学的新的单词
+//    public List<Word> getNewWords(WordRoot wordRoot) {
+//
+//    }
+
+    // TODO:通过日期拿到其他今天要复习的单词
+    // 这里一开始所有的单词进入队列都是一样的
+//    public List<Word> getLearnedWords(String time) {
+//
+//    }
+
+    // TODO:刷新单词的状态
+    // 通过detail种不同的选择，我们对于不同的单词做不同的处理，我们按照一轮一轮的复习策略
+    // 也就是说，对于state可以是10min, 20min,5min, 还有几天这样，和wordinfo的status区分开
+    // 然后根据这个队列，我们把一个已经有优先级的queue化为list传给model
+//    public void freshWord(int wordID, int state) {
+//
+//    }
+
+    //TODO:将优先队列化为list
+//    我会在viewmodel里做判空处理，如果为空，我会把修改试图，且今日的所有单词复习完毕
+//    public List<Word> getCurrentWords() {
+//        // 这里直接出队列就可以
+//    }
+
+
     static class Insert extends AsyncTask<WordRoot,Void,Void>{
         WordRootDao mWordRootDao;
         Insert(WordRootDao wordRootDao){mWordRootDao = wordRootDao;}
@@ -118,5 +172,17 @@ public class WordRepository {
             mWordRootDao.updateRoot(wordRoots);
             return null;
         }
+    }
+
+    class InnerWord {
+        // 单词本身
+        Word word;
+        // 优先级
+        // 0
+        // 1
+        // 2
+        // 3按照那几种分钟的长短，越短越好
+        int priority;
+
     }
 }
