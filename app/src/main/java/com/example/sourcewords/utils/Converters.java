@@ -21,8 +21,8 @@ public class Converters {
     }
 
     @TypeConverter
-    public static List<WordRoot> WordRootJsonToList(String json){
-        return gs.fromJson(json, new TypeToken<List<Word>>(){
+    public static List<WordRoot> WordRootJsonToList(String json) {
+        return gs.fromJson(json, new TypeToken<List<Word>>() {
 
         }.getType());
     }
@@ -37,4 +37,11 @@ public class Converters {
 
         return gs.toJson(wordsInfo);
     }
+
+    @TypeConverter
+    public static WordInfoBean jsonToWordInfo(String json) {
+        return gs.fromJson(json, new TypeToken<WordInfoBean>() {
+        }.getType());
+    }
+
 }

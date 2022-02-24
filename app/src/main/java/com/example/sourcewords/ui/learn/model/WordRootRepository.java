@@ -4,18 +4,14 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
 import com.example.sourcewords.ui.learn.model.Internet.DealWordRoot;
 import com.example.sourcewords.ui.learn.model.Internet.Demo;
 import com.example.sourcewords.ui.learn.model.Internet.Learned;
 import com.example.sourcewords.ui.learn.model.Internet.Test;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
-import com.example.sourcewords.ui.review.dataBean.WordRootDao;
-import com.example.sourcewords.ui.review.db.WordDatabase;
+import com.example.sourcewords.ui.review.db.WordRootDao;
+import com.example.sourcewords.ui.review.db.WordRootDatabase;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observer;
@@ -36,7 +32,7 @@ public class WordRootRepository {
     private List<WordRoot> wordList;
 
     public WordRootRepository(Context mContext){
-        final WordDatabase wordDatabase = WordDatabase.getDatabase();
+        final WordRootDatabase wordDatabase = WordRootDatabase.getDatabase();
         wordRootDao = wordDatabase.getWordDao();
         dealWordRoot = getRetrofit();
     }

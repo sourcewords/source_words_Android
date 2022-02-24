@@ -6,6 +6,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.learn.view.LearnSearchActivity;
@@ -41,7 +45,6 @@ public class DetailActivity extends AppCompatActivity {
     private ReviewViewModel mViewModel;
     private Word mWord;
     private WordInfoBean mWordInfo;
-    private WordRoot mWordRoot;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,10 +90,11 @@ public class DetailActivity extends AppCompatActivity {
         code = getIntent().getIntExtra("code",0);
 
         mViewModel = new ReviewViewModel(getApplication());
-        int wordId = getIntent().getIntExtra("indexWord", 0);
+        int wordId = getIntent().getIntExtra("wordId", 0);
         int rootId = getIntent().getIntExtra("indexWordRoot",0);
-        mWordRoot = mViewModel.getWordRootTest(1);
-        mWord = mWordRoot.getWordlist().get(wordId);
+//        mWordRoot = mViewModel.getWordRootTest(1);
+        Log.d("id","" + wordId);
+        mWord = mViewModel.search(wordId);
         mWordInfo = mWord.getWord_info();
 
         playerButton = findViewById(R.id.horn_button);
@@ -177,7 +181,7 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mWord.getWord_info().setNextTime(DateUtils.addTime(againTime.getValue(),againTime.getUnit()));
-                mViewModel.Update(mWordRoot);
+//                mViewModel.Update(mWordRoot);
                 Intent intent = new Intent();
                 intent.putExtra("result", 0);
                 DetailActivity.this.setResult(RESULT_OK, intent);
@@ -189,7 +193,7 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mWord.getWord_info().setNextTime(DateUtils.addTime(againTime.getValue(),againTime.getUnit()));
-                mViewModel.Update(mWordRoot);
+//                mViewModel.Update(mWordRoot);
                 Intent intent = new Intent();
                 intent.putExtra("result", 1);
                 DetailActivity.this.setResult(RESULT_OK, intent);
@@ -201,7 +205,7 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mWord.getWord_info().setNextTime(DateUtils.addTime(againTime.getValue(),againTime.getUnit()));
-                mViewModel.Update(mWordRoot);
+//                mViewModel.Update(mWordRoot);
                 Intent intent = new Intent();
                 intent.putExtra("result", 2);
                 DetailActivity.this.setResult(RESULT_OK, intent);
@@ -213,7 +217,7 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mWord.getWord_info().setNextTime(DateUtils.addTime(againTime.getValue(),againTime.getUnit()));
-                mViewModel.Update(mWordRoot);
+//                mViewModel.Update(mWordRoot);
                 Intent intent = new Intent();
                 intent.putExtra("result", 4);
                 DetailActivity.this.setResult(RESULT_OK, intent);

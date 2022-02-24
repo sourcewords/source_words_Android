@@ -2,17 +2,16 @@ package com.example.sourcewords.ui.review.model;
 
 
 import android.os.AsyncTask;
-import android.os.Build;
 
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordInfoBean;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
-import com.example.sourcewords.ui.review.dataBean.WordRootDao;
+import com.example.sourcewords.ui.review.db.WordDao;
 import com.example.sourcewords.ui.review.db.WordDatabase;
+import com.example.sourcewords.ui.review.db.WordRootDao;
+import com.example.sourcewords.ui.review.db.WordRootDatabase;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -20,14 +19,18 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 
-@RequiresApi(api = Build.VERSION_CODES.N)
 public class WordRepository {
     private WordRootDao dao;
-    private LiveData<WordRoot> wordRootList ;
+    private LiveData<WordRoot> wordRootList;
+
+    private WordDao wordDao;
+    private LiveData<List<Word>> allWords;
 
     public WordRepository() {
-        WordDatabase db = WordDatabase.getDatabase();
+        WordRootDatabase db = WordRootDatabase.getDatabase();
+        WordDatabase wordDatabase = WordDatabase.getDatabase();
         dao = db.getWordDao();
+        wordDao = wordDatabase.getWordDao();
     }
 
     public void Insert(WordRoot...wordRoots){
@@ -49,6 +52,15 @@ public class WordRepository {
     public LiveData<List<WordRoot>> getAllWordRoot(){return  dao.getAllWordRoot();}
 
     public WordRoot getWordRootByID(int id){return dao.getWordRootById(id);}
+
+    public void insert(Word...words) {
+        new InsertWords(wordDao).execute(words);
+    }
+
+    public Word search(int id) {
+        new Search(wordDao).execute(id);
+        return wordDao.getWord(id);
+    }
 
     public WordRoot getWordRootTest(int id) {
         List<Word> list = new ArrayList<>();
@@ -75,7 +87,7 @@ public class WordRepository {
                 "https://dict.youdao.com/dictvoice?type=0\u0026audio=impure",
                 "adj. 掺杂的； 掺假的；脏的；不纯洁的",
                 "[ɪmˈpjʊə]",
-                84, 41,"","impure",listB,listE1
+                83, 41,"","impure",listB,listE1
                 );
         Word word1 = new Word(wordInfo1,84);
         list.add(word1);
@@ -87,9 +99,9 @@ public class WordRepository {
                 "https://dict.youdao.com/dictvoice?type=0\u0026audio=paternal",
                 "adj. 父亲的；父亲（般）的；父系的；父方的",
                 "[pəˈtɜ:nl]",
-                85, 41,"","paternal",listB,listE2
+                84, 41,"","paternal",listB,listE2
         );
-        Word word2 = new Word(wordInfo2,84);
+        Word word2 = new Word(wordInfo2,82);
         list.add(word2);
 
         return new WordRoot(1,"w","w",1,"w","w",list);
@@ -119,15 +131,16 @@ public class WordRepository {
 //    }
 
     //TODO:拿到学完当日词根而要学的新的单词
-//    public List<Word> getNewWords(WordRoot wordRoot) {
-//
-//    }
+    public List<Word> getNewWords() {
+        return getWordRootTest2(1).getWordlist();
+    }
 
     // TODO:通过日期拿到其他今天要复习的单词
     // 这里一开始所有的单词进入队列都是一样的
-//    public List<Word> getLearnedWords(String time) {
-//
-//    }
+    public List<Word> getLearnedWords(String time) {
+
+        return getWordRootTest2(1).getWordlist();
+    }
 
     // TODO:刷新单词的状态
     // 通过detail种不同的选择，我们对于不同的单词做不同的处理，我们按照一轮一轮的复习策略
@@ -137,12 +150,34 @@ public class WordRepository {
 //
 //    }
 
-    //TODO:将优先队列化为list
-//    我会在viewmodel里做判空处理，如果为空，我会把修改试图，且今日的所有单词复习完毕
-//    public List<Word> getCurrentWords() {
-//        // 这里直接出队列就可以
-//    }
+    // TODO:将优先队列化为list
+    // 我会在viewmodel里做判空处理，如果为空，我会把修改试图，且今日的所有单词复习完毕
+    public List<Word> getCurrentWords() {
+        // 这里直接出队列就可以
+        return new ArrayList<>();
+    }
 
+    static class InsertWords extends AsyncTask<Word,Void,Void> {
+        WordDao dao;
+        InsertWords(WordDao wordDao){dao = wordDao;}
+
+        @Override
+        protected Void doInBackground(Word... words) {
+            dao.insertWord(words);
+            return null;
+        }
+    }
+
+    static class Search extends AsyncTask<Integer, Void, Word> {
+        WordDao dao;
+        Search(WordDao wordDao){dao = wordDao;}
+
+        @Override
+        protected Word doInBackground(Integer... integers) {
+            int id = integers[0];
+            return dao.getWord(id);
+        }
+    }
 
     static class Insert extends AsyncTask<WordRoot,Void,Void>{
         WordRootDao mWordRootDao;
@@ -181,7 +216,7 @@ public class WordRepository {
         // 0
         // 1
         // 2
-        // 3按照那几种分钟的长短，越短越好
+        // 3按照那几种分钟的长短，越短越优先级越高
         int priority;
 
     }

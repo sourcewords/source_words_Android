@@ -1,4 +1,4 @@
-package com.example.sourcewords.ui.review.dataBean;
+package com.example.sourcewords.ui.review.db;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -7,6 +7,8 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
+
+import com.example.sourcewords.ui.review.dataBean.WordRoot;
 
 import java.util.List;
 

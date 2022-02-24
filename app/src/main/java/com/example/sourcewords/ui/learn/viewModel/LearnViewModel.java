@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.sourcewords.App;
 import com.example.sourcewords.ui.learn.model.WordRootRepository;
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
@@ -35,7 +36,7 @@ public class LearnViewModel extends AndroidViewModel {
     public LearnViewModel(@NonNull Application application) {
         super(application);
         this.mContext = application;
-        repository = new WordRootRepository(mContext);
+        repository = new WordRootRepository(App.getAppContext());
 
     }
 
