@@ -4,18 +4,27 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.model.WordRepository;
-
 import java.util.List;
 
 public class ReviewViewModel extends AndroidViewModel {
     private WordRepository mWordRepository;
+
     public ReviewViewModel(@NonNull Application application) {
         super(application);
         mWordRepository = new WordRepository();
+    }
+
+    public void insert(Word...words) {
+        mWordRepository.insert(words);
+    }
+
+    public Word search(int id) {
+        return mWordRepository.search(id);
     }
 
     public void Insert(WordRoot...wordRoots){

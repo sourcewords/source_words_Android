@@ -12,8 +12,10 @@ import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.sourcewords.App;
 import com.example.sourcewords.ui.learn.model.WordRootRepository;
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
@@ -35,7 +37,7 @@ public class LearnViewModel extends AndroidViewModel {
     public LearnViewModel(@NonNull Application application) {
         super(application);
         this.mContext = application;
-        repository = new WordRootRepository(mContext);
+        repository = new WordRootRepository(App.getAppContext());
 
     }
 
@@ -87,7 +89,7 @@ public class LearnViewModel extends AndroidViewModel {
             @Override
             public void run() {
                 try {
-                    wordRoot = repository.getWordRootById(id);
+//                    wordRoot = repository.getWordRootById(id);
                     handler.sendEmptyMessage(0x6666);
 
                 } catch (Exception e) {
