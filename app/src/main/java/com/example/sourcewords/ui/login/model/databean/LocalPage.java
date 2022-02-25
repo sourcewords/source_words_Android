@@ -1,4 +1,4 @@
-package com.example.sourcewords.ui.login.model;
+package com.example.sourcewords.ui.login.model.databean;
 
 import android.util.Patterns;
 

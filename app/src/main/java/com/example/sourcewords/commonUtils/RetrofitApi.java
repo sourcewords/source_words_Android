@@ -3,8 +3,10 @@ package com.example.sourcewords.commonUtils;
 import androidx.lifecycle.MutableLiveData;
 
 
-import com.example.sourcewords.ui.login.model.LoginResponse;
-import com.example.sourcewords.ui.login.model.LoginUser;
+import com.example.sourcewords.ui.login.model.databean.LoginResponse;
+import com.example.sourcewords.ui.login.model.databean.LoginUser;
+import com.example.sourcewords.ui.login.model.databean.RegisterEmail;
+import com.example.sourcewords.ui.login.model.databean.RegisterResponse;
 import com.example.sourcewords.ui.mine.model.databean.UserInfo;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.dataBean.WordRootStatus;
@@ -17,6 +19,10 @@ import retrofit2.http.POST;
 import retrofit2.http.PUT;
 
 public interface RetrofitApi {
+    //register
+    @POST("user/email")
+    Call<RegisterResponse> register (@Body RegisterEmail email);
+
     //login
     @POST("user/login")
     Call<LoginResponse> login (@Body LoginUser user);

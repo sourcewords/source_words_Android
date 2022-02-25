@@ -2,11 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.SourceWords" parent="Theme.Design.Light.NoActionBar">
         <!-- Primary brand color. -->
-<<<<<<< HEAD
         <item name="colorPrimary">#8DD0CE</item>
-=======
-        <item name="colorPrimary">@color/purple_500</item>
->>>>>>> master
         <item name="colorPrimaryVariant">@color/transparent</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->

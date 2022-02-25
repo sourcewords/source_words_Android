@@ -1,16 +1,10 @@
 package com.example.sourcewords.ui.mine.viewmodel;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.os.Build;
 import android.view.View;
-import android.widget.DatePicker;
 
-import androidx.annotation.RequiresApi;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-
-import com.example.sourcewords.ui.login.model.LocalPage;
 
 public class AddPlanViewModel extends ViewModel {
     public MutableLiveData<DatePickerDialog> datePickerDialog = new MutableLiveData<>();

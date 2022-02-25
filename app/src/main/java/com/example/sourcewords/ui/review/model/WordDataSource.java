@@ -1,7 +1,6 @@
 package com.example.sourcewords.ui.review.model;
 
 import com.example.sourcewords.commonUtils.NetUtil;
-import com.example.sourcewords.ui.mine.model.databean.UserInfoRemoteDataSource;
 import com.example.sourcewords.ui.mine.model.databean.UserWrapper;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 
