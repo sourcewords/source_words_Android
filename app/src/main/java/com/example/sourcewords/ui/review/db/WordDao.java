@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Dao
 public interface WordDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertWord(Word... words);
 
     @Delete
@@ -22,10 +23,10 @@ public interface WordDao {
     @Update
     void updateRoot(Word... words);
 
-    @Query("SELECT * FROM WORD")
-    LiveData<List<Word>> getAllWordRoot();
+    @Query("SELECT * FROM word_table")
+    LiveData<List<Word>> getAllWord();
 
-    @Query("SELECT * FROM WORD WHERE ID like :id")
+    @Query("SELECT * FROM word_table WHERE ID like :id")
     Word getWord(int id);
 
 

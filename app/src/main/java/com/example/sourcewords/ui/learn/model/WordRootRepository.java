@@ -49,7 +49,7 @@ public class WordRootRepository {
 
     //获取单词词根
     public WordRoot getWordRootById(int id){
-        return wordRootDao.getWordRootById(id);
+        return wordRootDao.getWordRootByID(id);
     }
 
     public static DealWordRoot getRetrofit() {

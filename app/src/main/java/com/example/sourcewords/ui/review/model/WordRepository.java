@@ -1,18 +1,28 @@
 package com.example.sourcewords.ui.review.model;
 
 
+import android.content.AsyncQueryHandler;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.sourcewords.ui.review.dataBean.SingleWord;
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordInfoBean;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
+import com.example.sourcewords.ui.review.db.SingleWordDao;
+import com.example.sourcewords.ui.review.db.SingleWordDatabase;
 import com.example.sourcewords.ui.review.db.WordDao;
 import com.example.sourcewords.ui.review.db.WordDatabase;
 import com.example.sourcewords.ui.review.db.WordRootDao;
 import com.example.sourcewords.ui.review.db.WordRootDatabase;
 
+import org.bouncycastle.asn1.ASN1Boolean;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -26,11 +36,24 @@ public class WordRepository {
     private WordDao wordDao;
     private LiveData<List<Word>> allWords;
 
+    private SingleWordDao singleWordDao;
+    private LiveData<List<SingleWord>> allSingleWord;
+
     public WordRepository() {
         WordRootDatabase db = WordRootDatabase.getDatabase();
         WordDatabase wordDatabase = WordDatabase.getDatabase();
+        SingleWordDatabase singleWordDatabase = SingleWordDatabase.getDatabase();
+
         dao = db.getWordDao();
         wordDao = wordDatabase.getWordDao();
+        singleWordDao = singleWordDatabase.getWordDao();
+
+        allWords = wordDao.getAllWord();
+        allSingleWord = singleWordDao.getAllWord();
+    }
+
+    public LiveData<List<SingleWord>> getAllSingleWord() {
+        return allSingleWord;
     }
 
     public void Insert(WordRoot...wordRoots){
@@ -45,20 +68,25 @@ public class WordRepository {
         new Update(dao).execute(wordRoots);
     }
 
-    public LiveData<WordRoot> getWordRoot(int id) {
-        return dao.getWordRoot(id);
+
+    public LiveData<List<WordRoot>> getAllWordRoot(){return dao.getAllWordRoot();}
+
+    public LiveData<List<Word>> getAllWords(){
+        return wordDao.getAllWord();
     }
 
-    public LiveData<List<WordRoot>> getAllWordRoot(){return  dao.getAllWordRoot();}
-
-    public WordRoot getWordRootByID(int id){return dao.getWordRootById(id);}
+    public WordRoot getWordRootByID(int id){
+//        new GetWordRootByID(dao).execute(id);
+        Log.d("root",""+ id);
+        return dao.getWordRootByID(id);
+    }
 
     public void insert(Word...words) {
         new InsertWords(wordDao).execute(words);
     }
 
     public Word search(int id) {
-        new Search(wordDao).execute(id);
+//        new Search(wordDao).execute(id);
         return wordDao.getWord(id);
     }
 
@@ -70,7 +98,7 @@ public class WordRepository {
             //Word temp = new Word(wordInfo, i, "Chinese" + i, "sncjs" + i, "lalalal","aa");
             //list.add(temp);
         }
-        return new WordRoot(2,"chi","xxx",99 ,"aa","bb",list);
+        return new WordRoot("kn","chi",1,"xxx","aa",list);
     }
 
     public WordRoot getWordRootTest2(int id) {
@@ -104,7 +132,7 @@ public class WordRepository {
         Word word2 = new Word(wordInfo2,82);
         list.add(word2);
 
-        return new WordRoot(1,"w","w",1,"w","w",list);
+        return new WordRoot("w","w",1,"w","w",list);
     }
 
     PriorityQueue<InnerWord> priorityQueue = new PriorityQueue<InnerWord>(new Comparator<InnerWord>() {
@@ -131,8 +159,12 @@ public class WordRepository {
 //    }
 
     //TODO:拿到学完当日词根而要学的新的单词
-    public List<Word> getNewWords() {
-        return getWordRootTest2(1).getWordlist();
+    public List<Word> getNewWords(int woodRootId) {
+        if(woodRootId == 0) return new ArrayList<>();
+        WordRoot wordRoot = getWordRootByID(woodRootId);
+        Log.d("rootid", "" + woodRootId);
+        return wordRoot.getWordlist();
+//        return new ArrayList<>();
     }
 
     // TODO:通过日期拿到其他今天要复习的单词
@@ -163,7 +195,7 @@ public class WordRepository {
 
         @Override
         protected Void doInBackground(Word... words) {
-            dao.insertWord(words);
+            dao.insertWord(words[0]);
             return null;
         }
     }
@@ -209,6 +241,30 @@ public class WordRepository {
         }
     }
 
+    static class GetWordRootByID extends AsyncTask<Integer, Void, WordRoot>{
+        WordRootDao mWordRootDao;
+        GetWordRootByID(WordRootDao wordRootDao) {
+            this.mWordRootDao = wordRootDao;
+        }
+
+        @Override
+        protected WordRoot doInBackground(Integer... integers) {
+            int id = integers[0];
+            return mWordRootDao.getWordRootByID(id);
+        }
+    }
+
+    static class GetAllWord extends AsyncTask<Void, Void, LiveData<List<Word>>>{
+        WordDao wordDao;
+        GetAllWord(WordDao wordDao) {
+            this.wordDao = wordDao;
+        }
+        @Override
+        protected LiveData<List<Word>> doInBackground(Void... voids) {
+            return wordDao.getAllWord();
+        }
+    }
+
     class InnerWord {
         // 单词本身
         Word word;
@@ -218,6 +274,11 @@ public class WordRepository {
         // 2
         // 3按照那几种分钟的长短，越短越优先级越高
         int priority;
+
+        public InnerWord(Word word, int priority) {
+            this.word = word;
+            this.priority = priority;
+        }
 
     }
 }

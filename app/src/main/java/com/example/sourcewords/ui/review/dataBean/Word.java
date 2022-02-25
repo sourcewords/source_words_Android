@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey;
 
 import java.util.List;
 
-@Entity
+@Entity(tableName = "word_table")
 public class Word {
 
     @ColumnInfo(name = "单词信息")

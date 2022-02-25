@@ -1,16 +1,25 @@
 package com.example.sourcewords.ui.review.viewmodel;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
+import com.example.sourcewords.App;
+import com.example.sourcewords.ui.review.dataBean.SingleWord;
 import com.example.sourcewords.ui.review.dataBean.Word;
+import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.model.WordRepository;
 import com.example.sourcewords.utils.DateUtils;
+import com.example.sourcewords.utils.PreferencesUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -30,6 +39,8 @@ public class ReviewCardViewModel extends AndroidViewModel {
     private Queue<Word> haveLearnedWordsQueue;
     private Queue<Word> reviewWordsQueue;
 
+    private MutableLiveData<Integer> learnFlag = new MutableLiveData<>(0);
+
 
     public ReviewCardViewModel(@NonNull Application application) {
         super(application);
@@ -37,8 +48,15 @@ public class ReviewCardViewModel extends AndroidViewModel {
         initData();
     }
 
-    private void initData() {
-        newLearnedWords = mWordRepository.getNewWords();
+    public MutableLiveData<Integer> getLearnFlag() {
+        return learnFlag;
+    }
+
+    public void initData() {
+        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
+        int rootId=sharedPreferences.getInt(PreferencesUtils.WOOD_ROOT_TODAY, 0);
+        Log.d("preferences","" + rootId);
+        newLearnedWords = mWordRepository.getNewWords(rootId);
         haveLearnedWords = mWordRepository.getCurrentWords();
         reviewWords = mWordRepository.getLearnedWords(DateUtils.getTime());
 
@@ -161,7 +179,11 @@ public class ReviewCardViewModel extends AndroidViewModel {
         }
     }
 
-    public void insert(Word word) {
-        mWordRepository.insert(word);
+    public void insert(Word... words) {
+        mWordRepository.insert(words);
     }
+
+    public LiveData<List<Word>> getAllWord() { return mWordRepository.getAllWords(); }
+    public LiveData<List<WordRoot>> getAllWordRoot() { return mWordRepository.getAllWordRoot(); }
+    public LiveData<List<SingleWord>> getAllSingleWord() { return mWordRepository.getAllSingleWord(); }
 }

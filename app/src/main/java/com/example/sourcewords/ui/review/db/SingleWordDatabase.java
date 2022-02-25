@@ -10,37 +10,41 @@ import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.sourcewords.App;
+import com.example.sourcewords.ui.review.dataBean.SingleWord;
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
+import com.example.sourcewords.ui.review.db.WordDao;
+import com.example.sourcewords.ui.review.db.WordRootDatabase;
 import com.example.sourcewords.ui.review.model.WordDataSource;
 import com.example.sourcewords.utils.Converters;
 
 import java.io.IOException;
 import java.util.List;
 
-@Database(entities = {Word.class}, version = 3, exportSchema = false)
+@Database(entities = {SingleWord.class}, version = 3, exportSchema = false)
 @TypeConverters({Converters.class})
-public abstract class WordDatabase extends RoomDatabase {
+public abstract class SingleWordDatabase extends RoomDatabase {
 
-    public abstract WordDao getWordDao();
+
+    public abstract SingleWordDao getWordDao();
 
     private static final RoomDatabase.Callback roomDataBaseCallBack = new Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onOpen(db);
             try {
-                new WordDatabase.InitWbAsync(INSTANCE).execute();
+                new InitWbAsync(INSTANCE).execute();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     };
-    private static WordDatabase INSTANCE = getDatabase();
+    private static SingleWordDatabase INSTANCE = getDatabase();
 
-    public static WordDatabase getDatabase() {
+    public static SingleWordDatabase getDatabase() {
         if (INSTANCE == null) {
             synchronized (WordRootDatabase.class) {
-                INSTANCE = Room.databaseBuilder(App.getAppContext(), WordDatabase.class, "WordDatabase")
+                INSTANCE = Room.databaseBuilder(App.getAppContext(), SingleWordDatabase.class, "SingleWordDatabase")
                         .fallbackToDestructiveMigration()
                         .allowMainThreadQueries()
                         .addCallback(roomDataBaseCallBack)
@@ -52,22 +56,17 @@ public abstract class WordDatabase extends RoomDatabase {
     }
 
     static class InitWbAsync extends AsyncTask<Void, Void, Void> {
-        private final WordDao mDao;
-        private List<WordRoot> roots = WordDataSource.getRoots();
+        private final SingleWordDao mDao;
+        private List<SingleWord> words = WordDataSource.getSingleWords();
 
-        public InitWbAsync(WordDatabase instance) throws IOException {
+        public InitWbAsync(SingleWordDatabase instance) throws IOException {
             mDao = instance.getWordDao();
         }
 
         @Override
         protected Void doInBackground(Void... params) {
-            for (WordRoot root : roots) {
-                List<Word> list = root.getWordlist();
-                for (Word word : list) {
-                    mDao.insertWord(word);
-                }
-            }
-
+            for(SingleWord singleWord : words)
+                mDao.insertSingleWord(singleWord);
             return null;
         }
     }

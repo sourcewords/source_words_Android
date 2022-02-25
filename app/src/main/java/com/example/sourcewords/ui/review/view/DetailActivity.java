@@ -91,10 +91,9 @@ public class DetailActivity extends AppCompatActivity {
 
         mViewModel = new ReviewViewModel(getApplication());
         int wordId = getIntent().getIntExtra("wordId", 0);
-        int rootId = getIntent().getIntExtra("indexWordRoot",0);
-//        mWordRoot = mViewModel.getWordRootTest(1);
-        Log.d("id","" + wordId);
+
         mWord = mViewModel.search(wordId);
+        Log.d("wordid","" + mWord.getId());
         mWordInfo = mWord.getWord_info();
 
         playerButton = findViewById(R.id.horn_button);
@@ -219,7 +218,7 @@ public class DetailActivity extends AppCompatActivity {
                 mWord.getWord_info().setNextTime(DateUtils.addTime(againTime.getValue(),againTime.getUnit()));
 //                mViewModel.Update(mWordRoot);
                 Intent intent = new Intent();
-                intent.putExtra("result", 4);
+                intent.putExtra("result", 3);
                 DetailActivity.this.setResult(RESULT_OK, intent);
                 DetailActivity.this.finish();
             }
