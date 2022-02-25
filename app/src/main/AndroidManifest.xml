@@ -25,6 +25,7 @@
         <activity android:name=".ui.mine.view.ChangePwdActivity"></activity>
         <activity android:name=".ui.mine.view.UserInfoActivity"></activity>
         <activity android:name=".ui.login.view.RegisterActivity"></activity>
-    </application>
+        <activity android:name=".ui.mine.view.AddPlanActivity"></activity>
+    </application> 
 
 </manifest>

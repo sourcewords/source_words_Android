@@ -5,8 +5,12 @@
       <map>
         <entry key="..\:/source_words_Android/app/src/main/res/layout/activity_addplan.xml" value="0.18342391304347827" />
         <entry key="..\:/source_words_Android/app/src/main/res/layout/activity_login_account.xml" value="0.18342391304347827" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/activity_main.xml" value="0.25364583333333335" />
         <entry key="..\:/source_words_Android/app/src/main/res/layout/activity_myplan.xml" value="0.4" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/activity_signin.xml" value="0.176" />
         <entry key="..\:/source_words_Android/app/src/main/res/layout/activity_userinfo.xml" value="0.4" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/fragment_mine.xml" value="0.18342391304347827" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/fragment_review.xml" value="0.27395833333333336" />
         <entry key="app/src/main/res/drawable/background_mine.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/ic_baseline_chevron_left_24.xml" value="0.23703703703703705" />
         <entry key="app/src/main/res/drawable/ic_baseline_keyboard_arrow_right_24.xml" value="0.23703703703703705" />
