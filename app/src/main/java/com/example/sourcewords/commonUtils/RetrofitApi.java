@@ -6,6 +6,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.sourcewords.ui.login.model.LoginResponse;
 import com.example.sourcewords.ui.login.model.LoginUser;
 import com.example.sourcewords.ui.mine.model.databean.UserInfo;
+import com.example.sourcewords.ui.review.dataBean.WordRoot;
+import com.example.sourcewords.ui.review.dataBean.WordRootStatus;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -23,6 +25,13 @@ public interface RetrofitApi {
     @GET("user/info")
     Call<MutableLiveData<UserInfo>> getUserInfo(@Header("token") String token);
 
+    //wordRoots
+    @GET("/roots/list")
+    Call<WordRoot> getWordRoot();
+
+    @PUT("/roots/status")
+    Call updateWordRootStatus(@Header("token") String token,
+                              @Body WordRootStatus wordRootStatus);
 //    @PUT("user/info")
 //    Call<Message> putUserInfo(@Body UserInfo userInfo);
 
