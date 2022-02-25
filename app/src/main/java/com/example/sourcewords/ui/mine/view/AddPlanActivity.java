@@ -1,22 +1,20 @@
 package com.example.sourcewords.ui.mine.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.example.sourcewords.R;
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.example.sourcewords.ui.mine.viewmodel.UserInfoViewModel;
 
 public class AddPlanActivity extends AppCompatActivity {
-
-    MaterialCalendarView calendarView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_myplan);
-        calendarView = findViewById(R.id.calendar);
-        //calendarView.setTileSize((int) (calendarView.getTileWidth() * 0.5));
+        setContentView(R.layout.activity_addplan);
     }
 }

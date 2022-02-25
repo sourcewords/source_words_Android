@@ -1,15 +1,16 @@
 package com.example.sourcewords.ui.login.model;
 
+import android.util.Patterns;
+
 public class LocalPage {
 
     private String name;
     private String password;
     private boolean checked;
 
-    public LocalPage(String name, String password, boolean checked) {
+    public LocalPage(String name, String password) {
         this.name = name;
         this.password = password;
-        this.checked = checked;
     }
 
     public String getName() {
@@ -36,9 +37,9 @@ public class LocalPage {
         this.checked = checked;
     }
 
-//    public boolean isAccountValid() {
-//        return Patterns.PHONE.matcher(getName()).matches();
-//    }
+    public boolean isAccountValid() {
+        return Patterns.EMAIL_ADDRESS.matcher(getName()).matches();
+    }
 
     public boolean isPasswordLengthGreaterThan3() {
         return getPassword().length() > 3;

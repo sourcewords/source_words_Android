@@ -1,4 +1,6 @@
-package com.example.sourcewords.ui.mine.model.databean;
+package com.example.sourcewords.ui.mine.model;
+
+import com.example.sourcewords.ui.mine.model.databean.UserWrapper;
 
 public class PasswordDataSource {
 

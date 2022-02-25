@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
                     binding.etAccount.setError("Enter a Correct Address");
                     binding.etAccount.requestFocus();
                 }
-//                else if (!loginUser.isAccountValid()) {
+//                else if (!localPage.isAccountValid()) {
 //                    binding.etAccount.setError("Enter a Valid E-mail Address");
 //                    binding.etAccount.requestFocus();
 //                }
@@ -66,10 +66,10 @@ public class LoginActivity extends AppCompatActivity {
 //                    binding.etPassword.setError("Enter at least 6 Digit password");
 //                    binding.etPassword.requestFocus();
 //                }
-                else if(!localPage.isChecked()){
-                    binding.checkbox.setError("Please check");
-                    binding.checkbox.requestFocus();
-                }
+//                else if(!localPage.isChecked()){
+//                    binding.checkbox.setError("Please check");
+//                    binding.checkbox.requestFocus();
+//                }
                 else {
                     rq(new LoginUser(localPage.getName(),localPage.getPassword()));
                 }

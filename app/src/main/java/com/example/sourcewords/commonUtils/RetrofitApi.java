@@ -1,6 +1,7 @@
 package com.example.sourcewords.commonUtils;
 
-import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 
 import com.example.sourcewords.ui.login.model.LoginResponse;
 import com.example.sourcewords.ui.login.model.LoginUser;
@@ -20,8 +21,12 @@ public interface RetrofitApi {
 
     //userInfo
     @GET("user/info")
-    Call<UserInfo> getUserInfo(@Header("token") String token);
+    Call<MutableLiveData<UserInfo>> getUserInfo(@Header("token") String token);
 
 //    @PUT("user/info")
 //    Call<Message> putUserInfo(@Body UserInfo userInfo);
+
+//    //chang-pwd
+//    @PUT("user/reset")
+//    Call<LoginResponse> changPwd(@Body )
 }
