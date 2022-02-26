@@ -17,7 +17,6 @@ public class RegisterViewModel extends ViewModel {
     public MutableLiveData<String> VerificationCode = new MutableLiveData<>();
     public MutableLiveData<String> Pwd = new MutableLiveData<>();
     private MutableLiveData<RegisterPage> registerMutableLiveData;
-    private RegisterRemoteRespository registerRemoteRespository;
 
     public MutableLiveData<String> getEmail() {
         return Email;
@@ -35,20 +34,21 @@ public class RegisterViewModel extends ViewModel {
         if (registerMutableLiveData == null){
             registerMutableLiveData = new MutableLiveData<>();
         }
-
         return registerMutableLiveData;
     }
 
     public void sendCode(View view){
-        if(registerRemoteRespository == null)
-            registerRemoteRespository = new RegisterRemoteRespository();
-        registerRemoteRespository.isRegister(new RegisterEmail(Email.getValue()));
+        RegisterRemoteRespository.STATUS = false;
+        RegisterPage registerPage = new RegisterPage(Email.getValue());
+        registerMutableLiveData.setValue(registerPage);
+        RegisterRemoteRespository.getINSTANCE().isRegister(new RegisterEmail(Email.getValue()));
     }
 
     public void register(View view){
+        RegisterRemoteRespository.STATUS = true;
         RegisterPage registerPage = new RegisterPage(Email.getValue(), VerificationCode.getValue(),Pwd.getValue());
         registerMutableLiveData.setValue(registerPage);
-        if(VerificationCode.getValue().equals(RegisterRemoteRespository.getCode()))
+        if(RegisterRemoteRespository.getINSTANCE().code.equals(VerificationCode.getValue()))
             Toast.makeText(App.getAppContext(), "恭喜您注册成功！", Toast.LENGTH_SHORT).show();
     }
 }

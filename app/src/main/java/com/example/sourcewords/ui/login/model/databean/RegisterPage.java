@@ -14,6 +14,10 @@ public class RegisterPage {
         this.pwd = pwd;
     }
 
+    public RegisterPage(String email){
+        this.email = email;
+    }
+
     public String getEmail() {
         return email;
     }

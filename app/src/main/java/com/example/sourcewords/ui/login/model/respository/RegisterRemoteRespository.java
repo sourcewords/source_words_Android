@@ -12,10 +12,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RegisterRemoteRespository {
-    private static String code;
+    public static String code = " ";
+    private static RegisterRemoteRespository INSTANCE;
+    public static Boolean STATUS = false;
 
-    public static String getCode() {
-        return code;
+    public static RegisterRemoteRespository getINSTANCE(){
+        if (INSTANCE == null){
+            INSTANCE = new RegisterRemoteRespository();
+        }
+        return INSTANCE;
     }
 
     public void isRegister(RegisterEmail email){

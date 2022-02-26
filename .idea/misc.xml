@@ -19,11 +19,11 @@
         <entry key="app/src/main/res/layout/activity_addplan.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_changepwd.xml" value="0.1956832317970166" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/activity_login_account.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_login_account.xml" value="0.375" />
         <entry key="app/src/main/res/layout/activity_login_message.xml" value="0.11828774062816616" />
         <entry key="app/src/main/res/layout/activity_login_messge.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_login_regiser.xml" value="0.15172101449275363" />
-        <entry key="app/src/main/res/layout/activity_login_register.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_login_register.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_myplan.xml" value="0.1503623188405797" />
         <entry key="app/src/main/res/layout/activity_review_words_detail.xml" value="0.1503623188405797" />

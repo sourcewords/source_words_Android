@@ -35,8 +35,10 @@
 
         <LinearLayout
             android:id="@+id/linearLayout4"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
             android:background="@drawable/mine_shape_stroke"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -67,8 +69,8 @@
                     android:layout_weight="4"
                     android:background="@drawable/login_input_frame"
                     android:hint="请输入正确的邮箱"
-                    android:text="@={RegisterViewModel.Email}"
-                    android:paddingStart="10dp" />
+                    android:paddingStart="10dp"
+                    android:text="@={RegisterViewModel.Email}" />
 
             </LinearLayout>
 
@@ -84,29 +86,29 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="验证码"
-                    android:textSize="16sp"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
                 <EditText
                     android:id="@+id/etCode"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:layout_weight="2"
+                    android:layout_weight="3"
                     android:background="@drawable/login_input_frame"
                     android:hint="请输入验证码~"
                     android:paddingStart="10dp"
                     android:text="@={RegisterViewModel.VerificationCode}" />
 
                 <Button
+                    android:id="@+id/btnCaptcha"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
+                    android:layout_height="48dp"
                     android:layout_marginEnd="15dp"
+                    android:layout_weight="1"
+                    android:onClick="@{(v) -> RegisterViewModel.sendCode(v)}"
                     android:text="发送"
-                    android:textColor="#FFFFFF"
-                    app:backgroundTint="#9CDFDD"
-                    android:onClick="@{(v) -> RegisterViewModel.sendCode(v)}"/>
+                    android:textColor="#FFFFFF" />
 
             </LinearLayout>
 
@@ -134,8 +136,8 @@
                     android:background="@drawable/login_input_frame"
                     android:hint="请输入密码~"
                     android:inputType="textWebPassword"
-                    android:text="@={RegisterViewModel.Pwd}"
-                    android:paddingStart="10dp" />
+                    android:paddingStart="10dp"
+                    android:text="@={RegisterViewModel.Pwd}" />
 
             </LinearLayout>
 
@@ -148,11 +150,11 @@
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/mine_shape_stroke"
+                android:onClick="@{(v) -> RegisterViewModel.register(v)}"
                 android:text="注册"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
-                app:backgroundTint="#9CDFDD"
-                android:onClick="@{(v) -> RegisterViewModel.register(v)}"/>
+                app:backgroundTint="#9CDFDD" />
 
         </LinearLayout>
 
