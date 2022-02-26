@@ -42,7 +42,7 @@ public class ReviewFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        reviewCardViewModel = ViewModelProviders.of(this.getActivity()).get(ReviewCardViewModel.class);
+        reviewCardViewModel = ViewModelProviders.of(this.getParentFragment().getActivity()).get(ReviewCardViewModel.class);
         learnFlag = reviewCardViewModel.getLearnFlag();
     }
 

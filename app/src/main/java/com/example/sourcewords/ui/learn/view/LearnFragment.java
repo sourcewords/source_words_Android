@@ -58,6 +58,27 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         viewModel = ViewModelProviders.of(this).get(LearnViewModel.class);
         reviewCardViewModel = ViewModelProviders.of(this.getActivity()).get(ReviewCardViewModel.class);
         initView(v);
+        reviewCardViewModel.getAllWord().observe(this, new Observer<List<Word>>() {
+            @Override
+            public void onChanged(@Nullable final List<Word> words) {
+                // Update the cached copy of the words in the adapter.
+                Log.d("initDataab","" + words.size());
+            }
+        });
+        reviewCardViewModel.getAllWordRoot().observe(this, new Observer<List<WordRoot>>() {
+            @Override
+            public void onChanged(List<WordRoot> wordRoots) {
+                Log.d("initDataa","" + wordRoots.size());
+            }
+        });
+
+        reviewCardViewModel.getAllSingleWord().observe(this, new Observer<List<SingleWord>>() {
+            @Override
+            public void onChanged(List<SingleWord> singleWords) {
+                Log.d("initDatac","" + singleWords.size());
+            }
+        });
+
         return v;
     }
 
@@ -103,27 +124,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
                 editor.commit();
                 reviewCardViewModel.getLearnFlag().setValue(1);
 
-
-                reviewCardViewModel.getAllWord().observe(this, new Observer<List<Word>>() {
-                    @Override
-                    public void onChanged(@Nullable final List<Word> words) {
-                        // Update the cached copy of the words in the adapter.
-                        Log.d("initDataab","" + words.size());
-                    }
-                });
-                reviewCardViewModel.getAllWordRoot().observe(this, new Observer<List<WordRoot>>() {
-                    @Override
-                    public void onChanged(List<WordRoot> wordRoots) {
-                        Log.d("initDataa","" + wordRoots.size());
-                    }
-                });
-
-                reviewCardViewModel.getAllSingleWord().observe(this, new Observer<List<SingleWord>>() {
-                    @Override
-                    public void onChanged(List<SingleWord> singleWords) {
-                        Log.d("initDatac","" + singleWords.size());
-                    }
-                });
+                textView_learned.setClickable(false);
 
                 break;
             case R.id.learn_searcher:
