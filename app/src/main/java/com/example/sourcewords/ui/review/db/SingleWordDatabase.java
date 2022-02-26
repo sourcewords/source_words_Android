@@ -25,7 +25,6 @@ import java.util.List;
 @TypeConverters({Converters.class})
 public abstract class SingleWordDatabase extends RoomDatabase {
 
-
     public abstract SingleWordDao getWordDao();
 
     private static final RoomDatabase.Callback roomDataBaseCallBack = new Callback() {

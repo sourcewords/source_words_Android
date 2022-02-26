@@ -18,6 +18,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.learn.view.LearnSearchActivity;
@@ -30,10 +31,7 @@ import com.example.sourcewords.utils.DateUtils;
 import java.io.IOException;
 
 public class DetailActivity extends AppCompatActivity {
-    public static final int AGAIN = 1;
-    public static final int HARD = 2;
-    public static final int GOOD = 3;
-    public static final int EASY = 4;
+    private ImageView back, search;
     private int code;
     private Toolbar mToolbar;
     private MediaPlayer mMediaPlayer;
@@ -87,6 +85,9 @@ public class DetailActivity extends AppCompatActivity {
 
 
     public void init(){
+        back = findViewById(R.id.detail_back);
+        search = findViewById(R.id.search);
+
         code = getIntent().getIntExtra("code",0);
 
         mViewModel = new ReviewViewModel(getApplication());
@@ -158,24 +159,17 @@ public class DetailActivity extends AppCompatActivity {
         mMediaPlayer.prepareAsync();
     }
 
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case R.id.detail_back:
-                finish();
-                break;
-            case R.id.search:
-                Intent intent = new Intent(this, LearnSearchActivity.class);
-                startActivity(intent);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     public void listener(){
         int id = mWord.getId();
+
+        back.setOnClickListener(v -> {
+            finish();
+        });
+
+        search.setOnClickListener(v -> {
+            Intent intent = new Intent(DetailActivity.this, ReviewSearchActivity.class);
+            startActivity(intent);
+        });
 
         playerButton.setOnClickListener(new View.OnClickListener() {
             @Override
