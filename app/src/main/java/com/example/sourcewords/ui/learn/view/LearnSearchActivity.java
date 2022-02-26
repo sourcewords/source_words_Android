@@ -21,7 +21,6 @@ import java.util.List;
 
 //TODO 词根搜索栏
 public class LearnSearchActivity extends AppCompatActivity {
-    private SearchView searchView;
     private MutableLiveData<List<WordRoot>> wordRoots;
     private LearnViewModel viewModel;
 
@@ -34,7 +33,7 @@ public class LearnSearchActivity extends AppCompatActivity {
 
     @SuppressLint("NotifyDataSetChanged")
     private void init(){
-        searchView = findViewById(R.id.search_wordRoot);
+        SearchView searchView = findViewById(R.id.search_wordRoot);
         RecyclerView recyclerView = findViewById(R.id.search_recyclerView);
         final WordRootAdapter wordRootAdapter = new WordRootAdapter(this);
         viewModel = ViewModelProviders.of(this).get(LearnViewModel.class);

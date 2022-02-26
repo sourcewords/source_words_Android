@@ -8,7 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
@@ -21,7 +23,7 @@ import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WordRootPage extends AppCompatActivity {
+public class WordRootPage extends AppCompatActivity implements View.OnClickListener {
     private static final String GET_ID = "getWordRoot_id";
     private TextView textView;
     private RecyclerView recyclerView;
@@ -60,4 +62,13 @@ public class WordRootPage extends AppCompatActivity {
         videoView.requestFocus();
     }
 
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.page_back:
+                break;
+            case R.id.page_search:
+                break;
+        }
+    }
 }
