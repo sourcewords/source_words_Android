@@ -6,13 +6,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.sourcewords.R;
 import com.example.sourcewords.databinding.ActivityLoginRegisterBinding;
@@ -33,7 +31,8 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_register);
 
-        registerViewModel = ViewModelProviders.of(this).get(RegisterViewModel.class);
+//        registerViewModel = ViewModelProviders.of(this).get(RegisterViewModel.class);
+        registerViewModel = new RegisterViewModel(RegisterRemoteRespository.getINSTANCE(),getApplicationContext());
 
         binding = DataBindingUtil.setContentView(this,R.layout.activity_login_register);
         binding.setLifecycleOwner(this);
@@ -97,7 +96,6 @@ public class RegisterActivity extends AppCompatActivity {
         @SuppressLint("ResourceAsColor")
         @Override
         public void onTick(long millisUntilFinished) {
-            Log.e("Tag", "倒计时=" + (millisUntilFinished/1000));
             binding.btnCaptcha.setClickable(false);
             binding.btnCaptcha.setText(millisUntilFinished / 1000 + "s");
             binding.btnCaptcha.setBackgroundColor(Color.GRAY);
@@ -110,12 +108,16 @@ public class RegisterActivity extends AppCompatActivity {
         @SuppressLint("ResourceAsColor")
         @Override
         public void onFinish() {
-            Log.e("Tag", "倒计时完成");
             //设置倒计时结束之后的按钮样式
             binding.btnCaptcha.setBackgroundColor(Color.parseColor("#9CDFDD"));
             binding.btnCaptcha.setTextColor(Color.WHITE);
             binding.btnCaptcha.setText("发送");
             binding.btnCaptcha.setClickable(true);
         }
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
     }
 }

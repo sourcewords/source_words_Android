@@ -21,7 +21,10 @@ import retrofit2.http.PUT;
 public interface RetrofitApi {
     //register
     @POST("user/email")
-    Call<RegisterResponse> register (@Body RegisterEmail email);
+    Call<RegisterResponse> sendCode(@Body RegisterEmail email);
+
+    @POST("user/register")
+    Call<RegisterResponse> register(@Body LoginUser user);
 
     //login
     @POST("user/login")
