@@ -31,7 +31,7 @@ public class ReviewFragment extends Fragment implements ReviewContract.View {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        wordRepository = new WordRepository();
+        wordRepository = new WordRepository(getContext());
         presenter = new ReviewPresenter(wordRepository, this);
     }
 

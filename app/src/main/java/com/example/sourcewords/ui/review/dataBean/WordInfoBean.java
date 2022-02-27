@@ -1,8 +1,18 @@
 package com.example.sourcewords.ui.review.dataBean;
 
 import java.util.List;
-
+//网络请求的/words/list的基础接受类
 public class WordInfoBean {
+    /**
+     * zh_source:中文词源
+     * pronunciation_url:发音地址
+     * meaning:基本意思
+     * phonetic:音标
+     * root:词根序号
+     * variation:变化形式
+     * word：单词
+     * exam_grading：分级
+     */
     private String zh_source;
     private String pronunciation_url;
     private String meaning;
@@ -13,9 +23,11 @@ public class WordInfoBean {
     private String word;
     private List<Boolean> exam_grading;
     /**
-     * zh : in est Lorem sed ad
-     * en : ad ea quis amet cupidatat
+     * nextTime:下一次复习时间
+     * status:现在复习的状态  每当点击easy按钮则+1  到达？次归档
      */
+    private String nextTime;
+    private int status;
 
     private List<ExampleSentencesBean> example_sentences;
 
@@ -99,9 +111,32 @@ public class WordInfoBean {
         this.example_sentences = example_sentences;
     }
 
+    public String getNextTime() {
+        return nextTime;
+    }
+
+    public void setNextTime(String nextTime) {
+        this.nextTime = nextTime;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public static class ExampleSentencesBean {
         private String zh;
         private String en;
+
+        public ExampleSentencesBean(){}
+
+        public ExampleSentencesBean(String zh,String en){
+            this.zh = zh;
+            this.en = en;
+        }
 
         public String getZh() {
             return zh;

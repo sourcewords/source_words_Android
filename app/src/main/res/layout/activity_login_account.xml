@@ -37,8 +37,10 @@
 
         <LinearLayout
             android:id="@+id/linearLayout4"
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
             android:background="@drawable/mine_shape_stroke"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -69,8 +71,8 @@
                     android:layout_weight="5"
                     android:background="@drawable/login_input_frame"
                     android:hint="请输入正确的邮箱"
-                    android:text="@={LoginViewModel.Account}"
-                    android:paddingStart="10dp" />
+                    android:paddingStart="10dp"
+                    android:text="@={LoginViewModel.Account}" />
 
             </LinearLayout>
 
@@ -98,8 +100,8 @@
                     android:background="@drawable/login_input_frame"
                     android:hint="请输入密码~"
                     android:inputType="textWebPassword"
-                    android:text="@={LoginViewModel.Password}"
-                    android:paddingStart="10dp" />
+                    android:paddingStart="10dp"
+                    android:text="@={LoginViewModel.Password}" />
 
             </LinearLayout>
 
@@ -112,10 +114,10 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/mine_shape_stroke"
+                android:onClick="@{(v) -> LoginViewModel.onClick(v)}"
                 android:text="登陆"
                 android:textColor="#FFFFFF"
                 android:textSize="20sp"
-                android:onClick="@{(v) -> LoginViewModel.onClick(v)}"
                 app:backgroundTint="#9CDFDD" />
 
             <LinearLayout

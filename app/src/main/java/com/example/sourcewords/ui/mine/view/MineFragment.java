@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +20,9 @@ import com.example.sourcewords.R;
 //TODO 我模块
 public class MineFragment extends Fragment {
     private ConstraintLayout mPersonalData,mAdjustmentPlan;
+    private ImageView signin;
+    private ProgressBar mine_bar;
+    private TextView mine_progress;
 
     @Nullable
     @Override
@@ -41,9 +47,17 @@ public class MineFragment extends Fragment {
         mAdjustmentPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MyPlanActivity.class);
+                Intent intent = new Intent(getActivity(), AllPlanActivity.class);
                 startActivity(intent);
             }
         });
+
+        signin = view.findViewById(R.id.sign_in);
+        signin.setOnClickListener(v ->{
+            Intent intent = new Intent(getActivity(), SigninActivity.class);
+            startActivity(intent);
+        });
+
+
     }
 }

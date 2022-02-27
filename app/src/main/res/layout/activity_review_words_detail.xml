@@ -8,7 +8,10 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="30dp" />
+        android:layout_height="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <include
         android:id="@+id/include"
@@ -20,11 +23,12 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
     <LinearLayout
+        android:id="@+id/linearLayout5"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="20dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintTop_toBottomOf="@+id/include"
         tools:layout_editor_absoluteX="20dp">
 
@@ -145,6 +149,65 @@
             </ScrollView>
 
         </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#96D2D1"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout5"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout5" />
+
+    <LinearLayout
+        android:id="@id/linearLayout6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent" >
+
+        <Button
+            android:id="@+id/again"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10m&#10;again"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_review_again"/>
+
+        <Button
+            android:id="@+id/hard"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2d&#10;hard"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_review_hard"/>
+
+        <Button
+            android:id="@+id/good"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3d&#10;good"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_review_good"/>
+
+        <Button
+            android:id="@+id/easy"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="4d&#10;easy"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_review_easy"/>
 
     </LinearLayout>
 

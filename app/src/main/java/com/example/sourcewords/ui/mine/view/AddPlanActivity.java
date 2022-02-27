@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 public class AddPlanActivity extends AppCompatActivity {
 
     @Override
-
     protected void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
     }

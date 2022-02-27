@@ -16,9 +16,9 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.sourcewords.R;
 import com.example.sourcewords.commonUtils.NetUtil;
 import com.example.sourcewords.databinding.ActivityLoginAccountBinding;
-import com.example.sourcewords.ui.login.model.LocalPage;
-import com.example.sourcewords.ui.login.model.LoginResponse;
-import com.example.sourcewords.ui.login.model.LoginUser;
+import com.example.sourcewords.ui.login.model.databean.LocalPage;
+import com.example.sourcewords.ui.login.model.databean.LoginResponse;
+import com.example.sourcewords.ui.login.model.databean.LoginUser;
 import com.example.sourcewords.ui.login.viewmodel.LoginViewModel;
 import com.example.sourcewords.ui.main.MainActivity;
 
@@ -41,9 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login_account);
-
         binding.setLifecycleOwner(this);
-
         binding.setLoginViewModel(loginViewModel);
 
         loginViewModel.getUser().observe(this, new Observer<LocalPage>() {
@@ -54,10 +52,10 @@ public class LoginActivity extends AppCompatActivity {
                     binding.etAccount.setError("Enter a Correct Address");
                     binding.etAccount.requestFocus();
                 }
-//                else if (!localPage.isAccountValid()) {
-//                    binding.etAccount.setError("Enter a Valid E-mail Address");
-//                    binding.etAccount.requestFocus();
-//                }
+                else if (!localPage.isAccountValid()) {
+                    binding.etAccount.setError("Enter a Valid E-mail Address");
+                    binding.etAccount.requestFocus();
+                }
                 else if (TextUtils.isEmpty(Objects.requireNonNull(localPage).getPassword())) {
                     binding.etPassword.setError("Enter a Password");
                     binding.etPassword.requestFocus();
@@ -71,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
 //                    binding.checkbox.requestFocus();
 //                }
                 else {
-                    rq(new LoginUser(localPage.getName(),localPage.getPassword()));
+//                    rq(new LoginUser(localPage.getName(),localPage.getPassword()));
                 }
 
             }
@@ -88,25 +86,5 @@ public class LoginActivity extends AppCompatActivity {
                     setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
                             View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
-    }
-
-    private void rq(LoginUser user){
-        NetUtil.getInstance().getApi().login(user).enqueue(new Callback<LoginResponse>() {
-            @Override
-            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if(response.isSuccessful()){
-                    //token = response.body().getData();
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                }else {
-                    Toast.makeText(LoginActivity.this,"账号或密码错误", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
-                Toast.makeText(LoginActivity.this,"网络连接失败",Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }
