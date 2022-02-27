@@ -56,6 +56,14 @@ public class WordRepository {
         return allSingleWord;
     }
 
+    public SingleWord getSingleWordById(int id) {
+        return singleWordDao.getSingleById(id);
+    }
+
+    public void insert(SingleWord...singleWords) {
+        singleWordDao.insertSingleWord(singleWords);
+    }
+
     public void Insert(WordRoot...wordRoots){
         new Insert(dao).execute(wordRoots);
     }
@@ -88,17 +96,6 @@ public class WordRepository {
     public Word search(int id) {
 //        new Search(wordDao).execute(id);
         return wordDao.getWord(id);
-    }
-
-    public WordRoot getWordRootTest(int id) {
-        List<Word> list = new ArrayList<>();
-        for(int i = 0; i<4; i++) {
-            List<String> l = new ArrayList<>();
-            //WordInfoBean wordInfo = new WordInfoBean();
-            //Word temp = new Word(wordInfo, i, "Chinese" + i, "sncjs" + i, "lalalal","aa");
-            //list.add(temp);
-        }
-        return new WordRoot("kn","chi",1,"xxx","aa",list);
     }
 
     public WordRoot getWordRootTest2(int id) {
@@ -161,17 +158,25 @@ public class WordRepository {
     //TODO:拿到学完当日词根而要学的新的单词
     public List<Word> getNewWords(int woodRootId) {
         if(woodRootId == 0) return new ArrayList<>();
+
         WordRoot wordRoot = getWordRootByID(woodRootId);
-        Log.d("rootid", "" + woodRootId);
         return wordRoot.getWordlist();
-//        return new ArrayList<>();
     }
 
     // TODO:通过日期拿到其他今天要复习的单词
     // 这里一开始所有的单词进入队列都是一样的
     public List<Word> getLearnedWords(String time) {
+        List<SingleWord> list = singleWordDao.getHaveLearnedWordsByTime(time);
 
-        return getWordRootTest2(1).getWordlist();
+        List<Word> words = new ArrayList<>();
+        for(SingleWord singleWord : list) {
+            Word word = wordDao.getWord(singleWord.getId());
+            Log.d("initData",singleWord.toString());
+            word.getWord_info().setStatus(singleWord.getStatus());
+            word.getWord_info().setNextTime(singleWord.getNextTime());
+            words.add(word);
+        }
+        return words;
     }
 
     // TODO:刷新单词的状态

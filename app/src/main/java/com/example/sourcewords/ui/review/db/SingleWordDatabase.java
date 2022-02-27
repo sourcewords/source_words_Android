@@ -21,7 +21,7 @@ import com.example.sourcewords.utils.Converters;
 import java.io.IOException;
 import java.util.List;
 
-@Database(entities = {SingleWord.class}, version = 3, exportSchema = false)
+@Database(entities = {SingleWord.class}, version = 4, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class SingleWordDatabase extends RoomDatabase {
 

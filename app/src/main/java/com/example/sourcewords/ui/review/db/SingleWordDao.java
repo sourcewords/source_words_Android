@@ -20,4 +20,10 @@ public interface SingleWordDao {
     @Query("SELECT * FROM single_word_table")
     LiveData<List<SingleWord>> getAllWord();
 
+    @Query("SELECT * FROM single_word_table WHERE ID like :id")
+    SingleWord getSingleById(int id);
+
+    @Query("SELECT * FROM single_word_table WHERE 复习时间 like :time")
+    List<SingleWord> getHaveLearnedWordsByTime(String time);
+
 }

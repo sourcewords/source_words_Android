@@ -35,6 +35,7 @@ import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.db.WordDatabase;
 import com.example.sourcewords.ui.review.model.WordDataSource;
 import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
+import com.example.sourcewords.utils.DateUtils;
 import com.example.sourcewords.utils.PreferencesUtils;
 
 import java.io.IOException;
@@ -55,8 +56,8 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         @SuppressLint("InflateParams") View v = inflater.inflate(R.layout.fragment_learn, null);
-        viewModel = ViewModelProviders.of(this).get(LearnViewModel.class);
-        reviewCardViewModel = ViewModelProviders.of(this.getActivity()).get(ReviewCardViewModel.class);
+        viewModel = ViewModelProviders.of(this.getActivity()).get(LearnViewModel.class);
+        reviewCardViewModel = ViewModelProviders.of(this).get(ReviewCardViewModel.class);
         initView(v);
         reviewCardViewModel.getAllWord().observe(this, new Observer<List<Word>>() {
             @Override
@@ -78,6 +79,12 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
                 Log.d("initDatac","" + singleWords.size());
             }
         });
+        for(int i = 1; i<3; i++) {
+            SingleWord singleWord = reviewCardViewModel.getSingleWordById(i);
+            singleWord.setStatus(2);
+            singleWord.setNextTime(DateUtils.getData());
+            reviewCardViewModel.insert(singleWord);
+        }
 
         return v;
     }
@@ -120,9 +127,12 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
 
                 SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
                 SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                // 请在此持久化今日词根的id
                 editor.putInt(PreferencesUtils.WOOD_ROOT_TODAY,1);
                 editor.commit();
-                reviewCardViewModel.getLearnFlag().setValue(1);
+                // 通知习模块更新
+                viewModel.getLearnFlag().setValue(true);
 
                 textView_learned.setClickable(false);
 

@@ -89,7 +89,7 @@
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/defficult"
+                    android:id="@+id/new_learn"
                     android:layout_height="match_parent"
                     android:layout_width="match_parent"
                     android:gravity="center"
@@ -102,7 +102,7 @@
                     android:src="@drawable/review_count1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/difficult_bkg"/>
+                    android:id="@+id/new_learn_bkg"/>
 
             </FrameLayout>
 
@@ -127,12 +127,12 @@
                     android:textSize="30dp"
                     android:text="0"
                     android:textColor="@color/review_red"
-                    android:id="@+id/middle"
+                    android:id="@+id/review"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
 
                 <ImageView
-                    android:id="@+id/middle_bkg"
+                    android:id="@+id/review_bkg"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:alpha="0.5"
@@ -155,7 +155,7 @@
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/easy"
+                    android:id="@+id/have_learned"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -168,7 +168,7 @@
                     android:src="@drawable/review_count3"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/easy_bkg"/>
+                    android:id="@+id/have_learned_bkg"/>
 
             </FrameLayout>
 
