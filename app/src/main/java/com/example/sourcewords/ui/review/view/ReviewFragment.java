@@ -1,6 +1,8 @@
 package com.example.sourcewords.ui.review.view;
 
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,31 +10,39 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.example.sourcewords.R;
-import com.example.sourcewords.ui.review.ReviewContract;
-import com.example.sourcewords.ui.review.ReviewPresenter;
-import com.example.sourcewords.ui.review.dataBean.WordRoot;
-import com.example.sourcewords.ui.review.model.WordRepository;
-import com.example.sourcewords.ui.review.view.NoneFragment;
-import com.example.sourcewords.ui.review.view.ReciteFragment;
+import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
+import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
 
 
 //TODO 习模块
-public class ReviewFragment extends Fragment implements ReviewContract.View {
-
-    private WordRepository wordRepository;
-    private ReviewContract.Presenter presenter;
+@RequiresApi(api = Build.VERSION_CODES.N)
+public class ReviewFragment extends Fragment {
 
     private FrameLayout frameLayout;
+    private LearnViewModel viewModel;
+    private MutableLiveData<Boolean> learnFlag;
+    private NoneFragment noneFragment;
+    private ReciteFragment reciteFragment;
+    private FragmentManager fragmentManager;
+
+    private static int count = 0;
+    private boolean hasInit = false;
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        wordRepository = new WordRepository(getContext());
-        presenter = new ReviewPresenter(wordRepository, this);
+        viewModel = ViewModelProviders.of(this.getActivity()).get(LearnViewModel.class);
+        learnFlag = viewModel.getLearnFlag();
     }
 
     @Nullable
@@ -40,27 +50,37 @@ public class ReviewFragment extends Fragment implements ReviewContract.View {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_review,null);
         frameLayout = view.findViewById(R.id.review_container);
-        presenter.initData();
+        noneFragment = new NoneFragment();
+
+        fragmentManager = getChildFragmentManager();
+        viewModel.getLearnFlag().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean bool) {
+                reciteFragment = new ReciteFragment();
+                initWordView(reciteFragment);
+                Log.d("fragmentManager","2" + bool);
+                hasInit = true;
+
+            }
+        });
+        if(!viewModel.getLearnFlag().getValue())
+            initNoneView();
         return view;
     }
 
-    @Override
-    public void setPresenter(ReviewContract.Presenter presenter) {
-        this.presenter = presenter;
-    }
 
-    @Override
     public void initNoneView() {
-//        getFragmentManager().beginTransaction()
-//                .add(R.id.main_container, new MainFragment(), "mainFragment")
-//                .commit();
-        getChildFragmentManager().beginTransaction().add(R.id.review_container,new NoneFragment(),"NoneFragment")
+        Log.d("fragmentManager","1");
+        fragmentManager.beginTransaction().add(R.id.review_container,noneFragment,"NoneFragment")
                 .commit();
     }
 
-    @Override
-    public void initWordView(WordRoot wordRoot) {
-        getChildFragmentManager().beginTransaction().add(R.id.review_container,new ReciteFragment(wordRoot),"ReciteFragment")
-                .commit();
+    public void initWordView(ReciteFragment reciteFragment) {
+        if(hasInit){
+            fragmentManager.beginTransaction().hide(noneFragment).commit();
+            fragmentManager.beginTransaction().add(R.id.review_container,reciteFragment,"ReciteFragment")
+                    .commit();
+        }
+
     }
 }

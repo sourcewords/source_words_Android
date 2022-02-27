@@ -12,8 +12,10 @@ import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.sourcewords.App;
 import com.example.sourcewords.ui.learn.model.WordRootRepository;
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
@@ -30,16 +32,19 @@ public class LearnViewModel extends AndroidViewModel {
     private final WordRootRepository repository;
     private List<WordRoot> list = new ArrayList<>();
     private static WordRoot wordRoot;
+    private MutableLiveData<Boolean> learnFlag;
     //    private final String Authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDM5ODI0NTMsImlhdCI6MTY0Mzg5NjA1MywidWlkIjoxN30.Lx1tkjDiTAgiG6GL65WMPA6dfFAKgLSPV0rqNqqoblU";
 
     public LearnViewModel(@NonNull Application application) {
         super(application);
         this.mContext = application;
-        repository = new WordRootRepository(mContext);
-
+        repository = new WordRootRepository(App.getAppContext());
+        learnFlag = new MutableLiveData<>(false);
     }
 
-
+    public MutableLiveData<Boolean> getLearnFlag() {
+        return learnFlag;
+    }
 
 
     public void getList(String query,MutableLiveData<List<WordRoot>> wordRoots){
@@ -87,7 +92,7 @@ public class LearnViewModel extends AndroidViewModel {
             @Override
             public void run() {
                 try {
-                    wordRoot = repository.getWordRootById(id);
+//                    wordRoot = repository.getWordRootById(id);
                     handler.sendEmptyMessage(0x6666);
 
                 } catch (Exception e) {

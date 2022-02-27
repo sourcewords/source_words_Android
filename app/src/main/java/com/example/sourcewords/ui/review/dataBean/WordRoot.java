@@ -6,11 +6,12 @@ import androidx.room.PrimaryKey;
 
 import java.util.List;
 
-@Entity
+@Entity(tableName = "wordRoot_table")
 public class WordRoot {
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "ID")
-    private int ID;
+    @PrimaryKey
+    @ColumnInfo(name = "词根序号")
+    private int id;
+
     /**
      * meaning : quis sunt
      * video_url : http://ityh.gu/zlokiexhl
@@ -22,8 +23,7 @@ public class WordRoot {
     private String meaning;
     @ColumnInfo(name = "视频地址")
     private String video_url;
-    @ColumnInfo(name = "词根序号")
-    private int id;
+
     @ColumnInfo(name = "词根来源")
     private String source;
     @ColumnInfo(name = "词根")
@@ -31,8 +31,7 @@ public class WordRoot {
     @ColumnInfo(name = "单词列表")
     private List<Word> wordlist;
 
-    public WordRoot(int ID, String meaning, String video_url, int id, String source, String root, List<Word> wordlist) {
-        this.ID = ID;
+    public WordRoot(String meaning, String video_url, int id, String source, String root, List<Word> wordlist) {
         this.meaning = meaning;
         this.video_url = video_url;
         this.id = id;
@@ -79,14 +78,6 @@ public class WordRoot {
 
     public void setRoot(String root) {
         this.root = root;
-    }
-
-    public int getID() {
-        return ID;
-    }
-
-    public void setID(int ID) {
-        this.ID = ID;
     }
 
     public List<Word> getWordlist() {
