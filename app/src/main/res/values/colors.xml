@@ -10,4 +10,6 @@
     <color name="theme_green">#64BEBC</color>
     <color name="transparent">#00FFFFFF</color>
     <color name="lightGreen">#E6F3F2</color>
+    <color name="review_red">#F17D58</color>
+    <color name="review_green">#8BC34A</color>
 </resources>

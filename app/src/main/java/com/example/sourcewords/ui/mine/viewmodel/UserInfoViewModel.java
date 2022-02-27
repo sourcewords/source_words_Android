@@ -14,6 +14,7 @@ public class UserInfoViewModel extends ViewModel {
     public MutableLiveData<UserInfo> getUserInfo(){
         if(userInfo == null){
             userInfo = new MutableLiveData<>();
+
         //    source.getRemoteUserInfo(userInfo);
         }
         return userInfo;

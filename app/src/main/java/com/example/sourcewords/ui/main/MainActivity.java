@@ -28,11 +28,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         addMainFragment();
-        /*
-        WordRootRepository repository = new WordRootRepository(this);
-        repository.initWordRootList();
+//        WordRootRepository repository = new WordRootRepository(this);
+//        repository.initWordRootList();
 
-         */
+
     }
 
     private void addMainFragment() {

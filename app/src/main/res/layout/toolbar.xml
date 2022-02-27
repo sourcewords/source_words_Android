@@ -7,6 +7,7 @@
     android:id="@+id/toolbar">
 
         <ImageView
+            android:id="@+id/detail_back"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/search_foreground"
@@ -15,6 +16,7 @@
         </ImageView>
 
         <ImageView
+            android:id="@+id/search"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:src="@drawable/back_foreground"
