@@ -16,7 +16,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="账号注册"
+            android:text="邮箱注册"
             android:textSize="16sp"
             android:textColor="@color/black"
             android:background="@drawable/login_button_frame"
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="+86"
+                android:text="用户名"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
@@ -54,9 +54,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="15dp"
-                android:layout_weight="5"
+                android:layout_weight="4"
                 android:background="@drawable/login_input_frame"
-                android:hint="请输入正确的手机号码"
+                android:hint="请输入正确的邮箱"
                 android:paddingStart="10dp" />
 
         </LinearLayout>
@@ -73,6 +73,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="验证码"
+                android:textSize="16sp"
                 android:textColor="@color/black" />
 
             <EditText
@@ -132,7 +133,7 @@
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/mine_shape_stroke"
-            android:text="登陆"
+            android:text="注册"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             app:backgroundTint="#9CDFDD" />
@@ -147,10 +148,6 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
 
         <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="已阅且同意《用户使用协议》和《隐私政策》" />

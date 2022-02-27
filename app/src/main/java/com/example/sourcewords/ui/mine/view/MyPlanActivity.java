@@ -1,11 +1,9 @@
 package com.example.sourcewords.ui.mine.view;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 
-import androidx.annotation.ColorRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +18,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class MyPlanActivity extends AppCompatActivity {
@@ -35,7 +32,7 @@ public class MyPlanActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_myplan);
+        setContentView(R.layout.activity_allplan);
         initList();
         calendarView = findViewById(R.id.calendar);
         calendarView.setSelectionMode(MaterialCalendarView.SELECTION_MODE_MULTIPLE);
