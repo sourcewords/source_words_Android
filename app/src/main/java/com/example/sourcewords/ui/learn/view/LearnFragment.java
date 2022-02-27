@@ -79,12 +79,12 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
                 Log.d("initDatac","" + singleWords.size());
             }
         });
-        for(int i = 1; i<3; i++) {
-            SingleWord singleWord = reviewCardViewModel.getSingleWordById(i);
-            singleWord.setStatus(2);
-            singleWord.setNextTime(DateUtils.getData());
-            reviewCardViewModel.insert(singleWord);
-        }
+//        for(int i = 1; i<3; i++) {
+//            SingleWord singleWord = reviewCardViewModel.getSingleWordById(i);
+//            singleWord.setStatus(2);
+//            singleWord.setNextTime(DateUtils.getData());
+//            reviewCardViewModel.insert(singleWord);
+//        }
 
         return v;
     }
