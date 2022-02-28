@@ -19,6 +19,7 @@ import com.example.sourcewords.databinding.ActivityLoginAccountBinding;
 import com.example.sourcewords.ui.login.model.databean.LocalPage;
 import com.example.sourcewords.ui.login.model.databean.LoginResponse;
 import com.example.sourcewords.ui.login.model.databean.LoginUser;
+import com.example.sourcewords.ui.login.model.respository.LoginRemoteRespository;
 import com.example.sourcewords.ui.login.viewmodel.LoginViewModel;
 import com.example.sourcewords.ui.main.MainActivity;
 
@@ -38,7 +39,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_account);
 
-        loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
+//        loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
+        loginViewModel = new LoginViewModel(LoginRemoteRespository.getINSTANCE(),getApplicationContext());
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login_account);
         binding.setLifecycleOwner(this);
@@ -60,10 +62,12 @@ public class LoginActivity extends AppCompatActivity {
                     binding.etPassword.setError("Enter a Password");
                     binding.etPassword.requestFocus();
                 }
+//                检查密码是否大于5
 //                else if (!loginUser.isPasswordLengthGreaterThan3()) {
 //                    binding.etPassword.setError("Enter at least 6 Digit password");
 //                    binding.etPassword.requestFocus();
 //                }
+//                检查是否勾选
 //                else if(!localPage.isChecked()){
 //                    binding.checkbox.setError("Please check");
 //                    binding.checkbox.requestFocus();
@@ -85,5 +89,10 @@ public class LoginActivity extends AppCompatActivity {
                     setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
                             View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
     }
 }
