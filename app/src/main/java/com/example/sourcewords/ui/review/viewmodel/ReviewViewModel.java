@@ -41,6 +41,5 @@ public class ReviewViewModel extends AndroidViewModel {
 
     public WordRoot getWordRoot(int id){ return mWordRepository.getWordRootByID(id); }
 
-    public WordRoot getWordRootTest(int id){return mWordRepository.getWordRootTest2(id);}
 
 }

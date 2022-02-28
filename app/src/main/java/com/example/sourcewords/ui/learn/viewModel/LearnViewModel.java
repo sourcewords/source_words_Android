@@ -127,4 +127,9 @@ public class LearnViewModel extends AndroidViewModel {
         editor.apply();
     }
 
+    public int getWhatLearnedToday(){
+        SharedPreferences sharedPreferences = mContext.getSharedPreferences(LEARNWORDID, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(ID, 0);
+    }
+
 }

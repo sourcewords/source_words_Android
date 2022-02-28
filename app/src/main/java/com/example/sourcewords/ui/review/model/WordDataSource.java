@@ -45,7 +45,6 @@ public class WordDataSource {
     private WordDataSource() {
     }
 
-    ;
 
     public static List<WordRoot> getRoots() throws IOException {
         AssetManager assetManager = App.getAppContext().getAssets();

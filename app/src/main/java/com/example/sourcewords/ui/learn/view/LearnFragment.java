@@ -75,7 +75,6 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         reviewCardViewModel.getAllWord().observe(this, new Observer<List<Word>>() {
             @Override
             public void onChanged(@Nullable final List<Word> words) {
-                // Update the cached copy of the words in the adapter.
                 Log.d("initDataab","" + words.size());
             }
         });
@@ -135,16 +134,13 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         button_learned.setOnClickListener(this);
         SharedPreferences button = Objects.requireNonNull(getContext()).getSharedPreferences(Name_Learn, Context.MODE_PRIVATE);
         boolean flag = button.getBoolean(Learned, false);
-        if (flag) {
-            button_learned.performClick();
-        } else {
-            viewModel.saveWhatLearnedToday(root.getId());
-        }
+
+
     }
 
     //TODO 用于记录系统时间，以便判断UI的更新
     private void upDataTime() {
-        final Handler handler = new WordRootHandler();
+        Handler handler = new WordRootHandler();
         long sysTime = System.currentTimeMillis();//获取系统时间
         final Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(sysTime);
@@ -168,7 +164,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
                         }
                         Thread.sleep(1000);
                     }
-                    handler.sendEmptyMessage(UPDATETIME);
+//                    handler.sendEmptyMessage(UPDATETIME);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -189,24 +185,23 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
                 //待实现获取每日词根的算法
                 //viewModel.getWordRoot();
 
+                viewModel.saveWhatLearnedToday(root.getId());
 
                 SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
                 SharedPreferences.Editor editor = sharedPreferences.edit();
 
                 // 请在此持久化今日词根的id
-                editor.putInt(PreferencesUtils.WOOD_ROOT_TODAY,1);
+                editor.putInt(PreferencesUtils.WOOD_ROOT_TODAY,viewModel.getWhatLearnedToday());
                 editor.commit();
                 // 通知习模块更新
                 viewModel.getLearnFlag().setValue(true);
 
                 button_learned.setClickable(false);
 
-//                button_learned.setBackground(getResources().getDrawable(R.drawable.learned_selected));
-//                button_learned.setTextColor(getResources().getColor(R.color.theme_green));
-//                SharedPreferences sharedPreferences = getContext().getSharedPreferences(Name_Learn, Context.MODE_PRIVATE);
-//                SharedPreferences.Editor editor = sharedPreferences.edit();
-//                editor.putBoolean(Learned, true);
-//                editor.apply();
+                SharedPreferences sharedPreferences2 = getContext().getSharedPreferences(Name_Learn, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor2 = sharedPreferences2.edit();
+                editor2.putBoolean(Learned, true);
+                editor2.apply();
                 break;
             case R.id.learn_searcher:
                 Intent intent = new Intent(getActivity(), LearnSearchActivity.class);
@@ -232,6 +227,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
                 super.run();
                 try {
                     root = viewModel.getWordRootById(id);
+
                     handler.sendEmptyMessage(WORDROOTMESSAGE);
                 } catch (Exception e) {
                     e.printStackTrace();
