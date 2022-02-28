@@ -55,7 +55,7 @@ public class WordSample implements Comparable<WordSample> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         WordSample that = (WordSample) o;
-        return status == that.status && Objects.equals(word, that.word) && Objects.equals(time, that.time);
+        return status == that.status && Objects.equals(word.getId(), that.word.getId()) && Objects.equals(time, that.time);
     }
 
 
@@ -63,7 +63,7 @@ public class WordSample implements Comparable<WordSample> {
     // 为方便处理就不一边修改状态一边同步到数据库），最后同步到数据库和云端
     @Override
     public int hashCode() {
-        return Objects.hash(word, status, time);
+        return Objects.hash(word.getId(), status, time);
     }
 
     @Override

@@ -36,31 +36,56 @@
         android:padding="5dp"
         android:text="词根"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/learn_recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/learn_player"
-        app:layout_constraintVertical_bias="0.087" />
+        app:layout_constraintVertical_bias="0.07" />
 
     <TextView
         android:id="@+id/learn_txt"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
         android:text="@string/RelatedWords"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:textStyle="bold"
 
         app:layout_constraintBottom_toTopOf="@+id/guideline4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/learn_wordroot"
         app:layout_constraintTop_toBottomOf="@+id/learn_wordroot"
-        app:layout_constraintVertical_bias="0.25" />
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/learn_meaning"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="meaning"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="@+id/learn_txt"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/learn_txt"
+        app:layout_constraintTop_toBottomOf="@+id/learn_txt" />
+
+
+    <TextView
+        android:id="@+id/learn_source"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="source"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline4"
+        app:layout_constraintEnd_toEndOf="@+id/learn_meaning"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/learn_meaning"
+        app:layout_constraintTop_toBottomOf="@+id/learn_meaning"
+        app:layout_constraintVertical_bias="0.476" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/learn_recyclerView"
@@ -68,15 +93,17 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline4" />
+        app:layout_constraintTop_toTopOf="@+id/guideline4"
+        app:layout_constraintVertical_bias="1.0" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.35" />
+        app:layout_constraintGuide_percent="0.3" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
@@ -90,7 +117,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.46" />
+        app:layout_constraintGuide_percent="0.5" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline6"
@@ -104,7 +131,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/learned_normal"
-        android:padding="10dp"
+        android:paddingHorizontal="25dp"
+        android:paddingVertical="10dp"
         android:text="@string/wordRootLearned"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"

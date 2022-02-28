@@ -1,8 +1,10 @@
 package com.example.sourcewords.ui.review.viewmodel;
 
 import android.app.Application;
+import android.os.Build;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
@@ -39,6 +41,5 @@ public class ReviewViewModel extends AndroidViewModel {
 
     public WordRoot getWordRoot(int id){ return mWordRepository.getWordRootByID(id); }
 
-    public WordRoot getWordRootTest(int id){return mWordRepository.getWordRootTest2(id);}
 
 }

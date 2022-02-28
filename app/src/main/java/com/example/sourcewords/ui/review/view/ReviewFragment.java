@@ -56,15 +56,16 @@ public class ReviewFragment extends Fragment {
         viewModel.getLearnFlag().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean bool) {
-                reciteFragment = new ReciteFragment();
-                initWordView(reciteFragment);
-                Log.d("fragmentManager","2" + bool);
-                hasInit = true;
+                if(bool) {
+                    hasInit = true;
+                    initWordView(new ReciteFragment());
+
+                }
+                else initNoneView();
 
             }
         });
-        if(!viewModel.getLearnFlag().getValue())
-            initNoneView();
+
         return view;
     }
 

@@ -107,7 +107,7 @@ public class ReciteFragment extends Fragment {
 
     private void initView() {
         Log.d("count", " " + newLearnedCount.getValue() + " " + reviewCount.getValue() + " " + haveLearnedCount.getValue());
-        if(newLearnedCount.getValue() == 0 && haveLearnedCount.getValue() == 0 && reviewCount.getValue() == 0) {
+        if(wordSample == null || newLearnedCount.getValue() == 0 && haveLearnedCount.getValue() == 0 && reviewCount.getValue() == 0) {
             hide();
             return;
         }
@@ -180,7 +180,19 @@ public class ReciteFragment extends Fragment {
     }
 
     private void getPreWord() {
+        switch (wordSample.getValue().getWord().getWord_info().getStatus()) {
+            case 0:
+                reviewCardViewModel.getNewLearnedWordsQueue().offer(wordSample.getValue());
+                break;
+            case 1:
+                reviewCardViewModel.getPriorityQueue().offer(wordSample.getValue());
+                break;
+            case 2:
+                reviewCardViewModel.getHaveLearnedWordsQueue().offer(wordSample.getValue());
+                break;
+        }
 
+        reviewCardViewModel.getPreWord();
     }
 
 
