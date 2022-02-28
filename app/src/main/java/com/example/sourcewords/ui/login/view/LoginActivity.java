@@ -76,7 +76,6 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator{
             }
         });
 
-
         binding.registerButton.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);

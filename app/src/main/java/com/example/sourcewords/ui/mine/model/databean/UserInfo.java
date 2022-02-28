@@ -3,7 +3,7 @@ package com.example.sourcewords.ui.mine.model.databean;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
-//import com.example.sourcewords.BR;
+import com.example.sourcewords.BR;
 
 public class UserInfo extends BaseObservable {
     @Bindable
@@ -13,7 +13,7 @@ public class UserInfo extends BaseObservable {
 
     public void setPhone(String phone) {
         this.phone = phone;
-//        notifyPropertyChanged(BR.phone);
+        notifyPropertyChanged(BR.phone);
     }
     @Bindable
     public String getSignature() {
@@ -22,7 +22,7 @@ public class UserInfo extends BaseObservable {
 
     public void setSignature(String signature) {
         this.signature = signature;
-//        notifyPropertyChanged(BR.signature);
+        notifyPropertyChanged(BR.signature);
     }
 
     @Bindable
@@ -32,7 +32,7 @@ public class UserInfo extends BaseObservable {
 
     public void setEmail(String email) {
         this.email = email;
-//        notifyPropertyChanged(BR.email);
+        notifyPropertyChanged(BR.email);
     }
 
     @Bindable
@@ -51,7 +51,7 @@ public class UserInfo extends BaseObservable {
 
     public void setLocation(String location) {
         this.location = location;
-//        notifyPropertyChanged(BR.location);
+        notifyPropertyChanged(BR.location);
     }
 
     @Bindable
@@ -61,7 +61,7 @@ public class UserInfo extends BaseObservable {
 
     public void setName(String name) {
         this.name = name;
-//        notifyPropertyChanged(BR.name);
+        notifyPropertyChanged(BR.name);
     }
 
     @Bindable
@@ -71,7 +71,7 @@ public class UserInfo extends BaseObservable {
 
     public void setBirthDay(String birthDay) {
         this.birthDay = birthDay;
-//        notifyPropertyChanged(BR.birthDay);
+        notifyPropertyChanged(BR.birthDay);
     }
 
     private String phone;

@@ -1,5 +1,6 @@
 package com.example.sourcewords.ui.mine.view;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -13,15 +14,14 @@ import com.example.sourcewords.R;
 import com.example.sourcewords.ui.mine.model.databean.PlanAdapter;
 import com.example.sourcewords.ui.mine.model.databean.PlanBean;
 import com.example.sourcewords.ui.mine.model.databean.SpacesItemDecoration;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-public class MyPlanActivity extends AppCompatActivity {
+public class AllPlanActivity extends AppCompatActivity {
 
-    MaterialCalendarView calendarView;
     RecyclerView recyclerView;
     List<PlanBean> mList = new ArrayList<>();
     private int spaceTag = 1;
@@ -30,10 +30,8 @@ public class MyPlanActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_myplan);
+        setContentView(R.layout.activity_allplan);
         initList();
-        calendarView = findViewById(R.id.calendar);
-        calendarView.setSelectionMode(MaterialCalendarView.SELECTION_MODE_MULTIPLE);
 
         recyclerView = findViewById(R.id.myplan_rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
@@ -44,16 +42,12 @@ public class MyPlanActivity extends AppCompatActivity {
     }
 
     public void initList(){
-        PlanBean plan1 = new PlanBean("四级单词", "5", "1.01-2.01", 50);
-        PlanBean plan2 = new PlanBean("六级单词", "3", "1.01-1.30", 90);
-        PlanBean plan3 = new PlanBean("托福单词", "2", "1.01-1.29", 80);
-        PlanBean plan4 = new PlanBean("雅思单词", "2", "1.01-1.29", 80);
+        PlanBean plan2 = new PlanBean("六级单词", "", "xx.xx-xx.xx", 0);
+        PlanBean plan3 = new PlanBean("托福单词", "", "xx.xx-xx.xx", 0);
+        PlanBean plan4 = new PlanBean("雅思单词", "", "xx.xx-xx.xx", 0);
 
-        mList.add(plan1);
         mList.add(plan2);
         mList.add(plan3);
         mList.add(plan4);
-
-       // calendarView.addDecorator(R.drawable.shape_blue_words, new Date(2022, 2, 22));
     }
 }
