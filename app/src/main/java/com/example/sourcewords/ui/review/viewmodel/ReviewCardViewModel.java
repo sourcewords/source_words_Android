@@ -18,172 +18,184 @@ import com.example.sourcewords.ui.review.dataBean.SingleWord;
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.model.WordRepository;
+import com.example.sourcewords.ui.review.view.reviewUtils.WordSample;
 import com.example.sourcewords.utils.DateUtils;
 import com.example.sourcewords.utils.PreferencesUtils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Stack;
 
 public class ReviewCardViewModel extends AndroidViewModel {
     private WordRepository mWordRepository;
     private List<Word> newLearnedWords;
     private List<Word> haveLearnedWords;
     private List<Word> reviewWords;
-    private int newLearnedCount;
-    private int haveLearnedCount;
-    private int reviewCount;
-    private int flag = 0;
+    private MutableLiveData<Integer> newLearnedCount;
+    private MutableLiveData<Integer> haveLearnedCount;
+    private MutableLiveData<Integer> reviewCount;
 
-    private Queue<Word> newLearnedWordsQueue;
-    private Queue<Word> haveLearnedWordsQueue;
-    private Queue<Word> reviewWordsQueue;
+    private MutableLiveData<WordSample> wordSampleMutableLiveData;
+    // 用来存储所有的背过的不需要复习的单词的状态,这时单词的下次复习时间应该都是日期状态
+    private HashMap<Integer, WordSample> wordPool = new HashMap<>();
+    // 上次的学习时间 用hh：mm表示
+    private String lastLearnTime;
+    // 单词的复习历史
+    private Stack<WordSample> historyStack = new Stack<>();
 
-    private MutableLiveData<Integer> learnFlag = new MutableLiveData<>(0);
+    // 单词的按时间排序的优先队列
+    private PriorityQueue<WordSample> priorityQueue = new PriorityQueue<>();
+    // 今日第一次学或者复习的单词队列
+    private Queue<WordSample> newLearnedWordsQueue;
+    private Queue<WordSample> haveLearnedWordsQueue;
+
 
 
     public ReviewCardViewModel(@NonNull Application application) {
         super(application);
         mWordRepository = new WordRepository();
         initData();
+        wordSampleMutableLiveData = new MutableLiveData<>();
     }
 
-    public MutableLiveData<Integer> getLearnFlag() {
-        return learnFlag;
-    }
 
     public void initData() {
-        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
-        int rootId=sharedPreferences.getInt(PreferencesUtils.WOOD_ROOT_TODAY, 0);
-        Log.d("preferences","" + rootId);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
+        int rootId = sharedPreferences.getInt(PreferencesUtils.WOOD_ROOT_TODAY, 0);
+        Log.d("preferences", "" + rootId);
         newLearnedWords = mWordRepository.getNewWords(rootId);
-        haveLearnedWords = mWordRepository.getCurrentWords();
-        reviewWords = mWordRepository.getLearnedWords(DateUtils.getTime());
+        haveLearnedWords = mWordRepository.getLearnedWords(DateUtils.getData());
+        reviewWords = new ArrayList<>(0);
+
+        newLearnedCount = new MutableLiveData<>(newLearnedWords.size());
+        haveLearnedCount = new MutableLiveData<>(haveLearnedWords.size());
+        reviewCount = new MutableLiveData<>(priorityQueue.size());
 
         addInQueue();
 
-        newLearnedCount = newLearnedWordsQueue.size();
-        haveLearnedCount = haveLearnedWordsQueue.size();
-        reviewCount = reviewWordsQueue.size();
+
 
     }
 
-    public int getNewLearnedCount() {
+    public MutableLiveData<Integer> getNewLearnedCount() {
         return newLearnedCount;
     }
 
-    public int getHaveLearnedCount(){
+    public MutableLiveData<Integer> getHaveLearnedCount() {
         return haveLearnedCount;
     }
 
-    public int getReviewCount() {
+    public MutableLiveData<Integer> getReviewCount() {
         return reviewCount;
     }
 
-    public int currentFlag() {
-        return flag;
-    }
+    int i = 0;
 
-    public Word getNextWords() {
-        if(newLearnedWords != null && newLearnedWordsQueue.size() != 0) {
-            flag = 0;
-            newLearnedCount--;
-            return newLearnedWordsQueue.poll();
+    // 在优先队列里有单词到了时间复习则直接优先复习
+    // 没有则先在新学的单词队列里找到新单词，再在以前学的单词的队列里寻找
+    // 如果都没有，则从优先队列里强制拿单词
+    public WordSample getNextWords() {
+        WordSample wordSample = null;
+        if(priorityQueue.isEmpty() || priorityQueue.peek().getTime().compareTo(lastLearnTime) > 0)
+        if(!newLearnedWordsQueue.isEmpty()) {
+            Log.d("nq", "" + newLearnedWordsQueue.size());
+            wordSample = newLearnedWordsQueue.poll();
         }
-        else if(haveLearnedWords != null && haveLearnedWordsQueue.size() != 0) {
-            flag = 1;
-            haveLearnedCount--;
-            return haveLearnedWordsQueue.poll();
-        }
-        else if(reviewWords != null && reviewWordsQueue.size() != 0) {
-            flag = 2;
-            reviewCount--;
-            return reviewWordsQueue.poll();
+        else if(!haveLearnedWordsQueue.isEmpty()) {
+            Log.d("hq", "" + haveLearnedWordsQueue.size());
+            wordSample = haveLearnedWordsQueue.poll();
         }
         else {
-            initData();
-            return getNextWords();
+            Log.d("pq", "" + priorityQueue.size());
+            wordSample = priorityQueue.poll();
         }
+        else wordSample = priorityQueue.poll();
+        return wordSample;
     }
 
-    public Word getPreWord(Word word, int flag) {
-        Word pre = null;
-        switch (flag) {
-            case 0:
-                for(int i = 0; i<newLearnedWords.size(); i++) {
-                    if(newLearnedWords.get(i).getId() == word.getId()) {
-                        break;
-                    }
-                    else {
-                        pre = newLearnedWords.get(i);
-                        newLearnedWords.remove(pre);
-                    }
-                }
-                break;
-            case 1:
-                for(int i = 0; i<haveLearnedWords.size(); i++) {
-                    if(haveLearnedWords.get(i).getId() == word.getId()) {
-                        break;
-                    }
-                    else {
-                        pre = haveLearnedWords.get(i);
-                        haveLearnedWords.remove(pre);
-                    }
-                }
-                break;
-            case 2:
-                for(int i = 0; i<reviewWords.size(); i++) {
-                    if(reviewWords.get(i).getId() == word.getId()) {
-                        break;
-                    }
-                    else {
-                        pre = reviewWords.get(i);
-                        reviewWords.remove(pre);
-                    }
-                }
-                break;
-        }
-        addInQueue();
-        if(pre == null) {
-            switch (flag) {
-                case 0:
-                    newLearnedWordsQueue.poll();
-                    break;
-
-                case 1:
-                    haveLearnedWordsQueue.poll();
-                    break;
-
-                case 2:
-                    reviewWordsQueue.poll();
-                    break;
-            }
-            return word;
-        }
-        else return pre;
-    }
+//    public Word getPreWord(Word word, int flag) {
+//
+//    }
 
     private void addInQueue() {
         newLearnedWordsQueue = new LinkedList<>();
         haveLearnedWordsQueue = new LinkedList<>();
-        reviewWordsQueue = new LinkedList<>();
 
-        for(Word w : newLearnedWords) {
-            newLearnedWordsQueue.offer(w);
+        for (Word w : newLearnedWords) {
+            WordSample wordSample = new WordSample(w, w.getWord_info().getStatus(),"");
+            newLearnedWordsQueue.offer(wordSample);
         }
-        for(Word w : haveLearnedWords) {
-            haveLearnedWordsQueue.offer(w);
+        for (Word w : haveLearnedWords) {
+            WordSample wordSample = new WordSample(w, w.getWord_info().getStatus(), "");
+            haveLearnedWordsQueue.offer(wordSample);
         }
-        for(Word w : reviewWords) {
-            reviewWordsQueue.offer(w);
-        }
+
     }
+
+    public HashMap<Integer, WordSample> getWordPool() {
+        return wordPool;
+    }
+
+    public void setWordPool(HashMap<Integer, WordSample> wordPool) {
+        this.wordPool = wordPool;
+    }
+
+    public String getLastLearnTime() {
+        return lastLearnTime;
+    }
+
+    public void setLastLearnTime(String lastLearnTime) {
+        this.lastLearnTime = lastLearnTime;
+    }
+
+    public Stack<WordSample> getHistoryStack() {
+        return historyStack;
+    }
+
+    public void setHistoryStack(Stack<WordSample> historyStack) {
+        this.historyStack = historyStack;
+    }
+
+    public PriorityQueue<WordSample> getPriorityQueue() {
+        return priorityQueue;
+    }
+
+    public void setPriorityQueue(PriorityQueue<WordSample> priorityQueue) {
+        this.priorityQueue = priorityQueue;
+    }
+
 
     public void insert(Word... words) {
         mWordRepository.insert(words);
     }
 
-    public LiveData<List<Word>> getAllWord() { return mWordRepository.getAllWords(); }
-    public LiveData<List<WordRoot>> getAllWordRoot() { return mWordRepository.getAllWordRoot(); }
-    public LiveData<List<SingleWord>> getAllSingleWord() { return mWordRepository.getAllSingleWord(); }
+    public LiveData<List<Word>> getAllWord() {
+        return mWordRepository.getAllWords();
+    }
+
+    public LiveData<List<WordRoot>> getAllWordRoot() {
+        return mWordRepository.getAllWordRoot();
+    }
+
+    public LiveData<List<SingleWord>> getAllSingleWord() {
+        return mWordRepository.getAllSingleWord();
+    }
+
+    public SingleWord getSingleWordById(int id) {
+        return mWordRepository.getSingleWordById(id);
+    }
+
+    public void insert(SingleWord...singleWords) {
+        mWordRepository.insert(singleWords);
+    }
+
+    public MutableLiveData<WordSample> getNextWordSample() {
+        wordSampleMutableLiveData.setValue(getNextWords());
+        return wordSampleMutableLiveData;
+    }
 }

@@ -15,8 +15,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
+import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,7 +23,9 @@ import com.example.sourcewords.R;
 import com.example.sourcewords.ui.learn.view.LearnSearchActivity;
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordInfoBean;
-import com.example.sourcewords.ui.review.dataBean.WordRoot;
+import com.example.sourcewords.ui.review.view.reviewUtils.ContextUtils;
+import com.example.sourcewords.ui.review.view.reviewUtils.WordSample;
+import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
 import com.example.sourcewords.ui.review.viewmodel.ReviewViewModel;
 import com.example.sourcewords.utils.DateUtils;
 
@@ -33,6 +34,7 @@ import java.io.IOException;
 public class DetailActivity extends AppCompatActivity {
     private ImageView back, search;
     private int code;
+    private int count;
     private Toolbar mToolbar;
     private MediaPlayer mMediaPlayer;
     private ImageView playerButton;
@@ -43,6 +45,7 @@ public class DetailActivity extends AppCompatActivity {
     private ReviewViewModel mViewModel;
     private Word mWord;
     private WordInfoBean mWordInfo;
+    private ReviewCardViewModel reviewCardViewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,19 +92,13 @@ public class DetailActivity extends AppCompatActivity {
         search = findViewById(R.id.search);
 
         code = getIntent().getIntExtra("code",0);
+        count = getIntent().getIntExtra("count", 0);
 
         mViewModel = new ReviewViewModel(getApplication());
-        /*head
-        int wordId = getIntent().getIntExtra("indexWord", 0);
-        int rootId = getIntent().getIntExtra("indexWordRoot",0);
-        //测试
-        mWordRoot = mViewModel.getWordRootTest(1);
-        mWord = mWordRoot.getWordlist().get(wordId);
-         */
+        reviewCardViewModel = ViewModelProviders.of((FragmentActivity) ContextUtils.getContext()).get(ReviewCardViewModel.class);
         int wordId = getIntent().getIntExtra("wordId", 0);
 
         mWord = mViewModel.search(wordId);
-        Log.d("wordid","" + mWord.getId());
 
         mWordInfo = mWord.getWord_info();
 
@@ -181,14 +178,38 @@ public class DetailActivity extends AppCompatActivity {
         again.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mWord.getWord_info().setNextTime(DateUtils.addTime(againTime.getValue(),againTime.getUnit()));
-                /*
-                mWord.getWord_info().setStatus(WordInfoBean.WORD_TODAY_REVIEW_AGAIN);
-                mViewModel.Update(mWordRoot);
-                */
-//              mViewModel.Update(mWordRoot);
+                String nextTime = DateUtils.addTime(againTime.getValue(), againTime.getUnit());
+                int status = code;
+                WordSample wordSample = new WordSample(mWord, status, nextTime);
+
+
+                if(againTime.getUnit() == "DAYS") {
+                    wordSample.setStatus(2);
+                    reviewCardViewModel.getWordPool().put(id, wordSample);
+                }
+
+                else {
+                    wordSample.setStatus(1);
+                    reviewCardViewModel.getPriorityQueue().offer(wordSample);
+                }
+                switch (code) {
+                    case 0:
+                        reviewCardViewModel.getNewLearnedCount().setValue(--count);
+                        reviewCardViewModel.getReviewCount().setValue(reviewCardViewModel.getPriorityQueue().size());
+
+                        break;
+                    case 1:
+                        reviewCardViewModel.getReviewCount().setValue(--count);
+                        reviewCardViewModel.getReviewCount().setValue(reviewCardViewModel.getPriorityQueue().size());
+
+                        break;
+                    case 2:
+                        reviewCardViewModel.getHaveLearnedCount().setValue(--count);
+                        reviewCardViewModel.getReviewCount().setValue(reviewCardViewModel.getPriorityQueue().size());
+
+                        break;
+                }
                 Intent intent = new Intent();
-                intent.putExtra("result", 0);
                 DetailActivity.this.setResult(RESULT_OK, intent);
                 DetailActivity.this.finish();
             }
@@ -197,15 +218,36 @@ public class DetailActivity extends AppCompatActivity {
         hard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mWord.getWord_info().setNextTime(DateUtils.addTime(againTime.getValue(),againTime.getUnit()));
-                /*
-                int status = againTime.getUnit().equals("MINS") ? WordInfoBean.WORD_TODAY_REVIEW_AGAIN : WordInfoBean.WORD_PAST_REVIEWED;
-                mWord.getWord_info().setStatus(status);
-                mViewModel.Update(mWordRoot);
-                */
-//              mViewModel.Update(mWordRoot);
+                String nextTime = DateUtils.addTime(hardTime.getValue(), hardTime.getUnit());
+                int status = code;
+                WordSample wordSample = new WordSample(mWord, status, nextTime);
+
+                if(hardTime.getUnit() == "DAYS") {
+                    wordSample.setStatus(2);
+                    reviewCardViewModel.getWordPool().put(id, wordSample);
+                }
+                else {
+                    wordSample.setStatus(1);
+                    reviewCardViewModel.getPriorityQueue().offer(wordSample);
+                }
+                switch (code) {
+                    case 0:
+                        reviewCardViewModel.getNewLearnedCount().setValue(--count);
+                        reviewCardViewModel.getReviewCount().setValue(reviewCardViewModel.getPriorityQueue().size());
+
+                        break;
+                    case 1:
+                        reviewCardViewModel.getReviewCount().setValue(--count);
+                        reviewCardViewModel.getReviewCount().setValue(reviewCardViewModel.getPriorityQueue().size());
+
+                        break;
+                    case 2:
+                        reviewCardViewModel.getHaveLearnedCount().setValue(--count);
+                        reviewCardViewModel.getReviewCount().setValue(reviewCardViewModel.getPriorityQueue().size());
+
+                        break;
+                }
                 Intent intent = new Intent();
-                intent.putExtra("result", 2);
                 DetailActivity.this.setResult(RESULT_OK, intent);
                 DetailActivity.this.finish();
             }
@@ -214,15 +256,33 @@ public class DetailActivity extends AppCompatActivity {
         good.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mWord.getWord_info().setNextTime(DateUtils.addTime(againTime.getValue(),againTime.getUnit()));
-                /*
-                int status = againTime.getUnit().equals("MINS") ? WordInfoBean.WORD_TODAY_REVIEW_AGAIN : WordInfoBean.WORD_PAST_REVIEWED;
-                mWord.getWord_info().setStatus(status);
-                mViewModel.Update(mWordRoot);
-                 */
-//              mViewModel.Update(mWordRoot);
+                String nextTime = DateUtils.addTime(goodTime.getValue(), goodTime.getUnit());
+                int status = code;
+                WordSample wordSample = new WordSample(mWord, status, nextTime);
+                if(goodTime.getUnit() == "DAYS") {
+                    wordSample.setStatus(2);
+                    reviewCardViewModel.getWordPool().put(id, wordSample);
+                }
+                else {
+                    wordSample.setStatus(1);
+                    reviewCardViewModel.getPriorityQueue().offer(wordSample);
+                }
+                switch (code) {
+                    case 0:
+                        reviewCardViewModel.getNewLearnedCount().setValue(--count);
+                        reviewCardViewModel.getReviewCount().setValue(reviewCardViewModel.getPriorityQueue().size());
+                        break;
+                    case 1:
+                        reviewCardViewModel.getReviewCount().setValue(--count);
+                        reviewCardViewModel.getReviewCount().setValue(reviewCardViewModel.getPriorityQueue().size());
+                        break;
+                    case 2:
+                        reviewCardViewModel.getHaveLearnedCount().setValue(--count);
+                        reviewCardViewModel.getReviewCount().setValue(reviewCardViewModel.getPriorityQueue().size());
+
+                        break;
+                }
                 Intent intent = new Intent();
-                intent.putExtra("result", 3);
                 DetailActivity.this.setResult(RESULT_OK, intent);
                 DetailActivity.this.finish();
             }
@@ -231,15 +291,32 @@ public class DetailActivity extends AppCompatActivity {
         easy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mWord.getWord_info().setNextTime(DateUtils.addTime(againTime.getValue(),againTime.getUnit()));
-                /*
-                int status = againTime.getUnit().equals("MINS") ? WordInfoBean.WORD_TODAY_REVIEW_AGAIN : WordInfoBean.WORD_PAST_REVIEWED;
-                mWord.getWord_info().setStatus(status);
-                mViewModel.Update(mWordRoot);
-                */
-//              mViewModel.Update(mWordRoot);
+                String nextTime = DateUtils.addTime(easyTime.getValue(), easyTime.getUnit());
+                int status = code;
+                WordSample wordSample = new WordSample(mWord, status, nextTime);
+                if(easyTime.getUnit() == "DAYS") {
+                    wordSample.setStatus(2);
+                    reviewCardViewModel.getWordPool().put(id, wordSample);
+                }
+                else {
+                    wordSample.setStatus(1);
+                    reviewCardViewModel.getPriorityQueue().offer(wordSample);
+                }
+                switch (code) {
+                    case 0:
+                        reviewCardViewModel.getNewLearnedCount().setValue(--count);
+                        reviewCardViewModel.getReviewCount().setValue(reviewCardViewModel.getPriorityQueue().size());
+                        break;
+                    case 1:
+                        reviewCardViewModel.getReviewCount().setValue(--count);
+                        reviewCardViewModel.getReviewCount().setValue(reviewCardViewModel.getPriorityQueue().size());
+                        break;
+                    case 2:
+                        reviewCardViewModel.getHaveLearnedCount().setValue(--count);
+                        reviewCardViewModel.getReviewCount().setValue(reviewCardViewModel.getPriorityQueue().size());
+                        break;
+                }
                 Intent intent = new Intent();
-                intent.putExtra("result", 3);
                 DetailActivity.this.setResult(RESULT_OK, intent);
                 DetailActivity.this.finish();
             }

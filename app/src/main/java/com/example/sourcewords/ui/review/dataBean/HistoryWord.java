@@ -10,15 +10,14 @@ public class HistoryWord {
     int id;
 
     @ColumnInfo(name = "word")
-    String word;
+    String meaning;
 
     @ColumnInfo(name = "info")
-    String info;
+    String root;
 
-    public HistoryWord(int id, String word, String info) {
-        this.id = id;
-        this.word = word;
-        this.info = info;
+    public HistoryWord(String meaning, String root) {
+        this.meaning = meaning;
+        this.root = root;
     }
 
     public int getId() {
@@ -29,19 +28,19 @@ public class HistoryWord {
         this.id = id;
     }
 
-    public String getWord() {
-        return word;
+    public String getMeaning() {
+        return meaning;
     }
 
-    public void setWord(String word) {
-        this.word = word;
+    public void setMeaning(String meaning) {
+        this.meaning = meaning;
     }
 
-    public String getInfo() {
-        return info;
+    public String getRoot() {
+        return root;
     }
 
-    public void setInfo(String info) {
-        this.info = info;
+    public void setRoot(String root) {
+        this.root = root;
     }
 }

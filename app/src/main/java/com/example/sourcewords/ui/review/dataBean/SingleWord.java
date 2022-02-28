@@ -43,6 +43,12 @@ public class SingleWord {
 
     @ColumnInfo(name = "单词变形")
     private String variation;
+
+    @ColumnInfo(name = "复习时间")
+    private String nextTime;
+
+    @ColumnInfo(name = "复习状态")
+    private int status;
     /**
      * en : That would dent demand for both coal and electricity .
      * zh : 这会削弱对煤和电的需求。
@@ -52,6 +58,22 @@ public class SingleWord {
     private List<ExampleSentencesBean> example_sentences;
     @ColumnInfo(name = "考试分级")
     private List<Boolean> exam_grading;
+
+    public String getNextTime() {
+        return nextTime;
+    }
+
+    public void setNextTime(String nextTime) {
+        this.nextTime = nextTime;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public int getId() {
         return id;
@@ -152,5 +174,23 @@ public class SingleWord {
         public void setZh(String zh) {
             this.zh = zh;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "SingleWord{" +
+                "id=" + id +
+                ", word='" + word + '\'' +
+                ", root=" + root +
+                ", phonetic='" + phonetic + '\'' +
+                ", pronunciation_url='" + pronunciation_url + '\'' +
+                ", meaning='" + meaning + '\'' +
+                ", zh_source='" + zh_source + '\'' +
+                ", variation='" + variation + '\'' +
+                ", nextTime='" + nextTime + '\'' +
+                ", status=" + status +
+                ", example_sentences=" + example_sentences +
+                ", exam_grading=" + exam_grading +
+                '}';
     }
 }

@@ -43,13 +43,4 @@ public class ReviewViewModel extends AndroidViewModel {
 
     public WordRoot getWordRootTest(int id){return mWordRepository.getWordRootTest2(id);}
 
-    //以前学习的单词列表
-    public List<Word> getTobeReview() { return mWordRepository.getTobeReview(); }
-
-    //今天需要再次复习的单词列表
-    public List<Word> getReviewAgainToday() { return mWordRepository.getReviewAgainToday(); }
-
-    //今天新学的单词列表
-    public List<Word> getNewWordsToday() { return mWordRepository.getNewWordsToday(); }
-
 }
