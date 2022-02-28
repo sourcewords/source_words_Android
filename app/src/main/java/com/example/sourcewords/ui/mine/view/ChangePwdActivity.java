@@ -1,6 +1,7 @@
 package com.example.sourcewords.ui.mine.view;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -8,29 +9,47 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.sourcewords.R;
 import com.example.sourcewords.databinding.ActivityChangepwdBinding;
+import com.example.sourcewords.ui.mine.model.Api;
 import com.example.sourcewords.ui.mine.viewmodel.ChangePwdViewModel;
 import com.example.sourcewords.ui.mine.model.databean.PassWord;
 
+import java.util.Objects;
+
 public class ChangePwdActivity extends AppCompatActivity {
 
-    private ChangePwdViewModel myViewModel;
+    private ChangePwdViewModel myViewModel = new ChangePwdViewModel();
     private ActivityChangepwdBinding myDataBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         myDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_changepwd);
-        myViewModel = new ChangePwdViewModel();
-        PassWord pwd= new PassWord("****", "****","****");
-        myViewModel.getPwd().setValue(pwd);
-        MutableLiveData<PassWord> pwd1 = myViewModel.getPwd();
-        pwd1.observe(this, pwd2 -> myDataBinding.setChangePwdViewModel(myViewModel));
+        myDataBinding.setLifecycleOwner(this);
+        myDataBinding.setChangePwdViewModel(myViewModel);
 
         myDataBinding.confirmChangepwd.setOnClickListener(v->{
-            //TODO:判断密码是否为空；判断新旧密码是否相同；判断两次输入是否一致
-            //进行网络请求put新密码
+            if(!Objects.requireNonNull(myViewModel.getPassWord().getValue()).getOldPwd().equals(myViewModel.getOldpwd())){
+                Toast.makeText(this,"请输入正确的旧密码！",Toast.LENGTH_SHORT).show();
+            }
+            else if(myViewModel.getPassWord().getValue().getNewPwd().length() < 5){
+                Toast.makeText(this, "新密码长度太短，请重新设置！",Toast.LENGTH_SHORT).show();
+            }
+            else if(!myViewModel.getPassWord().getValue().getNewPwd().equals(myViewModel.getPassWord().getValue().getAgainPwd())){
+                Toast.makeText(this, "两次输入的密码不一致哦！",Toast.LENGTH_SHORT).show();
+            }
+            else{
+                myViewModel.putChange(new Api.ChangePwdApi() {
+                    @Override
+                    public void success() {
+                        Toast.makeText(ChangePwdActivity.this, "修改成功！", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void failed() {
+                        Toast.makeText(ChangePwdActivity.this, "出错啦！请检查网络连接~", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
         });
-
-
     }
 }

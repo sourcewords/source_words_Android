@@ -24,19 +24,18 @@ public class UserInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_userinfo);
         userInfoViewModel = new UserInfoViewModel();
+        dataBinding.setLifecycleOwner(this);
+        dataBinding.setUserInfoViewModel(userInfoViewModel);
 
-        dataBinding.changePwd.setOnClickListener(view -> {
+        dataBinding.infoChangePwd.setOnClickListener(view -> {
             Intent intent = new Intent(this, ChangePwdActivity.class);
+            startActivity(intent);
         });
 
         dataBinding.commit.setOnClickListener(v -> {
 
         });
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getWindow().getDecorView().
-                    setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
-                            View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        }
+
     }
 }

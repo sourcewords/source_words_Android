@@ -7,6 +7,7 @@ import com.example.sourcewords.ui.login.model.databean.LoginResponse;
 import com.example.sourcewords.ui.login.model.databean.LoginUser;
 import com.example.sourcewords.ui.login.model.databean.RegisterEmail;
 import com.example.sourcewords.ui.login.model.databean.RegisterResponse;
+import com.example.sourcewords.ui.mine.model.databean.PutPwd;
 import com.example.sourcewords.ui.mine.model.databean.UserInfo;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.dataBean.WordRootStatus;
@@ -32,7 +33,10 @@ public interface RetrofitApi {
 
     //userInfo
     @GET("user/info")
-    Call<MutableLiveData<UserInfo>> getUserInfo(@Header("token") String token);
+    Call<UserInfo> getUserInfo(@Header("token") String token);
+
+    @PUT("user/info")
+    Call<LoginResponse> putUserInfo(@Body UserInfo userInfo);
 
     //wordRoots
     @GET("/roots/list")
@@ -44,7 +48,7 @@ public interface RetrofitApi {
 //    @PUT("user/info")
 //    Call<Message> putUserInfo(@Body UserInfo userInfo);
 
-//    //chang-pwd
-//    @PUT("user/reset")
-//    Call<LoginResponse> changPwd(@Body )
+    //chang-pwd
+    @PUT("user/reset")
+    Call<LoginResponse> changPwd(@Body PutPwd newpwd);
 }

@@ -39,6 +39,8 @@ public class AllPlanActivity extends AppCompatActivity {
         if(spaceTag == 1){
             recyclerView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelOffset(R.dimen.dp_10), mList, this));
         }
+
+
     }
 
     public void initList(){

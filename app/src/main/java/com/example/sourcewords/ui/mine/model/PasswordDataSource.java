@@ -21,5 +21,7 @@ public class PasswordDataSource {
 
     private PasswordDataSource (){}
 
-    public void getPwd(){}
+    public String getPwd(){
+        return UserWrapper.getInstance().getPwd();
+    }
 }

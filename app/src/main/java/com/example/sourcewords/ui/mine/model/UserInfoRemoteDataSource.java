@@ -29,18 +29,17 @@ public class UserInfoRemoteDataSource {
 
     private UserInfoRemoteDataSource(){};
 
-    public void getRemoteUserInfo(MutableLiveData<UserInfo> myUserInfo) {
-
-        MutableLiveData<UserInfo>[] userInfo = new MutableLiveData[1];
+    public void getRemoteUserInfo(UserInfo myUserInfo) {
+        final UserInfo[] userInfo = {new UserInfo()};
         NetUtil.getInstance().getApi().getUserInfo(token)
-                .enqueue(new Callback<MutableLiveData<UserInfo>>() {
+                .enqueue(new Callback<UserInfo>() {
                     @Override
-                    public void onResponse(Call<MutableLiveData<UserInfo>> call, Response<MutableLiveData<UserInfo>> response) {
+                    public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
                         userInfo[0] = response.body();
                     }
 
                     @Override
-                    public void onFailure(Call<MutableLiveData<UserInfo>> call, Throwable t) {
+                    public void onFailure(Call<UserInfo> call, Throwable t) {
 
                     }
                 });
