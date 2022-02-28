@@ -20,19 +20,19 @@ import com.example.sourcewords.ui.login.viewmodel.RegisterViewModel;
 
 import java.util.Objects;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity implements RegisterNavigator{
 
     private RegisterViewModel registerViewModel;
     private ActivityLoginRegisterBinding binding;
-    CountTimer countTimer = new CountTimer(10000, 1000);
+    CountTimer countTimer = new CountTimer(60000, 1000);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_register);
 
-//        registerViewModel = ViewModelProviders.of(this).get(RegisterViewModel.class);
         registerViewModel = new RegisterViewModel(RegisterRemoteRespository.getINSTANCE(),getApplicationContext());
+        registerViewModel.onActivityCreated(this);
 
         binding = DataBindingUtil.setContentView(this,R.layout.activity_login_register);
         binding.setLifecycleOwner(this);
@@ -78,6 +78,11 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onRegisterCompleted() {
+        finish();
+    }
+
 
     /**
      * 点击按钮后倒计时
@@ -114,10 +119,5 @@ public class RegisterActivity extends AppCompatActivity {
             binding.btnCaptcha.setText("发送");
             binding.btnCaptcha.setClickable(true);
         }
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
     }
 }

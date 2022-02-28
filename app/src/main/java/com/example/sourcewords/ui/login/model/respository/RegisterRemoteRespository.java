@@ -49,21 +49,18 @@ public class RegisterRemoteRespository implements RegisterDataSource {
             @Override
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
                 if(response.isSuccessful()){
-                    Toast.makeText(App.getAppContext(), "恭喜您注册成功！", Toast.LENGTH_SHORT).show();
                     loadRegisterCallBack.onRegisterLoaded();
                 } else if(response.code() == 401){
                     Toast.makeText(App.getAppContext(), "该账户已经存在！", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     loadRegisterCallBack.onDataNotAvailable();
-                    Toast.makeText(App.getAppContext(), "请检查您的验证码是否输入正确!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<RegisterResponse> call, Throwable t) {
                 loadRegisterCallBack.onFailure();
-                Toast.makeText(App.getAppContext(),"网络出问题啦!", Toast.LENGTH_SHORT).show();
             }
         });
     }
