@@ -186,11 +186,13 @@ public class DetailActivity extends AppCompatActivity {
                 if(againTime.getUnit() == "DAYS") {
                     wordSample.setStatus(2);
                     reviewCardViewModel.getWordPool().put(id, wordSample);
+                    reviewCardViewModel.getHistoryStack().push(wordSample);
                 }
 
                 else {
                     wordSample.setStatus(1);
                     reviewCardViewModel.getPriorityQueue().offer(wordSample);
+                    reviewCardViewModel.getHistoryStack().push(wordSample);
                 }
                 switch (code) {
                     case 0:
@@ -230,6 +232,7 @@ public class DetailActivity extends AppCompatActivity {
                     wordSample.setStatus(1);
                     reviewCardViewModel.getPriorityQueue().offer(wordSample);
                 }
+                reviewCardViewModel.getHistoryStack().push(wordSample);
                 switch (code) {
                     case 0:
                         reviewCardViewModel.getNewLearnedCount().setValue(--count);
@@ -267,6 +270,7 @@ public class DetailActivity extends AppCompatActivity {
                     wordSample.setStatus(1);
                     reviewCardViewModel.getPriorityQueue().offer(wordSample);
                 }
+                reviewCardViewModel.getHistoryStack().push(wordSample);
                 switch (code) {
                     case 0:
                         reviewCardViewModel.getNewLearnedCount().setValue(--count);
@@ -302,6 +306,7 @@ public class DetailActivity extends AppCompatActivity {
                     wordSample.setStatus(1);
                     reviewCardViewModel.getPriorityQueue().offer(wordSample);
                 }
+                reviewCardViewModel.getHistoryStack().push(wordSample);
                 switch (code) {
                     case 0:
                         reviewCardViewModel.getNewLearnedCount().setValue(--count);

@@ -55,6 +55,22 @@ public class ReviewCardViewModel extends AndroidViewModel {
     private Queue<WordSample> haveLearnedWordsQueue;
 
 
+    public Queue<WordSample> getNewLearnedWordsQueue() {
+        return newLearnedWordsQueue;
+    }
+
+    public void setNewLearnedWordsQueue(Queue<WordSample> newLearnedWordsQueue) {
+        this.newLearnedWordsQueue = newLearnedWordsQueue;
+    }
+
+    public Queue<WordSample> getHaveLearnedWordsQueue() {
+        return haveLearnedWordsQueue;
+    }
+
+    public void setHaveLearnedWordsQueue(Queue<WordSample> haveLearnedWordsQueue) {
+        this.haveLearnedWordsQueue = haveLearnedWordsQueue;
+    }
+
 
     public ReviewCardViewModel(@NonNull Application application) {
         super(application);
@@ -101,6 +117,9 @@ public class ReviewCardViewModel extends AndroidViewModel {
     // 如果都没有，则从优先队列里强制拿单词
     public WordSample getNextWords() {
         WordSample wordSample = null;
+        newLearnedCount.setValue(newLearnedWordsQueue.size());
+        haveLearnedCount.setValue(haveLearnedWordsQueue.size());
+        reviewCount.setValue(priorityQueue.size());
         if(priorityQueue.isEmpty() || priorityQueue.peek().getTime().compareTo(lastLearnTime) > 0)
         if(!newLearnedWordsQueue.isEmpty()) {
             Log.d("nq", "" + newLearnedWordsQueue.size());
@@ -115,12 +134,10 @@ public class ReviewCardViewModel extends AndroidViewModel {
             wordSample = priorityQueue.poll();
         }
         else wordSample = priorityQueue.poll();
+
         return wordSample;
     }
 
-//    public Word getPreWord(Word word, int flag) {
-//
-//    }
 
     private void addInQueue() {
         newLearnedWordsQueue = new LinkedList<>();
@@ -197,5 +214,50 @@ public class ReviewCardViewModel extends AndroidViewModel {
     public MutableLiveData<WordSample> getNextWordSample() {
         wordSampleMutableLiveData.setValue(getNextWords());
         return wordSampleMutableLiveData;
+    }
+
+    public void getPreWord() {
+        if(historyStack.isEmpty()) return;
+        WordSample wordSample = historyStack.pop();
+        if(wordSample.getWord().getWord_info().getStatus() == wordSample.getStatus()) {
+            return;
+        }
+        Log.d("pre", wordSample.toString() + "innerStatus :" + wordSample.getWord().getWord_info().getStatus());
+//        switch (wordSample.getWord().getWord_info().getStatus()) {
+//            case 0:
+//                newLearnedCount.setValue(newLearnedWordsQueue.size() + 1);
+//                newLearnedWordsQueue.offer(wordSample);
+//                break;
+//            case 1:
+//                reviewCount.setValue(priorityQueue.size());
+//                wordSample.setTime(DateUtils.getTime());
+//                priorityQueue.offer(wordSample);
+//                break;
+//            case 2:
+//                haveLearnedCount.setValue(haveLearnedWordsQueue.size() + 1);
+//                haveLearnedWordsQueue.offer(wordSample);
+//                break;
+//        }
+
+        switch (wordSample.getStatus()) {
+            case 0:
+                newLearnedWordsQueue.remove(wordSample);
+//                newLearnedCount.setValue(newLearnedWordsQueue.size());
+                break;
+            case 1:
+                priorityQueue.remove(wordSample);
+//                reviewCount.setValue(priorityQueue.size());
+                break;
+            case 2:
+                haveLearnedWordsQueue.offer(wordSample);
+//                haveLearnedCount.setValue(haveLearnedWordsQueue.size());
+                break;
+        }
+        newLearnedCount.setValue(newLearnedWordsQueue.size());
+        haveLearnedCount.setValue(haveLearnedWordsQueue.size());
+        reviewCount.setValue(priorityQueue.size());
+        wordSample.setStatus(wordSample.getWord().getWord_info().getStatus());
+        wordSampleMutableLiveData.setValue(wordSample);
+        return;
     }
 }

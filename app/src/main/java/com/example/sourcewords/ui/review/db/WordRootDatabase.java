@@ -68,6 +68,7 @@ public abstract class WordRootDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(Void... params) {
 
+            Log.d("init","");
             for(WordRoot wordRoot : list) {
                 mDao.insertRoot(wordRoot);
                 Log.d("initDataq","" + wordRoot.getId());
