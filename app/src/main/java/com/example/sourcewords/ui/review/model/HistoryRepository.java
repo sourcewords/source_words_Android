@@ -16,11 +16,11 @@ public class HistoryRepository {
         mHistoryWordDao = hwdb.getHistoryWordDao();
     }
 
-    public void Insert(HistoryWord historyWords, HistoryDBCallback historyDBCallback){new InsertAsync(mHistoryWordDao, historyDBCallback).execute(historyWords);}
+    public void Insert(HistoryWord historyWords, HistoryDBCallback HistoryDBCallback){new InsertAsync(mHistoryWordDao, HistoryDBCallback).execute(historyWords);}
 
     public void Delete(HistoryWord... historyWords){new DeleteAsync(mHistoryWordDao).execute(historyWords);}
 
-    public void Clear(HistoryDBCallback historyDBCallback){new ClearAsync(mHistoryWordDao, historyDBCallback).execute();}
+    public void Clear(HistoryDBCallback HistoryDBCallback){new ClearAsync(mHistoryWordDao, HistoryDBCallback).execute();}
 
     public List<HistoryWord> getList(){return mHistoryWordDao.getHistoryWordList();}
 

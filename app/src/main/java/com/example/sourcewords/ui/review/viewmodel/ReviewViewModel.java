@@ -8,8 +8,10 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.example.sourcewords.ui.review.dataBean.SingleWord;
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
+import com.example.sourcewords.ui.review.model.SingleWordDBCallBack;
 import com.example.sourcewords.ui.review.model.WordRepository;
 import java.util.List;
 
@@ -43,5 +45,7 @@ public class ReviewViewModel extends AndroidViewModel {
 
     public WordRoot getWordRoot(int id){ return mWordRepository.getWordRootByID(id); }
 
+    public List<SingleWord> getAllWords(){return mWordRepository.getAllWord();}
 
+    public void getLikelyWords(String keyWord, SingleWordDBCallBack singleWordDBCallBack){ mWordRepository.getLikelyWords(keyWord, singleWordDBCallBack);}
 }

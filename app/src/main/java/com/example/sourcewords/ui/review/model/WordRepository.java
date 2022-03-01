@@ -1,9 +1,6 @@
 package com.example.sourcewords.ui.review.model;
 
 
-import android.content.AsyncQueryHandler;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
@@ -13,7 +10,6 @@ import androidx.lifecycle.LiveData;
 
 import com.example.sourcewords.ui.review.dataBean.SingleWord;
 import com.example.sourcewords.ui.review.dataBean.Word;
-import com.example.sourcewords.ui.review.dataBean.WordInfoBean;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.db.SingleWordDao;
 import com.example.sourcewords.ui.review.db.SingleWordDatabase;
@@ -23,15 +19,10 @@ import com.example.sourcewords.ui.review.db.WordRootDao;
 import com.example.sourcewords.ui.review.db.WordRootDatabase;
 import com.example.sourcewords.ui.review.view.reviewUtils.WordSample;
 
-import org.bouncycastle.asn1.ASN1Boolean;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import java.util.PriorityQueue;
 
 
 @RequiresApi(api = Build.VERSION_CODES.N)
@@ -130,6 +121,14 @@ public class WordRepository {
         return wordRoot.getWordlist();
     }
 
+    public void getLikelyWords(String word, SingleWordDBCallBack singleWordDBCallBack){
+        new Search(singleWordDao, singleWordDBCallBack).execute(word);
+    }
+
+    public List<SingleWord> getAllWord(){
+        return singleWordDao.getAllWords();
+    }
+
 
     public List<Word> getLearnedWords(String time) {
         List<SingleWord> list = singleWordDao.getHaveLearnedWordsByTime(time);
@@ -174,14 +173,24 @@ public class WordRepository {
         }
     }
 
-    static class Search extends AsyncTask<Integer, Void, Word> {
-        WordDao dao;
-        Search(WordDao wordDao){dao = wordDao;}
+    static class Search extends AsyncTask<String, Void, List<SingleWord>> {
+        SingleWordDao mSingleWordDao;
+        SingleWordDBCallBack mDBCallback;
+
+        public Search(SingleWordDao singleWordDao, SingleWordDBCallBack DBCallback) {
+            mSingleWordDao = singleWordDao;
+            mDBCallback = DBCallback;
+        }
 
         @Override
-        protected Word doInBackground(Integer... integers) {
-            int id = integers[0];
-            return dao.getWord(id);
+        protected List<SingleWord> doInBackground(String... keyWords) {
+            return mSingleWordDao.getLikelyWords(keyWords[0]);
+        }
+
+        @Override
+        protected void onPostExecute(List<SingleWord> singleWords) {
+            mDBCallback.getList(singleWords);
+            super.onPostExecute(singleWords);
         }
     }
 

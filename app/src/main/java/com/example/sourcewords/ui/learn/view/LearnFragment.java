@@ -73,20 +73,20 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         viewModel = ViewModelProviders.of(this.getActivity()).get(LearnViewModel.class);
         reviewCardViewModel = ViewModelProviders.of(this).get(ReviewCardViewModel.class);
         initView(v);
-        reviewCardViewModel.getAllWord().observe(this, new Observer<List<Word>>() {
+        reviewCardViewModel.getAllWord().observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
             @Override
             public void onChanged(@Nullable final List<Word> words) {
                 Log.d("initDataab","" + words.size());
             }
         });
-        reviewCardViewModel.getAllWordRoot().observe(this, new Observer<List<WordRoot>>() {
+        reviewCardViewModel.getAllWordRoot().observe(getViewLifecycleOwner(), new Observer<List<WordRoot>>() {
             @Override
             public void onChanged(List<WordRoot> wordRoots) {
                 Log.d("initDataa","" + wordRoots.size());
             }
         });
 
-        reviewCardViewModel.getAllSingleWord().observe(this, new Observer<List<SingleWord>>() {
+        reviewCardViewModel.getAllSingleWord().observe(getViewLifecycleOwner(), new Observer<List<SingleWord>>() {
             @Override
             public void onChanged(List<SingleWord> singleWords) {
                 Log.d("initDatac","" + singleWords.size());
@@ -140,7 +140,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
 
     //TODO 用于记录系统时间，以便判断UI的更新
     private void upDataTime() {
-        Handler handler = new WordRootHandler();
+        //Handler handler = new WordRootHandler();
         long sysTime = System.currentTimeMillis();//获取系统时间
         final Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(sysTime);
@@ -220,7 +220,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
     private void getTodayLearn() {
         Random random = new Random();
         final int id = random.nextInt(25);
-        Handler handler = new WordRootHandler();
+        //Handler handler = new WordRootHandler();
         new Thread() {
             @Override
             public void run() {
@@ -228,7 +228,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
                 try {
                     root = viewModel.getWordRootById(id);
 
-                    handler.sendEmptyMessage(WORDROOTMESSAGE);
+                    //handler.sendEmptyMessage(WORDROOTMESSAGE);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -236,6 +236,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         }.start();
     }
 
+    /*
 @SuppressLint("HandlerLeak")
 class WordRootHandler extends Handler {
     @SuppressLint("SetTextI18n")
@@ -257,6 +258,7 @@ class WordRootHandler extends Handler {
                 }else{
                     videoView.setVideoURI(Uri.parse(path));
                 }*/
+    /*
         } else if (msg.what == UPDATETIME) {
             SharedPreferences sharedPreferences = Objects.requireNonNull(getContext()).getSharedPreferences(Name_Learn, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -267,6 +269,7 @@ class WordRootHandler extends Handler {
     }
 
 }
+     */
 
     private void refresh() {
         onCreate(null);

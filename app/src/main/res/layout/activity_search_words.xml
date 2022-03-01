@@ -5,6 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="300dp"
+        android:layout_height="270dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@mipmap/planet_new" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout6"
         android:layout_width="match_parent"
@@ -40,11 +48,14 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="left|center"
-                android:src="@drawable/search_foreground"></ImageView>
+                android:src="@drawable/search_foreground"/>
 
             <EditText
+                android:id="@+id/search_word_editView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:maxLines="1"
+                android:inputType="text"
                 android:layout_marginRight="40dp"
                 android:background="@drawable/search_circle"
                 android:hint="请输入要查询的英文或中文~"
@@ -63,7 +74,9 @@
         android:layout_marginEnd="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout6" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout6" >
+
+    </androidx.recyclerview.widget.RecyclerView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/foldable_layout"
@@ -105,4 +118,5 @@
             app:srcCompat="@mipmap/clear_foreground" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

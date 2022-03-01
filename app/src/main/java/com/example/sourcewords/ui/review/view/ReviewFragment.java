@@ -68,11 +68,13 @@ public class ReviewFragment extends Fragment {
             }
         });
 
+        initViewAndListener(view);
+
         return view;
     }
 
-    public  void initViewAndListener(){
-        search.findViewById(R.id.review_search);
+    public  void initViewAndListener(View view){
+        search = view.findViewById(R.id.review_search);
         search.setOnClickListener(v->{
             Intent intent = new Intent(getActivity(),ReviewSearchActivity.class);
             startActivity(intent);

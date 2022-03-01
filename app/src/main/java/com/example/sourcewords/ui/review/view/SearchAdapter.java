@@ -13,12 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.review.dataBean.HistoryWord;
+import com.example.sourcewords.ui.review.dataBean.SingleWord;
 
 import java.util.List;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHolder>{
     private List<HistoryWord> list;
+    private List<SingleWord> SList;
     private Context mContext;
+    private boolean isHistory;
 
     public SearchAdapter(Context mContext){
         this.mContext = mContext;
@@ -26,6 +29,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
 
     public void setList(List<HistoryWord> list) {
         this.list = list;
+        isHistory = true;
+    }
+
+    public void setSList(List<SingleWord> SList) {
+        this.SList = SList;
+        isHistory = false;
     }
 
     @NonNull
@@ -38,19 +47,26 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onBindViewHolder(@NonNull SearchHolder holder, int position) {
-        HistoryWord historyWord = list.get(position);
-        holder.words.setText(historyWord.getRoot());
-        holder.info.setText(historyWord.getMeaning());
+        if(isHistory) {
+            HistoryWord historyWord = list.get(position);
+            holder.words.setText(historyWord.getRoot());
+            holder.info.setText(historyWord.getMeaning());
 
-        holder.delete.setOnClickListener(v->{
-            list.remove(position);
-            notifyDataSetChanged();
-        });
+            holder.delete.setOnClickListener(v -> {
+                list.remove(position);
+                notifyDataSetChanged();
+            });
+        } else {
+            SingleWord singleWord = SList.get(position);
+            holder.words.setText(singleWord.getWord());
+            holder.info.setText(singleWord.getMeaning());
+            holder.delete.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return isHistory ? list.size() : SList.size();
     }
 
     static class SearchHolder extends RecyclerView.ViewHolder{

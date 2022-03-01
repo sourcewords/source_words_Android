@@ -18,11 +18,11 @@ public class HistoryViewModel extends AndroidViewModel {
         mHistoryRepository = new HistoryRepository();
     }
 
-    public void Insert(HistoryWord historyWords, HistoryDBCallback historyDBCallback){mHistoryRepository.Insert(historyWords, historyDBCallback);}
+    public void Insert(HistoryWord historyWords, HistoryDBCallback HistoryDBCallback){mHistoryRepository.Insert(historyWords, HistoryDBCallback);}
 
     public void Delete(HistoryWord... historyWords){mHistoryRepository.Delete(historyWords);}
 
-    public void Clear(HistoryDBCallback historyDBCallback){mHistoryRepository.Clear(historyDBCallback);}
+    public void Clear(HistoryDBCallback HistoryDBCallback){mHistoryRepository.Clear(HistoryDBCallback);}
 
     public List<HistoryWord> getList(){return mHistoryRepository.getList();}
 }
