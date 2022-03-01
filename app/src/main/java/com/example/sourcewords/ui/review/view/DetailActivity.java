@@ -232,6 +232,8 @@ public class DetailActivity extends AppCompatActivity {
                     wordSample.setStatus(1);
                     reviewCardViewModel.getPriorityQueue().offer(wordSample);
                 }
+                Log.d("pre", wordSample.toString() + "inner" + wordSample.getWord().getWord_info().getStatus());
+
                 reviewCardViewModel.getHistoryStack().push(wordSample);
                 switch (code) {
                     case 0:
@@ -270,6 +272,7 @@ public class DetailActivity extends AppCompatActivity {
                     wordSample.setStatus(1);
                     reviewCardViewModel.getPriorityQueue().offer(wordSample);
                 }
+                Log.d("pre", wordSample.toString() + "inner" + wordSample.getWord().getWord_info().getStatus());
                 reviewCardViewModel.getHistoryStack().push(wordSample);
                 switch (code) {
                     case 0:
@@ -306,6 +309,7 @@ public class DetailActivity extends AppCompatActivity {
                     wordSample.setStatus(1);
                     reviewCardViewModel.getPriorityQueue().offer(wordSample);
                 }
+                Log.d("pre", wordSample.toString() + "inner" + wordSample.getWord().getWord_info().getStatus());
                 reviewCardViewModel.getHistoryStack().push(wordSample);
                 switch (code) {
                     case 0:

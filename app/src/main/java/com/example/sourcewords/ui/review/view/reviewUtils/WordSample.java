@@ -44,7 +44,7 @@ public class WordSample implements Comparable<WordSample> {
     @Override
     public String toString() {
         return "WordSample{" +
-                "word=" + word +
+                "word=" + word.getWord() +
                 ", status=" + status +
                 ", time='" + time + '\'' +
                 '}';
@@ -55,7 +55,7 @@ public class WordSample implements Comparable<WordSample> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         WordSample that = (WordSample) o;
-        return status == that.status && Objects.equals(word.getId(), that.word.getId()) && Objects.equals(time, that.time);
+        return this.getWord().getId() == that.getWord().getId() && this.getStatus() == that.getStatus() && this.getTime().equals(that.getTime());
     }
 
 
