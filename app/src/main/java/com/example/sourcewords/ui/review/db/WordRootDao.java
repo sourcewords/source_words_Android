@@ -29,10 +29,11 @@ public interface WordRootDao {
 
 
     @Query("SELECT * FROM wordRoot_table WHERE 词根序号 =:id")
-    WordRoot getWordRootByID(int id);
+    LiveData<WordRoot> getWordRootByID(int id);
 
     @Query("SELECT * FROM wordRoot_table WHERE 词根 LIKE '%' || :searchMessage || '%'")
-    List<WordRoot> getWordRootsSimilar(String searchMessage);
+    LiveData<List<WordRoot>> getWordRootsSimilar(String searchMessage);
 
-
+    @Query("SELECT * FROM wordRoot_table WHERE 词根序号 =:id")
+    WordRoot getRootById(int id);
 }

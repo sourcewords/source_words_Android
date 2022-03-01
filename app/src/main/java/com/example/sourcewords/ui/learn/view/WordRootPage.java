@@ -2,6 +2,7 @@ package com.example.sourcewords.ui.learn.view;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -60,9 +61,22 @@ public class WordRootPage extends AppCompatActivity implements View.OnClickListe
         search.setOnClickListener(this);
         adapter = new WordsAdapter(this);
         recyclerView.setAdapter(adapter);
-        //viewModel.getWordRoot(id, textView,adapter,videoView);
-        //root = viewModel.getWordRootById(id);
-        getWordRootAndUpdateUI(id);
+        //getWordRootAndUpdateUI(id);
+        viewModel.getWordRootById(id).observe(this, new Observer<WordRoot>() {
+            @Override
+            public void onChanged(WordRoot root) {
+                textView.setText(root.getRoot());
+                adapter.setList(root.getWordlist());
+                final String path = root.getVideo_url();
+                Log.d("能否隐藏", path + "长度为" + path.length());
+                if (path.length() == 0) {
+                    videoView.setVisibility(View.INVISIBLE);
+                } else {
+                    videoView.setVideoURI(Uri.parse(path));
+                    Log.d("this", "Done");
+                }
+            }
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         videoView.setMediaController(new MediaController(this));
         videoView.requestFocus();
@@ -88,6 +102,7 @@ public class WordRootPage extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /*
     public void getWordRootAndUpdateUI(int id) {
         Handler handler = new PageHandler();
         new Thread(() -> {
@@ -99,7 +114,7 @@ public class WordRootPage extends AppCompatActivity implements View.OnClickListe
                 e.printStackTrace();
             }
         }).start();
-    }
+    }*/
 
     @SuppressLint("HandlerLeak")
     class PageHandler extends Handler {

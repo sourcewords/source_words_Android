@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.lifecycle.LiveData;
+
 import com.example.sourcewords.ui.learn.model.Internet.DealWordRoot;
 import com.example.sourcewords.ui.learn.model.Internet.Demo;
 import com.example.sourcewords.ui.learn.model.Internet.Learned;
@@ -37,8 +39,12 @@ public class WordRootRepository {
         dealWordRoot = getRetrofit();
     }
 
+    public WordRoot getRootById(int id){
+        return wordRootDao.getRootById(id);
+    }
+
     //模糊搜索
-    public List<WordRoot> searchSimilar(String message){
+    public LiveData<List<WordRoot>> searchSimilar(String message){
         return wordRootDao.getWordRootsSimilar(message);
     }
 
@@ -48,7 +54,7 @@ public class WordRootRepository {
     }
 
     //获取单词词根
-    public WordRoot getWordRootById(int id){
+    public LiveData<WordRoot> getWordRootById(int id){
         return wordRootDao.getWordRootByID(id);
     }
 
@@ -91,6 +97,31 @@ public class WordRootRepository {
         @Override
         protected Void doInBackground(WordRoot... wordRoots) {
             dao.insertRoot(wordRoots);
+            return null;
+        }
+    }
+
+    static class SearchWordRoot extends AsyncTask<Integer,Void,WordRoot>{
+        private final WordRootDao dao;
+        SearchWordRoot(WordRootDao dao){
+            this.dao = dao;
+        }
+        @Override
+        protected WordRoot doInBackground(Integer... integers) {
+            int id= integers[0];
+            return dao.getRootById(id);
+        }
+    }
+
+    static class SearchWordRootSimilar extends AsyncTask<String,Void,List<WordRoot>>{
+        private final WordRootDao dao;
+        SearchWordRootSimilar(WordRootDao dao){
+            this.dao = dao;
+        }
+        @Override
+        protected List<WordRoot> doInBackground(String... strings) {
+            String message = strings[0];
+            //return dao.getWordRootsSimilar(message);
             return null;
         }
     }

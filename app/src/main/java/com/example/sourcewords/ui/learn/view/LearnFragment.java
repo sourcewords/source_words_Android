@@ -1,15 +1,10 @@
 package com.example.sourcewords.ui.learn.view;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
-import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,25 +22,17 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sourcewords.App;
 import com.example.sourcewords.R;
+import com.example.sourcewords.commonUtils.SPUtils;
 import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.ui.learn.viewModel.WordsAdapter;
 import com.example.sourcewords.ui.review.dataBean.SingleWord;
 import com.example.sourcewords.ui.review.dataBean.Word;
-import com.example.sourcewords.ui.review.dataBean.WordInfoBean;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
-import com.example.sourcewords.ui.review.db.WordDatabase;
-import com.example.sourcewords.ui.review.model.WordDataSource;
 import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
-import com.example.sourcewords.utils.DateUtils;
-import com.example.sourcewords.utils.PreferencesUtils;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import com.example.sourcewords.ui.review.dataBean.WordRoot;
-
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -54,50 +41,41 @@ import java.util.Random;
 public class LearnFragment extends Fragment implements View.OnClickListener {
     private VideoView videoView;
     private LearnViewModel viewModel;
-    private ReviewCardViewModel reviewCardViewModel;
-    private static WordRoot root;
+    private WordRoot root = null;
     private TextView textView_wordRoot, textView_meaning, textView_source;
     private AppCompatButton button_learned;
-    private final static int WORDROOTMESSAGE = 0x10001;//用于更新UI
-    private final static int UPDATETIME = 0x9999;//用于获取当前时间
-    private final String Learned = "I have learned them Today";
-    private final String Name_Learn = "I should learn";
     private WordsAdapter adapter;
-    private final String NULLURL = "https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4";
+    private final static String KEY_TIME = "key_today_time";
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         @SuppressLint("InflateParams") View v = inflater.inflate(R.layout.fragment_learn, null);
         viewModel = ViewModelProviders.of(this.getActivity()).get(LearnViewModel.class);
-        reviewCardViewModel = ViewModelProviders.of(this).get(ReviewCardViewModel.class);
-        initView(v);
-        reviewCardViewModel.getAllWord().observe(this, new Observer<List<Word>>() {
+        ReviewCardViewModel reviewCardViewModel = ViewModelProviders.of(this).get(ReviewCardViewModel.class);
+
+        reviewCardViewModel.getAllWord().observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
             @Override
             public void onChanged(@Nullable final List<Word> words) {
-                Log.d("initDataab","" + words.size());
+                assert words != null;
+                Log.d("initDataab", "" + words.size());
             }
         });
-        reviewCardViewModel.getAllWordRoot().observe(this, new Observer<List<WordRoot>>() {
+        reviewCardViewModel.getAllWordRoot().observe(getViewLifecycleOwner(), new Observer<List<WordRoot>>() {
             @Override
             public void onChanged(List<WordRoot> wordRoots) {
-                Log.d("initDataa","" + wordRoots.size());
+                Log.d("initDataa", "" + wordRoots.size());
             }
         });
 
-        reviewCardViewModel.getAllSingleWord().observe(this, new Observer<List<SingleWord>>() {
-            @Override
-            public void onChanged(List<SingleWord> singleWords) {
-                Log.d("initDatac","" + singleWords.size());
-            }
-        });
-//        for(int i = 1; i<3; i++) {
-//            SingleWord singleWord = reviewCardViewModel.getSingleWordById(i);
-//            singleWord.setStatus(2);
-//            singleWord.setNextTime(DateUtils.getData());
-//            reviewCardViewModel.insert(singleWord);
-//        }
-
+        reviewCardViewModel.getAllSingleWord().observe(getViewLifecycleOwner()
+                , new Observer<List<SingleWord>>() {
+                    @Override
+                    public void onChanged(List<SingleWord> singleWords) {
+                        Log.d("initDatac", "" + singleWords.size());
+                    }
+                });
+        initView(v);
         return v;
     }
 
@@ -107,13 +85,13 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         textView_meaning = v.findViewById(R.id.learn_meaning);
         textView_source = v.findViewById(R.id.learn_source);
         //VideoView部分
+        String NULLURL = "https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4";
         Uri uri = Uri.parse(NULLURL);
         videoView.setVideoURI(uri);
         MediaController controller = new MediaController(getContext());
         controller.setVisibility(View.GONE);
         videoView.setMediaController(controller);
         videoView.requestFocus();
-        //videoView.start();
         videoView.setOnClickListener(this);
         //RecyclerView部分
         RecyclerView recyclerView = v.findViewById(R.id.learn_recyclerView);
@@ -123,85 +101,37 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         textView_wordRoot = v.findViewById(R.id.learn_wordroot);
         //等待算法实现
         getTodayLearn();
-        //textView_wordRoot.setText("词根："+ );
         initButton(v);
-        upDataTime();
+        viewModel.getNowDay().setValue(getNow());
         imageButton.setOnClickListener(this);
     }
 
     private void initButton(View v) {
         button_learned = v.findViewById(R.id.learn_AllLearned);
         button_learned.setOnClickListener(this);
-        SharedPreferences button = Objects.requireNonNull(getContext()).getSharedPreferences(Name_Learn, Context.MODE_PRIVATE);
-        boolean flag = button.getBoolean(Learned, false);
-
-
+        if (viewModel.getSaveFlag()){
+            button_learned.setClickable(false);
+            changeButtonUI();
+        }
     }
 
-    //TODO 用于记录系统时间，以便判断UI的更新
-    private void upDataTime() {
-        Handler handler = new WordRootHandler();
-        long sysTime = System.currentTimeMillis();//获取系统时间
-        final Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(sysTime);
-        final int[] mHour = {calendar.get(Calendar.HOUR)};
-        final int[] minute = {calendar.get(Calendar.MINUTE)};
-        final int[] second = {calendar.get(Calendar.SECOND)};
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    while (mHour[0] < 24) {
-                        second[0]++;
-                        if (second[0] == 60) {
-                            minute[0]++;
-                            second[0] = 0;
-                        }
-                        if (minute[0] == 60) {
-                            minute[0] = 0;
-                            mHour[0]++;
-                        }
-                        Thread.sleep(1000);
-                    }
-//                    handler.sendEmptyMessage(UPDATETIME);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            //Activity页面数据刷新
-        };
-
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private void changeButtonUI(){
+        button_learned.setBackground(getResources().getDrawable(R.drawable.learned_selected));
+        button_learned.setTextColor(getResources().getColor(R.color.theme_green));
     }
 
-
-    @SuppressLint({"ResourceType", "UseCompatLoadingForDrawables", "NonConstantResourceId"})
+    @SuppressLint("NonConstantResourceId")
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.learn_AllLearned:
-                button_learned.setBackground(getResources().getDrawable(R.drawable.learned_selected));
-                button_learned.setTextColor(getResources().getColor(R.color.theme_green));
-                //待实现获取每日词根的算法
-                //viewModel.getWordRoot();
-
+                changeButtonUI();
                 viewModel.saveWhatLearnedToday(root.getId());
-
-                SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-
-                // 请在此持久化今日词根的id
-                editor.putInt(PreferencesUtils.WOOD_ROOT_TODAY,viewModel.getWhatLearnedToday());
-                editor.commit();
+                viewModel.saveFlag(true);
                 // 通知习模块更新
                 viewModel.getLearnFlag().setValue(true);
-
                 button_learned.setClickable(false);
-
-                SharedPreferences sharedPreferences2 = getContext().getSharedPreferences(Name_Learn, Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor2 = sharedPreferences2.edit();
-                editor2.putBoolean(Learned, true);
-                editor2.apply();
                 break;
             case R.id.learn_searcher:
                 Intent intent = new Intent(getActivity(), LearnSearchActivity.class);
@@ -219,60 +149,66 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
     //TODO 临时的获取每日学习的词根算法
     private void getTodayLearn() {
         Random random = new Random();
-        final int id = random.nextInt(25);
-        Handler handler = new WordRootHandler();
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    root = viewModel.getWordRootById(id);
+        int id = random.nextInt(25);
 
-                    handler.sendEmptyMessage(WORDROOTMESSAGE);
-                } catch (Exception e) {
-                    e.printStackTrace();
+        viewModel.getWordRootById(id).observe(getViewLifecycleOwner(), new Observer<WordRoot>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onChanged(WordRoot wordRoot) {
+                root = wordRoot;
+                if (root.getRoot() != null) {
+                    textView_wordRoot.setText("词根：" + wordRoot.getRoot());
+                    textView_meaning.setText("词根" + wordRoot.getRoot() + "的意思是:" + root.getMeaning());
+                    textView_source.setText("词根" + wordRoot.getRoot() + "的来源与解释:" + root.getMeaning());
+                    List<Word> words = root.getWordlist();
+                    adapter.setList(words);
                 }
             }
-        }.start();
+        });
     }
 
-@SuppressLint("HandlerLeak")
-class WordRootHandler extends Handler {
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void handleMessage(@NonNull Message msg) {
-        super.handleMessage(msg);
-        if (msg.what == WORDROOTMESSAGE) {
-            textView_wordRoot.setText("词根：" + root.getRoot());
-            textView_meaning.setText("词根" + root.getRoot() + "的意思是:" + root.getMeaning());
-            textView_source.setText("词根" + root.getRoot() + "的来源与解释:" + root.getMeaning());
-            List<Word> words = root.getWordlist();
-            adapter.setList(words);
-                /*
-                final String path = root.getVideo_url();
-                if(path.length() == 0){
-                    videoView.setVisibility(View.INVISIBLE);
-                }else{
-                    videoView.setVideoURI(Uri.parse(path));
-                }*/
-        } else if (msg.what == UPDATETIME) {
-            SharedPreferences sharedPreferences = Objects.requireNonNull(getContext()).getSharedPreferences(Name_Learn, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean(Learned, false);
-            editor.apply();
-            refresh();
-        }
+    private boolean isToday(){
+        return getNow() == getSaveDay();
     }
 
-}
+    private int getSaveDay(){
+        SPUtils sp = SPUtils.getInstance(SPUtils.SP_TIME);
+        return sp.getInt(SPUtils.SP_TIME);
+    }
+
+
+    private void saveTime() {
+        //获取存储的时间
+        SPUtils sp = SPUtils.getInstance(SPUtils.SP_TIME);
+        sp.put(KEY_TIME, getNow());
+    }
+
+    private int getNow() {
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("d");
+        return Integer.parseInt(sdf.format(new Date()));
+    }
 
     private void refresh() {
         onCreate(null);
     }
 
     @Override
+    //TODO 更新存储的系统时间
     public void onResume() {
         super.onResume();
+        if (!isToday()) {
+            //更新操作
+            viewModel.getLearnFlag().setValue(false);
+            viewModel.saveFlag(false);
+            saveTime();
+        }
         refresh();
+    }
+
+    //TODO 记录离开时间
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        saveTime();
     }
 }

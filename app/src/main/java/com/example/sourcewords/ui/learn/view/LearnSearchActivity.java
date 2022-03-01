@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -54,7 +55,13 @@ public class LearnSearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //搜索时触发该方法
-                getList(query, wordRoots);
+                //getList(query, wordRoots);
+                viewModel.getSimilarWords(query).observe(LearnSearchActivity.this, new Observer<List<WordRoot>>() {
+                    @Override
+                    public void onChanged(List<WordRoot> list) {
+                        wordRoots.setValue(list);
+                    }
+                });
                 Log.d("search", "现在在搜索！！！！！！！！！！！！！！！！！！！！");
                 return false;
             }
@@ -62,13 +69,19 @@ public class LearnSearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 //输入内容变化时，触发该方法
-                getList(newText, wordRoots);
+                //getList(newText, wordRoots);
+                viewModel.getSimilarWords(newText).observe(LearnSearchActivity.this, new Observer<List<WordRoot>>() {
+                    @Override
+                    public void onChanged(List<WordRoot> list) {
+                        wordRoots.setValue(list);
+                    }
+                });
                 Log.d("Change", "现在是changing......................................");
                 return false;
             }
         });
     }
-
+/*
     public void getList(String query, MutableLiveData<List<WordRoot>> wordRoots) {
         Handler handler = new ListHandler(wordRoots);
         new Thread(new Runnable() {
@@ -102,5 +115,7 @@ public class LearnSearchActivity extends AppCompatActivity {
             }
         }
     }
+
+ */
 
 }

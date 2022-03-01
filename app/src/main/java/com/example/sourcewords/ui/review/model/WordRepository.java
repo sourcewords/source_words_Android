@@ -1,9 +1,5 @@
 package com.example.sourcewords.ui.review.model;
 
-
-import android.content.AsyncQueryHandler;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -20,13 +16,9 @@ import com.example.sourcewords.ui.review.db.WordDatabase;
 import com.example.sourcewords.ui.review.db.WordRootDao;
 import com.example.sourcewords.ui.review.db.WordRootDatabase;
 
-import org.bouncycastle.asn1.ASN1Boolean;
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.PriorityQueue;
+
 
 
 public class WordRepository {
@@ -85,7 +77,7 @@ public class WordRepository {
 
     public WordRoot getWordRootByID(int id){
         Log.d("root",""+ id);
-        return dao.getWordRootByID(id);
+        return dao.getRootById(id);
     }
 
     public void insert(Word...words) {
@@ -180,7 +172,7 @@ public class WordRepository {
         @Override
         protected WordRoot doInBackground(Integer... integers) {
             int id = integers[0];
-            return mWordRootDao.getWordRootByID(id);
+            return mWordRootDao.getRootById(id);
         }
     }
 
