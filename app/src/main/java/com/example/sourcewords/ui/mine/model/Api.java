@@ -1,5 +1,7 @@
 package com.example.sourcewords.ui.mine.model;
 
+import com.example.sourcewords.ui.mine.model.databean.PlanBean;
+
 public interface Api {
 
     interface ChangePwdApi{
@@ -10,4 +12,5 @@ public interface Api {
         void success();
         void failed();
     }
+
 }

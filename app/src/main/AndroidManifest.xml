@@ -36,6 +36,7 @@
         <activity android:name=".ui.mine.view.AddPlanActivity"></activity>
         <activity android:name=".ui.learn.view.LearnSearchActivity"/>
         <activity android:name=".ui.learn.view.WordRootPage"/>
-        <activity android:name=".ui.mine.view.SigninActivity"></activity>
+        <activity android:name=".ui.mine.view.SigninActivity"/>
+        <activity android:name=".ui.mine.view.MyPlanActivity"/>
     </application>
 </manifest>

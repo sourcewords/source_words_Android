@@ -7,7 +7,9 @@ import com.example.sourcewords.ui.login.model.databean.LoginResponse;
 import com.example.sourcewords.ui.login.model.databean.LoginUser;
 import com.example.sourcewords.ui.login.model.databean.RegisterEmail;
 import com.example.sourcewords.ui.login.model.databean.RegisterResponse;
+import com.example.sourcewords.ui.mine.model.databean.PlanBean;
 import com.example.sourcewords.ui.mine.model.databean.PutPwd;
+import com.example.sourcewords.ui.mine.model.databean.SigninBean;
 import com.example.sourcewords.ui.mine.model.databean.UserInfo;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.dataBean.WordRootStatus;
@@ -37,6 +39,20 @@ public interface RetrofitApi {
 
     @PUT("user/info")
     Call<LoginResponse> putUserInfo(@Body UserInfo userInfo);
+
+    //plan
+    @GET("user/plan")
+    Call<PlanBean> getMyPlan(@Header("Authorization")String token);
+
+    @POST("user/plan?")
+    Call<LoginResponse> changePlan(@Header("Authorization") String token);
+
+    //signin
+    @POST("date")
+    Call<LoginResponse> putTodaySignin(@Body String data);
+
+    @GET("date")
+    Call<SigninBean> getAllSigninDate(@Header("Authorization")String token);
 
     //wordRoots
     @GET("/roots/list")
