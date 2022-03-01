@@ -9,6 +9,7 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="30dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -95,7 +96,7 @@
                 android:paddingLeft="10dp"
                 android:text="n. 会堂;礼堂;观众席"
                 android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -122,7 +123,7 @@
                 android:paddingBottom="10dp"
                 android:text="auditorium = audi(去听)+oruim(听的场所)"
                 android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
         </LinearLayout>
 
@@ -154,7 +155,7 @@
                     android:paddingBottom="10dp"
                     android:text="The auditorium pulsed with excitement.礼堂里洋溢着快乐的气氛"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
             </ScrollView>
 

@@ -110,7 +110,6 @@ public class ReviewCardViewModel extends AndroidViewModel {
         return reviewCount;
     }
 
-    int i = 0;
 
     // 在优先队列里有单词到了时间复习则直接优先复习
     // 没有则先在新学的单词队列里找到新单词，再在以前学的单词的队列里寻找
@@ -216,48 +215,37 @@ public class ReviewCardViewModel extends AndroidViewModel {
         return wordSampleMutableLiveData;
     }
 
-    public void getPreWord() {
+    public void getPreWord(int status) {
         if(historyStack.isEmpty()) return;
         WordSample wordSample = historyStack.pop();
-        if(wordSample.getWord().getWord_info().getStatus() == wordSample.getStatus()) {
-            return;
-        }
-        Log.d("pre", wordSample.toString() + "innerStatus :" + wordSample.getWord().getWord_info().getStatus());
-//        switch (wordSample.getWord().getWord_info().getStatus()) {
-//            case 0:
-//                newLearnedCount.setValue(newLearnedWordsQueue.size() + 1);
-//                newLearnedWordsQueue.offer(wordSample);
-//                break;
-//            case 1:
-//                reviewCount.setValue(priorityQueue.size());
-//                wordSample.setTime(DateUtils.getTime());
-//                priorityQueue.offer(wordSample);
-//                break;
-//            case 2:
-//                haveLearnedCount.setValue(haveLearnedWordsQueue.size() + 1);
-//                haveLearnedWordsQueue.offer(wordSample);
-//                break;
-//        }
 
+        // 从当前各个队列中清空，但其实只要清空在优先队列的就可以
         switch (wordSample.getStatus()) {
             case 0:
-                newLearnedWordsQueue.remove(wordSample);
-//                newLearnedCount.setValue(newLearnedWordsQueue.size());
                 break;
             case 1:
                 priorityQueue.remove(wordSample);
-//                reviewCount.setValue(priorityQueue.size());
                 break;
             case 2:
-                haveLearnedWordsQueue.offer(wordSample);
-//                haveLearnedCount.setValue(haveLearnedWordsQueue.size());
                 break;
         }
         newLearnedCount.setValue(newLearnedWordsQueue.size());
         haveLearnedCount.setValue(haveLearnedWordsQueue.size());
         reviewCount.setValue(priorityQueue.size());
+        switch (status) {
+            case 0 :
+                newLearnedCount.setValue(newLearnedWordsQueue.size() + 1);
+                break;
+            case 2 :
+                haveLearnedCount.setValue(haveLearnedWordsQueue.size() + 1);
+                break;
+        }
         wordSample.setStatus(wordSample.getWord().getWord_info().getStatus());
         wordSampleMutableLiveData.setValue(wordSample);
         return;
+    }
+
+    public void loadAllWordsToDataBase() {
+        mWordRepository.loadAllWordsToDataBase(wordPool);
     }
 }

@@ -19,12 +19,14 @@ import com.example.sourcewords.ui.review.db.WordDao;
 import com.example.sourcewords.ui.review.db.WordDatabase;
 import com.example.sourcewords.ui.review.db.WordRootDao;
 import com.example.sourcewords.ui.review.db.WordRootDatabase;
+import com.example.sourcewords.ui.review.view.reviewUtils.WordSample;
 
 import org.bouncycastle.asn1.ASN1Boolean;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -117,6 +119,24 @@ public class WordRepository {
             words.add(word);
         }
         return words;
+    }
+
+    public void loadAllWordsToDataBase(HashMap<Integer, WordSample> hashMap) {
+        if(hashMap == null) return;
+        for(int key : hashMap.keySet()) {
+            Word word = hashMap.get(key).getWord();
+            int status = hashMap.get(key).getStatus();
+            String nextTime = hashMap.get(key).getTime();
+
+            word.getWord_info().setNextTime(nextTime);
+            word.getWord_info().setStatus(status);
+            wordDao.insertWord(word);
+
+            SingleWord singleWord = singleWordDao.getSingleById(word.getId());
+            singleWord.setNextTime(nextTime);
+            singleWord.setStatus(status);
+            singleWordDao.insertSingleWord(singleWord);
+        }
     }
 
     static class InsertWords extends AsyncTask<Word,Void,Void> {
