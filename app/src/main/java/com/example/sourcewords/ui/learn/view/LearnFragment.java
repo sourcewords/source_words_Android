@@ -17,7 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,7 +25,6 @@ import com.example.sourcewords.R;
 import com.example.sourcewords.commonUtils.SPUtils;
 import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.ui.learn.viewModel.WordsAdapter;
-import com.example.sourcewords.ui.review.dataBean.SingleWord;
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
@@ -46,7 +44,6 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
     private AppCompatButton button_learned;
     private WordsAdapter adapter;
     private final static String KEY_TIME = "key_today_time";
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -54,27 +51,14 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         viewModel = ViewModelProviders.of(this.getActivity()).get(LearnViewModel.class);
         ReviewCardViewModel reviewCardViewModel = ViewModelProviders.of(this).get(ReviewCardViewModel.class);
 
-        reviewCardViewModel.getAllWord().observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
-            @Override
-            public void onChanged(@Nullable final List<Word> words) {
-                assert words != null;
-                Log.d("initDataab", "" + words.size());
-            }
+        reviewCardViewModel.getAllWord().observe(getViewLifecycleOwner(), words -> {
+            assert words != null;
+            Log.d("initDataab", "" + words.size());
         });
-        reviewCardViewModel.getAllWordRoot().observe(getViewLifecycleOwner(), new Observer<List<WordRoot>>() {
-            @Override
-            public void onChanged(List<WordRoot> wordRoots) {
-                Log.d("initDataa", "" + wordRoots.size());
-            }
-        });
+        reviewCardViewModel.getAllWordRoot().observe(getViewLifecycleOwner(), wordRoots -> Log.d("initDataa", "" + wordRoots.size()));
 
         reviewCardViewModel.getAllSingleWord().observe(getViewLifecycleOwner()
-                , new Observer<List<SingleWord>>() {
-                    @Override
-                    public void onChanged(List<SingleWord> singleWords) {
-                        Log.d("initDatac", "" + singleWords.size());
-                    }
-                });
+                , singleWords -> Log.d("initDatac", "" + singleWords.size()));
         initView(v);
         return v;
     }
@@ -97,7 +81,6 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         RecyclerView recyclerView = v.findViewById(R.id.learn_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new WordsAdapter(Objects.requireNonNull(getContext()));
-        recyclerView.setAdapter(adapter);
         textView_wordRoot = v.findViewById(R.id.learn_wordroot);
         //等待算法实现
         getTodayLearn();
@@ -147,28 +130,26 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
     }
 
     //TODO 临时的获取每日学习的词根算法
+    @SuppressLint("SetTextI18n")
     private void getTodayLearn() {
         Random random = new Random();
         int id = random.nextInt(25);
 
-        viewModel.getWordRootById(id).observe(getViewLifecycleOwner(), new Observer<WordRoot>() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onChanged(WordRoot wordRoot) {
-                root = wordRoot;
-                if (root.getRoot() != null) {
-                    textView_wordRoot.setText("词根：" + wordRoot.getRoot());
-                    textView_meaning.setText("词根" + wordRoot.getRoot() + "的意思是:" + root.getMeaning());
-                    textView_source.setText("词根" + wordRoot.getRoot() + "的来源与解释:" + root.getMeaning());
-                    List<Word> words = root.getWordlist();
-                    adapter.setList(words);
-                }
+        viewModel.getWordRootById(id).observe(getViewLifecycleOwner(), wordRoot -> {
+            root = wordRoot;
+            if (root.getRoot() != null) {
+                textView_wordRoot.setText("词根：" + wordRoot.getRoot());
+                textView_meaning.setText("词根" + wordRoot.getRoot() + "的意思是:" + root.getMeaning());
+                textView_source.setText("词根" + wordRoot.getRoot() + "的来源与解释:" + root.getMeaning());
+                List<Word> words = root.getWordlist();
+                adapter.setList(words);
             }
         });
     }
 
     private boolean isToday(){
         return getNow() == getSaveDay();
+
     }
 
     private int getSaveDay(){
