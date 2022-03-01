@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.example.sourcewords.R;
 import com.example.sourcewords.databinding.ActivityUserinfoBinding;
+import com.example.sourcewords.ui.mine.model.Api;
 import com.example.sourcewords.ui.mine.viewmodel.UserInfoViewModel;
 
 public class UserInfoActivity extends AppCompatActivity {
@@ -33,9 +35,17 @@ public class UserInfoActivity extends AppCompatActivity {
         });
 
         dataBinding.commit.setOnClickListener(v -> {
+            userInfoViewModel.changeUserInfo(new Api.ChangeUserInfoApi() {
+                @Override
+                public void success() {
+                    Toast.makeText(UserInfoActivity.this, "修改成功！", Toast.LENGTH_SHORT).show();
+                }
 
+                @Override
+                public void failed() {
+                    Toast.makeText(UserInfoActivity.this, "出错啦！请检查网络设置~", Toast.LENGTH_SHORT).show();
+                }
+            });
         });
-
-
     }
 }
