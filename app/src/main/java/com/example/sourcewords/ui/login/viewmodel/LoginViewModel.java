@@ -12,6 +12,7 @@ import com.example.sourcewords.ui.login.model.LoginDataSource;
 import com.example.sourcewords.ui.login.model.databean.LocalPage;
 import com.example.sourcewords.ui.login.model.databean.LoginUser;
 import com.example.sourcewords.ui.login.model.respository.LoginRemoteRespository;
+import com.example.sourcewords.ui.login.view.LoginNavigator;
 import com.example.sourcewords.ui.main.MainActivity;
 
 public class LoginViewModel extends ViewModel {
@@ -22,6 +23,7 @@ public class LoginViewModel extends ViewModel {
     private MutableLiveData<LocalPage> userMutableLiveData;
     private Context mContext;
     private final LoginRemoteRespository loginRemoteRespository;
+    private LoginNavigator loginNavigator;
 
     public MutableLiveData<String> getAccount() {
         return Account;
@@ -44,6 +46,10 @@ public class LoginViewModel extends ViewModel {
         return userMutableLiveData;
     }
 
+    public void onActivityCreated(LoginNavigator navigator) {
+        loginNavigator = navigator;
+    }
+
     public LoginViewModel(LoginRemoteRespository repository, Context context) {
         mContext = context.getApplicationContext();
         loginRemoteRespository = repository;
@@ -55,6 +61,7 @@ public class LoginViewModel extends ViewModel {
             public void onLoginLoded() {
                 Intent intent = new Intent(mContext, MainActivity.class);
                 mContext.startActivity(intent);
+                loginNavigator.onSaveToken();
             }
 
             @Override

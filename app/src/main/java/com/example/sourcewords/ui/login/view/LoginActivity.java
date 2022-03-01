@@ -1,46 +1,43 @@
 package com.example.sourcewords.ui.login.view;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.sourcewords.R;
-import com.example.sourcewords.commonUtils.NetUtil;
 import com.example.sourcewords.databinding.ActivityLoginAccountBinding;
 import com.example.sourcewords.ui.login.model.databean.LocalPage;
-import com.example.sourcewords.ui.login.model.databean.LoginResponse;
-import com.example.sourcewords.ui.login.model.databean.LoginUser;
 import com.example.sourcewords.ui.login.model.respository.LoginRemoteRespository;
 import com.example.sourcewords.ui.login.viewmodel.LoginViewModel;
 import com.example.sourcewords.ui.main.MainActivity;
 
 import java.util.Objects;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements LoginNavigator{
 
     private LoginViewModel loginViewModel;
     private ActivityLoginAccountBinding binding;
+    private String token = LoginRemoteRespository.getINSTANCE().getToken();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_account);
+        SharedPreferences sharedPreferences = getSharedPreferences("Token",0);
+        token = sharedPreferences.getString("Token",null);
+        IsToken(token);
 
 //        loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
         loginViewModel = new LoginViewModel(LoginRemoteRespository.getINSTANCE(),getApplicationContext());
+        loginViewModel.onActivityCreated(this);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login_account);
         binding.setLifecycleOwner(this);
@@ -73,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
 //                    binding.checkbox.requestFocus();
 //                }
                 else {
-//                    rq(new LoginUser(localPage.getName(),localPage.getPassword()));
+
                 }
 
             }
@@ -91,8 +88,20 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    public void IsToken(String token){
+        if (token != null){
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
     @Override
-    public void finish() {
-        super.finish();
+    public void onSaveToken() {
+        SharedPreferences sharedPreferences = getSharedPreferences("Token",0);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("Token",token);
+        editor.commit();
+        editor.apply();
     }
 }
