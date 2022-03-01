@@ -38,5 +38,7 @@
         <activity android:name=".ui.learn.view.WordRootPage"/>
         <activity android:name=".ui.mine.view.SigninActivity"/>
         <activity android:name=".ui.mine.view.MyPlanActivity"/>
+        <activity android:name=".ui.login.view.ForgetPwdActivity"/>
+        <activity android:name=".ui.login.view.SetPwdActivity"/>
     </application>
 </manifest>

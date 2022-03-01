@@ -74,8 +74,11 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator{
         });
 
         binding.registerButton.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(this, RegisterActivity.class));
+        });
+
+        binding.forgetpwdButton.setOnClickListener(v ->{
+            startActivity(new Intent(this,ForgetPwdActivity.class));
         });
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
