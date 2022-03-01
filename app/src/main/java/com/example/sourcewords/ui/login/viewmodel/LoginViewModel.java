@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.sourcewords.commonUtils.SPUtils;
 import com.example.sourcewords.ui.login.model.LoginDataSource;
 import com.example.sourcewords.ui.login.model.databean.LocalPage;
 import com.example.sourcewords.ui.login.model.databean.LoginUser;
@@ -61,7 +62,8 @@ public class LoginViewModel extends ViewModel {
             public void onLoginLoded() {
                 Intent intent = new Intent(mContext, MainActivity.class);
                 mContext.startActivity(intent);
-                loginNavigator.onSaveToken();
+                SPUtils.getInstance("Token").put("Token",loginRemoteRespository.getToken());
+                loginNavigator.onFinish();
             }
 
             @Override

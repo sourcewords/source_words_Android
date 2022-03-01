@@ -49,8 +49,6 @@ public class Encryption {
 
     public Encryption() {
         spUtils = SPUtils.getInstance(SP_ENCRYPTION);
-
-
     }
 
 
