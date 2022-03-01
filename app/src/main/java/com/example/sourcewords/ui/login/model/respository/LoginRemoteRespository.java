@@ -23,6 +23,10 @@ public class LoginRemoteRespository implements LoginDataSource {
         return token;
     }
 
+    public void setToken(String token) {
+        LoginRemoteRespository.token = token;
+    }
+
     @Override
     public void getLoginStatus(LoginUser user, LoadLoginCallBack loadLoginCallBack) {
         NetUtil.getInstance().getApi().login(user).enqueue(new Callback<LoginResponse>() {

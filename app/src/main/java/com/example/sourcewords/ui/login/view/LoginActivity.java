@@ -1,7 +1,6 @@
 package com.example.sourcewords.ui.login.view;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,6 +12,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 
 import com.example.sourcewords.R;
+import com.example.sourcewords.commonUtils.SPUtils;
 import com.example.sourcewords.databinding.ActivityLoginAccountBinding;
 import com.example.sourcewords.ui.login.model.databean.LocalPage;
 import com.example.sourcewords.ui.login.model.respository.LoginRemoteRespository;
@@ -25,15 +25,12 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator{
 
     private LoginViewModel loginViewModel;
     private ActivityLoginAccountBinding binding;
-    private String token = LoginRemoteRespository.getINSTANCE().getToken();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_account);
-        SharedPreferences sharedPreferences = getSharedPreferences("Token",0);
-        token = sharedPreferences.getString("Token",null);
-        IsToken(token);
+        IsToken(SPUtils.getInstance("Token",0).getString("Token",null));
 
 //        loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
         loginViewModel = new LoginViewModel(LoginRemoteRespository.getINSTANCE(),getApplicationContext());
@@ -90,18 +87,13 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator{
 
     public void IsToken(String token){
         if (token != null){
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(this, MainActivity.class));
             finish();
         }
     }
 
     @Override
-    public void onSaveToken() {
-        SharedPreferences sharedPreferences = getSharedPreferences("Token",0);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("Token",token);
-        editor.commit();
-        editor.apply();
+    public void onFinish() {
+        this.finish();
     }
 }

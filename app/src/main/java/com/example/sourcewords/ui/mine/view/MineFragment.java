@@ -1,10 +1,12 @@
 package com.example.sourcewords.ui.mine.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -15,6 +17,10 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.sourcewords.R;
+import com.example.sourcewords.commonUtils.SPUtils;
+import com.example.sourcewords.ui.login.model.respository.LoginRemoteRespository;
+import com.example.sourcewords.ui.login.view.LoginActivity;
+import com.example.sourcewords.ui.login.view.LoginNavigator;
 
 
 //TODO 我模块
@@ -23,6 +29,16 @@ public class MineFragment extends Fragment {
     private ImageView signin;
     private ProgressBar mine_bar;
     private TextView mine_progress;
+    private Button unlogin;
+    private LoginNavigator loginNavigator;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof LoginNavigator){
+            loginNavigator = (LoginNavigator) context;
+        }
+    }
 
     @Nullable
     @Override
@@ -58,6 +74,17 @@ public class MineFragment extends Fragment {
             startActivity(intent);
         });
 
+        unlogin = view.findViewById(R.id.unlogin_B);
+        unlogin.setOnClickListener(v ->{
+            LoginRemoteRespository.getINSTANCE().setToken(null);
+            SPUtils.getInstance("Token").clear();
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+        });
+    }
 
+
+
+    public void setLoginNavigator(LoginNavigator navigator){
+        loginNavigator = navigator;
     }
 }
