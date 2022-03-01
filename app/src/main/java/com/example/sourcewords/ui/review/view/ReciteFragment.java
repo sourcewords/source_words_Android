@@ -102,6 +102,7 @@ public class ReciteFragment extends Fragment {
         stub.inflate();
         mWordCard.setClickable(false);
         button.setClickable(false);
+        reviewCardViewModel.loadAllWordsToDataBase();
         return;
     }
 
@@ -180,19 +181,27 @@ public class ReciteFragment extends Fragment {
     }
 
     private void getPreWord() {
+        if(reviewCardViewModel.getHistoryStack().isEmpty()) return;
+
+        // 将当前单词回到原先的状态
+        wordSample.getValue().setStatus(wordSample.getValue().getWord().getWord_info().getStatus());
         switch (wordSample.getValue().getWord().getWord_info().getStatus()) {
             case 0:
-                reviewCardViewModel.getNewLearnedWordsQueue().offer(wordSample.getValue());
+                if(!reviewCardViewModel.getNewLearnedWordsQueue().contains(wordSample.getValue()))
+                    reviewCardViewModel.getNewLearnedWordsQueue().offer(wordSample.getValue());
                 break;
             case 1:
-                reviewCardViewModel.getPriorityQueue().offer(wordSample.getValue());
+                if(!reviewCardViewModel.getPriorityQueue().contains(wordSample.getValue()))
+                    reviewCardViewModel.getPriorityQueue().offer(wordSample.getValue());
                 break;
             case 2:
-                reviewCardViewModel.getHaveLearnedWordsQueue().offer(wordSample.getValue());
+                if(!reviewCardViewModel.getHaveLearnedWordsQueue().contains(wordSample.getValue()))
+                    reviewCardViewModel.getHaveLearnedWordsQueue().offer(wordSample.getValue());
                 break;
         }
-
-        reviewCardViewModel.getPreWord();
+        Log.d("pre", "curWord" + wordSample.getValue().toString());
+        // 将前一个单词展示在此界面
+        reviewCardViewModel.getPreWord(wordSample.getValue().getWord().getWord_info().getStatus());
     }
 
 

@@ -64,6 +64,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
     private final String Name_Learn = "I should learn";
     private WordsAdapter adapter;
     private final String NULLURL = "https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4";
+    private RecyclerView recyclerView;
 
     @Nullable
     @Override
@@ -116,10 +117,9 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         //videoView.start();
         videoView.setOnClickListener(this);
         //RecyclerView部分
-        RecyclerView recyclerView = v.findViewById(R.id.learn_recyclerView);
+        recyclerView = v.findViewById(R.id.learn_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new WordsAdapter(Objects.requireNonNull(getContext()));
-        recyclerView.setAdapter(adapter);
         textView_wordRoot = v.findViewById(R.id.learn_wordroot);
         //等待算法实现
         getTodayLearn();
@@ -247,7 +247,9 @@ class WordRootHandler extends Handler {
             textView_meaning.setText("词根" + root.getRoot() + "的意思是:" + root.getMeaning());
             textView_source.setText("词根" + root.getRoot() + "的来源与解释:" + root.getMeaning());
             List<Word> words = root.getWordlist();
+            Log.d("listWords",words.size() + "");
             adapter.setList(words);
+            recyclerView.setAdapter(adapter);
                 /*
                 final String path = root.getVideo_url();
                 if(path.length() == 0){
