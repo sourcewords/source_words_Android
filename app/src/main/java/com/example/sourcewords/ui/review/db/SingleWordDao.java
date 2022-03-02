@@ -29,6 +29,9 @@ public interface SingleWordDao {
     @Query("SELECT * FROM single_word_table WHERE 单词 LIKE '%' || :word || '%' ")
     List<SingleWord> getLikelyWords(String word);
 
+    @Query("SELECT * FROM SINGLE_WORD_TABLE WHERE 含义 LIKE '%' || :meaning || '%' ")
+    List<SingleWord> getLikelyMeaning(String meaning);
+
     @Query("SELECT * FROM single_word_table ORDER BY ID")
     List<SingleWord> getAllWords();
 }

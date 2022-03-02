@@ -45,7 +45,11 @@ public class ReviewViewModel extends AndroidViewModel {
 
     public WordRoot getWordRoot(int id){ return mWordRepository.getWordRootByID(id); }
 
+    public SingleWord getSingleWord(int id){ return mWordRepository.getSingleWordById(id); }
+
     public List<SingleWord> getAllWords(){return mWordRepository.getAllWord();}
 
     public void getLikelyWords(String keyWord, SingleWordDBCallBack singleWordDBCallBack){ mWordRepository.getLikelyWords(keyWord, singleWordDBCallBack);}
+
+    public void getLikelyMeaning(String keyWord, SingleWordDBCallBack singleWordDBCallBack){ mWordRepository.getLikelyMeaning(keyWord, singleWordDBCallBack);}
 }

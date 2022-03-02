@@ -2,11 +2,8 @@ package com.example.sourcewords.ui.learn.view;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -27,7 +24,6 @@ import java.util.List;
 public class LearnSearchActivity extends AppCompatActivity {
     private MutableLiveData<List<WordRoot>> wordRoots;
     private LearnViewModel viewModel;
-    private List<WordRoot> list = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,7 +50,8 @@ public class LearnSearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //搜索时触发该方法
-                getList(query, wordRoots);
+                //getList(query, wordRoots);
+                viewModel.getSimilarWords(query).observe(LearnSearchActivity.this, list -> wordRoots.setValue(list));
                 Log.d("search", "现在在搜索！！！！！！！！！！！！！！！！！！！！");
                 return false;
             }
@@ -62,45 +59,11 @@ public class LearnSearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 //输入内容变化时，触发该方法
-                getList(newText, wordRoots);
+                //getList(newText, wordRoots);
+                viewModel.getSimilarWords(newText).observe(LearnSearchActivity.this, list -> wordRoots.setValue(list));
                 Log.d("Change", "现在是changing......................................");
                 return false;
             }
         });
     }
-
-    public void getList(String query, MutableLiveData<List<WordRoot>> wordRoots) {
-        Handler handler = new ListHandler(wordRoots);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    list = viewModel.getSimilarWords(query);
-                    handler.sendEmptyMessage(0x8848);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-    }
-
-    @SuppressLint("HandlerLeak")
-    class ListHandler extends Handler {
-        private final MutableLiveData<List<WordRoot>> wordRoots;
-
-        ListHandler(MutableLiveData<List<WordRoot>> list) {
-            this.wordRoots = list;
-        }
-
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == 0x8848) {
-                wordRoots.setValue(list);
-                Log.d("this", "Done");
-            }
-        }
-    }
-
 }

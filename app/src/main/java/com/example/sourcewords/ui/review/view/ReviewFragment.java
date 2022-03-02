@@ -83,9 +83,11 @@ public class ReviewFragment extends Fragment {
 
 
     public void initNoneView() {
-        Log.d("fragmentManager","1");
-        fragmentManager.beginTransaction().add(R.id.review_container,noneFragment,"NoneFragment")
+        if (!noneFragment.isAdded()){
+            Log.d("fragmentManager","1");
+            fragmentManager.beginTransaction().add(R.id.review_container,noneFragment,"NoneFragment")
                 .commit();
+        }
     }
 
     public void initWordView(ReciteFragment reciteFragment) {

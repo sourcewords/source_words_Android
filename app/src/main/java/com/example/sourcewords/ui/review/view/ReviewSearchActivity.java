@@ -1,6 +1,7 @@
 package com.example.sourcewords.ui.review.view;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,6 +21,8 @@ import com.example.sourcewords.ui.review.dataBean.HistoryWord;
 import com.example.sourcewords.ui.review.dataBean.SingleWord;
 import com.example.sourcewords.ui.review.viewmodel.HistoryViewModel;
 import com.example.sourcewords.ui.review.viewmodel.ReviewViewModel;
+import com.example.sourcewords.utils.OptimizeMeaningUtils;
+import com.example.sourcewords.utils.PreferencesUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +58,7 @@ public class ReviewSearchActivity extends AppCompatActivity {
         unfold = findViewById(R.id.unfold);
         clear = findViewById(R.id.clearHistory);
 
-        mSearchAdapter = new SearchAdapter(getApplication());
+        mSearchAdapter = new SearchAdapter(getApplication(), mHistoryViewModel);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mSearchAdapter);
 
@@ -63,6 +66,34 @@ public class ReviewSearchActivity extends AppCompatActivity {
     }
 
     public void Listener(){
+        mSearchAdapter.setAdapterCallBack(new AdapterCallBack() {
+            @Override
+            public void startSearch(SingleWord singleWord) {
+                boolean isExist = false;
+                Intent intent = new Intent(getApplicationContext(), SearchWordsDetailActivity.class);
+                intent.putExtra(PreferencesUtils.WORD_ID, singleWord.getId());
+
+                for (HistoryWord historyWord : mHistoryViewModel.getList()){
+                    if(singleWord.getId() == historyWord.getSaveID()){
+                        isExist = true;
+                        break;
+                    }
+                }
+                if(!isExist)
+                    mHistoryViewModel.Insert(new HistoryWord(OptimizeMeaningUtils.OptimizeMeaning(singleWord.getMeaning()), singleWord.getWord(), singleWord.getId()), isFinish -> {
+                    });
+                startActivity(intent);
+            }
+
+            @Override
+            public void startHistory(HistoryWord historyWord) {
+                Intent intent = new Intent(getApplicationContext(), SearchWordsDetailActivity.class);
+                intent.putExtra(PreferencesUtils.WORD_ID, historyWord.getSaveID());
+
+                startActivity(intent);
+            }
+        });
+
         searchText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -76,25 +107,37 @@ public class ReviewSearchActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                Toast.makeText(getApplication(), String.valueOf(searchText.getText().toString().length()), Toast.LENGTH_SHORT).show();
                 String keyWords;
-                //判断是否为空
                 if(!searchText.getText().toString().trim().equals("")){
                     isFold = false;
                     isHistory = false;
                     keyWords = searchText.getText().toString();
                     ReviewViewModel reviewViewModel = new ReviewViewModel(getApplication());
-                    reviewViewModel.getLikelyWords(keyWords, list -> {
-                        if(list.size() <= 15){
-                            searchedWordsList = list;
-                        } else {
-                            searchedWordsList = list.subList(0,14);
-                        }
-                        initRV();
-                    });
-                } else {
+                    char c = keyWords.toCharArray()[0];
+                    if(Character.isLowerCase(c) || Character.isUpperCase(c))
+                        reviewViewModel.getLikelyWords(keyWords, list -> {
+                            if(list.size() <= 15){
+                                searchedWordsList = list;
+                            } else {
+                                searchedWordsList = list.subList(0,14);
+                            }
+                            initRV();
+                        });
+                    else
+                        reviewViewModel.getLikelyMeaning(keyWords, list -> {
+                            if(list.size() <= 15){
+                                searchedWordsList = list;
+                            } else {
+                                searchedWordsList = list.subList(0,14);
+                            }
+                            initRV();
+                        });
+                }
+                else
+                {
                     isFold = true;
                     isHistory = true;
+                    initRV();
                 }
 
             }
@@ -102,13 +145,6 @@ public class ReviewSearchActivity extends AppCompatActivity {
 
         back.setOnClickListener(v -> {
             finish();
-        });
-
-        search.setOnClickListener(v->{
-            //测试
-            mHistoryViewModel.Insert(new HistoryWord("啊啊", "aa"), isFinish -> {
-                   initRV();
-            });
         });
 
         unfold.setOnClickListener(v->{
@@ -145,6 +181,18 @@ public class ReviewSearchActivity extends AppCompatActivity {
         } else {
             mSearchAdapter.setSList(searchedWordsList);
         }
+        mSearchAdapter.notifyDataSetChanged();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isFold = true;
+        isHistory = true;
+        searchText.setText("");
+        List<HistoryWord> list = mHistoryViewModel.getList();
+        mSearchAdapter.setList(list);
         mSearchAdapter.notifyDataSetChanged();
     }
 }

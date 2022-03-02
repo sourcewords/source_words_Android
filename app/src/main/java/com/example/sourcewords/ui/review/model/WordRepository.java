@@ -1,6 +1,5 @@
 package com.example.sourcewords.ui.review.model;
 
-
 import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
@@ -20,7 +19,6 @@ import com.example.sourcewords.ui.review.db.WordRootDatabase;
 import com.example.sourcewords.ui.review.view.reviewUtils.WordSample;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,12 +26,6 @@ import java.util.List;
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class WordRepository {
     private WordRootDao dao;
-
-    private List<Word> tobeReview = new LinkedList<>();
-    private List<Word> reviewAgainToday = new ArrayList<>();
-    private List<Word> newWordsToday = new ArrayList<>();
-
-    private LiveData<WordRoot> wordRootList;
 
     private WordDao wordDao;
     private LiveData<List<Word>> allWords;
@@ -102,7 +94,7 @@ public class WordRepository {
 
     public WordRoot getWordRootByID(int id){
         Log.d("root",""+ id);
-        return dao.getWordRootByID(id);
+        return dao.getRootById(id);
     }
 
     public void insert(Word...words) {
@@ -122,7 +114,11 @@ public class WordRepository {
     }
 
     public void getLikelyWords(String word, SingleWordDBCallBack singleWordDBCallBack){
-        new Search(singleWordDao, singleWordDBCallBack).execute(word);
+        new SearchWord(singleWordDao, singleWordDBCallBack).execute(word);
+    }
+
+    public void getLikelyMeaning(String meaning, SingleWordDBCallBack singleWordDBCallBack){
+        new SearchMeaning(singleWordDao, singleWordDBCallBack).execute(meaning);
     }
 
     public List<SingleWord> getAllWord(){
@@ -173,11 +169,11 @@ public class WordRepository {
         }
     }
 
-    static class Search extends AsyncTask<String, Void, List<SingleWord>> {
+    static class SearchWord extends AsyncTask<String, Void, List<SingleWord>> {
         SingleWordDao mSingleWordDao;
         SingleWordDBCallBack mDBCallback;
 
-        public Search(SingleWordDao singleWordDao, SingleWordDBCallBack DBCallback) {
+        public SearchWord(SingleWordDao singleWordDao, SingleWordDBCallBack DBCallback) {
             mSingleWordDao = singleWordDao;
             mDBCallback = DBCallback;
         }
@@ -185,6 +181,27 @@ public class WordRepository {
         @Override
         protected List<SingleWord> doInBackground(String... keyWords) {
             return mSingleWordDao.getLikelyWords(keyWords[0]);
+        }
+
+        @Override
+        protected void onPostExecute(List<SingleWord> singleWords) {
+            mDBCallback.getList(singleWords);
+            super.onPostExecute(singleWords);
+        }
+    }
+
+    static class SearchMeaning extends AsyncTask<String, Void, List<SingleWord>> {
+        SingleWordDao mSingleWordDao;
+        SingleWordDBCallBack mDBCallback;
+
+        public SearchMeaning(SingleWordDao singleWordDao, SingleWordDBCallBack DBCallback) {
+            mSingleWordDao = singleWordDao;
+            mDBCallback = DBCallback;
+        }
+
+        @Override
+        protected List<SingleWord> doInBackground(String... keyWords) {
+            return mSingleWordDao.getLikelyMeaning(keyWords[0]);
         }
 
         @Override
@@ -233,7 +250,7 @@ public class WordRepository {
         @Override
         protected WordRoot doInBackground(Integer... integers) {
             int id = integers[0];
-            return mWordRootDao.getWordRootByID(id);
+            return mWordRootDao.getRootById(id);
         }
     }
 

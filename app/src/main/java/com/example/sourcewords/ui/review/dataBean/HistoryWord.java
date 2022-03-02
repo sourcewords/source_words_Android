@@ -15,9 +15,13 @@ public class HistoryWord {
     @ColumnInfo(name = "info")
     String root;
 
-    public HistoryWord(String meaning, String root) {
+    @ColumnInfo(name = "saveID")
+    int saveID;
+
+    public HistoryWord(String meaning, String root, int saveID) {
         this.meaning = meaning;
         this.root = root;
+        this.saveID = saveID;
     }
 
     public int getId() {
@@ -42,5 +46,13 @@ public class HistoryWord {
 
     public void setRoot(String root) {
         this.root = root;
+    }
+
+    public int getSaveID() {
+        return saveID;
+    }
+
+    public void setSaveID(int saveID) {
+        this.saveID = saveID;
     }
 }

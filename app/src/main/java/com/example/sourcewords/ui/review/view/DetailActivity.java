@@ -28,6 +28,7 @@ import com.example.sourcewords.ui.review.view.reviewUtils.WordSample;
 import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
 import com.example.sourcewords.ui.review.viewmodel.ReviewViewModel;
 import com.example.sourcewords.utils.DateUtils;
+import com.example.sourcewords.utils.OptimizeMeaningUtils;
 
 import java.io.IOException;
 
@@ -111,7 +112,7 @@ public class DetailActivity extends AppCompatActivity {
         soundMark.setText(mWordInfo.getPhonetic());
 
         meaning = findViewById(R.id.meaning);
-        meaning.setText(mWordInfo.getMeaning());
+        meaning.setText(OptimizeMeaningUtils.OptimizeMeaning(mWordInfo.getMeaning()));
 
         structure = findViewById(R.id.structure);
         structure.setText(mWordInfo.getZh_source());
