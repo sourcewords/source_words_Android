@@ -1,13 +1,14 @@
 package com.example.sourcewords.ui.review.model;
 
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 
 import com.example.sourcewords.ui.review.dataBean.SingleWord;
 import com.example.sourcewords.ui.review.dataBean.Word;
-import com.example.sourcewords.ui.review.dataBean.WordInfoBean;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.db.SingleWordDao;
 import com.example.sourcewords.ui.review.db.SingleWordDatabase;
@@ -22,10 +23,9 @@ import java.util.HashMap;
 import java.util.List;
 
 
-
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class WordRepository {
     private WordRootDao dao;
-    private LiveData<WordRoot> wordRootList;
 
     private WordDao wordDao;
     private LiveData<List<Word>> allWords;
@@ -39,6 +39,21 @@ public class WordRepository {
         SingleWordDatabase singleWordDatabase = SingleWordDatabase.getDatabase();
 
         dao = db.getWordDao();
+        /*
+        List<WordRoot> list = dao.getAllWordRootInSimple();
+        String time = DateUtils.getTime();
+        for(WordRoot wordRoot : list){
+            for(Word word : wordRoot.getWordlist()){
+                if(word.getWord_info().getStatus() == WordInfoBean.WORD_NEW) newWordsToday.add(word);
+                else if(word.getWord_info().getStatus() == WordInfoBean.WORD_TODAY_REVIEW_AGAIN) reviewAgainToday.add(word);
+                else if(word.getWord_info().getStatus() == WordInfoBean.WORD_PAST_REVIEWED) {
+                    if(time.substring(0,9).compareTo(word.getWord_info().getNextTime().substring(0,9)) <= 0){
+                        tobeReview.add(word);
+                    }
+                }
+            }
+        }
+        */
         wordDao = wordDatabase.getWordDao();
         singleWordDao = singleWordDatabase.getWordDao();
 
@@ -98,6 +113,18 @@ public class WordRepository {
         return wordRoot.getWordlist();
     }
 
+    public void getLikelyWords(String word, SingleWordDBCallBack singleWordDBCallBack){
+        new SearchWord(singleWordDao, singleWordDBCallBack).execute(word);
+    }
+
+    public void getLikelyMeaning(String meaning, SingleWordDBCallBack singleWordDBCallBack){
+        new SearchMeaning(singleWordDao, singleWordDBCallBack).execute(meaning);
+    }
+
+    public List<SingleWord> getAllWord(){
+        return singleWordDao.getAllWords();
+    }
+
 
     public List<Word> getLearnedWords(String time) {
         List<SingleWord> list = singleWordDao.getHaveLearnedWordsByTime(time);
@@ -142,14 +169,45 @@ public class WordRepository {
         }
     }
 
-    static class Search extends AsyncTask<Integer, Void, Word> {
-        WordDao dao;
-        Search(WordDao wordDao){dao = wordDao;}
+    static class SearchWord extends AsyncTask<String, Void, List<SingleWord>> {
+        SingleWordDao mSingleWordDao;
+        SingleWordDBCallBack mDBCallback;
+
+        public SearchWord(SingleWordDao singleWordDao, SingleWordDBCallBack DBCallback) {
+            mSingleWordDao = singleWordDao;
+            mDBCallback = DBCallback;
+        }
 
         @Override
-        protected Word doInBackground(Integer... integers) {
-            int id = integers[0];
-            return dao.getWord(id);
+        protected List<SingleWord> doInBackground(String... keyWords) {
+            return mSingleWordDao.getLikelyWords(keyWords[0]);
+        }
+
+        @Override
+        protected void onPostExecute(List<SingleWord> singleWords) {
+            mDBCallback.getList(singleWords);
+            super.onPostExecute(singleWords);
+        }
+    }
+
+    static class SearchMeaning extends AsyncTask<String, Void, List<SingleWord>> {
+        SingleWordDao mSingleWordDao;
+        SingleWordDBCallBack mDBCallback;
+
+        public SearchMeaning(SingleWordDao singleWordDao, SingleWordDBCallBack DBCallback) {
+            mSingleWordDao = singleWordDao;
+            mDBCallback = DBCallback;
+        }
+
+        @Override
+        protected List<SingleWord> doInBackground(String... keyWords) {
+            return mSingleWordDao.getLikelyMeaning(keyWords[0]);
+        }
+
+        @Override
+        protected void onPostExecute(List<SingleWord> singleWords) {
+            mDBCallback.getList(singleWords);
+            super.onPostExecute(singleWords);
         }
     }
 

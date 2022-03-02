@@ -3,6 +3,9 @@ package com.example.sourcewords.ui.review.dataBean;
 import java.util.List;
 //网络请求的/words/list的基础接受类
 public class WordInfoBean {
+    public static final int WORD_NEW = 0;
+    public static final int WORD_TODAY_REVIEW_AGAIN = 1;
+    public static final int WORD_PAST_REVIEWED = 2;
     /**
      * zh_source:中文词源
      * pronunciation_url:发音地址
@@ -24,6 +27,7 @@ public class WordInfoBean {
     private List<Boolean> exam_grading;
     /**
      * nextTime:下一次复习时间
+     * status:状态  0：刚刚复习过的单词，
      */
     private String nextTime;
     private int status;

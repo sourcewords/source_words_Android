@@ -1,6 +1,7 @@
 package com.example.sourcewords.commonUtils;
 
 import com.example.sourcewords.ui.mine.model.databean.UserInfo;
+import com.example.sourcewords.ui.review.dataBean.HistoryWord;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.dataBean.WordRootStatus;
 

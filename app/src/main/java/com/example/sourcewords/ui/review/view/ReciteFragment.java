@@ -51,9 +51,9 @@ public class ReciteFragment extends Fragment {
      * 今天已经复习过的单词但今天仍需复习的状态为 1
      * 过去学过、复习过，今天要复习的的状态为 2
      */
-    private static final int WORD_NEW = 0;
-    private static final int WORD_TODAY_REVIEW_AGAIN = 1;
-    private static final int WORD_PAST_REVIEWED = 2;
+    public static final int WORD_NEW = 0;
+    public static final int WORD_TODAY_REVIEW_AGAIN = 1;
+    public static final int WORD_PAST_REVIEWED = 2;
     private ViewStub stub;
 
 

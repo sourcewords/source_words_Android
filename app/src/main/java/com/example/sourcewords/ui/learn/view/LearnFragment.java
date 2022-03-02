@@ -49,6 +49,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         @SuppressLint("InflateParams") View v = inflater.inflate(R.layout.fragment_learn, null);
         viewModel = ViewModelProviders.of(this.getActivity()).get(LearnViewModel.class);
+
         ReviewCardViewModel reviewCardViewModel = ViewModelProviders.of(this).get(ReviewCardViewModel.class);
 
         reviewCardViewModel.getAllWord().observe(getViewLifecycleOwner(), words -> {
@@ -136,7 +137,8 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         int id = random.nextInt(25);
 
         viewModel.getWordRootById(id).observe(getViewLifecycleOwner(), wordRoot -> {
-            root = wordRoot;
+            //root = wordRoot;
+            /*
             if (root.getRoot() != null) {
                 textView_wordRoot.setText("词根：" + wordRoot.getRoot());
                 textView_meaning.setText("词根" + wordRoot.getRoot() + "的意思是:" + root.getMeaning());
@@ -144,6 +146,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
                 List<Word> words = root.getWordlist();
                 adapter.setList(words);
             }
+             */
         });
     }
 
