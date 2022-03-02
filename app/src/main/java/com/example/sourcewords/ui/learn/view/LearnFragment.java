@@ -183,7 +183,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
             viewModel.saveFlag(false);
             saveTime();
         }
-        refresh();
+        //refresh();
     }
 
     //TODO 记录离开时间
