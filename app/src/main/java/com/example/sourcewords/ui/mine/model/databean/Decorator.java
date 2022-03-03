@@ -1,6 +1,7 @@
 package com.example.sourcewords.ui.mine.model.databean;
 
 import android.graphics.drawable.Drawable;
+import android.text.style.RelativeSizeSpan;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
@@ -24,6 +25,6 @@ public class Decorator implements DayViewDecorator {
 
     @Override
     public void decorate(DayViewFacade view) {
-        view.setBackgroundDrawable(drawable);
+        view.addSpan(new RelativeSizeSpan(3.0f));
     }
 }

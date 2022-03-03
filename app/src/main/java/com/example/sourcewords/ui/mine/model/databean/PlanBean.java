@@ -3,11 +3,12 @@ package com.example.sourcewords.ui.mine.model.databean;
 public class PlanBean {
 
     public PlanBean(){}
-    public PlanBean(String planName, String leastTime, String b_eTime, int progress) {
+    public PlanBean(String planName, String leastTime, String b_eTime, int progress, int type) {
         this.planName = planName;
         this.leastTime = leastTime;
         this.b_eTime = b_eTime;
         this.progress = progress;
+        this.type = type;
     }
 
     public String getPlanName() {
@@ -46,5 +47,15 @@ public class PlanBean {
     private String leastTime;
     private String b_eTime;
     private int progress;
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    private int type;
 
 }
