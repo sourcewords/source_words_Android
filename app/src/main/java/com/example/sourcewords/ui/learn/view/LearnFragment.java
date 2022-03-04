@@ -23,15 +23,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sourcewords.R;
-import com.example.sourcewords.commonUtils.SPUtils;
 import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.ui.learn.viewModel.WordsAdapter;
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -44,7 +41,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
     private AppCompatButton button_learned;
     private WordsAdapter adapter;
     private ReviewCardViewModel reviewCardViewModel;
-    private final static String KEY_TIME = "key_today_time";
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -59,12 +56,19 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         reviewCardViewModel.getAllWordRoot().observe(getViewLifecycleOwner(), wordRoots -> Log.d("initDataa", "" + wordRoots.size()));
         reviewCardViewModel.getAllSingleWord().observe(getViewLifecycleOwner()
                 , singleWords -> Log.d("initDatac", "" + singleWords.size()));
+
+        handlePlan();
+        try {
+            Thread.sleep(30);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         initView(v);
         return v;
     }
 
     private void initView(View v) {
-        handlePlan();
+
         ImageButton imageButton = v.findViewById(R.id.learn_searcher);
         videoView = v.findViewById(R.id.learn_player);
         textView_meaning = v.findViewById(R.id.learn_meaning);
@@ -87,7 +91,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         //等待算法实现
         getTodayLearn();
         initButton(v);
-        viewModel.getNowDay().setValue(getNow());
+        viewModel.getNowDay().setValue(viewModel.getNow());
         imageButton.setOnClickListener(this);
     }
 
@@ -137,7 +141,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         //TODO 第几天就是第几个词根
         int id = viewModel.getLong();
         viewModel.getWordRootById(id).observe(getViewLifecycleOwner(), wordRoot -> {
-            if (root.getRoot() != null) {
+            if (root != null) {
                 textView_wordRoot.setText("词根：" + wordRoot.getRoot());
                 textView_meaning.setText("词根" + wordRoot.getRoot() + "的意思是:" + root.getMeaning());
                 textView_source.setText("词根" + wordRoot.getRoot() + "的来源与解释:" + root.getMeaning());
@@ -153,33 +157,6 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         });
     }
 
-    private boolean isToday(){
-        return getNow() == getSaveDay();
-
-    }
-
-    private int getSaveDay(){
-        SPUtils sp = SPUtils.getInstance(SPUtils.SP_TIME);
-        return sp.getInt(SPUtils.SP_TIME);
-    }
-
-
-    private void saveTime() {
-        //获取存储的时间
-        SPUtils sp = SPUtils.getInstance(SPUtils.SP_TIME);
-        sp.put(KEY_TIME, getNow());
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    private int getNow() {
-        SimpleDateFormat sdf = new SimpleDateFormat("d");
-        int day = Integer.parseInt(sdf.format(new Date()));
-        sdf = new SimpleDateFormat("h");
-        int hour = Integer.parseInt(sdf.format(new Date()));
-        Log.d("Now","小时" + hour +"  " +  day );
-        return hour < 4 ? day - 1 : day;
-
-    }
 
     private void handlePlan(){
         viewModel.getNowPlan().observe(getViewLifecycleOwner(), integer -> {
@@ -199,19 +176,18 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
     //TODO 更新存储的系统时间
     public void onResume() {
         super.onResume();
-        if (!isToday()) {
+        if (!viewModel.isToday()) {
             //更新操作
             viewModel.getLearnFlag().setValue(false);
             viewModel.saveFlag(false);
-            saveTime();
+            viewModel.saveTime();
         }
-        //refresh();
     }
 
     //TODO 记录离开时间
     @Override
     public void onDestroy() {
         super.onDestroy();
-        saveTime();
+        viewModel.saveTime();
     }
 }

@@ -27,7 +27,7 @@ public abstract class WordRootDatabase extends RoomDatabase {
     private static final RoomDatabase.Callback roomDataBaseCallBack = new Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
-            super.onOpen(db);
+            super.onCreate(db);
             try {
                 Log.d("initData","");
                 new InitDbAsync(INSTANCE).execute();
@@ -46,7 +46,7 @@ public abstract class WordRootDatabase extends RoomDatabase {
                 // 这里的上下文我已经在App里写明了，不需要重复传参
                 INSTANCE = Room.databaseBuilder(App.getAppContext(), WordRootDatabase.class, "WordRootDatabase")
                         //性能出发，为防止查询时ui卡顿，不建议在主线程查询，采用异步查询
-                        .allowMainThreadQueries()
+                        //.allowMainThreadQueries()
                         // 为之后数据库添加字段删除字段的和平过渡
                         .fallbackToDestructiveMigration()
                         .addCallback(roomDataBaseCallBack)

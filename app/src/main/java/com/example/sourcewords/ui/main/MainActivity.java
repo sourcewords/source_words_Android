@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         //WordRootRepository repository = new WordRootRepository(this);
         //repository.initWordRootList();
 
-
     }
 
     private void addMainFragment() {

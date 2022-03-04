@@ -3,6 +3,8 @@ package com.example.sourcewords.ui.learn.viewModel;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
+import android.text.format.Time;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -30,6 +32,7 @@ public class LearnViewModel extends AndroidViewModel {
     private final static String KEY_PLAN = "key_plan";
     private final static String KEY_LEARNED = "key_wordroot_learned";
     private final static String KEY_LONG = "key_long";
+    private final static String KEY_TIME = "key_today_time";
 
 
     public LearnViewModel(@NonNull Application application) {
@@ -124,5 +127,32 @@ public class LearnViewModel extends AndroidViewModel {
     public boolean getSaveFlag() {
         return SPUtils.getInstance(SPUtils.SP_LEARN_TODAT).getBoolean(KEY_LEARNED);
     }
+
+    public boolean isToday(){
+        return getNow() == getSaveDay();
+    }
+
+    private int getSaveDay(){
+        SPUtils sp = SPUtils.getInstance(SPUtils.SP_TIME);
+        return sp.getInt(SPUtils.SP_TIME);
+    }
+
+
+    public void saveTime() {
+        //获取存储的时间
+        SPUtils sp = SPUtils.getInstance(SPUtils.SP_TIME);
+        sp.put(KEY_TIME, getNow());
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public int getNow() {
+        Time t = new Time();
+        t.setToNow();
+        int day = t.monthDay;
+        int hour = t.hour;
+        Log.d("Time Now",day + "时间" + hour);
+        return hour < 4 ? day - 1 : day;
+    }
+
 
 }
