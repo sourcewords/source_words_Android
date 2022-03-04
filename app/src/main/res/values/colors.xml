@@ -12,4 +12,7 @@
     <color name="lightGreen">#E6F3F2</color>
     <color name="green">#9CDFDD</color>
     <color name="gray">#A9AAAA</color>
+    <color name="review_red">#F17D58</color>
+    <color name="review_green">#8BC34A</color>
+>>>>>>> origin
 </resources>

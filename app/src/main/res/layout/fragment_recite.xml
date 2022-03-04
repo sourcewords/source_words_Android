@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
+        android:id="@+id/full_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -50,9 +51,9 @@
                     android:layout_height="wrap_content"/>
 
                 <ImageView
-                    android:layout_alignParentBottom="true"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
 
                     android:background="@drawable/tree" />
             </RelativeLayout>
@@ -66,9 +67,12 @@
             android:layout_above="@id/area"
             android:layout_alignParentRight="true"
             android:layout_marginRight="50dp"
-            android:backgroundTint="@color/theme_green"
+            android:background="@color/white"
             android:tint="@color/white"
-            android:src="@drawable/fanhui"/>
+            app:borderWidth="0dp"
+            android:backgroundTint="@color/theme_green"
+            android:paddingBottom="10dp"
+            android:src="@drawable/fanhui" />
 
 
         <LinearLayout
@@ -76,18 +80,35 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:orientation="horizontal"
+            android:paddingTop="15dp"
             android:layout_marginHorizontal="50dp"
             android:layout_alignParentBottom="true"
             android:layout_marginTop="5dp">
 
-            <TextView
-                android:textSize="30dp"
-                android:layout_weight="1"
-                android:id="@+id/defficult"
+            <FrameLayout
                 android:layout_width="0dp"
-                android:text="5"
-                android:gravity="center"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/new_learn"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:text="5"
+                    android:textColor="@color/theme_green"
+                    android:textSize="30dp" />
+
+                <ImageView
+                    android:alpha="0.5"
+                    android:src="@drawable/review_count1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/new_learn_bkg"/>
+
+            </FrameLayout>
+
+
 
             <TextView
                 android:textSize="30dp"
@@ -98,14 +119,29 @@
                 android:id="@+id/sign"
                 android:text="+"/>
 
-            <TextView
-                android:gravity="center"
-                android:textSize="30dp"
-                android:text="5"
-                android:layout_weight="1"
-                android:id="@+id/middle"
+            <FrameLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:gravity="center"
+                    android:textSize="30dp"
+                    android:text="0"
+                    android:textColor="@color/review_red"
+                    android:id="@+id/review"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <ImageView
+                    android:id="@+id/review_bkg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.5"
+                    android:src="@drawable/review_count2" />
+            </FrameLayout>
+
+
 
             <TextView
                 android:gravity="center"
@@ -115,18 +151,43 @@
                 android:layout_height="wrap_content"
                 android:text="+"/>
 
-            <TextView
-                android:gravity="center"
-                android:textSize="30dp"
-                android:text="5"
-                android:layout_weight="1"
-                android:id="@+id/easy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/have_learned"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="5"
+                    android:textColor="@color/review_green"
+                    android:textSize="30dp" />
+
+                <ImageView
+                    android:alpha="0.5"
+                    android:src="@drawable/review_count3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/have_learned_bkg"/>
+
+            </FrameLayout>
+
+
 
         </LinearLayout>
 
+
     </RelativeLayout>
+
+    <ViewStub
+        android:id="@+id/viewstub_done"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/iv_VsContent"
+        android:layout="@layout/review_done"/>
+
 
 </FrameLayout>
 

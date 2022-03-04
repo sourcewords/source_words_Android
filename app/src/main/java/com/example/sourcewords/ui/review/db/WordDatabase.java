@@ -1,33 +1,49 @@
 package com.example.sourcewords.ui.review.db;
 
-import android.content.Context;
+import android.os.AsyncTask;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.sourcewords.App;
-import com.example.sourcewords.utils.Converters;
+import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
-import com.example.sourcewords.ui.review.dataBean.WordRootDao;
+import com.example.sourcewords.ui.review.model.WordDataSource;
+import com.example.sourcewords.utils.Converters;
 
-@Database(entities = {WordRoot.class}, version = 1, exportSchema = false)
+import java.io.IOException;
+import java.util.List;
+
+@Database(entities = {Word.class}, version = 3, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class WordDatabase extends RoomDatabase {
-    private static WordDatabase INSTANCE;
 
+    public abstract WordDao getWordDao();
 
-    public static WordDatabase getDatabase(Context mContext) {
+    private static final RoomDatabase.Callback roomDataBaseCallBack = new Callback() {
+        @Override
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onOpen(db);
+            try {
+                new WordDatabase.InitWbAsync(INSTANCE).execute();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+    private static WordDatabase INSTANCE = getDatabase();
+
+    public static WordDatabase getDatabase() {
         if (INSTANCE == null) {
-            //这里加互斥锁，是为了防止多线程重复创建数据库，保证单例在多线程操作的安全性
-            synchronized (WordDatabase.class) {
-                // 这里的上下文我已经在App里写明了，不需要重复传参
-                INSTANCE = Room.databaseBuilder(mContext.getApplicationContext(), WordDatabase.class, "WordDatabase")
-                        //性能出发，为防止查询时ui卡顿，不建议在主线程查询，采用异步查询
-                        //.allowMainThreadQueries()
-                        // 为之后数据库添加字段删除字段的和平过渡
+            synchronized (WordRootDatabase.class) {
+                INSTANCE = Room.databaseBuilder(App.getAppContext(), WordDatabase.class, "WordDatabase")
                         .fallbackToDestructiveMigration()
+                        .allowMainThreadQueries()
+                        .addCallback(roomDataBaseCallBack)
                         .build();
             }
 
@@ -35,5 +51,24 @@ public abstract class WordDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    public abstract WordRootDao getWordDao();
+    static class InitWbAsync extends AsyncTask<Void, Void, Void> {
+        private final WordDao mDao;
+        private List<WordRoot> roots = WordDataSource.getRoots();
+
+        public InitWbAsync(WordDatabase instance) throws IOException {
+            mDao = instance.getWordDao();
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            for (WordRoot root : roots) {
+                List<Word> list = root.getWordlist();
+                for (Word word : list) {
+                    mDao.insertWord(word);
+                }
+            }
+
+            return null;
+        }
+    }
 }

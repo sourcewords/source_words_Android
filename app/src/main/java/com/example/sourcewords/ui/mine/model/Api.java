@@ -12,5 +12,9 @@ public interface Api {
         void success();
         void failed();
     }
+    interface SignInApi{
+        void success();
+        void failed();
+    }
 
 }

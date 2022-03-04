@@ -1,13 +1,17 @@
 package com.example.sourcewords.ui.review.dataBean;
 
+import androidx.annotation.ColorInt;
+import androidx.room.AutoMigration;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.util.List;
 
-@Entity
+@Entity(tableName = "word_table")
 public class Word {
+
+    @ColumnInfo(name = "单词信息")
     private WordInfoBean word_info;
     /**
      * word_info : {"zh_source":"id","pronunciation_url":"http://hdqqnj.nr/wcsbg","meaning":"amet do cupidatat cillum ea","exam_grading":[false,false],"phonetic":"18165035413","id":80,"root":6,"example_sentences":[{"zh":"in est Lorem sed ad","en":"ad ea quis amet cupidatat"}],"variation":"eu mollit culpa","word":"occaecat in esse aliquip"}
@@ -17,19 +21,25 @@ public class Word {
      * explanation : 解释
      * property : 词性
      */
+    @PrimaryKey
+    @ColumnInfo(name = "ID")
     private int id;
+
+    @ColumnInfo(name = "基本意思")
     private String meaning;
+
+    @ColumnInfo(name = "单词")
     private String word;
+
+    @ColumnInfo(name = "解释")
     private String explanation;
+
+    @ColumnInfo(name = "词性")
     private String property;
 
-    public Word(WordInfoBean word_info, int id, String meaning, String word, String explanation, String property) {
+    public Word(WordInfoBean word_info, int id) {
         this.word_info = word_info;
         this.id = id;
-        this.meaning = meaning;
-        this.word = word;
-        this.explanation = explanation;
-        this.property = property;
     }
 
     public WordInfoBean getWord_info() {

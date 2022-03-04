@@ -44,17 +44,17 @@ public class MyPlanActivity extends AppCompatActivity {
     }
 
     private void initView() {
-//        myPlan = viewModel.getMyPlan().getValue();
-//        if(myPlan == null){
-//            dataBinding.myplanRvItem.setVisibility(View.GONE);
-//            Toast.makeText(this, "现在没有进行中的计划哦，快来添加一个吧！", Toast.LENGTH_SHORT).show();
-//        }else{
-//            dataBinding.leastTimeTv.setText(myPlan.getLeastTime());
-//            dataBinding.bETimeTv.setText(myPlan.getB_eTime());
-//            dataBinding.planName.setText(myPlan.getPlanName());
-//            dataBinding.planProgressBar.setProgress(myPlan.getProgress());
-//            dataBinding.planProgressNum.setText(myPlan.getProgress());
-//        }
+        myPlan = viewModel.getMyPlan().getValue();
+        if(myPlan == null){
+            dataBinding.myplanRvItem.setVisibility(View.GONE);
+            Toast.makeText(this, "现在没有进行中的计划哦，快来添加一个吧！", Toast.LENGTH_SHORT).show();
+        }else{
+            dataBinding.leastTimeTv.setText(myPlan.getLeastTime());
+            dataBinding.bETimeTv.setText(myPlan.getB_eTime());
+            dataBinding.planName.setText(myPlan.getPlanName());
+            dataBinding.planProgressBar.setProgress(myPlan.getProgress());
+            dataBinding.planProgressNum.setText(myPlan.getProgress());
+        }
 
         dataBinding.myplanAdd.setOnClickListener(v -> {
             Intent intent = new Intent(this, AddPlanActivity.class);

@@ -13,7 +13,7 @@ import retrofit2.Response;
 public class UserInfoRemoteDataSource {
 
     private static UserInfoRemoteDataSource INSTANCE;
-
+    private UserInfo userInfo = new UserInfo();
     private final String token = UserWrapper.getInstance().getToken();
 
     public static UserInfoRemoteDataSource getInstance(){
@@ -30,12 +30,13 @@ public class UserInfoRemoteDataSource {
     private UserInfoRemoteDataSource(){};
 
     public void getRemoteUserInfo(UserInfo myUserInfo) {
-        final UserInfo[] userInfo = {new UserInfo()};
         NetUtil.getInstance().getApi().getUserInfo(token)
                 .enqueue(new Callback<UserInfo>() {
                     @Override
                     public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
-                        userInfo[0] = response.body();
+                        if(response.body() != null){
+                            userInfo = response.body();
+                        }
                     }
 
                     @Override
@@ -43,6 +44,5 @@ public class UserInfoRemoteDataSource {
 
                     }
                 });
-        myUserInfo = userInfo[0];
     }
 }

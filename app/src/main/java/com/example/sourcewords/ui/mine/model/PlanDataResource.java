@@ -11,7 +11,7 @@ import retrofit2.Response;
 public class PlanDataResource {
 
     private static PlanDataResource INSTANCE;
-
+    private PlanBean myplan;
     private final String token = UserWrapper.getInstance().getToken();
 
     public static PlanDataResource getInstance() {
@@ -27,12 +27,11 @@ public class PlanDataResource {
 
     private PlanDataResource (){}
 
-    public PlanBean getMyPlan(){
-        final PlanBean[] myplan = {new PlanBean()};
+    public void getMyPlan(){
         NetUtil.getInstance().getApi().getMyPlan(token).enqueue(new Callback<PlanBean>() {
             @Override
             public void onResponse(Call<PlanBean> call, Response<PlanBean> response) {
-                myplan[0] = response.body();
+                 myplan = response.body();
             }
 
             @Override
@@ -40,6 +39,10 @@ public class PlanDataResource {
 
             }
         });
-        return myplan[0];
+    }
+
+    public PlanBean getMyplan(){
+        getMyPlan();
+        return myplan;
     }
 }

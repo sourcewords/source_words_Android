@@ -6,23 +6,31 @@ import android.widget.Toast;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.MutableLiveData;
+
 import com.example.sourcewords.R;
 import com.example.sourcewords.databinding.ActivityChangepwdBinding;
 import com.example.sourcewords.ui.mine.model.Api;
+import com.example.sourcewords.ui.mine.model.databean.PassWord;
+import com.example.sourcewords.ui.mine.model.databean.UserWrapper;
 import com.example.sourcewords.ui.mine.viewmodel.ChangePwdViewModel;
 import java.util.Objects;
 
 public class ChangePwdActivity extends AppCompatActivity {
 
-    private ChangePwdViewModel myViewModel = new ChangePwdViewModel();
+    private ChangePwdViewModel myViewModel;
     private ActivityChangepwdBinding myDataBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         myDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_changepwd);
-        myDataBinding.setLifecycleOwner(this);
-        myDataBinding.setChangePwdViewModel(myViewModel);
+        myViewModel = new ChangePwdViewModel();
+        PassWord passWord = new PassWord(UserWrapper.getInstance().getPwd(), "", "");
+        myViewModel.getPassWord().setValue(passWord);
+
+        MutableLiveData<PassWord> pwd = myViewModel.getPassWord();
+        pwd.observe(this, pwd2 ->myDataBinding.setChangePwdViewModel(myViewModel));
 
         myDataBinding.confirmChangepwd.setOnClickListener(v->{
             if(!Objects.requireNonNull(myViewModel.getPassWord().getValue()).getOldPwd().equals(myViewModel.getOldpwd())){

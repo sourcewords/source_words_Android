@@ -34,6 +34,9 @@
         <activity android:name=".ui.mine.view.UserInfoActivity"></activity>
         <activity android:name=".ui.login.view.RegisterActivity"></activity>
         <activity android:name=".ui.mine.view.AddPlanActivity"></activity>
+        <activity android:name=".ui.review.view.DetailActivity"></activity>
+        <activity android:name=".ui.review.view.SearchWordsDetailActivity"></activity>
+        <activity android:name=".ui.review.view.ReviewSearchActivity"/>
         <activity android:name=".ui.learn.view.LearnSearchActivity"/>
         <activity android:name=".ui.learn.view.WordRootPage"/>
         <activity android:name=".ui.mine.view.SigninActivity"/>
