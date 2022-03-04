@@ -31,11 +31,13 @@ public class WordRootRepository {
     private static DealWordRoot dealWordRoot;
     private final String Authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDQ0Nzk5NDksImlhdCI6MTY0NDM5MzU0OSwidWlkIjoxN30.3fA571_ktll7xL1aBSwEiAyoXc0QvmwdXt3XlyCw1VQ";
     private List<WordRoot> wordList;
+    private final LearnedRepository learnedRepository;
 
     public WordRootRepository(){
         final WordRootDatabase wordDatabase = WordRootDatabase.getDatabase();
         wordRootDao = wordDatabase.getWordDao();
         dealWordRoot = getRetrofit();
+        learnedRepository = new LearnedRepository();
     }
 
     public LiveData<List<WordRoot>> getAllWordRoots(){
@@ -128,8 +130,9 @@ public class WordRootRepository {
             return null;
         }
     }
+
     //从远端拉入词根并插入本地数据库
-    public void initWordRootList() {
+    public void initWordRootList(int level) {
         Log.d("Search!!!", "/////////////////////////");
         dealWordRoot.getWordList(Authorization, "true")
                 .subscribeOn(Schedulers.io())
@@ -144,10 +147,7 @@ public class WordRootRepository {
                     public void onNext(Test test) {
                         wordList = test.getData();
                         Log.d("接受","呼啦呼啦？？？？？？？？？？？？？？？？");
-                        for(WordRoot wordRoot : wordList){
-                            Log.d("test",wordRoot.getRoot() + wordRoot.getMeaning() + wordRoot.getVideo_url() );
-                            insertRoots(wordRoot);
-                        }
+                        //learnedRepository.initPlan(wordList,level);
                     }
 
                     @Override
@@ -162,6 +162,4 @@ public class WordRootRepository {
 
                 });
     }
-
-
 }

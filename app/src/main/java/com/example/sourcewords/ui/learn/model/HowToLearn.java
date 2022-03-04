@@ -23,5 +23,4 @@ public class HowToLearn {
     }
 
     //第几天就是第几个词根
-
 }

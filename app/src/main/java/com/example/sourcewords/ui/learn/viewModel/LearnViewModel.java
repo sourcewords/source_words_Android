@@ -17,6 +17,7 @@ import com.example.sourcewords.ui.learn.model.WordRootRepository;
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -93,10 +94,12 @@ public class LearnViewModel extends AndroidViewModel {
     public LiveData<List<WordRoot>> getAllWordRoot(){
         return rootRepository.getAllWordRoots();
     }
-
+/*
     public void initPlanRepository(List<WordRoot> list,int level){
         learnedRepository.initPlan(list,level);
     }
+
+ */
 
     public void updateRoot(int root_id) {
         rootRepository.learnedTodayRoot(root_id);
@@ -154,5 +157,15 @@ public class LearnViewModel extends AndroidViewModel {
         return hour < 4 ? day - 1 : day;
     }
 
+
+    public List<Word> getLevelList(List<Word> list,int level){
+        List<Word> ans = new ArrayList<>();
+        for(Word word : list){
+            if(word.getWord_info().getExam_grading().get(level)){
+                ans.add(word);
+            }
+        }
+        return ans;
+    }
 
 }

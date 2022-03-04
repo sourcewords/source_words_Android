@@ -9,9 +9,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetUtil {
 
-    private OkHttpClient client;
-    private RetrofitApi api;
-    private Gson gson;
+    private final OkHttpClient client;
+    private final RetrofitApi api;
+    private final Gson gson;
     private static final String baseUrl = "http://127.0.0.1:4523/mock/615381/";
 
     private NetUtil() {

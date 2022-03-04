@@ -1,13 +1,8 @@
 package com.example.sourcewords.ui.review.dataBean;
 
-import androidx.annotation.ColorInt;
-import androidx.room.AutoMigration;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-
-import java.util.List;
 
 @Entity(tableName = "word_table")
 public class Word {

@@ -17,7 +17,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,29 +24,39 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.ui.learn.viewModel.WordsAdapter;
-import com.example.sourcewords.ui.review.dataBean.Word;
-import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
 
-import java.util.List;
 import java.util.Objects;
 
 //TODO 学模块
-public class LearnFragment extends Fragment implements View.OnClickListener {
+public class LearnFragment extends Fragment implements View.OnClickListener{
     private VideoView videoView;
     private LearnViewModel viewModel;
-    private WordRoot root = null;
     private AppCompatTextView textView_wordRoot, textView_meaning, textView_source;
     private AppCompatButton button_learned;
     private WordsAdapter adapter;
-    private ReviewCardViewModel reviewCardViewModel;
+    private static int day;
+    private static final String Param = "LearnFragment";
+
+    public static Fragment newInstance(int day) {
+        Fragment fragment = new LearnFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Param, day);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    public LearnFragment() { }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         @SuppressLint("InflateParams") View v = inflater.inflate(R.layout.fragment_learn, null);
         viewModel = ViewModelProviders.of(this.getActivity()).get(LearnViewModel.class);
-        reviewCardViewModel = ViewModelProviders.of(this).get(ReviewCardViewModel.class);
+        if (getArguments() != null){
+            day = getArguments().getInt(Param,1);
+        }
+        ReviewCardViewModel reviewCardViewModel = ViewModelProviders.of(this).get(ReviewCardViewModel.class);
 
         reviewCardViewModel.getAllWord().observe(getViewLifecycleOwner(), words -> {
             assert words != null;
@@ -56,19 +65,11 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         reviewCardViewModel.getAllWordRoot().observe(getViewLifecycleOwner(), wordRoots -> Log.d("initDataa", "" + wordRoots.size()));
         reviewCardViewModel.getAllSingleWord().observe(getViewLifecycleOwner()
                 , singleWords -> Log.d("initDatac", "" + singleWords.size()));
-
-        handlePlan();
-        try {
-            Thread.sleep(30);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         initView(v);
         return v;
     }
 
     private void initView(View v) {
-
         ImageButton imageButton = v.findViewById(R.id.learn_searcher);
         videoView = v.findViewById(R.id.learn_player);
         textView_meaning = v.findViewById(R.id.learn_meaning);
@@ -98,16 +99,22 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
     private void initButton(View v) {
         button_learned = v.findViewById(R.id.learn_AllLearned);
         button_learned.setOnClickListener(this);
-        if (viewModel.getSaveFlag()){
+        if (viewModel.getSaveFlag()) {
             button_learned.setClickable(false);
             changeButtonUI();
         }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    private void changeButtonUI(){
+    private void changeButtonUI() {
         button_learned.setBackground(getResources().getDrawable(R.drawable.learned_selected));
         button_learned.setTextColor(getResources().getColor(R.color.theme_green));
+    }
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private void changeButtonUIBack() {
+        button_learned.setBackground(getResources().getDrawable(R.color.theme_green));
+        button_learned.setTextColor(getResources().getColor(R.color.white));
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -139,37 +146,16 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
     @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
     private void getTodayLearn() {
         //TODO 第几天就是第几个词根
-        int id = viewModel.getLong();
-        viewModel.getWordRootById(id).observe(getViewLifecycleOwner(), wordRoot -> {
-            if (root != null) {
+        viewModel.getWordRootById(day).observe(getViewLifecycleOwner(), wordRoot -> {
+            if (wordRoot != null) {
                 textView_wordRoot.setText("词根：" + wordRoot.getRoot());
-                textView_meaning.setText("词根" + wordRoot.getRoot() + "的意思是:" + root.getMeaning());
-                textView_source.setText("词根" + wordRoot.getRoot() + "的来源与解释:" + root.getMeaning());
-                viewModel.getWordsByRootID(root.getId()).observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
-                    @Override
-                    public void onChanged(List<Word> words) {
-                        adapter.setList(words);
-                        adapter.notifyDataSetChanged();
-                    }
-                });
-
+                textView_meaning.setText("词根" + wordRoot.getRoot() + "的意思是:" + wordRoot.getMeaning());
+                textView_source.setText("词根" + wordRoot.getRoot() + "的来源与解释:" + wordRoot.getMeaning());
+                adapter.setList(wordRoot.getWordlist());
+                adapter.notifyDataSetChanged();
             }
         });
     }
-
-
-    private void handlePlan(){
-        viewModel.getNowPlan().observe(getViewLifecycleOwner(), integer -> {
-            LoadPlan(integer);
-            viewModel.savePlan(integer);
-            //刷新
-        });
-    }
-
-    private void LoadPlan(int level){
-        viewModel.getAllWordRoot().observe(getViewLifecycleOwner(), list -> viewModel.initPlanRepository(list,level));
-    }
-
 
 
     @Override
@@ -181,6 +167,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
             viewModel.getLearnFlag().setValue(false);
             viewModel.saveFlag(false);
             viewModel.saveTime();
+            refresh();
         }
     }
 
@@ -190,4 +177,12 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         super.onDestroy();
         viewModel.saveTime();
     }
+
+    public void refresh(){
+        getTodayLearn();
+        changeButtonUIBack();
+        button_learned.setClickable(true);
+        Log.d("LearnFragment","刷新拉!!!!");
+    }
+
 }

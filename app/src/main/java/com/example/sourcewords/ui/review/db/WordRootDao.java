@@ -27,7 +27,6 @@ public interface WordRootDao {
     @Query("SELECT * FROM wordRoot_table")
     LiveData<List<WordRoot>> getAllWordRoot();
 
-
     @Query("SELECT * FROM wordRoot_table WHERE 词根序号 =:id")
     LiveData<WordRoot> getWordRootByID(int id);
 

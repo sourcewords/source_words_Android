@@ -1,5 +1,6 @@
 package com.example.sourcewords.ui.review.view;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,7 +28,7 @@ import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
 //TODO 习模块
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class ReviewFragment extends Fragment {
-
+    private ImageView search;
     private FrameLayout frameLayout;
     private LearnViewModel viewModel;
     private MutableLiveData<Boolean> learnFlag;
@@ -66,14 +68,26 @@ public class ReviewFragment extends Fragment {
             }
         });
 
+        initViewAndListener(view);
+
         return view;
+    }
+
+    public  void initViewAndListener(View view){
+        search = view.findViewById(R.id.review_search);
+        search.setOnClickListener(v->{
+            Intent intent = new Intent(getActivity(),ReviewSearchActivity.class);
+            startActivity(intent);
+        });
     }
 
 
     public void initNoneView() {
-        Log.d("fragmentManager","1");
-        fragmentManager.beginTransaction().add(R.id.review_container,noneFragment,"NoneFragment")
+        if (!noneFragment.isAdded()){
+            Log.d("fragmentManager","1");
+            fragmentManager.beginTransaction().add(R.id.review_container,noneFragment,"NoneFragment")
                 .commit();
+        }
     }
 
     public void initWordView(ReciteFragment reciteFragment) {
