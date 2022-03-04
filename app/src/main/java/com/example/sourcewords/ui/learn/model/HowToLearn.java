@@ -22,4 +22,6 @@ public class HowToLearn {
         wordRepository = new WordRepository();
     }
 
+    //第几天就是第几个词根
+
 }

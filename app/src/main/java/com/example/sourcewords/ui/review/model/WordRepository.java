@@ -7,7 +7,6 @@ import androidx.lifecycle.LiveData;
 
 import com.example.sourcewords.ui.review.dataBean.SingleWord;
 import com.example.sourcewords.ui.review.dataBean.Word;
-import com.example.sourcewords.ui.review.dataBean.WordInfoBean;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.db.SingleWordDao;
 import com.example.sourcewords.ui.review.db.SingleWordDatabase;

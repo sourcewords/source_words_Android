@@ -14,11 +14,10 @@ import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.model.WordDataSource;
 import com.example.sourcewords.utils.Converters;
-
 import java.io.IOException;
 import java.util.List;
 
-@Database(entities = {Word.class}, version = 3, exportSchema = false)
+@Database(entities = {Word.class}, version = 4, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class WordDatabase extends RoomDatabase {
 
@@ -27,7 +26,7 @@ public abstract class WordDatabase extends RoomDatabase {
     private static final RoomDatabase.Callback roomDataBaseCallBack = new Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
-            super.onOpen(db);
+            super.onCreate(db);
             try {
                 new WordDatabase.InitWbAsync(INSTANCE).execute();
             } catch (IOException e) {

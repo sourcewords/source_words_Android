@@ -3,16 +3,16 @@ package com.example.sourcewords.ui.learn.viewModel;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.sourcewords.App;
 import com.example.sourcewords.commonUtils.SPUtils;
+import com.example.sourcewords.ui.learn.model.LearnedRepository;
 import com.example.sourcewords.ui.learn.model.WordRootRepository;
+import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 
 import java.util.List;
@@ -22,27 +22,47 @@ public class LearnViewModel extends AndroidViewModel {
     @SuppressLint("StaticFieldLeak")
     private final Context mContext;
     @SuppressLint("StaticFieldLeak")
-    private final WordRootRepository repository;
+    private final WordRootRepository rootRepository;
+    private final LearnedRepository learnedRepository;
     private final MutableLiveData<Boolean> learnFlag;
     private final MutableLiveData<Integer> nowDay;//记录现在是所在年份的第几天
-
-    private final static String LEARNWORDID = "WHAT I LREAN TODAY";
-    private final static String ID = "TODAY WORDROOT";
+    private final MutableLiveData<Integer> nowPlan;
+    private final static String KEY_PLAN = "key_plan";
     private final static String KEY_LEARNED = "key_wordroot_learned";
+    private final static String KEY_LONG = "key_long";
 
-
-    //    private final String Authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDM5ODI0NTMsImlhdCI6MTY0Mzg5NjA1MywidWlkIjoxN30.Lx1tkjDiTAgiG6GL65WMPA6dfFAKgLSPV0rqNqqoblU";
 
     public LearnViewModel(@NonNull Application application) {
         super(application);
         this.mContext = application;
-        repository = new WordRootRepository(App.getAppContext());
+        rootRepository = new WordRootRepository();
+        learnedRepository = new LearnedRepository();
         learnFlag = new MutableLiveData<>(false);
         nowDay = new MutableLiveData<>();
+        nowPlan = new MutableLiveData<>(1);
 
     }
 
-    public MutableLiveData<Integer> getNowDay(){
+    public void deleteFromPlan(Word word) {
+        learnedRepository.deleteWordFromPlan(word);
+    }
+
+    //TODO 获取计划
+    public int getPlan() {
+        SPUtils sp = SPUtils.getInstance(SPUtils.SP_LEARN_PLAN);
+        return sp.getInt(KEY_PLAN, 1);
+    }
+
+    public void savePlan(int level){
+        SPUtils sp = SPUtils.getInstance(SPUtils.SP_LEARN_PLAN);
+        sp.put(KEY_PLAN,level);
+    }
+
+    public MutableLiveData<Integer> getNowPlan() {
+        return nowPlan;
+    }
+
+    public MutableLiveData<Integer> getNowDay() {
         return nowDay;
     }
 
@@ -50,44 +70,58 @@ public class LearnViewModel extends AndroidViewModel {
         return learnFlag;
     }
 
+    //TODO 加在LearnFragment获取wordList处，处理完后删除注释
+    public LiveData<List<Word>> getWordsByRootID(int root_id) {
+        return learnedRepository.getWordsByRootID(root_id);
+    }
 
+    //记录当前计划进行到第几天
+    public int getLong(){
+        SPUtils sp = SPUtils.getInstance(SPUtils.SP_LEARN_LONG);
+        return sp.getInt(KEY_LONG,1);
+    }
+
+    //获取记录
+    public void saveLong(int Long){
+        SPUtils sp = SPUtils.getInstance(SPUtils.SP_LEARN_LONG);
+        sp.put(KEY_LONG,Long);
+    }
+
+    public LiveData<List<WordRoot>> getAllWordRoot(){
+        return rootRepository.getAllWordRoots();
+    }
+
+    public void initPlanRepository(List<WordRoot> list,int level){
+        learnedRepository.initPlan(list,level);
+    }
 
     public void updateRoot(int root_id) {
-        repository.learnedTodayRoot(root_id);
+        rootRepository.learnedTodayRoot(root_id);
     }
 
     public void insertRoots(WordRoot root) {
-        repository.insertRoots(root);
+        rootRepository.insertRoots(root);
     }
 
     public LiveData<List<WordRoot>> getSimilarWords(String query) {
-        return repository.searchSimilar(query);
+        return rootRepository.searchSimilar(query);
     }
+
     public LiveData<WordRoot> getWordRootById(int Id) {
-        return repository.getWordRootById(Id);
-    }
-    public void saveWhatLearnedToday(int id){
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences(LEARNWORDID, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(ID,id);
-        editor.apply();
+        return rootRepository.getWordRootById(Id);
     }
 
-    public int getWhatLearnedToday(){
-        SharedPreferences sharedPreferences = mContext.getSharedPreferences(LEARNWORDID, Context.MODE_PRIVATE);
-        return sharedPreferences.getInt(ID, 0);
+
+    public WordRoot getRootByID(int id) {
+        return rootRepository.getRootById(id);
     }
 
-    public WordRoot getRootByID(int id){
-        return repository.getRootById(id);
-    }
-
-    public void saveFlag(boolean isLearned){
+    public void saveFlag(boolean isLearned) {
         SPUtils sp = SPUtils.getInstance(SPUtils.SP_LEARN_TODAT);
-        sp.put(KEY_LEARNED,isLearned);
+        sp.put(KEY_LEARNED, isLearned);
     }
 
-    public boolean getSaveFlag(){
+    public boolean getSaveFlag() {
         return SPUtils.getInstance(SPUtils.SP_LEARN_TODAT).getBoolean(KEY_LEARNED);
     }
 

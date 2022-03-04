@@ -11,10 +11,6 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.sourcewords.App;
 import com.example.sourcewords.ui.review.dataBean.SingleWord;
-import com.example.sourcewords.ui.review.dataBean.Word;
-import com.example.sourcewords.ui.review.dataBean.WordRoot;
-import com.example.sourcewords.ui.review.db.WordDao;
-import com.example.sourcewords.ui.review.db.WordRootDatabase;
 import com.example.sourcewords.ui.review.model.WordDataSource;
 import com.example.sourcewords.utils.Converters;
 
@@ -31,7 +27,7 @@ public abstract class SingleWordDatabase extends RoomDatabase {
     private static final RoomDatabase.Callback roomDataBaseCallBack = new Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
-            super.onOpen(db);
+            super.onCreate(db);
             try {
                 new InitWbAsync(INSTANCE).execute();
             } catch (IOException e) {
