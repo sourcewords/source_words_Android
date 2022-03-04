@@ -16,6 +16,7 @@ import com.example.sourcewords.ui.review.db.WordRootDatabase;
 import java.util.List;
 
 import io.reactivex.Observer;
+import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
@@ -129,6 +130,33 @@ public class WordRootRepository {
             //return dao.getWordRootsSimilar(message);
             return null;
         }
+    }
+
+    public void whatILearnedToday(List<Integer> list){
+        dealWordRoot.learnToday(Authorization,list)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Void>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(Void unused) {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d("上传网络请求","成功，开摆!");
+                    }
+                });
     }
 
     //从远端拉入词根并插入本地数据库

@@ -132,12 +132,14 @@ public class LearnViewModel extends AndroidViewModel {
     }
 
     public boolean isToday(){
+        Log.d("isToday","现在时间为" + getNow() +"储存的时间是" + getSaveFlag());
         return getNow() == getSaveDay();
+
     }
 
     private int getSaveDay(){
         SPUtils sp = SPUtils.getInstance(SPUtils.SP_TIME);
-        return sp.getInt(SPUtils.SP_TIME);
+        return sp.getInt(KEY_TIME);
     }
 
 
@@ -166,6 +168,10 @@ public class LearnViewModel extends AndroidViewModel {
             }
         }
         return ans;
+    }
+
+    public void whatILearnedToday(List<Integer> ids){
+        rootRepository.whatILearnedToday(ids);
     }
 
 }

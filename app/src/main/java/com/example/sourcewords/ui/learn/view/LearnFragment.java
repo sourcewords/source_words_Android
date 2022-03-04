@@ -24,8 +24,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.ui.learn.viewModel.WordsAdapter;
+import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 //TODO 学模块
@@ -37,6 +40,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener{
     private WordsAdapter adapter;
     private static int day;
     private static final String Param = "LearnFragment";
+    private static List<Integer> list = new ArrayList<>();
 
     public static Fragment newInstance(int day) {
         Fragment fragment = new LearnFragment();
@@ -128,6 +132,8 @@ public class LearnFragment extends Fragment implements View.OnClickListener{
                 // 通知习模块更新
                 viewModel.getLearnFlag().setValue(true);
                 button_learned.setClickable(false);
+                //通知后端
+                viewModel.whatILearnedToday(list);
                 break;
             case R.id.learn_searcher:
                 Intent intent = new Intent(getActivity(), LearnSearchActivity.class);
@@ -152,6 +158,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener{
                 textView_meaning.setText("词根" + wordRoot.getRoot() + "的意思是:" + wordRoot.getMeaning());
                 textView_source.setText("词根" + wordRoot.getRoot() + "的来源与解释:" + wordRoot.getMeaning());
                 adapter.setList(wordRoot.getWordlist());
+                list = changeToInteger(wordRoot.getWordlist());
                 adapter.notifyDataSetChanged();
             }
         });
@@ -183,6 +190,14 @@ public class LearnFragment extends Fragment implements View.OnClickListener{
         changeButtonUIBack();
         button_learned.setClickable(true);
         Log.d("LearnFragment","刷新拉!!!!");
+    }
+
+    private List<Integer> changeToInteger(List<Word> list){
+        List<Integer> res = new ArrayList<>();
+        for(Word word : list){
+            res.add(word.getWord_info().getId());
+        }
+        return res;
     }
 
 }
