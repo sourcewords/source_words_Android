@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator{
         IsToken(SPUtils.getInstance("Token",0).getString("Token",null));
 
 //        loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
-        loginViewModel = new LoginViewModel(LoginRemoteRespository.getINSTANCE(),getApplicationContext());
+        loginViewModel = new LoginViewModel(LoginRemoteRespository.getINSTANCE(),LoginActivity.this);
         loginViewModel.onActivityCreated(this);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login_account);

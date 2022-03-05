@@ -52,7 +52,7 @@ public class LoginViewModel extends ViewModel {
     }
 
     public LoginViewModel(LoginRemoteRespository repository, Context context) {
-        mContext = context.getApplicationContext();
+        mContext = context;
         loginRemoteRespository = repository;
     }
 
@@ -60,8 +60,7 @@ public class LoginViewModel extends ViewModel {
         loginRemoteRespository.getLoginStatus(new LoginUser(Account.getValue(), Password.getValue()), new LoginDataSource.LoadLoginCallBack() {
             @Override
             public void onLoginLoded() {
-                Intent intent = new Intent(mContext, MainActivity.class);
-                mContext.startActivity(intent);
+                mContext.startActivity(new Intent(mContext, MainActivity.class));
                 SPUtils.getInstance("Token").put("Token",loginRemoteRespository.getToken());
                 loginNavigator.onFinish();
             }
