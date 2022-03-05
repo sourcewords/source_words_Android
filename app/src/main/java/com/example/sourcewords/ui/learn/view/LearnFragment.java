@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Objects;
 
 //TODO 学模块
-public class LearnFragment extends Fragment implements View.OnClickListener{
+public class LearnFragment extends Fragment implements View.OnClickListener {
     private VideoView videoView;
     private LearnViewModel viewModel;
     private AppCompatTextView textView_wordRoot, textView_meaning, textView_source;
@@ -42,23 +42,14 @@ public class LearnFragment extends Fragment implements View.OnClickListener{
     private static final String Param = "LearnFragment";
     private static List<Integer> list = new ArrayList<>();
 
-    public static Fragment newInstance(int day) {
-        Fragment fragment = new LearnFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(Param, day);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
-
-    public LearnFragment() { }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         @SuppressLint("InflateParams") View v = inflater.inflate(R.layout.fragment_learn, null);
         viewModel = ViewModelProviders.of(this.getActivity()).get(LearnViewModel.class);
-        if (getArguments() != null){
-            day = getArguments().getInt(Param,1);
+        if (getArguments() != null) {
+            day = getArguments().getInt(Param, 1);
         }
         ReviewCardViewModel reviewCardViewModel = ViewModelProviders.of(this).get(ReviewCardViewModel.class);
 
@@ -78,10 +69,6 @@ public class LearnFragment extends Fragment implements View.OnClickListener{
         videoView = v.findViewById(R.id.learn_player);
         textView_meaning = v.findViewById(R.id.learn_meaning);
         textView_source = v.findViewById(R.id.learn_source);
-        //VideoView部分
-        String NULLURL = "https://stream7.iqilu.com/10339/upload_transcode/202002/18/20200218114723HDu3hhxqIT.mp4";
-        Uri uri = Uri.parse(NULLURL);
-        videoView.setVideoURI(uri);
         MediaController controller = new MediaController(getContext());
         controller.setVisibility(View.GONE);
         videoView.setMediaController(controller);
@@ -91,9 +78,8 @@ public class LearnFragment extends Fragment implements View.OnClickListener{
         RecyclerView recyclerView = v.findViewById(R.id.learn_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new WordsAdapter(Objects.requireNonNull(getContext()));
-        textView_wordRoot = v.findViewById(R.id.learn_wordroot);
         recyclerView.setAdapter(adapter);
-        //等待算法实现
+        textView_wordRoot = v.findViewById(R.id.learn_wordroot);
         getTodayLearn();
         initButton(v);
         viewModel.getNowDay().setValue(viewModel.getNow());
@@ -152,12 +138,18 @@ public class LearnFragment extends Fragment implements View.OnClickListener{
     @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
     private void getTodayLearn() {
         //TODO 第几天就是第几个词根
-        viewModel.getWordRootById(day).observe(getViewLifecycleOwner(), wordRoot -> {
+        viewModel.getWordRootById(viewModel.getLong()).observe(getViewLifecycleOwner(), wordRoot -> {
             if (wordRoot != null) {
                 textView_wordRoot.setText("词根：" + wordRoot.getRoot());
                 textView_meaning.setText("词根" + wordRoot.getRoot() + "的意思是:" + wordRoot.getMeaning());
                 textView_source.setText("词根" + wordRoot.getRoot() + "的来源与解释:" + wordRoot.getMeaning());
                 adapter.setList(wordRoot.getWordlist());
+                String path = wordRoot.getVideo_url();
+                if (path.length() == 0) {
+                    videoView.setVisibility(View.INVISIBLE);
+                } else {
+                    videoView.setVideoURI(Uri.parse(path));
+                }
                 list = changeToInteger(wordRoot.getWordlist());
                 adapter.notifyDataSetChanged();
             }
@@ -185,16 +177,16 @@ public class LearnFragment extends Fragment implements View.OnClickListener{
         viewModel.saveTime();
     }
 
-    public void refresh(){
+    public void refresh() {
         getTodayLearn();
         changeButtonUIBack();
         button_learned.setClickable(true);
-        Log.d("LearnFragment","刷新拉!!!!");
+        Log.d("LearnFragment", "刷新拉!!!!");
     }
 
-    private List<Integer> changeToInteger(List<Word> list){
+    private List<Integer> changeToInteger(List<Word> list) {
         List<Integer> res = new ArrayList<>();
-        for(Word word : list){
+        for (Word word : list) {
             res.add(word.getWord_info().getId());
         }
         return res;

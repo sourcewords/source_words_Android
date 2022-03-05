@@ -30,15 +30,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class WordRootRepository {
     private final WordRootDao wordRootDao;
     private static DealWordRoot dealWordRoot;
+    //TODO 请在这里引入登录的token
     private final String Authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDQ0Nzk5NDksImlhdCI6MTY0NDM5MzU0OSwidWlkIjoxN30.3fA571_ktll7xL1aBSwEiAyoXc0QvmwdXt3XlyCw1VQ";
-    private List<WordRoot> wordList;
-    private final LearnedRepository learnedRepository;
 
     public WordRootRepository(){
         final WordRootDatabase wordDatabase = WordRootDatabase.getDatabase();
         wordRootDao = wordDatabase.getWordDao();
         dealWordRoot = getRetrofit();
-        learnedRepository = new LearnedRepository();
     }
 
     public LiveData<List<WordRoot>> getAllWordRoots(){
@@ -106,6 +104,7 @@ public class WordRootRepository {
             return null;
         }
     }
+    /*
 
     static class SearchWordRoot extends AsyncTask<Integer,Void,WordRoot>{
         private final WordRootDao dao;
@@ -131,6 +130,8 @@ public class WordRootRepository {
             return null;
         }
     }
+
+     */
 
     public void whatILearnedToday(List<Integer> list){
         dealWordRoot.learnToday(Authorization,list)
@@ -159,6 +160,7 @@ public class WordRootRepository {
                 });
     }
 
+    /*
     //从远端拉入词根并插入本地数据库
     public void initWordRootList(int level) {
         Log.d("Search!!!", "/////////////////////////");
@@ -173,7 +175,6 @@ public class WordRootRepository {
 
                     @Override
                     public void onNext(Test test) {
-                        wordList = test.getData();
                         Log.d("接受","呼啦呼啦？？？？？？？？？？？？？？？？");
                         //learnedRepository.initPlan(wordList,level);
                     }
@@ -190,4 +191,6 @@ public class WordRootRepository {
 
                 });
     }
+
+     */
 }
