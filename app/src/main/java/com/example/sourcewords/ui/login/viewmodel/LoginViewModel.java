@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.sourcewords.commonUtils.SPUtils;
 import com.example.sourcewords.ui.login.model.LoginDataSource;
+import com.example.sourcewords.ui.login.model.User;
+import com.example.sourcewords.ui.login.model.UserWrapper;
 import com.example.sourcewords.ui.login.model.databean.LocalPage;
 import com.example.sourcewords.ui.login.model.databean.LoginUser;
 import com.example.sourcewords.ui.login.model.respository.LoginRemoteRespository;
@@ -60,6 +62,8 @@ public class LoginViewModel extends ViewModel {
         loginRemoteRespository.getLoginStatus(new LoginUser(Account.getValue(), Password.getValue()), new LoginDataSource.LoadLoginCallBack() {
             @Override
             public void onLoginLoded() {
+                User user=new User(Account.getValue(), Password.getValue(),loginRemoteRespository.getToken());
+                UserWrapper.getInstance().setUser(user);
                 mContext.startActivity(new Intent(mContext, MainActivity.class));
                 SPUtils.getInstance("Token").put("Token",loginRemoteRespository.getToken());
                 loginNavigator.onFinish();

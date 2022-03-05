@@ -8,7 +8,6 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -18,16 +17,18 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sourcewords.R;
-import com.example.sourcewords.ui.main.MainActivity;
 
 public class ForgetPwdActivity extends AppCompatActivity {
     private Button next;
     private EditText mail;
+    private String s;
 
     ActivityResultLauncher launcher = registerForActivityResult(new ResultContract(), new ActivityResultCallback<String>() {
         @Override
         public void onActivityResult(String result) {
-            Toast.makeText(ForgetPwdActivity.this, result, Toast.LENGTH_SHORT).show();
+            if(result.equals("successful")){
+                //finish();
+            }
         }
     });
 
@@ -63,13 +64,13 @@ public class ForgetPwdActivity extends AppCompatActivity {
         @Override
         public Intent createIntent(@NonNull Context context, Boolean input) {
             Intent intent = new Intent(ForgetPwdActivity.this, SetPwdActivity.class);
-            intent.putExtra("b", input);
+            intent.putExtra("e-mail",mail.getText().toString());
             return intent;
         }
 
         @Override
         public String parseResult(int resultCode, @Nullable Intent intent) {
-            return intent.getStringExtra("s");
+            return intent.getStringExtra("code");
         }
     }
 }

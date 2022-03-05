@@ -18,11 +18,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.sourcewords.R;
 import com.example.sourcewords.commonUtils.SPUtils;
-import com.example.sourcewords.ui.login.model.respository.LoginRemoteRespository;
+import com.example.sourcewords.ui.login.model.UserWrapper;
 import com.example.sourcewords.ui.login.view.LoginActivity;
 import com.example.sourcewords.ui.login.view.LoginNavigator;
-import com.example.sourcewords.ui.mine.model.SigninDateSource;
-
 
 //TODO 我模块
 public class MineFragment extends Fragment {
@@ -78,8 +76,8 @@ public class MineFragment extends Fragment {
 
         unlogin = view.findViewById(R.id.unlogin_B);
         unlogin.setOnClickListener(v ->{
-            LoginRemoteRespository.getINSTANCE().setToken(null);
-            SPUtils.getInstance("Token").clear();
+            SPUtils.getInstance(SPUtils.SP_CONFIG).clear();
+            UserWrapper.getInstance().setUser(null);
             startActivity(new Intent(getActivity(), LoginActivity.class));
         });
 
