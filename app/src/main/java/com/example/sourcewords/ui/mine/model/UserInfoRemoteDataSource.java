@@ -29,7 +29,7 @@ public class UserInfoRemoteDataSource {
 
     private UserInfoRemoteDataSource(){};
 
-    public void getRemoteUserInfo(UserInfo myUserInfo) {
+    public void getRemoteUserInfo() {
         NetUtil.getInstance().getApi().getUserInfo(token)
                 .enqueue(new Callback<UserInfo>() {
                     @Override

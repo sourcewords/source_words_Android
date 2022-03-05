@@ -30,23 +30,24 @@ public class SigninDateSource {
 
     private SigninDateSource (){}
 
-    public void getAllSignDate(){
+    public void getAllSignDate(Api.getSignInApi api){
         NetUtil.getInstance().getApi().getAllSigninDate(token).enqueue(new Callback<SigninBean>() {
             @Override
             public void onResponse(Call<SigninBean> call, Response<SigninBean> response) {
                 if(response.body()!= null){
                     signinBean = response.body();
+                    api.success(signinBean);
                 }
             }
 
             @Override
             public void onFailure(Call<SigninBean> call, Throwable t) {
-
+                api.failed();
             }
         });
     }
 
-    public void putSignInDate(String date, Api.SignInApi api){
+    public void putSignInDate(String date, Api.putSignInApi api){
         NetUtil.getInstance().getApi().putTodaySignin(date).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
@@ -61,8 +62,8 @@ public class SigninDateSource {
     }
 
 
-    public SigninBean getSigninBean(){
-        getAllSignDate();
-        return signinBean;
-    }
+//    public SigninBean getSigninBean(){
+//        getAllSignDate();
+//        return signinBean;
+//    }
 }

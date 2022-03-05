@@ -32,6 +32,7 @@ public class SigninActivity extends AppCompatActivity {
     private Button signIn;
     private List<String> datestring;
     private List<CalendarDay> dates;
+    private SigninBean signin;
 
     @Override
     protected void onCreate(Bundle savedInstance){
@@ -39,21 +40,19 @@ public class SigninActivity extends AppCompatActivity {
         setContentView(R.layout.activity_signin);
 
         signInDay = findViewById(R.id.signin_day);
-        signInDay.setText(String.valueOf(SigninDateSource.getInstance().getSigninBean().getData().getAll()));
+        initData();
 
-        for(SigninBean.DataDTO.PlansDTO p : SigninDateSource.getInstance().getSigninBean().getData().getPlans()){
-            datestring.add(p.getData());
-        }
 
-        for(String s : datestring){
-            //dates.add(new CalendarDay();
-        }
+
+//        for(String s : datestring){
+//            //dates.add(new CalendarDay();
+//        }
 
         signIn = findViewById(R.id.sign_in_btn);
         signIn.setOnClickListener(v -> {
             String date;
             date = String.format(CalendarDay.today().toString(), "YYYY.MM.DD");
-            SigninDateSource.getInstance().putSignInDate(date, new Api.SignInApi() {
+            SigninDateSource.getInstance().putSignInDate(date, new Api.putSignInApi() {
                 @Override
                 public void success() {
                     Toast.makeText(SigninActivity.this, "签到成功！", Toast.LENGTH_SHORT).show();
@@ -76,5 +75,23 @@ public class SigninActivity extends AppCompatActivity {
                     setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
                             View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
+    }
+    void initData(){
+
+        SigninDateSource.getInstance().getAllSignDate(new Api.getSignInApi() {
+            @Override
+            public void success(SigninBean signinBean) {
+                signin = signinBean;
+                signInDay.setText(String.valueOf(signin.getData().getAll()));
+                for(SigninBean.DataDTO.PlansDTO p : signin.getData().getPlans()){
+                    datestring.add(p.getData());
+                }
+            }
+
+            @Override
+            public void failed() {
+
+            }
+        });
     }
 }

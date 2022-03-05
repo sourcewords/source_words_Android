@@ -47,7 +47,7 @@ public class UserInfoActivity extends AppCompatActivity {
                 public void failed() {
                     Toast.makeText(UserInfoActivity.this, "出错啦！请检查网络设置~", Toast.LENGTH_SHORT).show();
                 }
-            });
+            }, userInfo);
         });
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

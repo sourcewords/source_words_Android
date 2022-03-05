@@ -21,14 +21,14 @@ public class UserInfoViewModel extends ViewModel {
     public MutableLiveData<UserInfo> getUserInfo() {
         if(userInfo == null){
             userInfo = new MutableLiveData<>();
-            source.getRemoteUserInfo(userInfo.getValue());
+            source.getRemoteUserInfo();
 
         }
         return userInfo;
     }
 
-    public void changeUserInfo(Api.ChangeUserInfoApi api){
-        NetUtil.getInstance().getApi().putUserInfo(new UserInfo()).enqueue(new Callback<LoginResponse>() {
+    public void changeUserInfo(Api.ChangeUserInfoApi api, UserInfo userInfo){
+        NetUtil.getInstance().getApi().putUserInfo(userInfo).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 api.success();
