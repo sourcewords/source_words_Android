@@ -83,7 +83,7 @@ public class MineFragment extends Fragment {
             startActivity(new Intent(getActivity(), LoginActivity.class));
         });
 
-        day.setText(String.valueOf(SigninDateSource.getInstance().getSigninBean().getData().getAll()));
+        //day.setText(String.valueOf(SigninDateSource.getInstance().getSigninBean().getData().getAll()));
     }
 
 
