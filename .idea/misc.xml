@@ -3,6 +3,38 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+        <entry key="..\:/source_words_Android/app/src/main/res/drawable/back_background.xml" value="0.2255" />
+        <entry key="..\:/source_words_Android/app/src/main/res/drawable/back_foreground.xml" value="0.2255" />
+        <entry key="..\:/source_words_Android/app/src/main/res/drawable/float_button_add.xml" value="0.2255" />
+        <entry key="..\:/source_words_Android/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.1" />
+        <entry key="..\:/source_words_Android/app/src/main/res/drawable/mine_background.xml" value="0.2255" />
+        <entry key="..\:/source_words_Android/app/src/main/res/drawable/mine_selector.xml" value="0.2255" />
+        <entry key="..\:/source_words_Android/app/src/main/res/drawable/shape_rectangle.xml" value="0.2255" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/activity_addplan.xml" value="0.18342391304347827" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/activity_allplan.xml" value="0.4" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/activity_changepwd.xml" value="0.18342391304347827" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/activity_login_account.xml" value="0.18342391304347827" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/activity_login_message.xml" value="0.25364583333333335" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/activity_login_register.xml" value="0.264" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/activity_main.xml" value="0.25364583333333335" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/activity_myplan.xml" value="0.22563176895306858" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/activity_review_words_detail.xml" value="0.25364583333333335" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/activity_searchwordsroot.xml" value="0.25364583333333335" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/activity_signin.xml" value="0.2" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/activity_userinfo.xml" value="0.2013888888888889" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/activity_word_root_page.xml" value="0.25364583333333335" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/fragment_learn.xml" value="0.25364583333333335" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/fragment_mine.xml" value="0.2" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/fragment_review.xml" value="0.27395833333333336" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/item_myplan_rv.xml" value="0.2" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/review_none.xml" value="0.25364583333333335" />
+=======
+>>>>>>> origin/xiaozhu-dev
+=======
+>>>>>>> origin/xiaozhu-dev
         <entry key="app/src/main/res/drawable/background_mine.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/ic_baseline_chevron_left_24.xml" value="0.23703703703703705" />
         <entry key="app/src/main/res/drawable/ic_baseline_keyboard_arrow_right_24.xml" value="0.23703703703703705" />
@@ -58,4 +90,23 @@
   <component name="ProjectType">
     <option name="id" value="Android" />
   </component>
+=======
+        <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/drawable/change_wordslearned_bg.xml" value="0.1671875" />
+        <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/drawable/learned_selected.xml" value="0.1671875" />
+        <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/drawable/search_circle.xml" value="0.1671875" />
+        <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/drawable/shape_review_good.xml" value="0.1671875" />
+        <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/drawable/source_word_toolbar.xml" value="0.1671875" />
+        <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/layout/activity_review_words_detail.xml" value="0.264" />
+        <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/layout/activity_search_words.xml" value="0.264" />
+        <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/layout/activity_search_words_detail.xml" value="0.176" />
+        <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/layout/item_search_words.xml" value="0.264" />
+        <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/layout/serach_words_toolbar.xml" value="0.15104166666666666" />
+        <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/mipmap-anydpi-v26/search_words_horn.xml" value="0.14583333333333334" />
+        <entry key="app/src/main/res/drawable/learned_normal.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_review_words_detail.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_learn.xml" value="0.25" />
+      </map>
+    </option>
+  </component>
+>>>>>>> origin
 </project>

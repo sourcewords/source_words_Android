@@ -46,12 +46,10 @@ public class AllPlanActivity extends AppCompatActivity {
     }
 
     public void initList(){
-        PlanBean plan2 = new PlanBean("六级单词", "", "xx.xx-xx.xx", 0);
-        PlanBean plan3 = new PlanBean("托福单词", "", "xx.xx-xx.xx", 0);
-        PlanBean plan4 = new PlanBean("雅思单词", "", "xx.xx-xx.xx", 0);
+        PlanBean plan2 = new PlanBean("六级单词", "", "xx.xx-xx.xx", 0, 2);
+        PlanBean plan4 = new PlanBean("雅思单词", "", "xx.xx-xx.xx", 0, 3);
 
         mList.add(plan2);
-        mList.add(plan3);
         mList.add(plan4);
     }
 }

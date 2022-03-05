@@ -13,7 +13,7 @@ public class MyPlanViewModel extends ViewModel {
     public MutableLiveData<PlanBean> getMyPlan(){
         if(myPlan == null){
             myPlan = new MutableLiveData<>();
-            myPlan.setValue(PlanDataResource.getInstance().getMyPlan());
+            myPlan.setValue(PlanDataResource.getInstance().getMyplan());
         }
         return myPlan;
     }

@@ -81,7 +81,6 @@
         app:layout_constraintTop_toBottomOf="@+id/start_plan"
         app:layout_constraintVertical_bias="0.0" />
 
-
     <TextView
         android:id="@+id/myplan"
         android:layout_width="70dp"
@@ -99,7 +98,7 @@
         app:layout_constraintTop_toBottomOf="@+id/myplan_rv" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/myplan_rv_item"
+        android:id="@+id/allplan_rv_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_rectangle"
@@ -115,9 +114,9 @@
             android:layout_width="90dp"
             android:layout_height="90dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:layout_marginBottom="20dp"
-            android:background="#949494"
+            android:background="@mipmap/cet4"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -180,7 +179,6 @@
             app:layout_constraintTop_toTopOf="@+id/plan_progress_bar" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 

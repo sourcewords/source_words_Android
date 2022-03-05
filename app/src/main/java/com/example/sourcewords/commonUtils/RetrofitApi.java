@@ -11,6 +11,7 @@ import com.example.sourcewords.ui.mine.model.databean.PlanBean;
 import com.example.sourcewords.ui.mine.model.databean.PutPwd;
 import com.example.sourcewords.ui.mine.model.databean.SigninBean;
 import com.example.sourcewords.ui.mine.model.databean.UserInfo;
+import com.example.sourcewords.ui.review.dataBean.HistoryWord;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.dataBean.WordRootStatus;
 

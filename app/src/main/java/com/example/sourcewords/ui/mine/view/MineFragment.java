@@ -21,6 +21,7 @@ import com.example.sourcewords.commonUtils.SPUtils;
 import com.example.sourcewords.ui.login.model.respository.LoginRemoteRespository;
 import com.example.sourcewords.ui.login.view.LoginActivity;
 import com.example.sourcewords.ui.login.view.LoginNavigator;
+import com.example.sourcewords.ui.mine.model.SigninDateSource;
 
 
 //TODO 我模块
@@ -31,6 +32,7 @@ public class MineFragment extends Fragment {
     private TextView mine_progress;
     private Button unlogin;
     private LoginNavigator loginNavigator;
+    private TextView time, day;
 
     @Override
     public void onAttach(Context context) {
@@ -80,6 +82,8 @@ public class MineFragment extends Fragment {
             SPUtils.getInstance("Token").clear();
             startActivity(new Intent(getActivity(), LoginActivity.class));
         });
+
+        day.setText(String.valueOf(SigninDateSource.getInstance().getSigninBean().getData().getAll()));
     }
 
 

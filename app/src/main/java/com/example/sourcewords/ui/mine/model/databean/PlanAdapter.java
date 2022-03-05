@@ -51,6 +51,13 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
         holder.b_eTime.setText(mList.get(position).getB_eTime());
         holder.progress.setProgress(mList.get(position).getProgress());
         holder.progressNum.setText(mList.get(position).getProgress() + "%");
+        if(mList.get(position).getType() == 1){
+            holder.planPic.setBackgroundResource(R.mipmap.cet4);
+        }else if(mList.get(position).getType() == 2){
+            holder.planPic.setBackgroundResource(R.mipmap.cet6);
+        }else {
+            holder.planPic.setBackgroundResource(R.mipmap.ielts);
+        }
     }
 
     @Override
