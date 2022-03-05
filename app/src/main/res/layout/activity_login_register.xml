@@ -14,7 +14,18 @@
         android:layout_height="match_parent"
         android:background="@drawable/login_background">
 
+        <ImageView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginBottom="12dp"
+            android:background="@mipmap/qiqiu"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout7"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
         <LinearLayout
+            android:id="@+id/linearLayout7"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout4"

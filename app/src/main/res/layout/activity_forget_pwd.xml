@@ -65,6 +65,7 @@
             android:text="邮箱账号"/>
 
         <EditText
+            android:id="@+id/mail_forget"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/UserHintText"/>
