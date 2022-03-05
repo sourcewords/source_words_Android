@@ -14,6 +14,7 @@ import androidx.lifecycle.Observer;
 import com.example.sourcewords.R;
 import com.example.sourcewords.commonUtils.SPUtils;
 import com.example.sourcewords.databinding.ActivityLoginAccountBinding;
+import com.example.sourcewords.ui.login.model.UserWrapper;
 import com.example.sourcewords.ui.login.model.databean.LocalPage;
 import com.example.sourcewords.ui.login.model.respository.LoginRemoteRespository;
 import com.example.sourcewords.ui.login.viewmodel.LoginViewModel;
@@ -30,7 +31,11 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_account);
-        IsToken(SPUtils.getInstance("Token",0).getString("Token",null));
+        if (UserWrapper.getInstance().getUser()!=null){
+            startActivity(new Intent(this, MainActivity.class));
+            this.finish();
+            return;
+        }
 
 //        loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
         loginViewModel = new LoginViewModel(LoginRemoteRespository.getINSTANCE(),LoginActivity.this);
@@ -85,13 +90,6 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator{
             getWindow().getDecorView().
                     setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
                             View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        }
-    }
-
-    public void IsToken(String token){
-        if (token != null){
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
         }
     }
 
