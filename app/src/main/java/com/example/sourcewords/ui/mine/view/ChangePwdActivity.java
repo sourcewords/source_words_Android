@@ -30,7 +30,7 @@ public class ChangePwdActivity extends AppCompatActivity {
         myViewModel.getPassWord().setValue(passWord);
 
         MutableLiveData<PassWord> pwd = myViewModel.getPassWord();
-        pwd.observe(this, pwd2 ->myDataBinding.setChangePwdViewModel(myViewModel));
+        pwd.observe(this, pwd2 -> myDataBinding.setChangePwdViewModel(myViewModel));
 
         myDataBinding.confirmChangepwd.setOnClickListener(v->{
             if(!Objects.requireNonNull(myViewModel.getPassWord().getValue()).getOldPwd().equals(myViewModel.getOldpwd())){

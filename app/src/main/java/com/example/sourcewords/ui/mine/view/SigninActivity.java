@@ -15,6 +15,7 @@ import com.example.sourcewords.R;
 import com.example.sourcewords.ui.mine.model.Api;
 import com.example.sourcewords.ui.mine.model.SigninDateSource;
 import com.example.sourcewords.ui.mine.model.databean.Decorator;
+import com.example.sourcewords.ui.mine.model.databean.PlanBean;
 import com.example.sourcewords.ui.mine.model.databean.SigninBean;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -29,6 +30,7 @@ public class SigninActivity extends AppCompatActivity {
     private MaterialCalendarView calendarView;
     private TextView signInDay;
     private Button signIn;
+    private List<String> datestring;
     private List<CalendarDay> dates;
 
     @Override
@@ -38,7 +40,15 @@ public class SigninActivity extends AppCompatActivity {
 
         signInDay = findViewById(R.id.signin_day);
         signInDay.setText(String.valueOf(SigninDateSource.getInstance().getSigninBean().getData().getAll()));
-        //dates = SigninDateSource.getInstance().getSigninBean().getData().getPlans(
+
+        for(SigninBean.DataDTO.PlansDTO p : SigninDateSource.getInstance().getSigninBean().getData().getPlans()){
+            datestring.add(p.getData());
+        }
+
+        for(String s : datestring){
+            //dates.add(new CalendarDay();
+        }
+
         signIn = findViewById(R.id.sign_in_btn);
         signIn.setOnClickListener(v -> {
             String date;
@@ -60,7 +70,7 @@ public class SigninActivity extends AppCompatActivity {
         dates.add(new CalendarDay(2022, 3, 2));
         Decorator decorator = new Decorator(Color.RED, dates);
         calendarView.addDecorator(decorator);
-        calendarView.setSelectionMode(MaterialCalendarView.SELECTION_MODE_MULTIPLE);
+        calendarView.setSelectionMode(MaterialCalendarView.SELECTION_MODE_NONE);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().
                     setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |

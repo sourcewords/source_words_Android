@@ -61,6 +61,22 @@ public class SigninBean {
         private Integer all;
 
         public static class PlansDTO {
+            public Integer getUserid() {
+                return userid;
+            }
+
+            public void setUserid(Integer userid) {
+                this.userid = userid;
+            }
+
+            public String getData() {
+                return data;
+            }
+
+            public void setData(String data) {
+                this.data = data;
+            }
+
             private Integer userid;
             private String data;
         }
