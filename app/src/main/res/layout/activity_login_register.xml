@@ -171,6 +171,12 @@
                 android:text="已阅且同意《用户使用协议》和《隐私政策》" />
         </LinearLayout>
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/sourcetree"
+            tools:ignore="MissingConstraints" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

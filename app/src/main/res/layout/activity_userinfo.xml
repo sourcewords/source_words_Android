@@ -241,7 +241,6 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/shape_rectangle"
-
                     android:text="修改密码"
                     android:textColor="#666666"
                     android:textSize="15sp"
