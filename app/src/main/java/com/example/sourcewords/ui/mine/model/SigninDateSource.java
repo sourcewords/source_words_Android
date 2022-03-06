@@ -2,9 +2,10 @@ package com.example.sourcewords.ui.mine.model;
 
 
 import com.example.sourcewords.commonUtils.NetUtil;
+import com.example.sourcewords.ui.login.model.UserWrapper;
 import com.example.sourcewords.ui.login.model.databean.LoginResponse;
 import com.example.sourcewords.ui.mine.model.databean.SigninBean;
-import com.example.sourcewords.ui.mine.model.databean.UserWrapper;
+import com.example.sourcewords.ui.mine.model.databean.SigninDate;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -47,8 +48,8 @@ public class SigninDateSource {
         });
     }
 
-    public void putSignInDate(String date, Api.putSignInApi api){
-        NetUtil.getInstance().getApi().putTodaySignin(date).enqueue(new Callback<LoginResponse>() {
+    public void putSignInDate(SigninDate date, Api.putSignInApi api){
+        NetUtil.getInstance().getApi().putTodaySignin(date, token).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 api.success();

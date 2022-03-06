@@ -26,7 +26,7 @@ public class ChangePwdActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         myDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_changepwd);
         myViewModel = new ChangePwdViewModel();
-        PassWord passWord = new PassWord(UserWrapper.getInstance().getPwd(), "", "");
+        PassWord passWord = new PassWord("", "", "");
         myViewModel.getPassWord().setValue(passWord);
 
         MutableLiveData<PassWord> pwd = myViewModel.getPassWord();

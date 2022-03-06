@@ -21,5 +21,9 @@ public interface Api {
         void success(SigninBean signinBean);
         void failed();
     }
+    interface getPlan{
+        void success(PlanBean planBean);
+        void failed();
+    }
 
 }
