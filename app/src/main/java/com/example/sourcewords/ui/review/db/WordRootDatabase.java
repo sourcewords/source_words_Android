@@ -1,9 +1,11 @@
 package com.example.sourcewords.ui.review.db;
 
 import android.os.AsyncTask;
+import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -25,14 +27,15 @@ public abstract class WordRootDatabase extends RoomDatabase {
     public abstract WordRootDao getWordDao();
 
     private static final RoomDatabase.Callback roomDataBaseCallBack = new Callback() {
+        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
-            super.onOpen(db);
+            super.onCreate(db);
             try {
-                Log.d("initData","");
+                Log.d("initData","success");
                 new InitDbAsync(INSTANCE).execute();
             } catch (IOException e) {
-
+                Log.d("initData","error");
                 e.printStackTrace();
             }
         }
@@ -57,6 +60,7 @@ public abstract class WordRootDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private static class InitDbAsync extends AsyncTask<Void,Void,Void> {
         private final WordRootDao mDao;
         private List<WordRoot> list =  WordDataSource.getRoots();

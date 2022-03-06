@@ -11,4 +11,6 @@
     <string name="review_done_tip2">你已完成今天的学习任务</string>
     <string name="review_done_tip3">如果今天还想学习更多单词</string>
     <string name="review_done_tip4">请使用自定义学习功能～</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

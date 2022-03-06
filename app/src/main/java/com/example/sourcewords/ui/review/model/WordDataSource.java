@@ -1,18 +1,15 @@
 package com.example.sourcewords.ui.review.model;
 
 import android.content.res.AssetManager;
-import android.util.Log;
+import android.os.Build;
 
-import com.alibaba.fastjson.JSONObject;
+import androidx.annotation.RequiresApi;
+
 import com.example.sourcewords.App;
-import com.example.sourcewords.commonUtils.NetUtil;
 import com.example.sourcewords.ui.mine.model.databean.UserWrapper;
 import com.example.sourcewords.ui.review.dataBean.SingleWord;
-import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.utils.Converters;
-
-import org.json.JSONArray;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,9 +18,6 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class WordDataSource {
     private static WordDataSource INSTANCE;
@@ -45,6 +39,7 @@ public class WordDataSource {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static List<WordRoot> getRoots() throws IOException {
         AssetManager assetManager = App.getAppContext().getAssets();
         StringBuffer stringBuffer = new StringBuffer();
@@ -53,6 +48,7 @@ public class WordDataSource {
         return Converters.WordRootJson2Class(json);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static List<SingleWord> getSingleWords() throws IOException {
         AssetManager assetManager = App.getAppContext().getAssets();
         StringBuffer stringBuffer = new StringBuffer();
@@ -61,6 +57,7 @@ public class WordDataSource {
         return Converters.SingleWordJson2Class(json);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static String convertStreamToString(InputStream inputStream) {
         return new BufferedReader(new InputStreamReader(inputStream))
                 .lines().collect(Collectors.joining(System.lineSeparator()));

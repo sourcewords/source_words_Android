@@ -18,7 +18,7 @@ public class AddPlanActivity extends AppCompatActivity {
     private AddPlanViewModel addPlanViewModel;
     private ActivityAddplanBindingImpl binding;
 
-    private ImageButton addPlan;
+    private ImageButton addPlan, back;
 
     @Override
     protected void onCreate(Bundle savedInstance){
@@ -36,12 +36,18 @@ public class AddPlanActivity extends AppCompatActivity {
             Intent intent = new Intent(this, AllPlanActivity.class);
             startActivity(intent);
         } );
+        back = findViewById(R.id.add_back);
+        back.setOnClickListener(v->finish());
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().
                     setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
                             View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
+    }
+
+    private void back(View v){
+        finish();
     }
 
 }

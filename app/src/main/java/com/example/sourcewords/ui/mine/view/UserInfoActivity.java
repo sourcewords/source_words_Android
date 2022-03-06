@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,7 @@ public class UserInfoActivity extends AppCompatActivity {
     private UserInfoViewModel userInfoViewModel;
     private ActivityUserinfoBinding dataBinding;
     private UserInfo userInfo = new UserInfo();
+    private ImageButton back;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,6 +54,8 @@ public class UserInfoActivity extends AppCompatActivity {
             }, userInfo);
         });
         loginOut();
+        back = findViewById(R.id.info_back);
+        back.setOnClickListener(v->finish());
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().

@@ -3,6 +3,7 @@ package com.example.sourcewords.ui.mine.view;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -23,6 +24,7 @@ public class AllPlanActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     List<PlanBean> mList = new ArrayList<>();
     private int spaceTag = 1;
+    private ImageButton back;
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
@@ -37,6 +39,8 @@ public class AllPlanActivity extends AppCompatActivity {
         if(spaceTag == 1){
             recyclerView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelOffset(R.dimen.dp_10), mList, this));
         }
+        back = findViewById(R.id.all_back);
+        back.setOnClickListener(v->finish());
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().
@@ -51,5 +55,9 @@ public class AllPlanActivity extends AppCompatActivity {
 
         mList.add(plan2);
         mList.add(plan4);
+    }
+
+    private void back(View v){
+        finish();
     }
 }

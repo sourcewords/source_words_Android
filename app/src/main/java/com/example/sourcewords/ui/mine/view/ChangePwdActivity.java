@@ -2,6 +2,7 @@ package com.example.sourcewords.ui.mine.view;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +20,7 @@ public class ChangePwdActivity extends AppCompatActivity {
     private ChangePwdViewModel myViewModel;
     private ActivityChangepwdBinding myDataBinding;
     String old, newp, again;
+    private ImageButton back;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -55,7 +57,8 @@ public class ChangePwdActivity extends AppCompatActivity {
                 });
             }
         });
-
+        back = findViewById(R.id.pwd_back);
+        back.setOnClickListener(v -> finish());
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().
@@ -68,4 +71,5 @@ public class ChangePwdActivity extends AppCompatActivity {
         newp = myDataBinding.newPassword.getText().toString();
         again = myDataBinding.againPassword.getText().toString();
     }
+
 }

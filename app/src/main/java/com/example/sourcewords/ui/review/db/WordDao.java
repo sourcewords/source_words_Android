@@ -23,11 +23,16 @@ public interface WordDao {
     @Update
     void updateRoot(Word... words);
 
+    @Query("DELETE FROM word_table")
+    void clearAll();
+
     @Query("SELECT * FROM word_table")
     LiveData<List<Word>> getAllWord();
 
     @Query("SELECT * FROM word_table WHERE ID like :id")
     Word getWord(int id);
 
+    @Query("SELECT * FROM word_table WHERE 词根ID like :id")
+    LiveData<List<Word>> getWordsByRootID(int id);
 
 }

@@ -62,6 +62,7 @@ dependencies {
     implementation 'androidx.room:room-common:2.4.1'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-core:2.3.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     //room数据库
     def room_version = "2.4.1"

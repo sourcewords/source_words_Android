@@ -1,8 +1,10 @@
 package com.example.sourcewords.ui.review.db;
 
 import android.os.AsyncTask;
+import android.os.Build;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -11,10 +13,6 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.sourcewords.App;
 import com.example.sourcewords.ui.review.dataBean.SingleWord;
-import com.example.sourcewords.ui.review.dataBean.Word;
-import com.example.sourcewords.ui.review.dataBean.WordRoot;
-import com.example.sourcewords.ui.review.db.WordDao;
-import com.example.sourcewords.ui.review.db.WordRootDatabase;
 import com.example.sourcewords.ui.review.model.WordDataSource;
 import com.example.sourcewords.utils.Converters;
 
@@ -28,9 +26,10 @@ public abstract class SingleWordDatabase extends RoomDatabase {
     public abstract SingleWordDao getWordDao();
 
     private static final RoomDatabase.Callback roomDataBaseCallBack = new Callback() {
+        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
-            super.onOpen(db);
+            super.onCreate(db);
             try {
                 new InitWbAsync(INSTANCE).execute();
             } catch (IOException e) {
@@ -54,6 +53,7 @@ public abstract class SingleWordDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     static class InitWbAsync extends AsyncTask<Void, Void, Void> {
         private final SingleWordDao mDao;
         private List<SingleWord> words = WordDataSource.getSingleWords();
