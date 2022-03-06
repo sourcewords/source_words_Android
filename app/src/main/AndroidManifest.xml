@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
 
-
     <application
         android:name=".App"
         android:allowBackup="false"
@@ -21,7 +20,7 @@
 
 
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name=".ui.login.view.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,15 +28,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.mine.view.AddPlanActivity" />
+
+        <activity android:name=".ui.mine.view.AllPlanActivity" />
+        <activity android:name=".ui.main.MainActivity" />
         <activity android:name=".ui.mine.view.ChangePwdActivity" />
         <activity android:name=".ui.mine.view.UserInfoActivity" />
-        <activity android:name=".ui.login.RegisterActivity" />
+        <activity android:name=".ui.login.view.RegisterActivity" />
+        <activity android:name=".ui.mine.view.AddPlanActivity" />
         <activity android:name=".ui.review.view.DetailActivity" />
         <activity android:name=".ui.review.view.SearchWordsDetailActivity" />
         <activity android:name=".ui.review.view.ReviewSearchActivity"/>
         <activity android:name=".ui.learn.view.LearnSearchActivity"/>
         <activity android:name=".ui.learn.view.WordRootPage"/>
+        <activity android:name=".ui.mine.view.SigninActivity"/>
+        <activity android:name=".ui.mine.view.MyPlanActivity"/>
+        <activity android:name=".ui.login.view.ForgetPwdActivity"/>
+        <activity android:name=".ui.login.view.SetPwdActivity"/>
     </application>
-
 </manifest>
