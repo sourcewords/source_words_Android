@@ -83,6 +83,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     //TextInputLayout
+    //noinspection GradleCompatible
     implementation 'com.android.support:design:25.1.0'
 
     //替代startActivityForResult
