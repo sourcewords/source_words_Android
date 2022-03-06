@@ -115,7 +115,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
                 viewModel.saveFlag(true);
                 // 通知习模块更新
                 viewModel.getLearnFlag().setValue(true);
-                button_learned.setClickable(false);
+//                button_learned.setClickable(false);
                 break;
             case R.id.learn_searcher:
                 Intent intent = new Intent(getActivity(), LearnSearchActivity.class);
@@ -137,8 +137,8 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         int id = random.nextInt(25);
 
         viewModel.getWordRootById(id).observe(getViewLifecycleOwner(), wordRoot -> {
-            //root = wordRoot;
-            /*
+            root = wordRoot;
+
             if (root.getRoot() != null) {
                 textView_wordRoot.setText("词根：" + wordRoot.getRoot());
                 textView_meaning.setText("词根" + wordRoot.getRoot() + "的意思是:" + root.getMeaning());
@@ -146,7 +146,6 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
                 List<Word> words = root.getWordlist();
                 adapter.setList(words);
             }
-             */
         });
     }
 

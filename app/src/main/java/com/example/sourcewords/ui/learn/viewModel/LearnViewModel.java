@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -14,6 +15,7 @@ import com.example.sourcewords.App;
 import com.example.sourcewords.commonUtils.SPUtils;
 import com.example.sourcewords.ui.learn.model.WordRootRepository;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
+import com.example.sourcewords.utils.PreferencesUtils;
 
 import java.util.List;
 
@@ -71,6 +73,12 @@ public class LearnViewModel extends AndroidViewModel {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(ID,id);
         editor.apply();
+
+        SharedPreferences sharedPreferences1 = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
+        SharedPreferences.Editor editor1 = sharedPreferences1.edit();
+        editor1.putInt(PreferencesUtils.WORD_ROOT_TODAY, id);
+        editor1.commit();
+
     }
 
     public int getWhatLearnedToday(){

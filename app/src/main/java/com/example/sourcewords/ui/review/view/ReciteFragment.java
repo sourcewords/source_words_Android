@@ -3,7 +3,9 @@ package com.example.sourcewords.ui.review.view;
 import static android.app.Activity.RESULT_OK;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +31,7 @@ import com.example.sourcewords.ui.review.view.reviewUtils.ContextUtils;
 import com.example.sourcewords.ui.review.view.reviewUtils.WordSample;
 import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
 import com.example.sourcewords.utils.DateUtils;
+import com.example.sourcewords.utils.PreferencesUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class ReciteFragment extends Fragment {
@@ -103,12 +106,17 @@ public class ReciteFragment extends Fragment {
         mWordCard.setClickable(false);
         button.setClickable(false);
         reviewCardViewModel.loadAllWordsToDataBase();
-        return;
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(PreferencesUtils.WORD_ROOT_HAVE_LEARNED, true);
+        editor.apply();
     }
 
     private void initView() {
         Log.d("count", " " + newLearnedCount.getValue() + " " + reviewCount.getValue() + " " + haveLearnedCount.getValue());
-        if(wordSample == null || newLearnedCount.getValue() == 0 && haveLearnedCount.getValue() == 0 && reviewCount.getValue() == 0) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
+        Boolean flag = sharedPreferences.getBoolean(PreferencesUtils.WORD_ROOT_HAVE_LEARNED, false);
+        if(flag || wordSample == null || newLearnedCount.getValue() == 0 && haveLearnedCount.getValue() == 0 && reviewCount.getValue() == 0) {
             hide();
             return;
         }

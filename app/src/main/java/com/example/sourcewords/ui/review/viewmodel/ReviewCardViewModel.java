@@ -82,7 +82,7 @@ public class ReviewCardViewModel extends AndroidViewModel {
 
     public void initData() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
-        int rootId = sharedPreferences.getInt(PreferencesUtils.WOOD_ROOT_TODAY, 0);
+        int rootId = sharedPreferences.getInt(PreferencesUtils.WORD_ROOT_TODAY, 0);
         Log.d("preferences", "" + rootId);
         newLearnedWords = mWordRepository.getNewWords(rootId);
         haveLearnedWords = mWordRepository.getLearnedWords(DateUtils.getData());
