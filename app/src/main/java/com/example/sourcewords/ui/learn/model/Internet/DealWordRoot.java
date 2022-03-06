@@ -23,4 +23,8 @@ public interface DealWordRoot {
     Call<Void> haveLearnedRoots(@Header("Authorization") String Authorization,
                                 @Body Learned learned);
 
+    @PUT("user/plan")
+    Observable<Void> learnToday(@Header("Authorization") String Authorization,
+                                @Body List<Integer> todayWord);
+
 }
