@@ -97,9 +97,8 @@ public class MainFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void initFragmentList() {
         fragmentList = new ArrayList<>(3);
-        fragmentList.add(LearnFragment.newInstance(viewModel.getLong()));
+        fragmentList.add(new LearnFragment());
         fragmentList.add(new ReviewFragment());
         fragmentList.add(new MineFragment());
     }
-
 }
