@@ -13,11 +13,11 @@ import java.util.List;
 public class Decorator implements DayViewDecorator {
 
     private final int color;
-    private final List<CalendarDay> dates;
+    private final HashSet<CalendarDay> dates;
 
     public Decorator(int color, Collection<CalendarDay> dates){
         this.color = color;
-        this.dates = new ArrayList<>(dates);
+        this.dates = new HashSet<>(dates);
     }
     @Override
     public boolean shouldDecorate(CalendarDay day) {

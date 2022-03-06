@@ -10,6 +10,7 @@ import com.example.sourcewords.ui.login.model.databean.RegisterResponse;
 import com.example.sourcewords.ui.mine.model.databean.PlanBean;
 import com.example.sourcewords.ui.mine.model.databean.PutPwd;
 import com.example.sourcewords.ui.mine.model.databean.SigninBean;
+import com.example.sourcewords.ui.mine.model.databean.SigninDate;
 import com.example.sourcewords.ui.mine.model.databean.UserInfo;
 import com.example.sourcewords.ui.review.dataBean.HistoryWord;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
@@ -39,7 +40,7 @@ public interface RetrofitApi {
     Call<UserInfo> getUserInfo(@Header("token") String token);
 
     @PUT("user/info")
-    Call<LoginResponse> putUserInfo(@Body UserInfo userInfo);
+    Call<LoginResponse> putUserInfo(@Body UserInfo userInfo, @Header("Authorization") String token);
 
     //plan
     @GET("user/plan")
@@ -49,8 +50,8 @@ public interface RetrofitApi {
     Call<LoginResponse> changePlan(@Header("Authorization") String token);
 
     //signin
-    @POST("date")
-    Call<LoginResponse> putTodaySignin(@Body String data);
+    @POST("date/")
+    Call<LoginResponse> putTodaySignin(@Body SigninDate data, @Header("Authorization")String token);
 
     @GET("date")
     Call<SigninBean> getAllSigninDate(@Header("Authorization")String token);

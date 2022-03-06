@@ -1,9 +1,9 @@
 package com.example.sourcewords.ui.mine.model.databean;
 
 public class PutPwd {
-    public PutPwd(String name, String pwd) {
+    public PutPwd(String name, String password) {
         this.name = name;
-        this.pwd = pwd;
+        this.password = password;
     }
 
     public String getName() {
@@ -14,14 +14,15 @@ public class PutPwd {
         this.name = name;
     }
 
-    public String getPwd() {
-        return pwd;
-    }
-
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
-    }
-
     String name;
-    String pwd;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    String password;
 }

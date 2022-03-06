@@ -30,11 +30,11 @@ public class ChangePwdViewModel extends ViewModel {
     }
 
     public String getOldpwd(){
-        return PasswordDataSource.getInstance().getPwd();
+        return com.example.sourcewords.ui.login.model.UserWrapper.getInstance().getUser().getPassword();
     }
 
     public void putChange(Api.ChangePwdApi callback){
-        String name = UserWrapper.getInstance().getName();
+
         NetUtil.getInstance().getApi().changPwd(new PutPwd(UserWrapper.getInstance().getName(),
                 Objects.requireNonNull(getPassWord().getValue()).getAgainPwd()))
                 .enqueue(new Callback<LoginResponse>() {

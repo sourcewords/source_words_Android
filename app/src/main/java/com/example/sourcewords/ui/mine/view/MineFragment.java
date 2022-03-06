@@ -21,6 +21,11 @@ import com.example.sourcewords.commonUtils.SPUtils;
 import com.example.sourcewords.ui.login.model.UserWrapper;
 import com.example.sourcewords.ui.login.view.LoginActivity;
 import com.example.sourcewords.ui.login.view.LoginNavigator;
+import com.example.sourcewords.ui.mine.model.Api;
+import com.example.sourcewords.ui.mine.model.PlanDataResource;
+import com.example.sourcewords.ui.mine.model.SigninDateSource;
+import com.example.sourcewords.ui.mine.model.databean.PlanBean;
+import com.example.sourcewords.ui.mine.model.databean.SigninBean;
 
 //TODO 我模块
 public class MineFragment extends Fragment {
@@ -81,10 +86,34 @@ public class MineFragment extends Fragment {
             startActivity(new Intent(getActivity(), LoginActivity.class));
         });
 
-        //day.setText(String.valueOf(SigninDateSource.getInstance().getSigninBean().getData().getAll()));
+        mine_bar = view.findViewById(R.id.mine_bar);
+        mine_progress = view.findViewById(R.id.mine_progress);
+        day = view.findViewById(R.id.day_tv);
+        SigninDateSource.getInstance().getAllSignDate(new Api.getSignInApi() {
+            @Override
+            public void success(SigninBean signinBean) {
+                day.setText(String.valueOf(signinBean.getData().getAll()));
+            }
+
+            @Override
+            public void failed() {
+
+            }
+        });
+
+        PlanDataResource.getInstance().getMyPlan(new Api.getPlan() {
+            @Override
+            public void success(PlanBean myplan) {
+                mine_progress.setText(String.valueOf(myplan.getProgress()) + "%");
+                mine_bar.setProgress(myplan.getProgress());
+            }
+
+            @Override
+            public void failed() {
+
+            }
+        });
     }
-
-
 
     public void setLoginNavigator(LoginNavigator navigator){
         loginNavigator = navigator;
