@@ -74,10 +74,6 @@ public class LearnViewModel extends AndroidViewModel {
         return learnFlag;
     }
 
-    //TODO 加在LearnFragment获取wordList处，处理完后删除注释
-    public LiveData<List<Word>> getWordsByRootID(int root_id) {
-        return learnedRepository.getWordsByRootID(root_id);
-    }
 
     //记录当前计划进行到第几天
     public int getLong(){
