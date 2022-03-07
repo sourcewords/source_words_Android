@@ -107,8 +107,14 @@ public class MineFragment extends Fragment {
             @SuppressLint("SetTextI18n")
             @Override
             public void success(PlanItem myplan) {
-                mine_progress.setText(myplan.getData().getPlans().get(0).getPercent() + "%");
-                mine_bar.setProgress(myplan.getData().getPlans().get(0).getPercent());
+                if(myplan.getData().getPlans() != null){
+                    mine_progress.setText(myplan.getData().getPlans().get(0).getPercent() + "%");
+                    mine_bar.setProgress(myplan.getData().getPlans().get(0).getPercent());
+                }else{
+                    mine_progress.setText("0%");
+                    mine_bar.setProgress(0);
+                }
+
             }
 
             @Override

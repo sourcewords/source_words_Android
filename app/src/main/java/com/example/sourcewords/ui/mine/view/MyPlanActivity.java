@@ -51,7 +51,7 @@ public class MyPlanActivity extends AppCompatActivity {
         PlanDataResource.getInstance().getMyPlan(new Api.getPlan() {
             @Override
             public void success(PlanItem planBean) {
-                if(planBean.getData().getPlans().size() == 0){
+                if(planBean.getData().getPlans() == null){
                     dataBinding.myplanRvItem.setVisibility(View.GONE);
                     Toast.makeText(MyPlanActivity.this, "现在没有进行中的计划哦，快来添加一个吧！", Toast.LENGTH_SHORT).show();
                 }else{

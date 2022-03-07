@@ -41,7 +41,8 @@ public class AddPlanActivity extends AppCompatActivity {
         back.setOnClickListener(v->finish());
 
         binding.startPlan.setOnClickListener(v -> {
-            addPlanViewModel.changePlan(new Api.changePlanApi() {
+            String name = binding.addPlanName.getText().toString();
+            addPlanViewModel.changePlan(name, new Api.changePlanApi() {
                 @Override
                 public void success() {
                     Toast.makeText(AddPlanActivity.this, "添加成功！", Toast.LENGTH_SHORT).show();

@@ -50,7 +50,7 @@ public class AllPlanActivity extends AppCompatActivity {
             recyclerView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelOffset(R.dimen.dp_10), mList, this));
         }
         myplan = findViewById(R.id.myplan);
-        myplan_item = findViewById(R.id.myplan_rv_item);
+        myplan_item = findViewById(R.id.allplan_rv_item);
         name = findViewById(R.id.all_plan_name);
         leastTime = findViewById(R.id.all_least_time_tv);
         b_eTime = findViewById(R.id.all_b_e_time_tv);
@@ -77,7 +77,7 @@ public class AllPlanActivity extends AppCompatActivity {
                 mList.add(plan1);
                 mList.add(plan2);
                 mList.add(plan4);
-                if(planBean.getData().getPlans().size() == 0){
+                if(planBean.getData().getPlans() == null){
                     myplan.setVisibility(View.GONE);
                     myplan_item.setVisibility(View.GONE);
                 }else if(planBean.getData().getPlans().get(0).getName().equals("四级")){
