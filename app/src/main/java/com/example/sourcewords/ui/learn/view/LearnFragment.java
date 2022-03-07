@@ -2,8 +2,12 @@ package com.example.sourcewords.ui.learn.view;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,8 +42,6 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
     private AppCompatTextView textView_wordRoot, textView_meaning, textView_source;
     private AppCompatButton button_learned;
     private WordsAdapter adapter;
-    private static int day;
-    private static final String Param = "LearnFragment";
     private static List<Integer> list = new ArrayList<>();
 
 
@@ -48,9 +50,6 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         @SuppressLint("InflateParams") View v = inflater.inflate(R.layout.fragment_learn, null);
         viewModel = ViewModelProviders.of(this.getActivity()).get(LearnViewModel.class);
-        if (getArguments() != null) {
-            day = getArguments().getInt(Param, 1);
-        }
         ReviewCardViewModel reviewCardViewModel = ViewModelProviders.of(this).get(ReviewCardViewModel.class);
 
         reviewCardViewModel.getAllWord().observe(getViewLifecycleOwner(), words -> {
@@ -103,7 +102,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void changeButtonUIBack() {
-        button_learned.setBackground(getResources().getDrawable(R.color.theme_green));
+        button_learned.setBackground(getResources().getDrawable(R.drawable.learned_normal));
         button_learned.setTextColor(getResources().getColor(R.color.white));
     }
 
@@ -114,7 +113,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
             case R.id.learn_AllLearned:
                 changeButtonUI();
                 viewModel.saveFlag(true);
-                viewModel.saveLong(viewModel.getLong() + 1);
+                //viewModel.saveLong(viewModel.getLong() + 1);
                 // 通知习模块更新
                 viewModel.getLearnFlag().setValue(true);
                 button_learned.setClickable(false);
@@ -141,12 +140,12 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         viewModel.getWordRootById(viewModel.getLong()).observe(getViewLifecycleOwner(), wordRoot -> {
             if (wordRoot != null) {
                 textView_wordRoot.setText("词根：" + wordRoot.getRoot());
-                textView_meaning.setText("词根" + wordRoot.getRoot() + "的意思是:" + wordRoot.getMeaning());
-                textView_source.setText("词根" + wordRoot.getRoot() + "的来源与解释:" + wordRoot.getMeaning());
-                adapter.setList(wordRoot.getWordlist());
+                textView_meaning.setText(handleWords("词根" + wordRoot.getRoot() + "的意思是:" + wordRoot.getMeaning()));
+                textView_source.setText(handleWords("词根" + wordRoot.getRoot() + "的来源与解释:" + wordRoot.getMeaning()));
+                adapter.setList(getPlanList(wordRoot.getWordlist()));
                 String path = wordRoot.getVideo_url();
                 if (path.length() == 0) {
-                    videoView.setVisibility(View.INVISIBLE);
+                    videoView.setVisibility(View.GONE);
                 } else {
                     videoView.setVideoURI(Uri.parse(path));
                 }
@@ -163,6 +162,9 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         super.onResume();
         if (!viewModel.isToday()) {
             //更新操作
+            if(viewModel.getSaveFlag()){
+                viewModel.saveLong(viewModel.getLong() + 1);
+            }
             viewModel.getLearnFlag().setValue(false);
             viewModel.saveFlag(false);
             viewModel.saveTime();
@@ -190,6 +192,24 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
             res.add(word.getWord_info().getId());
         }
         return res;
+    }
+
+    private List<Word> getPlanList(List<Word> list) {
+        int level = viewModel.getPlan();
+        List<Word> res = new ArrayList<>();
+        for (Word word : list) {
+            if (word.getWord_info().getExam_grading().get(level - 1)) {
+                res.add(word);
+            }
+        }
+        return res;
+    }
+
+    private SpannableStringBuilder handleWords(String s){
+        int len = s.indexOf(":");
+        SpannableStringBuilder ans = new SpannableStringBuilder(s);
+        ans.setSpan(new ForegroundColorSpan(Color.parseColor("#64BEBC")),0,len, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+        return ans;
     }
 
 }
