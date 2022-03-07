@@ -8,15 +8,17 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sourcewords.R;
+import com.example.sourcewords.ui.mine.view.AddPlanActivity;
+import com.example.sourcewords.ui.mine.viewmodel.AddPlanViewModel;
 
 import java.util.List;
 
 public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
     private List<PlanBean> mList;
-
     public PlanAdapter(List<PlanBean> mList){
         this.mList = mList;
     }
@@ -26,9 +28,11 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
         private final ImageView planPic;
         private final AppCompatTextView planName, leastTime, b_eTime, progressNum;
         private final ProgressBar progress;
+        private final ConstraintLayout layout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            layout = itemView.findViewById(R.id.myplan_rv_item);
             planPic = itemView.findViewById(R.id.plan_pic);
             planName = itemView.findViewById(R.id.plan_name);
             leastTime = itemView.findViewById(R.id.least_time_tv);
@@ -46,6 +50,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
         holder.planName.setText(mList.get(position).getPlanName());
         holder.leastTime.setText("倒计时：" + mList.get(position).getLeastTime() + "天");
         holder.b_eTime.setText(mList.get(position).getB_eTime());

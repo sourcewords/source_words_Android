@@ -26,6 +26,7 @@ import com.example.sourcewords.ui.mine.model.Api;
 import com.example.sourcewords.ui.mine.model.PlanDataResource;
 import com.example.sourcewords.ui.mine.model.SigninDateSource;
 import com.example.sourcewords.ui.mine.model.databean.PlanBean;
+import com.example.sourcewords.ui.mine.model.databean.PlanItem;
 import com.example.sourcewords.ui.mine.model.databean.SigninBean;
 
 //TODO 我模块
@@ -105,9 +106,9 @@ public class MineFragment extends Fragment {
         PlanDataResource.getInstance().getMyPlan(new Api.getPlan() {
             @SuppressLint("SetTextI18n")
             @Override
-            public void success(PlanBean myplan) {
-                mine_progress.setText(myplan.getProgress() + "%");
-                mine_bar.setProgress(myplan.getProgress());
+            public void success(PlanItem myplan) {
+                mine_progress.setText(myplan.getData().getPlans().get(0).getPercent() + "%");
+                mine_bar.setProgress(myplan.getData().getPlans().get(0).getPercent());
             }
 
             @Override

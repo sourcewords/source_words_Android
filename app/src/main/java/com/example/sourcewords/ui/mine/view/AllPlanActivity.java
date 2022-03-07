@@ -41,11 +41,11 @@ public class AllPlanActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_allplan);
-        initList();
+
 
         recyclerView = findViewById(R.id.myplan_rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        recyclerView.setAdapter(new PlanAdapter(mList));
+        initList();
         if(spaceTag == 1){
             recyclerView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelOffset(R.dimen.dp_10), mList, this));
         }
@@ -77,10 +77,10 @@ public class AllPlanActivity extends AppCompatActivity {
                 mList.add(plan1);
                 mList.add(plan2);
                 mList.add(plan4);
-                if(planBean == null){
+                if(planBean.getData().getPlans().size() == 0){
                     myplan.setVisibility(View.GONE);
                     myplan_item.setVisibility(View.GONE);
-                }else if(planBean.getData().getPlans().get(0).getName().equals("四级单词")){
+                }else if(planBean.getData().getPlans().get(0).getName().equals("四级")){
                     mList.remove(0);
                     name.setText(planBean.getData().getPlans().get(0).getName());
                     b_eTime.setText(planBean.getData().getPlans().get(0).getStart() + "-" + planBean.getData().getPlans().get(0).getEnd());
@@ -99,6 +99,7 @@ public class AllPlanActivity extends AppCompatActivity {
                     progress.setText(planBean.getData().getPlans().get(0).getPercent() + "%");
                     bar.setProgress(planBean.getData().getPlans().get(0).getPercent());
                 }
+                recyclerView.setAdapter(new PlanAdapter(mList));
             }
 
             @Override

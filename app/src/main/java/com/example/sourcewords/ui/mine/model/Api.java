@@ -26,5 +26,11 @@ public interface Api {
         void success(PlanItem planItem);
         void failed();
     }
+    interface changePlanApi{
+        void success();
+        void failed();
+        void requestName();
+        void requestTime();
+    }
 
 }

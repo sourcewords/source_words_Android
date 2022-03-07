@@ -18,6 +18,7 @@ import com.example.sourcewords.databinding.ActivityMyplanBinding;
 import com.example.sourcewords.ui.mine.model.Api;
 import com.example.sourcewords.ui.mine.model.PlanDataResource;
 import com.example.sourcewords.ui.mine.model.databean.PlanBean;
+import com.example.sourcewords.ui.mine.model.databean.PlanItem;
 import com.example.sourcewords.ui.mine.viewmodel.MyPlanViewModel;
 
 import java.lang.invoke.ConstantCallSite;
@@ -49,16 +50,23 @@ public class MyPlanActivity extends AppCompatActivity {
     private void initView() {
         PlanDataResource.getInstance().getMyPlan(new Api.getPlan() {
             @Override
-            public void success(PlanBean planBean) {
-                if(planBean == null){
+            public void success(PlanItem planBean) {
+                if(planBean.getData().getPlans().size() == 0){
                     dataBinding.myplanRvItem.setVisibility(View.GONE);
                     Toast.makeText(MyPlanActivity.this, "现在没有进行中的计划哦，快来添加一个吧！", Toast.LENGTH_SHORT).show();
                 }else{
-                    dataBinding.myLeastTimeTv.setText(planBean.getLeastTime());
-                    dataBinding.myBETimeTv.setText(planBean.getB_eTime());
-                    dataBinding.myPlanName.setText(planBean.getPlanName());
-                    dataBinding.myPlanProgressBar.setProgress(planBean.getProgress());
-                    dataBinding.myPlanProgressNum.setText(planBean.getProgress());
+                    if(planBean.getData().getPlans().get(0).getName().equals("四级单词")){
+                        dataBinding.myPlanPic.setBackgroundResource(R.mipmap.cet4);
+                    }else if(planBean.getData().getPlans().get(0).getName().equals("六级单词")){
+                        dataBinding.myPlanPic.setBackgroundResource(R.mipmap.cet6);
+                    }else {
+                        dataBinding.myPlanPic.setBackgroundResource(R.mipmap.ielts);
+                    }
+                    //dataBinding.myLeastTimeTv.setText(planBean.getData().getPlans().get(0));
+                    dataBinding.myBETimeTv.setText(planBean.getData().getPlans().get(0).getStart() + "-" + planBean.getData().getPlans().get(0).getEnd());
+                    dataBinding.myPlanName.setText(planBean.getData().getPlans().get(0).getName());
+                    dataBinding.myPlanProgressBar.setProgress(planBean.getData().getPlans().get(0).getPercent());
+                    dataBinding.myPlanProgressNum.setText(planBean.getData().getPlans().get(0).getPercent()+ "%");
                 }
             }
 

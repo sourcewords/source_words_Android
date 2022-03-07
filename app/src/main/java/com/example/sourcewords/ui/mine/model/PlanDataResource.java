@@ -33,8 +33,10 @@ public class PlanDataResource {
         NetUtil.getInstance().getApi().getMyPlan(token).enqueue(new Callback<PlanItem>() {
             @Override
             public void onResponse(Call<PlanItem> call, Response<PlanItem> response) {
-                myplan = response.body();
-                api.success(myplan);
+                if(response.code() == 200){
+                    myplan = response.body();
+                    api.success(myplan);
+                }
             }
 
             @Override
