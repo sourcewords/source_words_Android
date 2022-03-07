@@ -2,9 +2,11 @@ package com.example.sourcewords.ui.learn.view;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -35,7 +37,6 @@ import com.example.sourcewords.utils.PreferencesUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 //TODO 学模块
 public class LearnFragment extends Fragment implements View.OnClickListener {
@@ -78,7 +79,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         //RecyclerView部分
         RecyclerView recyclerView = v.findViewById(R.id.learn_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new WordsAdapter(Objects.requireNonNull(getContext()));
+        adapter = new WordsAdapter(getContext());
         recyclerView.setAdapter(adapter);
         textView_wordRoot = v.findViewById(R.id.learn_wordroot);
         getTodayLearn();
@@ -118,8 +119,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
                 //viewModel.saveLong(viewModel.getLong() + 1);
                 // 通知习模块更新
                 viewModel.getLearnFlag().setValue(true);
-
-//                button_learned.setClickable(false);
+                button_learned.setClickable(false);
                 //通知后端
                 viewModel.whatILearnedToday(list);
                 break;
@@ -134,6 +134,8 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
                     videoView.start();
                 break;
         }
+
+
     }
 
     //TODO 临时的获取每日学习的词根算法
