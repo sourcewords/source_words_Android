@@ -52,6 +52,7 @@ public class SigninDateSource {
         NetUtil.getInstance().getApi().putTodaySignin(date, token).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+          //      if(response.code() == )
                 api.success();
             }
 
@@ -61,10 +62,4 @@ public class SigninDateSource {
             }
         });
     }
-
-
-//    public SigninBean getSigninBean(){
-//        getAllSignDate();
-//        return signinBean;
-//    }
 }

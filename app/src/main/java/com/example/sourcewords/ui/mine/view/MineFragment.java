@@ -1,5 +1,6 @@
 package com.example.sourcewords.ui.mine.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.example.sourcewords.ui.mine.model.Api;
 import com.example.sourcewords.ui.mine.model.PlanDataResource;
 import com.example.sourcewords.ui.mine.model.SigninDateSource;
 import com.example.sourcewords.ui.mine.model.databean.PlanBean;
+import com.example.sourcewords.ui.mine.model.databean.PlanItem;
 import com.example.sourcewords.ui.mine.model.databean.SigninBean;
 
 import java.text.SimpleDateFormat;
@@ -108,10 +110,17 @@ public class MineFragment extends Fragment {
         time.setText(String.valueOf(SPUtils.getInstance().getLong("APP_USE_TIME", 0L)/60000));
 
         PlanDataResource.getInstance().getMyPlan(new Api.getPlan() {
+            @SuppressLint("SetTextI18n")
             @Override
-            public void success(PlanBean myplan) {
-                mine_progress.setText(String.valueOf(myplan.getProgress()) + "%");
-                mine_bar.setProgress(myplan.getProgress());
+            public void success(PlanItem myplan) {
+                if(myplan.getData().getPlans() != null){
+                    mine_progress.setText(myplan.getData().getPlans().get(0).getPercent() + "%");
+                    mine_bar.setProgress(myplan.getData().getPlans().get(0).getPercent());
+                }else{
+                    mine_progress.setText("0%");
+                    mine_bar.setProgress(0);
+                }
+
             }
 
             @Override

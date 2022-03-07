@@ -11,7 +11,17 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.sourcewords.commonUtils.NetUtil;
+import com.example.sourcewords.ui.login.model.UserWrapper;
+import com.example.sourcewords.ui.login.model.databean.LoginResponse;
+import com.example.sourcewords.ui.mine.model.Api;
+import com.example.sourcewords.ui.mine.model.databean.AddPlanBean;
+
 import java.time.LocalDate;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AddPlanViewModel extends ViewModel {
     public MutableLiveData<DatePickerDialog> startDatePickerDialog = new MutableLiveData<>();
@@ -19,16 +29,9 @@ public class AddPlanViewModel extends ViewModel {
     public MutableLiveData<String> startDate = new MutableLiveData<>();
     public MutableLiveData<String> endDate = new MutableLiveData<>();
     private Context mContext;
-
-//    public MutableLiveData<LocalPage> getUser() {
-//
-//        if (userMutableLiveData == null) {
-//            userMutableLiveData = new MutableLiveData<>();
-//        }
-//
-//        return userMutableLiveData;
-//    }
-
+    private AddPlanBean addPlanBean = new AddPlanBean();
+    String token = UserWrapper.getInstance().getToken();
+    int s_y, s_m, s_d, e_y, e_m, e_d;
 
     public AddPlanViewModel(Context context){
         mContext = context;
@@ -48,13 +51,13 @@ public class AddPlanViewModel extends ViewModel {
             }
         };
 
-        int year = LocalDate.now().getYear();
-        int month = LocalDate.now().getMonthValue();
-        int day = LocalDate.now().getDayOfMonth();
+        s_y = LocalDate.now().getYear();
+        s_m = LocalDate.now().getMonthValue();
+        s_d = LocalDate.now().getDayOfMonth();
 
         int style = AlertDialog.THEME_HOLO_LIGHT;
 
-        startDatePickerDialog.setValue(new DatePickerDialog(mContext,style,dateSetListener,year,month,day));
+        startDatePickerDialog.setValue(new DatePickerDialog(mContext,style,dateSetListener,s_y,s_m,s_d));
         startDatePickerDialog.getValue().getDatePicker().setMinDate(System.currentTimeMillis());
     }
 
@@ -72,13 +75,12 @@ public class AddPlanViewModel extends ViewModel {
             }
         };
 
-        int year = LocalDate.now().getYear();
-        int month = LocalDate.now().getMonthValue();
-        int day = LocalDate.now().getDayOfMonth();
-
+        e_y = LocalDate.now().getYear();
+        e_m = LocalDate.now().getMonthValue();
+        e_d = LocalDate.now().getDayOfMonth();
         int style = AlertDialog.THEME_HOLO_LIGHT;
 
-        endDatePickerDialog.setValue(new DatePickerDialog(mContext,style,dateSetListener,year,month,day));
+        endDatePickerDialog.setValue(new DatePickerDialog(mContext,style,dateSetListener,e_y,e_m,e_d));
         endDatePickerDialog.getValue().getDatePicker().setMinDate(System.currentTimeMillis());
     }
 
@@ -92,6 +94,29 @@ public class AddPlanViewModel extends ViewModel {
     public void openEndDatePicker(View view) {
         initEndDatePicker();
         endDatePickerDialog.getValue().show();
+    }
+    public void changePlan(String name, Api.changePlanApi api){
+        addPlanBean.setName(name);
+        addPlanBean.setStart(s_y + "." + s_m + "." + s_d);
+        addPlanBean.setEnd(e_y + "." + e_m + "." + e_d);
+        if(addPlanBean.getName() != null && addPlanBean.getStart() != null && addPlanBean.getEnd() != null){
+            NetUtil.getInstance().getApi().changePlan(token, addPlanBean).enqueue(new Callback<LoginResponse>() {
+                @Override
+                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                    api.success();
+                }
+
+                @Override
+                public void onFailure(Call<LoginResponse> call, Throwable t) {
+                    api.failed();
+                }
+            });
+        }else if(addPlanBean.getName() == null){
+            api.requestName();
+        }else{
+            api.requestTime();
+        }
+
     }
 
 }
