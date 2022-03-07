@@ -11,7 +11,7 @@ import com.example.sourcewords.ui.review.db.WordDao;
 import com.example.sourcewords.utils.Converters;
 
 //TODO 记录所学的计划以及剩余的单词
-@Database(entities = {Word.class}, version = 2, exportSchema = false)
+@Database(entities = {Word.class}, version = 3, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class LearnWordDatabase extends RoomDatabase {
     private static LearnWordDatabase INSTANCE;

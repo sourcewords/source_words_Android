@@ -12,7 +12,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 
 import com.example.sourcewords.R;
-import com.example.sourcewords.commonUtils.SPUtils;
 import com.example.sourcewords.databinding.ActivityLoginAccountBinding;
 import com.example.sourcewords.ui.login.model.UserWrapper;
 import com.example.sourcewords.ui.login.model.databean.LocalPage;

@@ -28,6 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".ui.mine.view.AllPlanActivity" />
         <activity android:name=".ui.main.MainActivity" />
         <activity android:name=".ui.mine.view.ChangePwdActivity" />

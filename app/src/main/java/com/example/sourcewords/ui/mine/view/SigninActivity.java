@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +39,7 @@ public class SigninActivity extends AppCompatActivity {
     private List<String> datestring = new ArrayList<>();
     private HashSet<CalendarDay> dates = new HashSet<>();
     private SigninBean signin;
+    private ImageButton back;
 
     @Override
     protected void onCreate(Bundle savedInstance){
@@ -63,6 +65,11 @@ public class SigninActivity extends AppCompatActivity {
                 }
             });
         });
+
+        back = findViewById(R.id.mine_back);
+        back.setOnClickListener(v -> {
+            finish();
+        });
         calendarView = findViewById(R.id.calendar);
 
         calendarView.setSelectionMode(MaterialCalendarView.SELECTION_MODE_NONE);
@@ -83,16 +90,59 @@ public class SigninActivity extends AppCompatActivity {
                     datestring.add(p.getData());
                 }
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy.MM.dd" );
-                for(String s : datestring){
+                for(String s : datestring) {
                     try {
                         Date date1 = sdf.parse(s);
-                        CalendarDay date = CalendarDay.from(date1.getYear(), date1.getMonth(), date1.getDay());
+                        String month = date1.toGMTString().substring(2, 5);
+                        int m;
+                        switch (month) {
+                            case "Jan":
+                                m = 1;
+                                break;
+                            case "Feb":
+                                m = 2;
+                                break;
+                            case "Mar":
+                                m = 3;
+                                break;
+                            case "Apr":
+                                m = 4;
+                                break;
+                            case "May":
+                                m = 5;
+                                break;
+                            case "Jun":
+                                m = 6;
+                                break;
+                            case "Jul":
+                                m = 7;
+                                break;
+                            case "Aug":
+                                m = 8;
+                                break;
+                            case "Sep":
+                                m = 9;
+                                break;
+                            case "Oct":
+                                m = 10;
+                                break;
+                            case "Nov":
+                                m = 11;
+                                break;
+                            default:
+                                m = 12;
+                                break;
+
+                        }
+                        String year = date1.toGMTString().substring(6, 10);
+                        int y = Integer.parseInt(year);
+                        CalendarDay date = CalendarDay.from(y, m, date1.getDate());
+
                         dates.add(new CalendarDay(date.getYear(), date.getMonth(), date.getDay()));
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
                 }
-                dates.add(new CalendarDay(2022, 3, 1));
                 Decorator decorator = new Decorator(Color.RED, dates);
                 calendarView.addDecorator(decorator);
             }
@@ -103,4 +153,8 @@ public class SigninActivity extends AppCompatActivity {
             }
         });
     }
+
+//    private void back(View v){
+//        onBackPressed();
+//    }
 }

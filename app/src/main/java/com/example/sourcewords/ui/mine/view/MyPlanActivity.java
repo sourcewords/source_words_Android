@@ -25,6 +25,7 @@ public class MyPlanActivity extends AppCompatActivity {
     private MyPlanViewModel viewModel = new MyPlanViewModel();
     private PlanBean myPlan;
     private ActivityMyplanBinding dataBinding;
+    private ImageButton back;
 
     @Override
     protected void onCreate(Bundle savedInstance){
@@ -61,5 +62,9 @@ public class MyPlanActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        back = findViewById(R.id.my_back);
+        back.setOnClickListener(v->finish());
     }
+
+
 }

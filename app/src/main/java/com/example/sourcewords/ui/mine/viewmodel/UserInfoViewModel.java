@@ -1,12 +1,17 @@
 package com.example.sourcewords.ui.mine.viewmodel;
 
+import android.content.Intent;
+import android.view.View;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.sourcewords.commonUtils.NetUtil;
+import com.example.sourcewords.commonUtils.SPUtils;
 import com.example.sourcewords.ui.login.model.UserWrapper;
 import com.example.sourcewords.ui.login.model.databean.LoginResponse;
 import com.example.sourcewords.ui.login.model.respository.LoginRemoteRespository;
+import com.example.sourcewords.ui.login.view.LoginActivity;
 import com.example.sourcewords.ui.mine.model.Api;
 import com.example.sourcewords.ui.mine.model.databean.UserInfo;
 import com.example.sourcewords.ui.mine.model.UserInfoRemoteDataSource;

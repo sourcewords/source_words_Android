@@ -25,9 +25,9 @@ import java.util.List;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class WordRepository {
-    private WordRootDao dao;
+    private final WordRootDao dao;
 
-    private WordDao wordDao;
+    private final WordDao wordDao;
     private LiveData<List<Word>> allWords;
 
     private SingleWordDao singleWordDao;
