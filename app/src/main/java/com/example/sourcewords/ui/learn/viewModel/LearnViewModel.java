@@ -16,6 +16,7 @@ import com.example.sourcewords.ui.learn.model.LearnedRepository;
 import com.example.sourcewords.ui.learn.model.WordRootRepository;
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
+import com.example.sourcewords.utils.PreferencesUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,7 +115,23 @@ public class LearnViewModel extends AndroidViewModel {
     }
 
     public LiveData<WordRoot> getWordRootById(int Id) {
+//<<<<<<< HEAD
+//        return repository.getWordRootById(Id);
+//    }
+//    public void saveWhatLearnedToday(int id){
+//        SharedPreferences sharedPreferences = mContext.getSharedPreferences(LEARNWORDID, Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putInt(ID,id);
+//        editor.apply();
+//
+//        SharedPreferences sharedPreferences1 = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
+//        SharedPreferences.Editor editor1 = sharedPreferences1.edit();
+//        editor1.putInt(PreferencesUtils.WORD_ROOT_TODAY, id);
+//        editor1.commit();
+//
+//=======
         return rootRepository.getWordRootById(Id);
+//>>>>>>> master
     }
 
 

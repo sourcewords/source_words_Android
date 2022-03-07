@@ -86,7 +86,7 @@ public class WordRootPage extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.page_videoView:
                 if (videoView.isPlaying())
-                    videoView.pause();
+                     videoView.pause();
                 else
                     videoView.start();
                 break;

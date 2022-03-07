@@ -14,6 +14,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.sourcewords.App;
+import com.example.sourcewords.commonUtils.SPUtils;
 import com.example.sourcewords.ui.review.dataBean.SingleWord;
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
@@ -82,7 +83,7 @@ public class ReviewCardViewModel extends AndroidViewModel {
 
     public void initData() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
-        int rootId = sharedPreferences.getInt(PreferencesUtils.WOOD_ROOT_TODAY, 0);
+        int rootId = sharedPreferences.getInt(PreferencesUtils.WORD_ROOT_TODAY, 0);
         Log.d("preferences", "" + rootId);
         newLearnedWords = mWordRepository.getNewWords(rootId);
         haveLearnedWords = mWordRepository.getLearnedWords(DateUtils.getData());

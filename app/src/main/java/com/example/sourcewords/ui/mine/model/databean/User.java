@@ -1,6 +1,18 @@
 package com.example.sourcewords.ui.mine.model.databean;
 
 public class User {
+
+    private String password;
+    private String name;
+    private String token;
+
+    public User(){}
+
+    public User(String password, String name, String token){
+        this.password = password;
+        this.name = name;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -17,9 +29,6 @@ public class User {
         this.name = name;
     }
 
-    private String password;
-    private String name;
-
     public String getToken() {
         return token;
     }
@@ -28,11 +37,5 @@ public class User {
         this.token = token;
     }
 
-    private String token;
 
-    public User(){}
-    public User(String password, String name, String token){
-        this.password = password;
-        this.name = name;
-    }
 }
