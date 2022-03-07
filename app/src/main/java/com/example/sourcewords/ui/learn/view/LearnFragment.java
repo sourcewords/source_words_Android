@@ -2,8 +2,10 @@ package com.example.sourcewords.ui.learn.view;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,11 +23,13 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sourcewords.App;
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.ui.learn.viewModel.WordsAdapter;
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
+import com.example.sourcewords.utils.PreferencesUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -117,7 +121,8 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
                 viewModel.saveLong(viewModel.getLong() + 1);
                 // 通知习模块更新
                 viewModel.getLearnFlag().setValue(true);
-                button_learned.setClickable(false);
+
+//                button_learned.setClickable(false);
                 //通知后端
                 viewModel.whatILearnedToday(list);
                 break;
@@ -137,8 +142,9 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
     //TODO 临时的获取每日学习的词根算法
     @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
     private void getTodayLearn() {
+        int id = viewModel.getLong();
         //TODO 第几天就是第几个词根
-        viewModel.getWordRootById(viewModel.getLong()).observe(getViewLifecycleOwner(), wordRoot -> {
+        viewModel.getWordRootById(id).observe(getViewLifecycleOwner(), wordRoot -> {
             if (wordRoot != null) {
                 textView_wordRoot.setText("词根：" + wordRoot.getRoot());
                 textView_meaning.setText("词根" + wordRoot.getRoot() + "的意思是:" + wordRoot.getMeaning());
@@ -154,6 +160,11 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
                 adapter.notifyDataSetChanged();
             }
         });
+        Log.d("idq",id + "");
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(PreferencesUtils.WORD_ROOT_TODAY, id);
+        editor.apply();
     }
 
 
@@ -166,6 +177,10 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
             viewModel.getLearnFlag().setValue(false);
             viewModel.saveFlag(false);
             viewModel.saveTime();
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(PreferencesUtils.WORD_ROOT_HAVE_LEARNED, false);
+            editor.apply();
             refresh();
         }
     }
