@@ -15,6 +15,8 @@ import androidx.databinding.DataBindingUtil;
 
 import com.example.sourcewords.R;
 import com.example.sourcewords.databinding.ActivityMyplanBinding;
+import com.example.sourcewords.ui.mine.model.Api;
+import com.example.sourcewords.ui.mine.model.PlanDataResource;
 import com.example.sourcewords.ui.mine.model.databean.PlanBean;
 import com.example.sourcewords.ui.mine.viewmodel.MyPlanViewModel;
 
@@ -45,17 +47,26 @@ public class MyPlanActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        myPlan = viewModel.getMyPlan().getValue();
-        if(myPlan == null){
-            dataBinding.myplanRvItem.setVisibility(View.GONE);
-            Toast.makeText(this, "现在没有进行中的计划哦，快来添加一个吧！", Toast.LENGTH_SHORT).show();
-        }else{
-            dataBinding.leastTimeTv.setText(myPlan.getLeastTime());
-            dataBinding.bETimeTv.setText(myPlan.getB_eTime());
-            dataBinding.planName.setText(myPlan.getPlanName());
-            dataBinding.planProgressBar.setProgress(myPlan.getProgress());
-            dataBinding.planProgressNum.setText(myPlan.getProgress());
-        }
+        PlanDataResource.getInstance().getMyPlan(new Api.getPlan() {
+            @Override
+            public void success(PlanBean planBean) {
+                if(planBean == null){
+                    dataBinding.myplanRvItem.setVisibility(View.GONE);
+                    Toast.makeText(MyPlanActivity.this, "现在没有进行中的计划哦，快来添加一个吧！", Toast.LENGTH_SHORT).show();
+                }else{
+                    dataBinding.myLeastTimeTv.setText(planBean.getLeastTime());
+                    dataBinding.myBETimeTv.setText(planBean.getB_eTime());
+                    dataBinding.myPlanName.setText(planBean.getPlanName());
+                    dataBinding.myPlanProgressBar.setProgress(planBean.getProgress());
+                    dataBinding.myPlanProgressNum.setText(planBean.getProgress());
+                }
+            }
+
+            @Override
+            public void failed() {
+
+            }
+        });
 
         dataBinding.myplanAdd.setOnClickListener(v -> {
             Intent intent = new Intent(this, AddPlanActivity.class);

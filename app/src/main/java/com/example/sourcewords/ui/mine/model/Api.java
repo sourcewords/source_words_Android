@@ -1,6 +1,7 @@
 package com.example.sourcewords.ui.mine.model;
 
 import com.example.sourcewords.ui.mine.model.databean.PlanBean;
+import com.example.sourcewords.ui.mine.model.databean.PlanItem;
 import com.example.sourcewords.ui.mine.model.databean.SigninBean;
 
 public interface Api {
@@ -22,7 +23,7 @@ public interface Api {
         void failed();
     }
     interface getPlan{
-        void success(PlanBean planBean);
+        void success(PlanItem planItem);
         void failed();
     }
 

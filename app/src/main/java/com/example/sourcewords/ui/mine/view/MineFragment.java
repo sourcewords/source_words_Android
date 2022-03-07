@@ -1,5 +1,6 @@
 package com.example.sourcewords.ui.mine.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -102,9 +103,10 @@ public class MineFragment extends Fragment {
         });
 
         PlanDataResource.getInstance().getMyPlan(new Api.getPlan() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void success(PlanBean myplan) {
-                mine_progress.setText(String.valueOf(myplan.getProgress()) + "%");
+                mine_progress.setText(myplan.getProgress() + "%");
                 mine_bar.setProgress(myplan.getProgress());
             }
 
