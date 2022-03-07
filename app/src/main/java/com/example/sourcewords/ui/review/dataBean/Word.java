@@ -4,6 +4,7 @@ import androidx.annotation.ColorInt;
 import androidx.room.AutoMigration;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.List;
@@ -37,9 +38,13 @@ public class Word {
     @ColumnInfo(name = "词性")
     private String property;
 
+    @ColumnInfo(name = "词根ID")
+    private int root_id;
+
     public Word(WordInfoBean word_info, int id) {
         this.word_info = word_info;
         this.id = id;
+        root_id = word_info.getRoot();
     }
 
     public WordInfoBean getWord_info() {
@@ -90,6 +95,13 @@ public class Word {
         this.property = property;
     }
 
+    public int getRoot_id() {
+        return root_id;
+    }
+
+    public void setRoot_id(int root_id) {
+        this.root_id = root_id;
+    }
 
     /*
     @PrimaryKey(autoGenerate = true)

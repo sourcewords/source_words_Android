@@ -10,13 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.MediaController;
-import android.widget.TextView;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,31 +34,29 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 
 //TODO 学模块
 public class LearnFragment extends Fragment implements View.OnClickListener {
     private VideoView videoView;
     private LearnViewModel viewModel;
     private WordRoot root = null;
-    private TextView textView_wordRoot, textView_meaning, textView_source;
+    private AppCompatTextView textView_wordRoot, textView_meaning, textView_source;
     private AppCompatButton button_learned;
     private WordsAdapter adapter;
+    private ReviewCardViewModel reviewCardViewModel;
     private final static String KEY_TIME = "key_today_time";
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         @SuppressLint("InflateParams") View v = inflater.inflate(R.layout.fragment_learn, null);
         viewModel = ViewModelProviders.of(this.getActivity()).get(LearnViewModel.class);
-
-        ReviewCardViewModel reviewCardViewModel = ViewModelProviders.of(this).get(ReviewCardViewModel.class);
+        reviewCardViewModel = ViewModelProviders.of(this).get(ReviewCardViewModel.class);
 
         reviewCardViewModel.getAllWord().observe(getViewLifecycleOwner(), words -> {
             assert words != null;
             Log.d("initDataab", "" + words.size());
         });
         reviewCardViewModel.getAllWordRoot().observe(getViewLifecycleOwner(), wordRoots -> Log.d("initDataa", "" + wordRoots.size()));
-
         reviewCardViewModel.getAllSingleWord().observe(getViewLifecycleOwner()
                 , singleWords -> Log.d("initDatac", "" + singleWords.size()));
         initView(v);
@@ -65,6 +64,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initView(View v) {
+        handlePlan();
         ImageButton imageButton = v.findViewById(R.id.learn_searcher);
         videoView = v.findViewById(R.id.learn_player);
         textView_meaning = v.findViewById(R.id.learn_meaning);
@@ -83,6 +83,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new WordsAdapter(Objects.requireNonNull(getContext()));
         textView_wordRoot = v.findViewById(R.id.learn_wordroot);
+        recyclerView.setAdapter(adapter);
         //等待算法实现
         getTodayLearn();
         initButton(v);
@@ -111,8 +112,8 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.learn_AllLearned:
                 changeButtonUI();
-                viewModel.saveWhatLearnedToday(root.getId());
                 viewModel.saveFlag(true);
+                viewModel.saveLong(viewModel.getLong() + 1);
                 // 通知习模块更新
                 viewModel.getLearnFlag().setValue(true);
                 button_learned.setClickable(false);
@@ -131,28 +132,28 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
     }
 
     //TODO 临时的获取每日学习的词根算法
-    @SuppressLint("SetTextI18n")
+    @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
     private void getTodayLearn() {
-        Random random = new Random();
-        int id = random.nextInt(25);
-
+        //TODO 第几天就是第几个词根
+        int id = viewModel.getLong();
         viewModel.getWordRootById(id).observe(getViewLifecycleOwner(), wordRoot -> {
-            root = wordRoot;
-
             if (root.getRoot() != null) {
                 textView_wordRoot.setText("词根：" + wordRoot.getRoot());
                 textView_meaning.setText("词根" + wordRoot.getRoot() + "的意思是:" + root.getMeaning());
                 textView_source.setText("词根" + wordRoot.getRoot() + "的来源与解释:" + root.getMeaning());
-                List<Word> words = root.getWordlist();
-                adapter.setList(words);
+                viewModel.getWordsByRootID(root.getId()).observe(getViewLifecycleOwner(), new Observer<List<Word>>() {
+                    @Override
+                    public void onChanged(List<Word> words) {
+                         adapter.setList(words);
+                        adapter.notifyDataSetChanged();
+                    }
+                });
             }
-
         });
     }
 
     private boolean isToday(){
         return getNow() == getSaveDay();
-
     }
 
     private int getSaveDay(){
@@ -167,14 +168,30 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         sp.put(KEY_TIME, getNow());
     }
 
+    @SuppressLint("SimpleDateFormat")
     private int getNow() {
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("d");
-        return Integer.parseInt(sdf.format(new Date()));
+        SimpleDateFormat sdf = new SimpleDateFormat("d");
+        int day = Integer.parseInt(sdf.format(new Date()));
+        sdf = new SimpleDateFormat("h");
+        int hour = Integer.parseInt(sdf.format(new Date()));
+        Log.d("Now","小时" + hour +"  " +  day );
+        return hour < 4 ? day - 1 : day;
+
     }
 
-    private void refresh() {
-        onCreate(null);
+    private void handlePlan(){
+        viewModel.getNowPlan().observe(getViewLifecycleOwner(), integer -> {
+            LoadPlan(integer);
+            viewModel.savePlan(integer);
+            //刷新
+        });
     }
+
+    private void LoadPlan(int level){
+        viewModel.getAllWordRoot().observe(getViewLifecycleOwner(), list -> viewModel.initPlanRepository(list,level));
+    }
+
+
 
     @Override
     //TODO 更新存储的系统时间
@@ -186,7 +203,6 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
             viewModel.saveFlag(false);
             saveTime();
         }
-        //refresh();
     }
 
     //TODO 记录离开时间

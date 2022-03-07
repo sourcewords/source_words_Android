@@ -1,6 +1,5 @@
 package com.example.sourcewords.ui.learn.model;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -33,10 +32,14 @@ public class WordRootRepository {
     private final String Authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDQ0Nzk5NDksImlhdCI6MTY0NDM5MzU0OSwidWlkIjoxN30.3fA571_ktll7xL1aBSwEiAyoXc0QvmwdXt3XlyCw1VQ";
     private List<WordRoot> wordList;
 
-    public WordRootRepository(Context mContext){
+    public WordRootRepository(){
         final WordRootDatabase wordDatabase = WordRootDatabase.getDatabase();
         wordRootDao = wordDatabase.getWordDao();
         dealWordRoot = getRetrofit();
+    }
+
+    public LiveData<List<WordRoot>> getAllWordRoots(){
+       return wordRootDao.getAllWordRoot();
     }
 
     public WordRoot getRootById(int id){
