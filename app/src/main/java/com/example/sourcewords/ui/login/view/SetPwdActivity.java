@@ -11,6 +11,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.sourcewords.R;
+import com.example.sourcewords.commonUtils.NetUtil;
+import com.example.sourcewords.ui.login.model.databean.LoginResponse;
+import com.example.sourcewords.ui.login.model.databean.LoginUser;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class SetPwdActivity extends AppCompatActivity {
@@ -51,6 +58,19 @@ public class SetPwdActivity extends AppCompatActivity {
     }
 
     private void request(String str){
-        //setResult(RESULT_OK, new Intent().putExtra("code", "successful"));
+
+        NetUtil.getInstance().getApi().resetPwd(new LoginUser(str,newPwd.getText().toString())).enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                setResult(RESULT_OK, new Intent().putExtra("code", "successful"));
+                Toast.makeText(SetPwdActivity.this,"修改成功！",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Toast.makeText(SetPwdActivity.this,"失败！",Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 }
