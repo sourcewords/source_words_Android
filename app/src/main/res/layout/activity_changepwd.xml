@@ -18,6 +18,7 @@
             android:id="@+id/constraintLayout"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:layout_marginTop="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -26,10 +27,11 @@
             app:layout_constraintVertical_bias="0.0">
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/pwd_back"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="10dp"
+                android:onClick="back"
                 android:background="@drawable/ic_baseline_arrow_back_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -85,10 +87,13 @@
                 app:layout_constraintVertical_bias="1.0" />
 
             <EditText
+                android:id="@+id/old_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
                 android:hint="请输入旧密码~"
+                android:text="@={changePwdViewModel.password.oldPwd}"
+                android:inputType="textWebPassword"
                 android:textSize="18sp"
                 android:background="@null"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -132,11 +137,13 @@
                 app:layout_constraintVertical_bias="1.0" />
 
             <EditText
+                android:id="@+id/new_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
                 android:hint="请输入修改的新密码~"
-                android:background="@null"
+                android:text="@={changePwdViewModel.password.newPwd}"
+                android:inputType="textWebPassword"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView6"
                 app:layout_constraintTop_toTopOf="parent"
@@ -178,11 +185,13 @@
                 app:layout_constraintVertical_bias="1.0" />
 
             <EditText
+                android:id="@+id/again_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
                 android:hint="请再输入一次新密码~"
-                android:background="@null"
+                android:inputType="textWebPassword"
+                android:text="@={changePwdViewModel.password.againPwd}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView7"
                 app:layout_constraintTop_toTopOf="parent"

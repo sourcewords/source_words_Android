@@ -17,7 +17,6 @@ import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.ui.learn.viewModel.WordRootAdapter;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 
-import java.util.ArrayList;
 import java.util.List;
 
 //TODO 词根搜索栏

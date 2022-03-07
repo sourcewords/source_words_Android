@@ -94,7 +94,6 @@ public class ReciteFragment extends Fragment {
         wordSample.observe(getViewLifecycleOwner(), new Observer<WordSample>() {
             @Override
             public void onChanged(WordSample wordSample) {
-//                Log.d("wordSample", wordSample.toString());
                 initView();
             }
         });
@@ -109,7 +108,8 @@ public class ReciteFragment extends Fragment {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(PreferencesUtils.WORD_ROOT_HAVE_LEARNED, true);
-        editor.apply();
+        editor.putString(PreferencesUtils.LAST_REVIEW_DAY, DateUtils.getData());
+        editor.commit();
     }
 
     private void initView() {
@@ -121,6 +121,8 @@ public class ReciteFragment extends Fragment {
             return;
         }
         word = wordSample.getValue().getWord();
+        Log.d("wordinfo", word.getWord_info().getWord());
+        Log.d("wordSample", wordSample.getValue().getWord().getWord_info().getWord()+" " + wordSample.getValue().getWord().getWord());
         WordInfoBean mWordInfo = word.getWord_info();
         status = wordSample.getValue().getStatus();
         if(status == 0) {
