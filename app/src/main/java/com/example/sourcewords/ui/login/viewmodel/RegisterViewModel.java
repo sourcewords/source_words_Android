@@ -3,6 +3,7 @@ package com.example.sourcewords.ui.login.viewmodel;
 import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Toast;
 
@@ -27,8 +28,8 @@ public class RegisterViewModel extends ViewModel {
     private final RegisterRemoteRespository registerRemoteRespository;
     private RegisterNavigator registerNavigator;
 
-    public RegisterViewModel(RegisterRemoteRespository repository, Context context){
-        mContext = context.getApplicationContext();
+    public RegisterViewModel(RegisterRemoteRespository repository, Activity context){
+        mContext = context;
         registerRemoteRespository = repository;
     }
 
@@ -68,23 +69,28 @@ public class RegisterViewModel extends ViewModel {
         RegisterPage registerPage = new RegisterPage(Email.getValue(), VerificationCode.getValue(),Pwd.getValue());
         registerMutableLiveData.setValue(registerPage);
         KeyboardUtils.hideKeyboard((Activity) mContext);
+
         if(registerRemoteRespository.code.equals(VerificationCode.getValue()) && !TextUtils.isEmpty(Pwd.getValue())){
-            RegisterRemoteRespository.getINSTANCE().getRegisterStatus(new LoginUser(Email.getValue(), Pwd.getValue()), new RegisterDataSource.LoadRegisterCallBack() {
+            String encode = Base64.encodeToString(Pwd.getValue().getBytes(),Base64.DEFAULT);
+            RegisterRemoteRespository.getINSTANCE().getRegisterStatus(new LoginUser(Email.getValue(), encode), new RegisterDataSource.LoadRegisterCallBack() {
                 @Override
                 public void onRegisterLoaded() {
-                    registerNavigator.onRegisterCompleted();
+                    // 注册成功自动闪退。
+                    Toast.makeText(mContext.getApplicationContext(), "注册成功!", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onDataNotAvailable() {
-                    Toast.makeText(mContext, "请检查您的验证码是否输入正确!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext.getApplicationContext(), "未知错误!", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onFailure() {
-                    Toast.makeText(mContext,"网络出问题啦!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext.getApplicationContext(),"网络出问题啦!", Toast.LENGTH_SHORT).show();
                 }
             });
+        } else if(!TextUtils.isEmpty(Pwd.getValue()) && !registerRemoteRespository.code.equals(VerificationCode.getValue())){
+            Toast.makeText(mContext.getApplicationContext(), "请输入正确的验证码!", Toast.LENGTH_SHORT).show();
         }
     }
 }

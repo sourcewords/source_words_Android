@@ -16,11 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
-import com.example.sourcewords.App;
 import com.example.sourcewords.R;
 import com.example.sourcewords.databinding.ActivityAddplanBindingImpl;
-import com.example.sourcewords.ui.login.view.ForgetPwdActivity;
-import com.example.sourcewords.ui.login.view.SetPwdActivity;
 import com.example.sourcewords.ui.mine.model.Api;
 import com.example.sourcewords.ui.mine.viewmodel.AddPlanViewModel;
 
@@ -49,7 +46,7 @@ public class AddPlanActivity extends AppCompatActivity {
         back.setOnClickListener(v->finish());
 
         binding.startPlan.setOnClickListener(v -> {
-            String name = binding.addPlanName.getText().toString();
+            String name = binding.addPlanName.getText().toString().substring(0,2);
             addPlanViewModel.changePlan(name, new Api.changePlanApi() {
                 @Override
                 public void success() {
@@ -86,7 +83,6 @@ public class AddPlanActivity extends AppCompatActivity {
         @Override
         public void onActivityResult(String result) {
             binding.addPlanName.setText(result);
-            Toast.makeText(App.getAppContext(),"chenggong", Toast.LENGTH_LONG).show();
         }
     });
 

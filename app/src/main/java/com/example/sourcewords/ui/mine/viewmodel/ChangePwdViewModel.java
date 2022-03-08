@@ -1,6 +1,8 @@
 package com.example.sourcewords.ui.mine.viewmodel;
 
 
+import android.util.Base64;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -33,10 +35,11 @@ public class ChangePwdViewModel extends ViewModel {
         return com.example.sourcewords.ui.login.model.UserWrapper.getInstance().getUser().getPassword();
     }
 
-    public void putChange(Api.ChangePwdApi callback){
+    public void putChange(String newp, Api.ChangePwdApi callback){
 
+        String encode = Base64.encodeToString(newp.getBytes(),Base64.DEFAULT);
         NetUtil.getInstance().getApi().changPwd(new PutPwd(UserWrapper.getInstance().getName(),
-                Objects.requireNonNull(getPassWord().getValue()).getAgainPwd()))
+                encode))
                 .enqueue(new Callback<LoginResponse>() {
                     @Override
                     public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {

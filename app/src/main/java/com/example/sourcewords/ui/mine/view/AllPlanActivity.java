@@ -44,6 +44,7 @@ public class AllPlanActivity extends AppCompatActivity {
         setContentView(R.layout.activity_allplan);
 
         Intent intent = getIntent();
+        setResult(RESULT_OK, new Intent().putExtra("plan", "error"));
         recyclerView = findViewById(R.id.myplan_rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         initList();

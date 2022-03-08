@@ -5,12 +5,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
 
 import com.example.sourcewords.R;
@@ -20,8 +17,6 @@ import com.example.sourcewords.ui.mine.model.PlanDataResource;
 import com.example.sourcewords.ui.mine.model.databean.PlanBean;
 import com.example.sourcewords.ui.mine.model.databean.PlanItem;
 import com.example.sourcewords.ui.mine.viewmodel.MyPlanViewModel;
-
-import java.lang.invoke.ConstantCallSite;
 
 public class MyPlanActivity extends AppCompatActivity {
 

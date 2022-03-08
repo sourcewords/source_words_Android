@@ -52,8 +52,7 @@ public class RegisterRemoteRespository implements RegisterDataSource {
                     loadRegisterCallBack.onRegisterLoaded();
                 } else if(response.code() == 401){
                     Toast.makeText(App.getAppContext(), "该账户已经存在！", Toast.LENGTH_SHORT).show();
-                }
-                else{
+                } else{
                     loadRegisterCallBack.onDataNotAvailable();
                 }
             }

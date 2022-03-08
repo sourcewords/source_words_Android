@@ -217,7 +217,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="60dp"
                 android:layout_marginBottom="20dp"
-                android:hint="请选择要添加的计划"
+                android:hint="添加计划"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -3,6 +3,7 @@ package com.example.sourcewords.ui.login.view;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -61,7 +62,9 @@ public class SetPwdActivity extends AppCompatActivity {
 
     private void request(String str){
 
-        NetUtil.getInstance().getApi().resetPwd(new LoginUser(str,newPwd.getText().toString())).enqueue(new Callback<LoginResponse>() {
+        String encode = Base64.encodeToString(newPwd.getText().toString().getBytes(), Base64.DEFAULT);
+
+        NetUtil.getInstance().getApi().resetPwd(new LoginUser(str,encode)).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 setResult(RESULT_OK, new Intent().putExtra("code", "successful"));
