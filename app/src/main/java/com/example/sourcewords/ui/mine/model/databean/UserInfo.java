@@ -6,6 +6,14 @@ import androidx.databinding.Bindable;
 import com.example.sourcewords.BR;
 
 public class UserInfo extends BaseObservable {
+    private String phone;
+    private String signature;
+    private String email;
+    private Integer gender;
+    private String location;
+    private String name;
+    private String birthDay;
+
     @Bindable
     public String getPhone() {
         return phone;
@@ -74,11 +82,4 @@ public class UserInfo extends BaseObservable {
         notifyPropertyChanged(BR.birthDay);
     }
 
-    private String phone;
-    private String signature;
-    private String email;
-    private Integer gender;
-    private String location;
-    private String name;
-    private String birthDay;
 }

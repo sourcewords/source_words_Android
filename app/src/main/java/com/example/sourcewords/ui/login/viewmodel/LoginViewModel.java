@@ -1,5 +1,6 @@
 package com.example.sourcewords.ui.login.viewmodel;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.Toast;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.sourcewords.commonUtils.KeyboardUtils;
 import com.example.sourcewords.commonUtils.SPUtils;
 import com.example.sourcewords.ui.login.model.LoginDataSource;
 import com.example.sourcewords.ui.login.model.User;
@@ -15,6 +17,7 @@ import com.example.sourcewords.ui.login.model.UserWrapper;
 import com.example.sourcewords.ui.login.model.databean.LocalPage;
 import com.example.sourcewords.ui.login.model.databean.LoginUser;
 import com.example.sourcewords.ui.login.model.respository.LoginRemoteRespository;
+import com.example.sourcewords.ui.login.view.LoginActivity;
 import com.example.sourcewords.ui.login.view.LoginNavigator;
 import com.example.sourcewords.ui.main.MainActivity;
 
@@ -59,6 +62,7 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void onClick(View view) {
+        KeyboardUtils.hideKeyboard((Activity) mContext);
         loginRemoteRespository.getLoginStatus(new LoginUser(Account.getValue(), Password.getValue()), new LoginDataSource.LoadLoginCallBack() {
             @Override
             public void onLoginLoded() {

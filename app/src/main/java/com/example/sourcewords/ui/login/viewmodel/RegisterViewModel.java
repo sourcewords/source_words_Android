@@ -1,5 +1,6 @@
 package com.example.sourcewords.ui.login.viewmodel;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.Toast;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.sourcewords.commonUtils.KeyboardUtils;
 import com.example.sourcewords.ui.login.model.RegisterDataSource;
 import com.example.sourcewords.ui.login.model.databean.LoginUser;
 import com.example.sourcewords.ui.login.model.databean.RegisterEmail;
@@ -57,6 +59,7 @@ public class RegisterViewModel extends ViewModel {
         registerRemoteRespository.STATUS = false;
         RegisterPage registerPage = new RegisterPage(Email.getValue());
         registerMutableLiveData.setValue(registerPage);
+        KeyboardUtils.hideKeyboard((Activity) mContext);
         registerRemoteRespository.isSendCode(new RegisterEmail(Email.getValue()));
     }
 
@@ -64,6 +67,7 @@ public class RegisterViewModel extends ViewModel {
         registerRemoteRespository.STATUS = true;
         RegisterPage registerPage = new RegisterPage(Email.getValue(), VerificationCode.getValue(),Pwd.getValue());
         registerMutableLiveData.setValue(registerPage);
+        KeyboardUtils.hideKeyboard((Activity) mContext);
         if(registerRemoteRespository.code.equals(VerificationCode.getValue()) && !TextUtils.isEmpty(Pwd.getValue())){
             RegisterRemoteRespository.getINSTANCE().getRegisterStatus(new LoginUser(Email.getValue(), Pwd.getValue()), new RegisterDataSource.LoadRegisterCallBack() {
                 @Override
