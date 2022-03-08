@@ -36,6 +36,8 @@ public class SetPwdActivity extends AppCompatActivity {
         Intent intent = getIntent();
         s = intent.getStringExtra("e-mail");
 
+        setResult(RESULT_OK, new Intent().putExtra("code", "error"));
+
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().
                     setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |

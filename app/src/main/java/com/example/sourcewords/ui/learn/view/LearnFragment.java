@@ -2,8 +2,14 @@ package com.example.sourcewords.ui.learn.view;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,15 +27,16 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sourcewords.App;
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.ui.learn.viewModel.WordsAdapter;
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
+import com.example.sourcewords.utils.PreferencesUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 //TODO 学模块
 public class LearnFragment extends Fragment implements View.OnClickListener {
@@ -38,8 +45,6 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
     private AppCompatTextView textView_wordRoot, textView_meaning, textView_source;
     private AppCompatButton button_learned;
     private WordsAdapter adapter;
-    private static int day;
-    private static final String Param = "LearnFragment";
     private static List<Integer> list = new ArrayList<>();
 
 
@@ -48,9 +53,6 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         @SuppressLint("InflateParams") View v = inflater.inflate(R.layout.fragment_learn, null);
         viewModel = ViewModelProviders.of(this.getActivity()).get(LearnViewModel.class);
-        if (getArguments() != null) {
-            day = getArguments().getInt(Param, 1);
-        }
         ReviewCardViewModel reviewCardViewModel = ViewModelProviders.of(this).get(ReviewCardViewModel.class);
 
         reviewCardViewModel.getAllWord().observe(getViewLifecycleOwner(), words -> {
@@ -77,7 +79,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         //RecyclerView部分
         RecyclerView recyclerView = v.findViewById(R.id.learn_recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new WordsAdapter(Objects.requireNonNull(getContext()));
+        adapter = new WordsAdapter(getContext());
         recyclerView.setAdapter(adapter);
         textView_wordRoot = v.findViewById(R.id.learn_wordroot);
         getTodayLearn();
@@ -103,7 +105,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     private void changeButtonUIBack() {
-        button_learned.setBackground(getResources().getDrawable(R.color.theme_green));
+        button_learned.setBackground(getResources().getDrawable(R.drawable.learned_normal));
         button_learned.setTextColor(getResources().getColor(R.color.white));
     }
 
@@ -114,7 +116,7 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
             case R.id.learn_AllLearned:
                 changeButtonUI();
                 viewModel.saveFlag(true);
-                viewModel.saveLong(viewModel.getLong() + 1);
+                //viewModel.saveLong(viewModel.getLong() + 1);
                 // 通知习模块更新
                 viewModel.getLearnFlag().setValue(true);
                 button_learned.setClickable(false);
@@ -132,21 +134,24 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
                     videoView.start();
                 break;
         }
+
+
     }
 
     //TODO 临时的获取每日学习的词根算法
     @SuppressLint({"SetTextI18n", "NotifyDataSetChanged"})
     private void getTodayLearn() {
+        int id = viewModel.getLong();
         //TODO 第几天就是第几个词根
-        viewModel.getWordRootById(viewModel.getLong()).observe(getViewLifecycleOwner(), wordRoot -> {
+        viewModel.getWordRootById(id).observe(getViewLifecycleOwner(), wordRoot -> {
             if (wordRoot != null) {
                 textView_wordRoot.setText("词根：" + wordRoot.getRoot());
-                textView_meaning.setText("词根" + wordRoot.getRoot() + "的意思是:" + wordRoot.getMeaning());
-                textView_source.setText("词根" + wordRoot.getRoot() + "的来源与解释:" + wordRoot.getMeaning());
-                adapter.setList(wordRoot.getWordlist());
+                textView_meaning.setText(handleWords("词根" + wordRoot.getRoot() + "的意思是:" + wordRoot.getMeaning()));
+                textView_source.setText(handleWords("词根" + wordRoot.getRoot() + "的来源与解释:" + wordRoot.getMeaning()));
+                adapter.setList(getPlanList(wordRoot.getWordlist()));
                 String path = wordRoot.getVideo_url();
                 if (path.length() == 0) {
-                    videoView.setVisibility(View.INVISIBLE);
+                    videoView.setVisibility(View.GONE);
                 } else {
                     videoView.setVideoURI(Uri.parse(path));
                 }
@@ -154,6 +159,11 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
                 adapter.notifyDataSetChanged();
             }
         });
+        Log.d("idq",id + "");
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(PreferencesUtils.WORD_ROOT_TODAY, id);
+        editor.apply();
     }
 
 
@@ -163,9 +173,16 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
         super.onResume();
         if (!viewModel.isToday()) {
             //更新操作
+            if(viewModel.getSaveFlag()){
+                viewModel.saveLong(viewModel.getLong() + 1);
+            }
             viewModel.getLearnFlag().setValue(false);
             viewModel.saveFlag(false);
             viewModel.saveTime();
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(PreferencesUtils.WORD_ROOT_HAVE_LEARNED, false);
+            editor.apply();
             refresh();
         }
     }
@@ -190,6 +207,24 @@ public class LearnFragment extends Fragment implements View.OnClickListener {
             res.add(word.getWord_info().getId());
         }
         return res;
+    }
+
+    private List<Word> getPlanList(List<Word> list) {
+        int level = viewModel.getPlan();
+        List<Word> res = new ArrayList<>();
+        for (Word word : list) {
+            if (word.getWord_info().getExam_grading().get(level - 1)) {
+                res.add(word);
+            }
+        }
+        return res;
+    }
+
+    private SpannableStringBuilder handleWords(String s){
+        int len = s.indexOf(":");
+        SpannableStringBuilder ans = new SpannableStringBuilder(s);
+        ans.setSpan(new ForegroundColorSpan(Color.parseColor("#64BEBC")),0,len, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+        return ans;
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.sourcewords.ui.mine.view;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -42,7 +43,7 @@ public class AllPlanActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_allplan);
 
-
+        Intent intent = getIntent();
         recyclerView = findViewById(R.id.myplan_rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         initList();
@@ -99,7 +100,18 @@ public class AllPlanActivity extends AppCompatActivity {
                     progress.setText(planBean.getData().getPlans().get(0).getPercent() + "%");
                     bar.setProgress(planBean.getData().getPlans().get(0).getPercent());
                 }
-                recyclerView.setAdapter(new PlanAdapter(mList));
+                recyclerView.setAdapter(new PlanAdapter(mList, new Api.addPlan() {
+                    @Override
+                    public void success(String name) {
+                        setResult(RESULT_OK, new Intent().putExtra("plan", name));
+                        finish();
+                    }
+
+                    @Override
+                    public void failed() {
+
+                    }
+                }));
             }
 
             @Override

@@ -1,17 +1,26 @@
 package com.example.sourcewords.ui.mine.model.databean;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sourcewords.R;
+import com.example.sourcewords.ui.login.view.ForgetPwdActivity;
+import com.example.sourcewords.ui.login.view.SetPwdActivity;
+import com.example.sourcewords.ui.mine.model.Api;
 import com.example.sourcewords.ui.mine.view.AddPlanActivity;
 import com.example.sourcewords.ui.mine.viewmodel.AddPlanViewModel;
 
@@ -19,8 +28,10 @@ import java.util.List;
 
 public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
     private List<PlanBean> mList;
-    public PlanAdapter(List<PlanBean> mList){
+    Api.addPlan api;
+    public PlanAdapter(List<PlanBean> mList, Api.addPlan api){
         this.mList = mList;
+        this.api = api;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
@@ -50,7 +61,9 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
+        holder.layout.setOnClickListener(v->{
+            api.success(mList.get(position).getPlanName());
+        });
         holder.planName.setText(mList.get(position).getPlanName());
         holder.leastTime.setText("倒计时：" + mList.get(position).getLeastTime() + "天");
         holder.b_eTime.setText(mList.get(position).getB_eTime());

@@ -53,11 +53,14 @@ public class SigninActivity extends AppCompatActivity {
 
         signIn = findViewById(R.id.sign_in_btn);
         signIn.setOnClickListener(v -> {
+
             String date = CalendarDay.today().getYear() + "." + CalendarDay.today().getMonth() + "." + CalendarDay.today().getDay();
             SigninDateSource.getInstance().putSignInDate(new SigninDate(date), new Api.putSignInApi() {
                 @Override
                 public void success() {
                     Toast.makeText(SigninActivity.this, "签到成功！", Toast.LENGTH_SHORT).show();
+                    signIn.setEnabled(false);
+                    signIn.setBackgroundColor(Color.GRAY);
                     initData();
                 }
 
@@ -103,7 +106,7 @@ public class SigninActivity extends AppCompatActivity {
                 for(SigninBean.DataDTO.PlansDTO p : signin.getData().getPlans()){
                     datestring.add(p.getData());
                 }
-                @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy.MM.dd" );
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat( "yyyy.MM.dd" );
                 for(String s : datestring) {
                     try {
                         Date date1 = sdf.parse(s);
@@ -159,6 +162,12 @@ public class SigninActivity extends AppCompatActivity {
                 }
                 Decorator decorator = new Decorator(Color.RED, dates);
                 calendarView.addDecorator(decorator);
+                for(CalendarDay d : dates){
+                    if(d.equals(CalendarDay.today())){
+                        signIn.setEnabled(false);
+                        signIn.setBackgroundColor(Color.GRAY);
+                    }
+                }
             }
 
             @Override
@@ -168,7 +177,4 @@ public class SigninActivity extends AppCompatActivity {
         });
     }
 
-//    private void back(View v){
-//        onBackPressed();
-//    }
 }

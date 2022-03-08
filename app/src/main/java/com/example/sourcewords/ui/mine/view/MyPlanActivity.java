@@ -85,5 +85,9 @@ public class MyPlanActivity extends AppCompatActivity {
         back.setOnClickListener(v->finish());
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initView();
+    }
 }

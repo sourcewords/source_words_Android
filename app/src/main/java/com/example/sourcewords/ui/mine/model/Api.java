@@ -32,5 +32,9 @@ public interface Api {
         void requestName();
         void requestTime();
     }
+    interface addPlan{
+        void success(String name);
+        void failed();
+    }
 
 }
