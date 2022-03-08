@@ -57,6 +57,7 @@ public class ReviewFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_review, null);
         frameLayout = view.findViewById(R.id.review_container);
         noneFragment = new NoneFragment();
+        reciteFragment = new ReciteFragment();
 
         fragmentManager = getChildFragmentManager();
 
@@ -66,6 +67,7 @@ public class ReviewFragment extends Fragment {
 
         // 上次复习时间是之前的日期，不是今天，且当前时间大于4：00则可以认为今日没有学习词根,且没有点击过学按钮
         if (lastReviewDay.compareTo(DateUtils.getData()) < 0 && DateUtils.getTime().compareTo("4:00") > 0) {
+            viewModel.getLearnFlag().setValue(false);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean(PreferencesUtils.WORD_ROOT_HAVE_LEARNED, false);
             editor.putBoolean(PreferencesUtils.CLICK_LEARAN_BUTTON, false);
@@ -82,7 +84,7 @@ public class ReviewFragment extends Fragment {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean(PreferencesUtils.CLICK_LEARAN_BUTTON, true);
                     editor.commit();
-                    initWordView(new ReciteFragment());
+                    initWordView(reciteFragment);
 
                 } else if (sharedPreferences.getBoolean(PreferencesUtils.CLICK_LEARAN_BUTTON, false)) {
                     initWordView(new ReciteFragment());
