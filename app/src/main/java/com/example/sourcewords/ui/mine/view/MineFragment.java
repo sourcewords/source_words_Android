@@ -29,6 +29,9 @@ import com.example.sourcewords.ui.mine.model.databean.PlanBean;
 import com.example.sourcewords.ui.mine.model.databean.PlanItem;
 import com.example.sourcewords.ui.mine.model.databean.SigninBean;
 
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
+
 //TODO 我模块
 public class MineFragment extends Fragment {
     private ConstraintLayout mPersonalData,mAdjustmentPlan;
@@ -52,7 +55,6 @@ public class MineFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_mine,null);
         init(view);
-
         return view;
     }
 
@@ -103,6 +105,10 @@ public class MineFragment extends Fragment {
             }
         });
 
+        time = view.findViewById(R.id.time_tv);
+        //time.setText(getFormatTime(SPUtils.getInstance().getLong("APP_USE_TIME", 0L)));
+        time.setText(String.valueOf(SPUtils.getInstance().getLong("APP_USE_TIME", 0L)/60000));
+
         PlanDataResource.getInstance().getMyPlan(new Api.getPlan() {
             @SuppressLint("SetTextI18n")
             @Override
@@ -126,5 +132,19 @@ public class MineFragment extends Fragment {
 
     public void setLoginNavigator(LoginNavigator navigator){
         loginNavigator = navigator;
+    }
+
+    private String getFormatTime(long app_use_time) {
+        SimpleDateFormat format = new SimpleDateFormat("mm:ss");
+        //设置时区，跳过此步骤会默认设置为"GMT+08:00" 得到的结果会多出来8个小时
+        format.setTimeZone(TimeZone.getTimeZone("GMT+00:00"));
+
+        return format.format(app_use_time);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        time.setText(String.valueOf(SPUtils.getInstance().getLong("APP_USE_TIME", 0L)/60000));
     }
 }

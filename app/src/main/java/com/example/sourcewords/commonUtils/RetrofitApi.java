@@ -11,7 +11,6 @@ import com.example.sourcewords.ui.mine.model.databean.PutPwd;
 import com.example.sourcewords.ui.mine.model.databean.SigninBean;
 import com.example.sourcewords.ui.mine.model.databean.SigninDate;
 import com.example.sourcewords.ui.mine.model.databean.UserInfo;
-import com.example.sourcewords.ui.review.dataBean.HistoryWord;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.dataBean.WordRootStatus;
 
@@ -27,12 +26,20 @@ public interface RetrofitApi {
     @POST("user/email")
     Call<RegisterResponse> sendCode(@Body RegisterEmail email);
 
-    @POST("user/register")
-    Call<RegisterResponse> register(@Body LoginUser user);
+    @POST("user/registerbyemail")
+    Call<RegisterResponse> registerByEmail(@Body LoginUser user);
 
-    //login
-    @POST("user/login")
-    Call<LoginResponse> login (@Body LoginUser user);
+//    //login
+//    @POST("user/login")
+//    Call<LoginResponse> login (@Body LoginUser user);
+
+    //loginbyemail
+    @POST("user/loginbyemail")
+    Call<LoginResponse> loginByEmail (@Body LoginUser user);
+
+    //resetPwd
+    @PUT("user/resetbyemail")
+    Call<LoginResponse> resetPwd(@Body LoginUser user);
 
     //userInfo
     @GET("user/info")

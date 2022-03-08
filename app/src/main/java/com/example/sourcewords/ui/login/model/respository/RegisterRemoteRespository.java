@@ -45,7 +45,7 @@ public class RegisterRemoteRespository implements RegisterDataSource {
 
     @Override
     public void getRegisterStatus(LoginUser user, LoadRegisterCallBack loadRegisterCallBack) {
-        NetUtil.getInstance().getApi().register(user).enqueue(new Callback<RegisterResponse>() {
+        NetUtil.getInstance().getApi().registerByEmail(user).enqueue(new Callback<RegisterResponse>() {
             @Override
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
                 if(response.isSuccessful()){
