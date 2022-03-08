@@ -48,6 +48,7 @@ public class AddPlanViewModel extends ViewModel {
                 month = month + 1;
                 LocalDate date = LocalDate.of(year, month, day);
                 startDate.setValue(date.toString());
+                addPlanBean.setStart(year + "." + month + "." + day);
             }
         };
 
@@ -72,12 +73,14 @@ public class AddPlanViewModel extends ViewModel {
                 month = month + 1;
                 LocalDate date = LocalDate.of(year, month, day);
                 endDate.setValue(date.toString());
+                addPlanBean.setEnd(year + "." + month + "." + day);
             }
         };
 
         e_y = LocalDate.now().getYear();
         e_m = LocalDate.now().getMonthValue();
         e_d = LocalDate.now().getDayOfMonth();
+
         int style = AlertDialog.THEME_HOLO_LIGHT;
 
         endDatePickerDialog.setValue(new DatePickerDialog(mContext,style,dateSetListener,e_y,e_m,e_d));
@@ -97,15 +100,15 @@ public class AddPlanViewModel extends ViewModel {
     }
     public void changePlan(String name, Api.changePlanApi api){
         addPlanBean.setName(name);
-        addPlanBean.setStart(s_y + "." + s_m + "." + s_d);
-        addPlanBean.setEnd(e_y + "." + e_m + "." + e_d);
+
         if(addPlanBean.getName() != null && addPlanBean.getStart() != null && addPlanBean.getEnd() != null){
             NetUtil.getInstance().getApi().changePlan(token, addPlanBean).enqueue(new Callback<LoginResponse>() {
                 @Override
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                    api.success();
+                    if(response.code() == 200){
+                        api.success();
+                    }
                 }
-
                 @Override
                 public void onFailure(Call<LoginResponse> call, Throwable t) {
                     api.failed();
