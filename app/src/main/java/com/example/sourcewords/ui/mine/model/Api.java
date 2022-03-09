@@ -3,6 +3,8 @@ package com.example.sourcewords.ui.mine.model;
 import com.example.sourcewords.ui.mine.model.databean.PlanBean;
 import com.example.sourcewords.ui.mine.model.databean.PlanItem;
 import com.example.sourcewords.ui.mine.model.databean.SigninBean;
+import com.example.sourcewords.ui.mine.model.databean.UserInfo;
+import com.example.sourcewords.ui.mine.model.databean.UserInfoResponse;
 
 public interface Api {
 
@@ -13,6 +15,17 @@ public interface Api {
     interface ChangeUserInfoApi{
         void success();
         void failed();
+    }
+    interface getUserInfo{
+        interface  LoadUserCallBack{
+            void onUserLoaded(UserInfoResponse.DataDTO u);
+
+            void onDataNotAvailable();
+
+            void onFailure();
+        }
+
+        void getUserStatus(LoadUserCallBack loadUserCallBack);
     }
     interface putSignInApi{
         void success();

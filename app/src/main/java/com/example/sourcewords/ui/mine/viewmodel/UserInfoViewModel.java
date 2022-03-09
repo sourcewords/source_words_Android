@@ -9,6 +9,7 @@ import com.example.sourcewords.ui.login.model.databean.LoginResponse;
 import com.example.sourcewords.ui.mine.model.Api;
 import com.example.sourcewords.ui.mine.model.databean.UserInfo;
 import com.example.sourcewords.ui.mine.model.UserInfoRemoteDataSource;
+import com.example.sourcewords.ui.mine.model.databean.UserInfoResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -16,17 +17,22 @@ import retrofit2.Response;
 
 public class UserInfoViewModel extends ViewModel {
 
-    public MutableLiveData<UserInfo> userInfo;
-    UserInfoRemoteDataSource source;
+    public MutableLiveData<String> Name = new MutableLiveData<>();
+    public MutableLiveData<String> Phone = new MutableLiveData<>();
+    public MutableLiveData<Integer> Gender = new MutableLiveData<>();
+    public MutableLiveData<String> Birth = new MutableLiveData<>();
+    public MutableLiveData<String> Location = new MutableLiveData<>();
+    public MutableLiveData<String> Signature = new MutableLiveData<>();
+    public MutableLiveData<String> email = new MutableLiveData<>();
+
+    public MutableLiveData<UserInfo> userMutableLiveData = new MutableLiveData<>();
     private String token = UserWrapper.getInstance().getToken();
 
     public MutableLiveData<UserInfo> getUserInfo() {
-        if(userInfo == null){
-            userInfo = new MutableLiveData<>();
-            source.getRemoteUserInfo();
-
+        if(userMutableLiveData == null){
+            userMutableLiveData = new MutableLiveData<>();
         }
-        return userInfo;
+        return userMutableLiveData;
     }
 
     public void changeUserInfo(Api.ChangeUserInfoApi api, UserInfo userInfo){
@@ -41,5 +47,35 @@ public class UserInfoViewModel extends ViewModel {
                 api.failed();
             }
         });
+    }
+
+    public void initW(){
+        UserInfoRemoteDataSource.getInstance().getUserStatus(new Api.getUserInfo.LoadUserCallBack() {
+            @Override
+            public void onUserLoaded(UserInfoResponse.DataDTO u) {
+                if(u != null){
+                    Name.setValue(u.getUsername());
+                    Phone.setValue(u.getPhone());
+                    Gender.setValue(u.getGender());
+                    Birth.setValue(u.getBirthday());
+                    Location.setValue(u.getLocation());
+                    Signature.setValue(u.getSignature());
+                }
+
+            }
+
+            @Override
+            public void onDataNotAvailable() {
+
+            }
+
+            @Override
+            public void onFailure() {
+
+            }
+        });
+
+        UserInfo userInfo = new UserInfo(UserWrapper.getInstance().getUser().getAccount(),Gender.getValue(),Phone.getValue(), Signature.getValue() , Location.getValue(), Name.getValue(),Birth.getValue());
+        userMutableLiveData.setValue(userInfo);
     }
 }

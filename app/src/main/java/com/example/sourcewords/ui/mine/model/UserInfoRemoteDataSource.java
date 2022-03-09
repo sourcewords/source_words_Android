@@ -1,21 +1,18 @@
 package com.example.sourcewords.ui.mine.model;
 
-import androidx.lifecycle.MutableLiveData;
-
 import com.example.sourcewords.commonUtils.NetUtil;
-import com.example.sourcewords.ui.login.model.respository.LoginRemoteRespository;
-import com.example.sourcewords.ui.mine.model.databean.UserInfo;
-import com.example.sourcewords.ui.mine.model.databean.UserWrapper;
+import com.example.sourcewords.ui.login.model.UserWrapper;
+import com.example.sourcewords.ui.mine.model.databean.UserInfoResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UserInfoRemoteDataSource {
+public class UserInfoRemoteDataSource implements Api.getUserInfo{
 
     private static UserInfoRemoteDataSource INSTANCE;
-    private UserInfo userInfo = new UserInfo();
-    private final String token = LoginRemoteRespository.getINSTANCE().getToken();
+    private UserInfoResponse.DataDTO u;
+    private final String token = UserWrapper.getInstance().getToken();
 
     public static UserInfoRemoteDataSource getInstance(){
         if(INSTANCE == null){
@@ -28,22 +25,22 @@ public class UserInfoRemoteDataSource {
         return INSTANCE;
     }
 
-    private UserInfoRemoteDataSource(){};
+    @Override
+    public void getUserStatus(LoadUserCallBack loadUserCallBack) {
+        NetUtil.getInstance().getApi().getUserInfo(token).enqueue(new Callback<UserInfoResponse>() {
+            @Override
+            public void onResponse(Call<UserInfoResponse> call, Response<UserInfoResponse> response) {
+                if(response.isSuccessful()){
+                    u = response.body().getData();
+                    loadUserCallBack.onUserLoaded(u);
+                } else
+                    loadUserCallBack.onDataNotAvailable();
+            }
 
-    public void getRemoteUserInfo() {
-        NetUtil.getInstance().getApi().getUserInfo(token)
-                .enqueue(new Callback<UserInfo>() {
-                    @Override
-                    public void onResponse(Call<UserInfo> call, Response<UserInfo> response) {
-                        if(response.body() != null){
-                            userInfo = response.body();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<UserInfo> call, Throwable t) {
-
-                    }
-                });
+            @Override
+            public void onFailure(Call<UserInfoResponse> call, Throwable t) {
+                loadUserCallBack.onFailure();
+            }
+        });
     }
 }

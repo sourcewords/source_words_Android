@@ -5,12 +5,12 @@ import com.example.sourcewords.ui.login.model.databean.LoginUser;
 import com.example.sourcewords.ui.login.model.databean.RegisterEmail;
 import com.example.sourcewords.ui.login.model.databean.RegisterResponse;
 import com.example.sourcewords.ui.mine.model.databean.AddPlanBean;
-import com.example.sourcewords.ui.mine.model.databean.PlanBean;
 import com.example.sourcewords.ui.mine.model.databean.PlanItem;
 import com.example.sourcewords.ui.mine.model.databean.PutPwd;
 import com.example.sourcewords.ui.mine.model.databean.SigninBean;
 import com.example.sourcewords.ui.mine.model.databean.SigninDate;
 import com.example.sourcewords.ui.mine.model.databean.UserInfo;
+import com.example.sourcewords.ui.mine.model.databean.UserInfoResponse;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.dataBean.WordRootStatus;
 
@@ -43,7 +43,7 @@ public interface RetrofitApi {
 
     //userInfo
     @GET("user/info")
-    Call<UserInfo> getUserInfo(@Header("token") String token);
+    Call<UserInfoResponse> getUserInfo(@Header("Authorization") String token);
 
     @PUT("user/info")
     Call<LoginResponse> putUserInfo(@Body UserInfo userInfo, @Header("Authorization") String token);

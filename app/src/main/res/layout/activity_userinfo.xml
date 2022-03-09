@@ -107,6 +107,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="昵称"
+                        android:text="@={userInfoViewModel.Name}"
                         android:theme="@style/UserHintText"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -125,6 +126,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="手机"
+                        android:text="@={userInfoViewModel.Phone}"
                         android:theme="@style/UserHintText" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -156,8 +158,7 @@
                         android:layout_marginEnd="5dp"
                         android:text="女性"
                         android:textColor="#FFFFFF"
-                        android:textSize="15sp"
-                        android:onClick="girlButton"/>
+                        android:textSize="15sp" />
 
                     <Button
                         android:id="@+id/info_male"
@@ -169,8 +170,7 @@
                         android:background="#FFFFFF"
                         android:text="男性"
                         android:textColor="#999999"
-                        android:textSize="15sp"
-                        android:onClick="boyButton"/>
+                        android:textSize="15sp" />
                 </LinearLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -187,6 +187,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="生日"
+                        android:text="@={userInfoViewModel.Birth}"
                         android:theme="@style/UserHintText" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -205,6 +206,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="地区"
+                        android:text="@={userInfoViewModel.Location}"
                         android:theme="@style/UserHintText" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -226,6 +228,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="12dp"
                     android:background="#AAE4E2"
+                    android:text="@={userInfoViewModel.Signature}"
                     android:textColorHint="#252629"
                     android:textSize="15sp" />
 

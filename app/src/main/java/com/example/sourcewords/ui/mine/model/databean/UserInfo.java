@@ -5,7 +5,7 @@ import androidx.databinding.Bindable;
 
 import com.example.sourcewords.BR;
 
-public class UserInfo extends BaseObservable {
+public class    UserInfo extends BaseObservable {
     private String phone;
     private String signature;
     private String email;
@@ -13,6 +13,16 @@ public class UserInfo extends BaseObservable {
     private String location;
     private String name;
     private String birthDay;
+
+    public UserInfo(String email,Integer gender,String phone, String signature, String location, String name, String birthDay) {
+        this.email = email;
+        this.phone = phone;
+        this.gender = gender;
+        this.signature = signature;
+        this.location = location;
+        this.name = name;
+        this.birthDay = birthDay;
+    }
 
     @Bindable
     public String getPhone() {

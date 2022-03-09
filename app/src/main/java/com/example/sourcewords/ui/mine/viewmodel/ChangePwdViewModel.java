@@ -1,6 +1,5 @@
 package com.example.sourcewords.ui.mine.viewmodel;
 
-
 import android.util.Base64;
 
 import androidx.lifecycle.MutableLiveData;
@@ -9,12 +8,9 @@ import androidx.lifecycle.ViewModel;
 import com.example.sourcewords.commonUtils.NetUtil;
 import com.example.sourcewords.ui.login.model.databean.LoginResponse;
 import com.example.sourcewords.ui.mine.model.Api;
-import com.example.sourcewords.ui.mine.model.PasswordDataSource;
 import com.example.sourcewords.ui.mine.model.databean.PassWord;
 import com.example.sourcewords.ui.mine.model.databean.PutPwd;
 import com.example.sourcewords.ui.mine.model.databean.UserWrapper;
-
-import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;

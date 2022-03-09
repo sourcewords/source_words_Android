@@ -2,9 +2,9 @@ package com.example.sourcewords.ui.mine.view;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -25,20 +25,34 @@ public class UserInfoActivity extends AppCompatActivity {
 
     private UserInfoViewModel userInfoViewModel;
     private ActivityUserinfoBinding dataBinding;
-    private UserInfo userInfo = new UserInfo();
+    private UserInfo userInfo;
+    private Integer flag = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_userinfo);
         userInfoViewModel = new UserInfoViewModel();
         ImageButton back = findViewById(R.id.info_back);
+        Button girl = findViewById(R.id.info_female);
+        Button boy = findViewById(R.id.info_male);
         dataBinding.setLifecycleOwner(this);
         dataBinding.setUserInfoViewModel(userInfoViewModel);
+
+        userInfoViewModel.initW();
+        userInfo = userInfoViewModel.getUserInfo().getValue();
+
 
         dataBinding.infoChangePwd.setOnClickListener(view -> {
             Intent intent = new Intent(this, ChangePwdActivity.class);
             startActivity(intent);
+        });
+
+        dataBinding.loginOut.setOnClickListener((v) -> {
+            SPUtils.getInstance(SPUtils.SP_CONFIG).clear();
+            com.example.sourcewords.ui.login.model.UserWrapper.getInstance().setUser(null);
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         });
 
         dataBinding.commit.setOnClickListener(v ->
@@ -54,15 +68,24 @@ public class UserInfoActivity extends AppCompatActivity {
                 public void failed() {
                     Toast.makeText(UserInfoActivity.this, "出错啦！请检查网络设置~", Toast.LENGTH_SHORT).show();
                 }
-            }, userInfo);
+            },userInfo );
         });
 
-        loginOut();
-
-
         back.setOnClickListener(v ->
-
                 finish());
+
+        girl.setOnClickListener( v -> {
+            flag = 0;
+            girlButton();
+        });
+
+        boy.setOnClickListener( v -> {
+            flag = 1;
+            boyButton();
+        });
+
+//        if(UserInfoViewModel.getSex() == 0)   girlButton();
+//        else boyButton();
 
         getWindow().getDecorView().
                 setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
@@ -73,31 +96,21 @@ public class UserInfoActivity extends AppCompatActivity {
     public void initInfo() {
         userInfo.setName(dataBinding.infoName.getText().toString());
         userInfo.setBirthDay(dataBinding.infoBirthday.getText().toString());
-
         userInfo.setEmail(UserWrapper.getInstance().getName());
         userInfo.setLocation(dataBinding.infoZone.getText().toString());
         userInfo.setPhone(dataBinding.infoTelephone.getText().toString());
         userInfo.setSignature(dataBinding.infoSignature.getText().toString());
+        userInfo.setGender(flag);
     }
 
-    public void loginOut() {
-        dataBinding.loginOut.setOnClickListener((v) -> {
-            SPUtils.getInstance(SPUtils.SP_CONFIG).clear();
-            com.example.sourcewords.ui.login.model.UserWrapper.getInstance().setUser(null);
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-        });
-    }
-
-    public void girlButton(View v) {
-        userInfo.setGender(0);
+    public void girlButton() {
         dataBinding.infoMale.setBackgroundColor(Color.WHITE);
         dataBinding.infoMale.setTextColor(Color.GRAY);
         dataBinding.infoFemale.setBackgroundColor(Color.parseColor("#8DD0CE"));
         dataBinding.infoFemale.setTextColor(Color.WHITE);
     }
 
-    public void boyButton(View v) {
-        userInfo.setGender(1);
+    public void boyButton() {
         dataBinding.infoMale.setBackgroundColor(Color.parseColor("#8DD0CE"));
         dataBinding.infoMale.setTextColor(Color.WHITE);
         dataBinding.infoFemale.setBackgroundColor(Color.WHITE);
