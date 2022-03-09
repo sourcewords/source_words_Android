@@ -1,5 +1,6 @@
 package com.example.sourcewords.ui.review.view;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -27,6 +28,10 @@ import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.utils.DateUtils;
 import com.example.sourcewords.utils.PreferencesUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 //TODO 习模块
 @RequiresApi(api = Build.VERSION_CODES.N)
@@ -39,7 +44,6 @@ public class ReviewFragment extends Fragment {
     private ReciteFragment reciteFragment;
     private FragmentManager fragmentManager;
 
-    private static int count = 0;
     private boolean hasInit = false;
     boolean flag = false;
 
@@ -65,8 +69,28 @@ public class ReviewFragment extends Fragment {
 
         String lastReviewDay = sharedPreferences.getString(PreferencesUtils.LAST_REVIEW_DAY, "2022-1-1");
 
+        String updateTime = "4:00";
+        String nowTime = DateUtils.getTime();
+        @SuppressLint("SimpleDateFormat")
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        Date d1 = null;
+        try {
+            d1 = sdf.parse(updateTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Date d2 = null;
+        try {
+            d2 = sdf.parse(nowTime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        assert d2 != null;
+        assert d1 != null;
+        long elapsed = d2.getTime() - d1.getTime();
+
         // 上次复习时间是之前的日期，不是今天，且当前时间大于4：00则可以认为今日没有学习词根,且没有点击过学按钮
-        if (lastReviewDay.compareTo(DateUtils.getData()) < 0 && DateUtils.getTime().compareTo("4:00") > 0) {
+        if (lastReviewDay.compareTo(DateUtils.getData()) < 0 && elapsed > 0) {
             viewModel.getLearnFlag().setValue(false);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean(PreferencesUtils.WORD_ROOT_HAVE_LEARNED, false);
@@ -88,7 +112,8 @@ public class ReviewFragment extends Fragment {
 
                 } else if (sharedPreferences.getBoolean(PreferencesUtils.CLICK_LEARAN_BUTTON, false)) {
                     initWordView(new ReciteFragment());
-                } else initNoneView();
+                } else
+                    initNoneView();
 
             }
         });

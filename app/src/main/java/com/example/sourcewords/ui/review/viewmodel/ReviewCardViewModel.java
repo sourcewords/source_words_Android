@@ -1,5 +1,6 @@
 package com.example.sourcewords.ui.review.viewmodel;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -23,7 +24,10 @@ import com.example.sourcewords.ui.review.view.reviewUtils.WordSample;
 import com.example.sourcewords.utils.DateUtils;
 import com.example.sourcewords.utils.PreferencesUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -120,7 +124,31 @@ public class ReviewCardViewModel extends AndroidViewModel {
         newLearnedCount.setValue(newLearnedWordsQueue.size());
         haveLearnedCount.setValue(haveLearnedWordsQueue.size());
         reviewCount.setValue(priorityQueue.size());
-        if(priorityQueue.isEmpty() || priorityQueue.peek().getTime().compareTo(lastLearnTime) > 0)
+
+        // 队列当前第一个单词的时间和此刻时间的差值
+        long elapsed = 0l;
+        if(!priorityQueue.isEmpty()) {
+            @SuppressLint("SimpleDateFormat")
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+            Date t1 = null;
+            try {
+                t1 = sdf.parse(lastLearnTime);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Date t2 = null;
+            try {
+                t2 = sdf.parse(priorityQueue.peek().getTime());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            assert t2 != null;
+            assert t1 != null;
+            elapsed = t2.getTime() - t1.getTime();
+            Log.d("time",lastLearnTime + " " + priorityQueue.peek().getTime());
+        }
+
+        if(priorityQueue.isEmpty() || elapsed > 0)
         if(!newLearnedWordsQueue.isEmpty()) {
             Log.d("nq", "" + newLearnedWordsQueue.size());
             wordSample = newLearnedWordsQueue.poll();

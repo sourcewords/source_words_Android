@@ -157,6 +157,7 @@ public class ReciteFragment extends Fragment {
             intent.putExtra("count",count);
 
             reviewCardViewModel.setLastLearnTime(DateUtils.getTime());
+            Log.d("lastLearnTime", DateUtils.getTime());
 
             if(status == WORD_NEW) {
                 intent.putExtra("code", WORD_NEW);

@@ -21,17 +21,18 @@ public class DateUtils {
 
     // 获得当前日期 年-月-日 格式
     public static String getData() {
-        return data.format(c.getTime());
+        return data.format(System.currentTimeMillis());
     }
 
     // 获得当前时间 时：分 格式
     public static String getTime() {
-        return time.format(c.getTime());
+        return time.format(System.currentTimeMillis());
     }
 
     // 给当前日期加时间，unit表示分钟还是日期
     public static String addTime(int value, String unit){
         Calendar calendar = new GregorianCalendar();
+        c.setTime(new Date(System.currentTimeMillis()));
         if(unit.equals("MINS")) {
             calendar.setTime(c.getTime());
             calendar.add(Calendar.MINUTE,value);
