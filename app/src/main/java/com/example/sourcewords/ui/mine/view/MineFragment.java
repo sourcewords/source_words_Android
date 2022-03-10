@@ -104,8 +104,8 @@ public class MineFragment extends Fragment {
         PlanDataResource.getInstance().getMyPlan(new Api.getPlan() {
             @Override
             public void success(PlanBean myplan) {
-                mine_progress.setText(String.valueOf(myplan.getProgress()) + "%");
-                mine_bar.setProgress(myplan.getProgress());
+//                mine_progress.setText(String.valueOf(myplan.getProgress()) + "%");
+//                mine_bar.setProgress(myplan.getProgress());
             }
 
             @Override

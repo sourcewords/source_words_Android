@@ -18,6 +18,7 @@ import com.example.sourcewords.App;
 import com.example.sourcewords.commonUtils.SPUtils;
 import com.example.sourcewords.ui.review.dataBean.SingleWord;
 import com.example.sourcewords.ui.review.dataBean.Word;
+import com.example.sourcewords.ui.review.dataBean.WordCardState;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.model.WordRepository;
 import com.example.sourcewords.ui.review.view.reviewUtils.WordSample;
@@ -276,5 +277,30 @@ public class ReviewCardViewModel extends AndroidViewModel {
 
     public void loadAllWordsToDataBase() {
         mWordRepository.loadAllWordsToDataBase(wordPool);
+    }
+
+    public void initFromDataBase(long date) {
+        WordCardState wordCardState = mWordRepository.getWordCardState(date);
+        this.newLearnedWords = wordCardState.getNewLearnedWords();
+        this.haveLearnedWords = wordCardState.getHaveLearnedWords();
+        this.reviewWords = wordCardState.getReviewWords();
+        this.newLearnedCount.setValue(wordCardState.getNewLearnedCount());
+        this.haveLearnedCount.setValue(wordCardState.getHaveLearnedCount());
+        this.reviewCount.setValue(wordCardState.getReviewCount());
+        this.wordSampleMutableLiveData.setValue(wordCardState.getWordSample());
+        this.wordPool = wordCardState.getWordPool();
+        this.lastLearnTime = wordCardState.getLastLearnTime();
+        this.historyStack = wordCardState.getHistoryStack();
+        this.priorityQueue = wordCardState.getPriorityQueue();
+        this.newLearnedWordsQueue = wordCardState.getNewLearnedWordsQueue();
+        this.haveLearnedWordsQueue = wordCardState.getHaveLearnedWordsQueue();
+    }
+
+    public void saveWordCardState(WordCardState wordCardState) {
+        mWordRepository.insertWordCardState(wordCardState);
+    }
+
+    public void deleteWordCardState() {
+        mWordRepository.deleteWordCardState();
     }
 }
