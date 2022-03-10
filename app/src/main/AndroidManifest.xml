@@ -16,6 +16,8 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.SourceWords"
+        android:hardwareAccelerated="false"
+        android:exported = "true"
         tools:targetApi="m">
 
 

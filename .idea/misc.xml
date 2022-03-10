@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.10833333333333334" />
         <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/drawable/change_wordslearned_bg.xml" value="0.1671875" />
         <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/drawable/learned_selected.xml" value="0.1671875" />
         <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/drawable/search_circle.xml" value="0.1671875" />
@@ -20,6 +21,7 @@
         <entry key="app/src/main/res/drawable/learned_normal.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/learned_selected.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/login_background.xml" value="0.23981481481481481" />
+        <entry key="app/src/main/res/drawable/login_input_frame.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/login_rectangle.xml" value="0.23981481481481481" />
         <entry key="app/src/main/res/drawable/login_select1_frame.xml" value="0.23981481481481481" />
         <entry key="app/src/main/res/drawable/login_select2_frame.xml" value="0.23981481481481481" />
