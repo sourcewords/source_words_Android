@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/mine_background"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@drawable/mine_background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +31,7 @@
                 android:id="@+id/head"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:src="@mipmap/user_profile"
+                android:src="@mipmap/head"
                 app:shapeAppearanceOverlay="@style/circleImageStyle" />
 
             <TextView
@@ -55,32 +56,81 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="8dp"
                 android:text="累计时长"
+                android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1000"
+                android:id="@+id/time_tv"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView"
+                app:layout_constraintEnd_toStartOf="@+id/textView11"
+                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintTop_toTopOf="@+id/textView" />
+
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/sign_in"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="20dp"
-                android:background="@drawable/ic_baseline_calendar_today_24"
+                android:background="@mipmap/signin"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
 
             <TextView
+                android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:text="签到"
+                android:textColor="#FFFFFF"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintStart_toEndOf="@+id/sign_in"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="30"
+                android:id="@+id/day_tv"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView8"
+                app:layout_constraintEnd_toStartOf="@+id/textView10"
+                app:layout_constraintStart_toEndOf="@+id/textView8"
+                app:layout_constraintTop_toTopOf="@+id/textView8" />
 
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="天"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView8"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView8"
+                app:layout_constraintTop_toTopOf="@+id/textView8" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="分钟"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/textView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintTop_toTopOf="@+id/textView" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
@@ -123,15 +173,16 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ProgressBar
-                    android:id="@+id/progress_bar_h"
-                    style="?android:attr/progressBarStyleHorizontal"
+                    android:id="@+id/mine_bar"
+                    style="@style/update_progress_horizontal"
                     android:layout_width="160dp"
-                    android:layout_height="30dp"
+                    android:layout_height="20dp"
                     android:layout_gravity="center"
                     android:max="100"
                     android:progress="60" />
 
                 <TextView
+                    android:id="@+id/mine_progress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -148,8 +199,8 @@
                 android:text="学习进度条"
                 android:textColor="#6CC1BF"
                 android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView11"
+                app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout2"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -165,7 +216,7 @@
                 android:layout_width="63dp"
                 android:layout_height="63dp"
                 android:layout_marginStart="16dp"
-                android:background="@mipmap/user"
+                android:background="@mipmap/addplan"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -231,7 +282,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="20dp"
-                android:background="@mipmap/user"
+                android:background="@mipmap/setting"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -241,7 +292,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:text="personal data"
                 android:textColor="#6CC1BF"
                 android:textSize="15sp"
@@ -289,10 +340,10 @@
 
             <ImageView
                 android:id="@+id/imageView41"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:background="@mipmap/user"
+                android:background="@mipmap/setting"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -301,8 +352,8 @@
                 android:id="@+id/textView41"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="10dp"
                 android:text="Help center"
                 android:textColor="#6CC1BF"
                 android:textSize="15sp"
@@ -313,8 +364,8 @@
                 android:id="@+id/textView42"
                 android:layout_width="75dp"
                 android:layout_height="27dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="3dp"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="4dp"
                 android:text="帮助中心"
                 android:textColor="#0B0B0B"
                 android:textSize="18sp"
@@ -349,10 +400,10 @@
 
             <ImageView
                 android:id="@+id/imageView51"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:background="@mipmap/user"
+                android:background="@mipmap/help"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -361,8 +412,8 @@
                 android:id="@+id/textView51"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="10dp"
                 android:text="User agreement"
                 android:textColor="#6CC1BF"
                 android:textSize="15sp"
@@ -373,7 +424,7 @@
                 android:id="@+id/textView52"
                 android:layout_width="75dp"
                 android:layout_height="27dp"
-                android:layout_marginStart="32dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="3dp"
                 android:text="用户协议"
                 android:textColor="#0B0B0B"
@@ -409,10 +460,10 @@
 
             <ImageView
                 android:id="@+id/imageView61"
-                android:layout_width="60dp"
+                android:layout_width="wrap_content"
                 android:layout_height="60dp"
                 android:layout_marginStart="20dp"
-                android:background="@mipmap/user"
+                android:background="@mipmap/set"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -421,8 +472,8 @@
                 android:id="@+id/textView61"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="38dp"
+                android:layout_marginTop="10dp"
                 android:text="Setting"
                 android:textColor="#6CC1BF"
                 android:textSize="15sp"
@@ -433,7 +484,7 @@
                 android:id="@+id/textView62"
                 android:layout_width="75dp"
                 android:layout_height="27dp"
-                android:layout_marginStart="32dp"
+                android:layout_marginStart="38dp"
                 android:layout_marginTop="3dp"
                 android:text="设置"
                 android:textColor="#0B0B0B"

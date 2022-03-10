@@ -23,8 +23,6 @@ import java.util.List;
 
 public class LearnViewModel extends AndroidViewModel {
     @SuppressLint("StaticFieldLeak")
-    private final Context mContext;
-    @SuppressLint("StaticFieldLeak")
     private final WordRootRepository rootRepository;
     private final LearnedRepository learnedRepository;
     private final MutableLiveData<Boolean> learnFlag;
@@ -38,7 +36,6 @@ public class LearnViewModel extends AndroidViewModel {
 
     public LearnViewModel(@NonNull Application application) {
         super(application);
-        this.mContext = application;
         rootRepository = new WordRootRepository();
         learnedRepository = new LearnedRepository();
         learnFlag = new MutableLiveData<>(false);
@@ -47,9 +44,6 @@ public class LearnViewModel extends AndroidViewModel {
 
     }
 
-    public void deleteFromPlan(Word word) {
-        learnedRepository.deleteWordFromPlan(word);
-    }
 
     //TODO 获取计划
     public int getPlan() {
@@ -78,6 +72,7 @@ public class LearnViewModel extends AndroidViewModel {
     //记录当前计划进行到第几天
     public int getLong(){
         SPUtils sp = SPUtils.getInstance(SPUtils.SP_LEARN_LONG);
+        Log.d("LearnPlan", String.valueOf(sp.getInt(KEY_LONG,1)));
         return sp.getInt(KEY_LONG,1);
     }
 
@@ -90,12 +85,6 @@ public class LearnViewModel extends AndroidViewModel {
     public LiveData<List<WordRoot>> getAllWordRoot(){
         return rootRepository.getAllWordRoots();
     }
-/*
-    public void initPlanRepository(List<WordRoot> list,int level){
-        learnedRepository.initPlan(list,level);
-    }
-
- */
 
     public void updateRoot(int root_id) {
         rootRepository.learnedTodayRoot(root_id);
@@ -153,17 +142,6 @@ public class LearnViewModel extends AndroidViewModel {
         int hour = t.hour;
         Log.d("Time Now",day + "时间" + hour);
         return hour < 4 ? day - 1 : day;
-    }
-
-
-    public List<Word> getLevelList(List<Word> list,int level){
-        List<Word> ans = new ArrayList<>();
-        for(Word word : list){
-            if(word.getWord_info().getExam_grading().get(level)){
-                ans.add(word);
-            }
-        }
-        return ans;
     }
 
     public void whatILearnedToday(List<Integer> ids){
