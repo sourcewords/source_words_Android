@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.MediaController;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
+import com.example.sourcewords.ui.learn.viewModel.RollInterface;
 import com.example.sourcewords.ui.learn.viewModel.WordsAdapter;
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
@@ -40,38 +42,21 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
     private VideoView videoView;
     private LearnViewModel viewModel;
     private AppCompatTextView textView_wordRoot, textView_meaning, textView_source;
-    private AppCompatButton button_learned;
+    private AppCompatButton button_learned ,button_next, button_perform;
+    private RollInterface rollInterface;
     private WordsAdapter adapter;
-    private static List<Integer> list = new ArrayList<>();
-    private static final String Param = "LearnRootFragment";
+    private List<Integer> list = new ArrayList<>();
+    private final String Param = "LearnRootFragment";
 
-    public static Fragment newInstance(int id){
-        Fragment fragment = new LearnFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(Param,id);
-        fragment.setArguments(bundle);
-        return fragment;
+    public LearnWordRootFragment (int id){
+        root_id = id;
     }
-
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         @SuppressLint("InflateParams") View v = inflater.inflate(R.layout.fragment_learn, null);
         viewModel = ViewModelProviders.of(this.getActivity()).get(LearnViewModel.class);
-        ReviewCardViewModel reviewCardViewModel = ViewModelProviders.of(this).get(ReviewCardViewModel.class);
-        reviewCardViewModel.getAllWord().observe(getViewLifecycleOwner(), words -> {
-            assert words != null;
-            Log.d("initDataab", "" + words.size());
-        });
-
-        Bundle bundle = getArguments();
-        assert bundle != null;
-        root_id = bundle.getInt(Param,0);
-
-        reviewCardViewModel.getAllWordRoot().observe(getViewLifecycleOwner(), wordRoots -> Log.d("initDataa", "" + wordRoots.size()));
-        reviewCardViewModel.getAllSingleWord().observe(getViewLifecycleOwner()
-                , singleWords -> Log.d("initDatac", "" + singleWords.size()));
         initView(v);
         return v;
     }
@@ -96,12 +81,16 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
         initButton(v);
         viewModel.getNowDay().setValue(viewModel.getNow());
         imageButton.setOnClickListener(this);
+        button_next = v.findViewById(R.id.learn_next);
+        button_next.setOnClickListener(this);
+        button_perform = v.findViewById(R.id.learn_per);
+        button_perform.setOnClickListener(this);
     }
 
     private void initButton(View v) {
         button_learned = v.findViewById(R.id.learn_AllLearned);
         button_learned.setOnClickListener(this);
-        if (viewModel.getSaveFlag()) {
+        if (viewModel.getLong() > root_id) {
             button_learned.setClickable(false);
             changeButtonUI();
         }
@@ -124,12 +113,17 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.learn_AllLearned:
-                changeButtonUI();
-                viewModel.saveFlag(true);
-                viewModel.getLearnFlag().setValue(true);
-                button_learned.setClickable(false);
-                //通知后端
-                viewModel.whatILearnedToday(list);
+
+                //if(viewModel.getLong() == root_id ) {
+                    changeButtonUI();
+                    viewModel.saveFlag(true);
+                    viewModel.getLearnFlag().setValue(true);
+                    button_learned.setClickable(false);
+                    viewModel.saveLong(viewModel.getLong() + 1);
+                    viewModel.whatILearnedToday(list);
+                //}else{
+                //    Toast.makeText(getContext(), "您还没学到这个", Toast.LENGTH_SHORT).show();
+                //}
                 break;
             case R.id.learn_searcher:
                 Intent intent = new Intent(getActivity(), LearnSearchActivity.class);
@@ -140,6 +134,12 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
                     videoView.pause();
                 else
                     videoView.start();
+                break;
+            case R.id.learn_per:
+                rollInterface.perform();
+                break;
+            case R.id.learn_next:
+                rollInterface.next();
                 break;
         }
 
@@ -165,30 +165,6 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
                 adapter.notifyDataSetChanged();
             }
         });
-    }
-
-
-    @Override
-    //TODO 更新存储的系统时间
-    public void onResume() {
-        super.onResume();
-        if (!viewModel.isToday()) {
-            //更新操作
-            if(viewModel.getSaveFlag()){
-                viewModel.saveLong(viewModel.getLong() + 1);
-            }
-            viewModel.getLearnFlag().setValue(false);
-            viewModel.saveFlag(false);
-            viewModel.saveTime();
-            refresh();
-        }
-    }
-
-    //TODO 记录离开时间
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        viewModel.saveTime();
     }
 
     public void refresh() {
@@ -222,5 +198,9 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
         SpannableStringBuilder ans = new SpannableStringBuilder(s);
         ans.setSpan(new ForegroundColorSpan(Color.parseColor("#64BEBC")),0,len, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
         return ans;
+    }
+
+    public void setRollCallBack(LearnFragment fragment){
+        rollInterface = fragment;
     }
 }

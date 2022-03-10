@@ -34,8 +34,9 @@ public final class SPUtils {
     public static final String SP_CONFIG="sp_config";
     public static final String SP_DOWNLOAD="sp_file_download";
     public static final String SP_TIME = "sp_time_last";//记录上次登录的时间
-    public static final String SP_LEARN_TODAT = "sp_learn_today";
+    public static final String SP_LEARN_TODAY = "sp_learn_today";
     public static final String SP_LEARN_PLAN = "sp_learn_plan";
+    public static final String SP_LEARN_YESTERDAY = "sp_learn_plan_yesterday";
     public static final String SP_LEARN_LONG = "sp_learn_long";
 
 

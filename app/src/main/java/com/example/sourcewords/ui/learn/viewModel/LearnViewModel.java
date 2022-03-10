@@ -31,7 +31,8 @@ public class LearnViewModel extends AndroidViewModel {
     private final static String KEY_PLAN = "key_plan";
     private final static String KEY_LEARNED = "key_wordroot_learned";
     private final static String KEY_LONG = "key_long";
-    private final static String KEY_TIME = "key_today_time";
+    private final static String KEY_TIME = "key_today_time";//记录登录时间
+    private final static String KEY_YESTERDAY  = "key_yesterday";//记录昨天学的最后一个词根
 
 
     public LearnViewModel(@NonNull Application application) {
@@ -45,7 +46,7 @@ public class LearnViewModel extends AndroidViewModel {
     }
 
 
-    //TODO 获取计划
+    //TODO 获取计划的等级，如4级
     public int getPlan() {
         SPUtils sp = SPUtils.getInstance(SPUtils.SP_LEARN_PLAN);
         return sp.getInt(KEY_PLAN, 1);
@@ -54,6 +55,16 @@ public class LearnViewModel extends AndroidViewModel {
     public void savePlan(int level){
         SPUtils sp = SPUtils.getInstance(SPUtils.SP_LEARN_PLAN);
         sp.put(KEY_PLAN,level);
+    }
+
+    public int getYesterdayPlan(){
+        SPUtils sp = SPUtils.getInstance(SPUtils.SP_LEARN_YESTERDAY);
+        return sp.getInt(KEY_YESTERDAY,0);
+    }
+
+    public void saveYesterday(int yesterday){
+        SPUtils sp = SPUtils.getInstance(SPUtils.SP_LEARN_YESTERDAY);
+        sp.put(KEY_YESTERDAY, yesterday);
     }
 
     public MutableLiveData<Integer> getNowPlan() {
@@ -69,14 +80,14 @@ public class LearnViewModel extends AndroidViewModel {
     }
 
 
-    //记录当前计划进行到第几天
+    //TODO获取当前学到的词根的id
     public int getLong(){
         SPUtils sp = SPUtils.getInstance(SPUtils.SP_LEARN_LONG);
         Log.d("LearnPlan", String.valueOf(sp.getInt(KEY_LONG,1)));
         return sp.getInt(KEY_LONG,1);
     }
 
-    //获取记录
+    //储存当前学过的词根id
     public void saveLong(int Long){
         SPUtils sp = SPUtils.getInstance(SPUtils.SP_LEARN_LONG);
         sp.put(KEY_LONG,Long);
@@ -107,13 +118,14 @@ public class LearnViewModel extends AndroidViewModel {
         return rootRepository.getRootById(id);
     }
 
+    //是否今天是否学过
     public void saveFlag(boolean isLearned) {
-        SPUtils sp = SPUtils.getInstance(SPUtils.SP_LEARN_TODAT);
+        SPUtils sp = SPUtils.getInstance(SPUtils.SP_LEARN_TODAY);
         sp.put(KEY_LEARNED, isLearned);
     }
 
     public boolean getSaveFlag() {
-        return SPUtils.getInstance(SPUtils.SP_LEARN_TODAT).getBoolean(KEY_LEARNED);
+        return SPUtils.getInstance(SPUtils.SP_LEARN_TODAY).getBoolean(KEY_LEARNED);
     }
 
     public boolean isToday(){
@@ -122,14 +134,15 @@ public class LearnViewModel extends AndroidViewModel {
 
     }
 
-    private int getSaveDay(){
+    public int getSaveDay(){
+        //获取存储的时间
         SPUtils sp = SPUtils.getInstance(SPUtils.SP_TIME);
         return sp.getInt(KEY_TIME);
     }
 
 
     public void saveTime() {
-        //获取存储的时间
+        //存储当前的时间
         SPUtils sp = SPUtils.getInstance(SPUtils.SP_TIME);
         sp.put(KEY_TIME, getNow());
     }
