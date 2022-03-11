@@ -1,6 +1,5 @@
 package com.example.sourcewords.ui.learn.view;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +17,7 @@ import com.example.sourcewords.R;
 public class Loading extends View {
     private Paint paint;
     private float mHeight , mWidth;
+
     public Loading(Context context) {
         super(context);
         init();
@@ -41,7 +41,6 @@ public class Loading extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        //canvas.drawColor(Color.MAGENTA);
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
         Matrix matrix = new Matrix();
         canvas.drawBitmap(bitmap,matrix,paint);

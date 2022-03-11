@@ -23,7 +23,6 @@ import java.util.List;
 public class LearnViewModel extends AndroidViewModel {
     @SuppressLint("StaticFieldLeak")
     private final WordRootRepository rootRepository;
-    private final LearnedRepository learnedRepository;
     private final MutableLiveData<Boolean> learnFlag;
     private final MutableLiveData<Integer> nowDay;//记录现在是所在年份的第几天
     private final MutableLiveData<Integer> nowPlan;
@@ -38,7 +37,6 @@ public class LearnViewModel extends AndroidViewModel {
     public LearnViewModel(@NonNull Application application) {
         super(application);
         rootRepository = new WordRootRepository();
-        learnedRepository = new LearnedRepository();
         learnFlag = new MutableLiveData<>(false);
         nowDay = new MutableLiveData<>();
         nowPlan = new MutableLiveData<>(1);

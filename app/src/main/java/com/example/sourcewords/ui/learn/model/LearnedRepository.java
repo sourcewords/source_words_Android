@@ -41,9 +41,6 @@ public class LearnedRepository {
         return dao.getWordsByRootID(root_id);
     }
 
-
-
-
     public boolean isSamePlan(int level) {
         return level == getPlan();
     }
