@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import androidx.viewpager.widget.PagerAdapter;
@@ -20,6 +21,7 @@ import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.ui.learn.viewModel.RollInterface;
 import com.example.sourcewords.ui.main.MainViewPageAdapter;
 
+import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
 
 
@@ -33,6 +35,7 @@ public class LearnFragment extends Fragment implements RollInterface {
     private LearnViewModel viewModel;
     private MainViewPageAdapter adapter;
     private ViewPager viewPager;
+    private static int size;
 
     @NonNull
     @Override
@@ -74,31 +77,35 @@ public class LearnFragment extends Fragment implements RollInterface {
             }
         });
         viewPager.setCurrentItem(index);
+        //search();
     }
 
     private List<Fragment> initFragmentList() {
-        int today = viewModel.getSaveDay();
-        int yesterday = viewModel.getYesterdayPlan();
+        int date = viewModel.HowLongPlan();
         List<Fragment> ans = new ArrayList<>();
-        /*
-        for (int i = yesterday + 1; i <= today + 5; i++) {
-            LearnWordRootFragment fragment = LearnWordRootFragment.newInstance(i);
+        for (int i = 1; i <= 5; i++) {
+            LearnWordRootFragment fragment = LearnWordRootFragment.newInstance(i + date*5);
             fragment.setRollCallBack(this);
             ans.add(fragment);
-        }*/
+        }
+        size = ans.size();
+
+        /*
         Random random = new Random();
         for(int i = 1; i <= 10 ;i++){
             LearnWordRootFragment fragment = new LearnWordRootFragment(i * (random.nextInt(5) + 1));
             fragment.setRollCallBack(this);
             ans.add(fragment);
         }
+
+         */
         return ans;
     }
 
     //TODO 向后翻页
     @Override
     public void next() {
-        if(index < 10)
+        if(index < size - 1)
             viewPager.setCurrentItem(++index);
         else
             Toast.makeText(getContext(),"您已经完成今天的任务了!下班吧",Toast.LENGTH_SHORT).show();
@@ -119,10 +126,8 @@ public class LearnFragment extends Fragment implements RollInterface {
         super.onResume();
         if (!viewModel.isToday()) {
             //更新操作
-            int yesterday = viewModel.getSaveDay();
-            viewModel.saveYesterday(yesterday);
             ////TODO 进过算法处理，储存当天的进度
-            viewModel.saveLong(yesterday+1);
+            viewModel.saveLong(viewModel.HowLongPlan()*5 +1);
             viewModel.getLearnFlag().setValue(false);
             viewModel.saveFlag(false);
             viewModel.saveTime();
@@ -142,5 +147,22 @@ public class LearnFragment extends Fragment implements RollInterface {
         super.onDestroy();
         viewModel.saveTime();
     }
+
+    /*y应某个**的要求写的
+    public void search(){
+        viewModel.getAll().observe(getViewLifecycleOwner(), new Observer<List<WordRoot>>() {
+            @Override
+            public void onChanged(List<WordRoot> list) {
+                for(WordRoot root : list){
+                    Log.d("today","........");
+                    if(root.getVideo_url().length() != 0){
+                        Log.d("视频", String.valueOf(root.getId()));
+                    }
+                }
+            }
+        });
+    }
+
+     */
 
 }

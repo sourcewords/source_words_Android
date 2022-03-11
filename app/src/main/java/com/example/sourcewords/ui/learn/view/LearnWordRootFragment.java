@@ -46,10 +46,14 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
     private RollInterface rollInterface;
     private WordsAdapter adapter;
     private List<Integer> list = new ArrayList<>();
-    private final String Param = "LearnRootFragment";
+    private static final String Param = "LearnRootFragment";
 
-    public LearnWordRootFragment (int id){
-        root_id = id;
+    public static LearnWordRootFragment newInstance(int id){
+        LearnWordRootFragment fragment = new LearnWordRootFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(Param,id);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Nullable
@@ -58,6 +62,8 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
         @SuppressLint("InflateParams") View v = inflater.inflate(R.layout.fragment_learn, null);
         viewModel = ViewModelProviders.of(this.getActivity()).get(LearnViewModel.class);
         initView(v);
+        Bundle bundle = getArguments();
+        root_id = bundle.getInt(Param,0);
         return v;
     }
 
@@ -113,17 +119,16 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.learn_AllLearned:
-
-                //if(viewModel.getLong() == root_id ) {
+                if(viewModel.getLong() == root_id ) {
                     changeButtonUI();
                     viewModel.saveFlag(true);
                     viewModel.getLearnFlag().setValue(true);
                     button_learned.setClickable(false);
                     viewModel.saveLong(viewModel.getLong() + 1);
                     viewModel.whatILearnedToday(list);
-                //}else{
-                //    Toast.makeText(getContext(), "您还没学到这个", Toast.LENGTH_SHORT).show();
-                //}
+                }else{
+                    Toast.makeText(getContext(), "您还没学到这个", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.learn_searcher:
                 Intent intent = new Intent(getActivity(), LearnSearchActivity.class);
