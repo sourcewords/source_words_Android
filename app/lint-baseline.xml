@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<issues format="6" by="lint 7.1.2" type="baseline" client="gradle" dependencies="false" name="AGP (7.1.2)" variant="fatal" version="7.1.2">
+
+    <issue
+        id="UnknownId"
+        message="The id &quot;`imageButton`&quot; is not defined anywhere."
+        errorLine1="                app:layout_constraintTop_toBottomOf=&quot;@+id/imageButton&quot;"
+        errorLine2="                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/layout/activity_userinfo.xml"
+            line="72"
+            column="17"/>
+    </issue>
+
+</issues>
