@@ -1,10 +1,13 @@
-package com.example.sourcewords.ui.mine.model.databean;
+package com.example.sourcewords.ui.mine.model;
+
+import com.example.sourcewords.ui.login.model.UserWrapper;
+import com.example.sourcewords.ui.login.model.respository.LoginRemoteRespository;
 
 public class PasswordDataSource {
 
     private static PasswordDataSource INSTANCE;
 
-    private final String token = UserWrapper.getInstance().getToken();
+    private final String token = LoginRemoteRespository.getINSTANCE().getToken();
 
     public static PasswordDataSource getInstance() {
         if(INSTANCE == null){
@@ -19,5 +22,8 @@ public class PasswordDataSource {
 
     private PasswordDataSource (){}
 
-    public void getPwd(){}
+    public String getPwd(){
+        assert UserWrapper.getInstance().getUser() != null;
+        return UserWrapper.getInstance().getUser().getPassword();
+    }
 }

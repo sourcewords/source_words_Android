@@ -3,6 +3,8 @@ package com.example.sourcewords.ui.learn.viewModel;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
+import android.text.format.Time;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -14,7 +16,9 @@ import com.example.sourcewords.ui.learn.model.LearnedRepository;
 import com.example.sourcewords.ui.learn.model.WordRootRepository;
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
+import com.example.sourcewords.utils.PreferencesUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -30,6 +34,7 @@ public class LearnViewModel extends AndroidViewModel {
     private final static String KEY_PLAN = "key_plan";
     private final static String KEY_LEARNED = "key_wordroot_learned";
     private final static String KEY_LONG = "key_long";
+    private final static String KEY_TIME = "key_today_time";
 
 
     public LearnViewModel(@NonNull Application application) {
@@ -90,10 +95,12 @@ public class LearnViewModel extends AndroidViewModel {
     public LiveData<List<WordRoot>> getAllWordRoot(){
         return rootRepository.getAllWordRoots();
     }
-
+/*
     public void initPlanRepository(List<WordRoot> list,int level){
         learnedRepository.initPlan(list,level);
     }
+
+ */
 
     public void updateRoot(int root_id) {
         rootRepository.learnedTodayRoot(root_id);
@@ -108,7 +115,23 @@ public class LearnViewModel extends AndroidViewModel {
     }
 
     public LiveData<WordRoot> getWordRootById(int Id) {
+//<<<<<<< HEAD
+//        return repository.getWordRootById(Id);
+//    }
+//    public void saveWhatLearnedToday(int id){
+//        SharedPreferences sharedPreferences = mContext.getSharedPreferences(LEARNWORDID, Context.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putInt(ID,id);
+//        editor.apply();
+//
+//        SharedPreferences sharedPreferences1 = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
+//        SharedPreferences.Editor editor1 = sharedPreferences1.edit();
+//        editor1.putInt(PreferencesUtils.WORD_ROOT_TODAY, id);
+//        editor1.commit();
+//
+//=======
         return rootRepository.getWordRootById(Id);
+//>>>>>>> master
     }
 
 
@@ -123,6 +146,49 @@ public class LearnViewModel extends AndroidViewModel {
 
     public boolean getSaveFlag() {
         return SPUtils.getInstance(SPUtils.SP_LEARN_TODAT).getBoolean(KEY_LEARNED);
+    }
+
+    public boolean isToday(){
+        Log.d("isToday","现在时间为" + getNow() +"储存的时间是" + getSaveFlag());
+        return getNow() == getSaveDay();
+
+    }
+
+    private int getSaveDay(){
+        SPUtils sp = SPUtils.getInstance(SPUtils.SP_TIME);
+        return sp.getInt(KEY_TIME);
+    }
+
+
+    public void saveTime() {
+        //获取存储的时间
+        SPUtils sp = SPUtils.getInstance(SPUtils.SP_TIME);
+        sp.put(KEY_TIME, getNow());
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    public int getNow() {
+        Time t = new Time();
+        t.setToNow();
+        int day = t.monthDay;
+        int hour = t.hour;
+        Log.d("Time Now",day + "时间" + hour);
+        return hour < 4 ? day - 1 : day;
+    }
+
+
+    public List<Word> getLevelList(List<Word> list,int level){
+        List<Word> ans = new ArrayList<>();
+        for(Word word : list){
+            if(word.getWord_info().getExam_grading().get(level)){
+                ans.add(word);
+            }
+        }
+        return ans;
+    }
+
+    public void whatILearnedToday(List<Integer> ids){
+        rootRepository.whatILearnedToday(ids);
     }
 
 }

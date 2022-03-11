@@ -25,13 +25,19 @@ import java.util.List;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class WordRepository {
-    private WordRootDao dao;
+    private final WordRootDao dao;
 
-    private WordDao wordDao;
+    private final WordDao wordDao;
     private LiveData<List<Word>> allWords;
 
     private SingleWordDao singleWordDao;
     private LiveData<List<SingleWord>> allSingleWord;
+
+    public static void initialize() {
+        WordRootDatabase.getDatabase();
+        WordDatabase.getDatabase();
+        SingleWordDatabase.getDatabase();
+    }
 
     public WordRepository() {
         WordRootDatabase db = WordRootDatabase.getDatabase();
@@ -106,10 +112,11 @@ public class WordRepository {
     }
 
 
-    public List<Word> getNewWords(int woodRootId) {
-        if(woodRootId == 0) return new ArrayList<>();
+    public List<Word> getNewWords(int wordRootId) {
+        if(wordRootId == 0) return new ArrayList<>();
+        WordRoot wordRoot = getWordRootByID(wordRootId);
+        Log.d("preferencesWord", wordRoot.getWordlist().size() + "");
 
-        WordRoot wordRoot = getWordRootByID(woodRootId);
         return wordRoot.getWordlist();
     }
 

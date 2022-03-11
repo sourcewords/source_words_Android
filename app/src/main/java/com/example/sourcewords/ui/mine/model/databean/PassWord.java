@@ -3,7 +3,7 @@ package com.example.sourcewords.ui.mine.model.databean;
 import androidx.databinding.BaseObservable;
 import androidx.databinding.Bindable;
 
-//import com.example.sourcewords.BR;
+import com.example.sourcewords.BR;
 
 public class PassWord extends BaseObservable {
 
@@ -14,7 +14,7 @@ public class PassWord extends BaseObservable {
 
     public void setOldPwd(String oldPwd) {
         this.oldPwd = oldPwd;
-//        notifyPropertyChanged(BR.oldPwd);
+        notifyPropertyChanged(BR.oldPwd);
     }
     @Bindable
     public String getNewPwd() {
@@ -23,7 +23,7 @@ public class PassWord extends BaseObservable {
 
     public void setNewPwd(String newPwd) {
         this.newPwd = newPwd;
-//        notifyPropertyChanged(BR.newPwd);
+        notifyPropertyChanged(BR.newPwd);
     }
     @Bindable
     public String getAgainPwd() {
@@ -32,7 +32,7 @@ public class PassWord extends BaseObservable {
 
     public void setAgainPwd(String againPwd) {
         this.againPwd = againPwd;
-  //      notifyPropertyChanged(BR.againPwd);
+        notifyPropertyChanged(BR.againPwd);
     }
 
     private String oldPwd, newPwd,againPwd;

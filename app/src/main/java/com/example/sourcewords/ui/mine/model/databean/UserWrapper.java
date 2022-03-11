@@ -10,7 +10,7 @@ public class UserWrapper {
 
     private User user;
     private SPUtils spUtils;
-    private static UserWrapper instance = new UserWrapper();
+    private static UserWrapper INSTANCE = new UserWrapper();
     private Encryption encryption;
     private UserWrapper(){
         spUtils = SPUtils.getInstance(SPUtils.SP_CONFIG);
@@ -33,7 +33,7 @@ public class UserWrapper {
     }
 
     public static UserWrapper getInstance(){
-        return instance;
+        return INSTANCE;
     }
 
     public String getName(){
@@ -41,6 +41,13 @@ public class UserWrapper {
             return "";
         }
         return user.getName();
+    }
+
+    public String getPwd(){
+        if(user == null){
+            return "";
+        }
+        return user.getPassword();
     }
 
     @Nullable

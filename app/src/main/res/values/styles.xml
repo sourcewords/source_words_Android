@@ -10,10 +10,22 @@
         <item name="colorControlActivated">#9B99F3</item>
     </style>
 
+    <!--Floating label text style-->
+    <style name="UserHintText">
+        <item name="colorControlNormal">#64BEBC</item>
+        <item name="colorControlActivated">#64BEBC</item>
+        <item name="colorControlHighlight">#64BEBC</item>
+        <item name="android:textColor">#252629</item>
+        <item name="android:textColorHint">@color/black</item>
+    </style>
+
+    <!--Input field style-->
     <style name="UserEditText" parent="Theme.AppCompat.Light">
         <item name="colorControlNormal">#64BEBC</item>
         <item name="colorControlActivated">#64BEBC</item>
+        <item name="android:textSize">18sp</item>
     </style>
+
 
     <style name="update_progress_horizontal" parent="Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:indeterminateOnly">false</item>

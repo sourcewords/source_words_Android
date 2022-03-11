@@ -1,6 +1,5 @@
 package com.example.sourcewords.commonUtils;
 
-
 import android.os.Build;
 import android.security.KeyPairGeneratorSpec;
 import android.security.keystore.KeyGenParameterSpec;
@@ -49,8 +48,6 @@ public class Encryption {
 
     public Encryption() {
         spUtils = SPUtils.getInstance(SP_ENCRYPTION);
-
-
     }
 
 

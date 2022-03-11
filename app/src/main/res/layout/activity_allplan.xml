@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0F0F0">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="#FFFFFF"
+        android:paddingTop="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageButton
+            android:id="@+id/all_back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="15dp"
+            android:background="@drawable/ic_baseline_arrow_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="可添加计划"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="#64BEBC"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <TextView
+        android:id="@+id/start_plan"
+        android:layout_width="70dp"
+        android:layout_height="25dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/shape_rectangle"
+        android:text="可添加"
+        android:textColor="#FFFFFF"
+        android:gravity="center"
+        android:textSize="10sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        app:backgroundTint="#9CDFDD"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/myplan_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/start_plan"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/myplan"
+        android:layout_width="70dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/shape_rectangle"
+        android:gravity="center"
+        android:text="已添加"
+        android:textColor="#FFFFFF"
+        android:textSize="10sp"
+        app:backgroundTint="#9CDFDD"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myplan_rv" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/allplan_rv_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_rectangle"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myplan">
+
+        <ImageView
+            android:id="@+id/plan_pic"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="20dp"
+            android:background="@mipmap/cet4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/plan_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:text="四级单词"
+            android:textColor="#8DD0CE"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/plan_pic"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/least_time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="倒计时： 天"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/plan_name"
+            app:layout_constraintTop_toBottomOf="@+id/plan_name" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/b_e_time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="起止日期：00.00~00.00"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="@+id/least_time_tv"
+            app:layout_constraintTop_toBottomOf="@+id/least_time_tv" />
+
+        <ProgressBar
+            android:id="@+id/plan_progress_bar"
+            style="@style/update_progress_horizontal"
+            android:layout_width="162dp"
+            android:layout_height="19dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="7dp"
+            android:max="100"
+            android:progress="60"
+            app:layout_constraintStart_toEndOf="@+id/plan_pic"
+            app:layout_constraintTop_toBottomOf="@+id/b_e_time_tv" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/plan_progress_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="80%"
+            android:textColor="#8DD0CE"
+            app:layout_constraintBottom_toBottomOf="@+id/plan_progress_bar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/plan_progress_bar"
+            app:layout_constraintTop_toTopOf="@+id/plan_progress_bar" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
