@@ -5,6 +5,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import com.example.sourcewords.ui.review.view.reviewUtils.WordSample;
+import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,9 +16,12 @@ import java.util.Stack;
 @Entity(tableName = "word_card_state")
 public class WordCardState {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "ID")
+    private long id;
+
     @ColumnInfo(name = "date")
-    private long date;
+    private String date;
 
     @ColumnInfo(name = "new_learned_words")
     private List<Word> newLearnedWords;
@@ -58,7 +62,7 @@ public class WordCardState {
     @ColumnInfo(name = "have_learned_words_queue")
     private Queue<WordSample> haveLearnedWordsQueue;
 
-    public WordCardState(long date, List<Word> newLearnedWords, List<Word> haveLearnedWords, List<Word> reviewWords, int newLearnedCount, int haveLearnedCount, int reviewCount, WordSample wordSample, HashMap<Integer, WordSample> wordPool, String lastLearnTime, Stack<WordSample> historyStack, PriorityQueue<WordSample> priorityQueue, Queue<WordSample> newLearnedWordsQueue, Queue<WordSample> haveLearnedWordsQueue) {
+    public WordCardState(String date, List<Word> newLearnedWords, List<Word> haveLearnedWords, List<Word> reviewWords, int newLearnedCount, int haveLearnedCount, int reviewCount, WordSample wordSample, HashMap<Integer, WordSample> wordPool, String lastLearnTime, Stack<WordSample> historyStack, PriorityQueue<WordSample> priorityQueue, Queue<WordSample> newLearnedWordsQueue, Queue<WordSample> haveLearnedWordsQueue) {
         this.date = date;
         this.newLearnedWords = newLearnedWords;
         this.haveLearnedWords = haveLearnedWords;
@@ -75,12 +79,20 @@ public class WordCardState {
         this.haveLearnedWordsQueue = haveLearnedWordsQueue;
     }
 
-    public long getDate() {
-        return date;
+    public long getId() {
+        return id;
     }
 
-    public void setDate(long date) {
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public List<Word> getNewLearnedWords() {

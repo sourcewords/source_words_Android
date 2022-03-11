@@ -65,7 +65,7 @@ public class WordRepository {
         wordCardStateDao.Insert(wordCardStates);
     }
 
-    public WordCardState getWordCardState(long date) {
+    public WordCardState getWordCardState(String date) {
         return wordCardStateDao.Search(date);
     }
 

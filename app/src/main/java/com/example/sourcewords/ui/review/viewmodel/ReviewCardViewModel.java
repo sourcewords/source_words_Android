@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -13,6 +14,8 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.SavedStateHandle;
+import androidx.savedstate.SavedStateRegistry;
 
 import com.example.sourcewords.App;
 import com.example.sourcewords.commonUtils.SPUtils;
@@ -61,6 +64,51 @@ public class ReviewCardViewModel extends AndroidViewModel {
     private Queue<WordSample> haveLearnedWordsQueue;
 
 
+    public List<Word> getNewLearnedWords() {
+        return newLearnedWords;
+    }
+
+    public void setNewLearnedWords(List<Word> newLearnedWords) {
+        this.newLearnedWords = newLearnedWords;
+    }
+
+    public List<Word> getHaveLearnedWords() {
+        return haveLearnedWords;
+    }
+
+    public void setHaveLearnedWords(List<Word> haveLearnedWords) {
+        this.haveLearnedWords = haveLearnedWords;
+    }
+
+    public List<Word> getReviewWords() {
+        return reviewWords;
+    }
+
+    public void setReviewWords(List<Word> reviewWords) {
+        this.reviewWords = reviewWords;
+    }
+
+    public void setNewLearnedCount(MutableLiveData<Integer> newLearnedCount) {
+        this.newLearnedCount = newLearnedCount;
+    }
+
+    public void setHaveLearnedCount(MutableLiveData<Integer> haveLearnedCount) {
+        this.haveLearnedCount = haveLearnedCount;
+    }
+
+    public void setReviewCount(MutableLiveData<Integer> reviewCount) {
+        this.reviewCount = reviewCount;
+    }
+
+    public MutableLiveData<WordSample> getWordSampleMutableLiveData() {
+        return wordSampleMutableLiveData;
+    }
+
+    public void setWordSampleMutableLiveData(MutableLiveData<WordSample> wordSampleMutableLiveData) {
+        this.wordSampleMutableLiveData = wordSampleMutableLiveData;
+    }
+
+
     public Queue<WordSample> getNewLearnedWordsQueue() {
         return newLearnedWordsQueue;
     }
@@ -91,7 +139,7 @@ public class ReviewCardViewModel extends AndroidViewModel {
         int rootId = sharedPreferences.getInt(PreferencesUtils.WORD_ROOT_TODAY, 0);
         Log.d("preferences", "" + rootId);
         newLearnedWords = mWordRepository.getNewWords(rootId);
-        haveLearnedWords = mWordRepository.getLearnedWords(DateUtils.getData());
+        haveLearnedWords = mWordRepository.getLearnedWords(DateUtils.getDate());
         reviewWords = new ArrayList<>(0);
 
         newLearnedCount = new MutableLiveData<>(newLearnedWords.size());
@@ -279,8 +327,9 @@ public class ReviewCardViewModel extends AndroidViewModel {
         mWordRepository.loadAllWordsToDataBase(wordPool);
     }
 
-    public void initFromDataBase(long date) {
+    public void initFromDataBase(String date) {
         WordCardState wordCardState = mWordRepository.getWordCardState(date);
+        if(wordCardState == null) return;
         this.newLearnedWords = wordCardState.getNewLearnedWords();
         this.haveLearnedWords = wordCardState.getHaveLearnedWords();
         this.reviewWords = wordCardState.getReviewWords();

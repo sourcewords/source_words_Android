@@ -18,5 +18,5 @@ public interface WordCardStateDao {
     void Delete();
 
     @Query("SELECT * FROM word_card_state WHERE date like :date")
-    WordCardState Search(long date);
+    WordCardState Search(String date);
 }

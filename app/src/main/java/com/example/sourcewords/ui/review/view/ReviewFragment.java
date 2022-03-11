@@ -71,30 +71,15 @@ public class ReviewFragment extends Fragment {
 
         String updateTime = "4:00";
         String nowTime = DateUtils.getTime();
-        @SuppressLint("SimpleDateFormat")
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        Date d1 = null;
-        try {
-            d1 = sdf.parse(updateTime);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        Date d2 = null;
-        try {
-            d2 = sdf.parse(nowTime);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        assert d2 != null;
-        assert d1 != null;
-        long elapsed = d2.getTime() - d1.getTime();
+
 
         // 上次复习时间是之前的日期，不是今天，且当前时间大于4：00则可以认为今日没有学习词根,且没有点击过学按钮
-        if (lastReviewDay.compareTo(DateUtils.getData()) < 0 && elapsed > 0) {
+        if (DateUtils.compareDate(lastReviewDay, DateUtils.getDate()) > 0 && DateUtils.compareTime(updateTime,nowTime) > 0) {
             viewModel.getLearnFlag().setValue(false);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putBoolean(PreferencesUtils.WORD_ROOT_HAVE_LEARNED, false);
             editor.putBoolean(PreferencesUtils.CLICK_LEARAN_BUTTON, false);
+            editor.putString(PreferencesUtils.LAST_REVIEW_DAY, DateUtils.getDate());
             editor.commit();
         }
         flag = sharedPreferences.getBoolean(PreferencesUtils.WORD_ROOT_HAVE_LEARNED, false);
@@ -111,7 +96,7 @@ public class ReviewFragment extends Fragment {
                     initWordView(reciteFragment);
 
                 } else if (sharedPreferences.getBoolean(PreferencesUtils.CLICK_LEARAN_BUTTON, false)) {
-                    initWordView(new ReciteFragment());
+                    initWordView(reciteFragment);
                 } else
                     initNoneView();
 
@@ -146,5 +131,12 @@ public class ReviewFragment extends Fragment {
         }
         fragmentManager.beginTransaction().add(R.id.review_container, reciteFragment, "ReciteFragment")
                 .commit();
+    }
+
+    @Override
+    public void onDestroy() {
+        fragmentManager.beginTransaction().remove(noneFragment);
+        fragmentManager.beginTransaction().remove(reciteFragment);
+        super.onDestroy();
     }
 }
