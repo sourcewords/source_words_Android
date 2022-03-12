@@ -7,9 +7,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+
 import com.example.sourcewords.R;
 import com.example.sourcewords.commonUtils.SPUtils;
 import com.example.sourcewords.databinding.ActivityUserinfoBinding;
@@ -24,13 +26,13 @@ public class UserInfoActivity extends AppCompatActivity {
     private UserInfoViewModel userInfoViewModel;
     private ActivityUserinfoBinding dataBinding;
     private UserInfo userInfo = new UserInfo();
-    private ImageButton back;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_userinfo);
         userInfoViewModel = new UserInfoViewModel();
+        ImageButton back = findViewById(R.id.info_back);
         dataBinding.setLifecycleOwner(this);
         dataBinding.setUserInfoViewModel(userInfoViewModel);
 
@@ -39,7 +41,8 @@ public class UserInfoActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        dataBinding.commit.setOnClickListener(v -> {
+        dataBinding.commit.setOnClickListener(v ->
+        {
             initInfo();
             userInfoViewModel.changeUserInfo(new Api.ChangeUserInfoApi() {
                 @Override
@@ -53,18 +56,21 @@ public class UserInfoActivity extends AppCompatActivity {
                 }
             }, userInfo);
         });
-        loginOut();
-        back = findViewById(R.id.info_back);
-        back.setOnClickListener(v->finish());
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getWindow().getDecorView().
-                    setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
-                            View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-        }
+        loginOut();
+
+
+        back.setOnClickListener(v ->
+
+                finish());
+
+        getWindow().getDecorView().
+                setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
+                        View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 
     }
-    public void initInfo(){
+
+    public void initInfo() {
         userInfo.setName(dataBinding.infoName.getText().toString());
         userInfo.setBirthDay(dataBinding.infoBirthday.getText().toString());
 
@@ -74,7 +80,7 @@ public class UserInfoActivity extends AppCompatActivity {
         userInfo.setSignature(dataBinding.infoSignature.getText().toString());
     }
 
-    public void loginOut(){
+    public void loginOut() {
         dataBinding.loginOut.setOnClickListener((v) -> {
             SPUtils.getInstance(SPUtils.SP_CONFIG).clear();
             com.example.sourcewords.ui.login.model.UserWrapper.getInstance().setUser(null);
@@ -82,7 +88,7 @@ public class UserInfoActivity extends AppCompatActivity {
         });
     }
 
-    public void girlButton(View v){
+    public void girlButton(View v) {
         userInfo.setGender(0);
         dataBinding.infoMale.setBackgroundColor(Color.WHITE);
         dataBinding.infoMale.setTextColor(Color.GRAY);
@@ -90,7 +96,7 @@ public class UserInfoActivity extends AppCompatActivity {
         dataBinding.infoFemale.setTextColor(Color.WHITE);
     }
 
-    public void boyButton(View v){
+    public void boyButton(View v) {
         userInfo.setGender(1);
         dataBinding.infoMale.setBackgroundColor(Color.parseColor("#8DD0CE"));
         dataBinding.infoMale.setTextColor(Color.WHITE);

@@ -62,7 +62,7 @@ public class WordRootPage extends AppCompatActivity implements View.OnClickListe
             final String path = root.getVideo_url();
             Log.d("能否隐藏", path + "长度为" + path.length());
             if (path.length() == 0) {
-                videoView.setVisibility(View.INVISIBLE);
+                videoView.setVisibility(View.GONE);
             } else {
                 videoView.setVideoURI(Uri.parse(path));
                 Log.d("this", "Done");

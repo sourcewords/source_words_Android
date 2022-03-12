@@ -17,7 +17,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -25,7 +24,6 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.sourcewords.App;
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
-import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
 import com.example.sourcewords.utils.DateUtils;
 import com.example.sourcewords.utils.PreferencesUtils;
 
