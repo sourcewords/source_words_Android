@@ -31,8 +31,6 @@ import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.ui.learn.viewModel.RollInterface;
 import com.example.sourcewords.ui.learn.viewModel.WordsAdapter;
 import com.example.sourcewords.ui.review.dataBean.Word;
-import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +40,7 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
     private VideoView videoView;
     private LearnViewModel viewModel;
     private AppCompatTextView textView_wordRoot, textView_meaning, textView_source;
-    private AppCompatButton button_learned ,button_next, button_perform;
+    private AppCompatButton button_learned;
     private RollInterface rollInterface;
     private WordsAdapter adapter;
     private List<Integer> list = new ArrayList<>();
@@ -63,6 +61,7 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
         viewModel = ViewModelProviders.of(this.getActivity()).get(LearnViewModel.class);
         initView(v);
         Bundle bundle = getArguments();
+        assert bundle != null;
         root_id = bundle.getInt(Param,0);
         return v;
     }
@@ -87,9 +86,9 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
         initButton(v);
         viewModel.getNowDay().setValue(viewModel.getNow());
         imageButton.setOnClickListener(this);
-        button_next = v.findViewById(R.id.learn_next);
+        AppCompatButton button_next = v.findViewById(R.id.learn_next);
         button_next.setOnClickListener(this);
-        button_perform = v.findViewById(R.id.learn_per);
+        AppCompatButton button_perform = v.findViewById(R.id.learn_per);
         button_perform.setOnClickListener(this);
     }
 
@@ -174,8 +173,10 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
 
     public void refresh() {
         getTodayLearn();
-        changeButtonUIBack();
-        button_learned.setClickable(true);
+        if (viewModel.getLong() > root_id) {
+            button_learned.setClickable(false);
+            changeButtonUI();
+        }
         Log.d("LearnFragment", "刷新拉!!!!");
     }
 
@@ -207,5 +208,11 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
 
     public void setRollCallBack(LearnFragment fragment){
         rollInterface = fragment;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refresh();
     }
 }

@@ -26,6 +26,7 @@ import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
 //TODO 学模块
 public class LearnFragment extends Fragment implements RollInterface {
     private int index = 0;//对于ViewPager中的list的下标
@@ -34,7 +35,7 @@ public class LearnFragment extends Fragment implements RollInterface {
     private ViewPager viewPager;
     private static int size;
     private Loading loading;
-    private int MESSAGE1 = 0x1001;
+    private static final int MESSAGE1 = 0x1001;
 
     @NonNull
     @Override
@@ -47,31 +48,20 @@ public class LearnFragment extends Fragment implements RollInterface {
         return v;
     }
 
-    private void initLoading(){
+    private void initLoading() {
         ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         loading = new Loading(getContext());
-        getActivity().addContentView(loading,lp);
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    ReviewCardViewModel reviewCardViewModel = ViewModelProviders.of(getActivity()).get(ReviewCardViewModel.class);
-                    reviewCardViewModel.getAllWord().observe(getViewLifecycleOwner(), words -> {
-                        assert words != null;
-                        Log.d("initDataab", "" + words.size());
-                    });
-                    reviewCardViewModel.getAllWordRoot().observe(getViewLifecycleOwner(), wordRoots -> Log.d("initDataa", "" + wordRoots.size()));
-                    reviewCardViewModel.getAllSingleWord().observe(getViewLifecycleOwner()
-                            , singleWords -> Log.d("initDatac", "" + singleWords.size()));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }.start();
-        final Handler handler = new MessageHandler();
-        handler.sendEmptyMessageDelayed(MESSAGE1,7500);
+        getActivity().addContentView(loading, lp);
+        ReviewCardViewModel reviewCardViewModel = ViewModelProviders.of(getActivity()).get(ReviewCardViewModel.class);
+        reviewCardViewModel.getAllWord().observe(getViewLifecycleOwner(), words -> {
+            assert words != null;
+            Log.d("initDataab", "" + words.size());
+        });
+        reviewCardViewModel.getAllWordRoot().observe(getViewLifecycleOwner(), wordRoots -> Log.d("initDataa", "" + wordRoots.size()));
+        reviewCardViewModel.getAllSingleWord().observe(getViewLifecycleOwner()
+                , singleWords -> Log.d("initDatac", "" + singleWords.size()));
+        Handler handler = new MessageHandler();
+        handler.sendEmptyMessageDelayed(MESSAGE1,1500);
     }
 
     private void initView(View v) {
@@ -148,8 +138,8 @@ public class LearnFragment extends Fragment implements RollInterface {
             viewModel.getLearnFlag().setValue(false);
             viewModel.saveFlag(false);
             viewModel.saveTime();
-            refresh();
         }
+        refresh();
     }
 
     private void refresh() {
@@ -165,30 +155,30 @@ public class LearnFragment extends Fragment implements RollInterface {
         viewModel.saveTime();
     }
 
-    /*y应某个**的要求写的
-    public void search(){
-        viewModel.getAll().observe(getViewLifecycleOwner(), new Observer<List<WordRoot>>() {
-            @Override
-            public void onChanged(List<WordRoot> list) {
-                for(WordRoot root : list){
-                    Log.d("today","........");
-                    if(root.getVideo_url().length() != 0){
-                        Log.d("视频", String.valueOf(root.getId()));
-                    }
+/*y应某个**的要求写的
+public void search(){
+    viewModel.getAll().observe(getViewLifecycleOwner(), new Observer<List<WordRoot>>() {
+        @Override
+        public void onChanged(List<WordRoot> list) {
+            for(WordRoot root : list){
+                Log.d("today","........");
+                if(root.getVideo_url().length() != 0){
+                    Log.d("视频", String.valueOf(root.getId()));
                 }
             }
-        });
-    }
-
-     */
-    class MessageHandler extends Handler {
-
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == MESSAGE1) ((ViewGroup) loading.getParent()).removeView(loading);
         }
+    });
+}
+
+ */
+class MessageHandler extends Handler {
+
+    @Override
+    public void handleMessage(@NonNull Message msg) {
+        super.handleMessage(msg);
+        if (msg.what == MESSAGE1) ((ViewGroup) loading.getParent()).removeView(loading);
     }
+}
 
 }
 
