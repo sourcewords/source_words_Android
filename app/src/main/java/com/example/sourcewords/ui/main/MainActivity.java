@@ -1,5 +1,6 @@
 package com.example.sourcewords.ui.main;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Build;
@@ -17,10 +18,16 @@ public class MainActivity extends AppCompatActivity {
     private boolean isAdd = false;
     private long lastBackTime = 0;
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Logger.setLog(true);
+
+        ActivityLifeCycle lifecycleCallbacks = new ActivityLifeCycle();
+        registerActivityLifecycleCallbacks(lifecycleCallbacks);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().
@@ -48,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "再按一次退出", Toast.LENGTH_LONG).show();
             lastBackTime = System.currentTimeMillis();
-
         }
     }
 

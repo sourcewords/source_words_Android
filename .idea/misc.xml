@@ -3,63 +3,70 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/drawable/change_wordslearned_bg.xml" value="0.1671875" />
-        <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/drawable/learned_selected.xml" value="0.1671875" />
-        <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/drawable/search_circle.xml" value="0.1671875" />
-        <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/drawable/shape_review_good.xml" value="0.1671875" />
-        <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/drawable/source_word_toolbar.xml" value="0.1671875" />
-        <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/layout/activity_review_words_detail.xml" value="0.264" />
-        <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/layout/activity_search_words.xml" value="0.264" />
-        <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/layout/activity_search_words_detail.xml" value="0.176" />
-        <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/layout/item_search_words.xml" value="0.264" />
-        <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/layout/serach_words_toolbar.xml" value="0.15104166666666666" />
-        <entry key="..\:/Users/tiddler/Desktop/source_words_Android/app/src/main/res/mipmap-anydpi-v26/search_words_horn.xml" value="0.14583333333333334" />
-        <entry key="app/src/main/res/drawable/back_background.xml" value="0.1" />
-        <entry key="app/src/main/res/drawable/back_foreground.xml" value="0.1" />
-        <entry key="app/src/main/res/drawable/cells_edge.xml" value="0.1" />
-        <entry key="app/src/main/res/drawable/learned_normal.xml" value="0.1" />
-        <entry key="app/src/main/res/drawable/learned_selected.xml" value="0.1" />
+        <entry key="..\:/source_words_Android/app/src/main/res/drawable/shape_rectangle.xml" value="0.22" />
+        <entry key="..\:/source_words_Android/app/src/main/res/drawable/signin_button.xml" value="0.22" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/activity_addplan.xml" value="0.17844202898550723" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/activity_allplan.xml" value="0.152" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/activity_login_register.xml" value="0.25364583333333335" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/activity_myplan.xml" value="0.12335359675785208" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/activity_signin.xml" value="0.1" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/activity_userinfo.xml" value="0.17844202898550723" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/fragment_mine.xml" value="0.17844202898550723" />
+        <entry key="..\:/source_words_Android/app/src/main/res/layout/item_myplan_rv.xml" value="0.12335359675785208" />
+        <entry key="app/src/main/res/drawable/background_mine.xml" value="0.25" />
+        <entry key="app/src/main/res/drawable/ic_baseline_chevron_left_24.xml" value="0.23703703703703705" />
+        <entry key="app/src/main/res/drawable/ic_baseline_keyboard_arrow_right_24.xml" value="0.23703703703703705" />
         <entry key="app/src/main/res/drawable/login_background.xml" value="0.23981481481481481" />
         <entry key="app/src/main/res/drawable/login_rectangle.xml" value="0.23981481481481481" />
         <entry key="app/src/main/res/drawable/login_select1_frame.xml" value="0.23981481481481481" />
         <entry key="app/src/main/res/drawable/login_select2_frame.xml" value="0.23981481481481481" />
         <entry key="app/src/main/res/drawable/login_select_frame.xml" value="0.23981481481481481" />
         <entry key="app/src/main/res/drawable/mine_background.xml" value="0.23703703703703705" />
-        <entry key="app/src/main/res/drawable/mine_selector.xml" value="0.17395833333333333" />
         <entry key="app/src/main/res/drawable/mine_shape_stroke.xml" value="0.23703703703703705" />
-        <entry key="app/src/main/res/drawable/review_count1.xml" value="0.3101851851851852" />
-        <entry key="app/src/main/res/drawable/review_count2.xml" value="0.3101851851851852" />
-        <entry key="app/src/main/res/drawable/review_count3.xml" value="0.3101851851851852" />
-        <entry key="app/src/main/res/drawable/review_seletor.xml" value="0.17395833333333333" />
         <entry key="app/src/main/res/drawable/shape_corner_up.xml" value="0.16020566506173872" />
+        <entry key="app/src/main/res/drawable/shape_frame.xml" value="0.2553846153846154" />
         <entry key="app/src/main/res/drawable/shape_rectangle.xml" value="0.23703703703703705" />
-        <entry key="app/src/main/res/layout/activity_addplan.xml" value="0.14402173913043478" />
+        <entry key="app/src/main/res/layout/activity_addplan.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_allplan.xml" value="0.14492753623188406" />
         <entry key="app/src/main/res/layout/activity_changepwd.xml" value="0.1956832317970166" />
+        <entry key="app/src/main/res/layout/activity_forget_pwd.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_login_account.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/activity_login_message.xml" value="0.11828774062816616" />
         <entry key="app/src/main/res/layout/activity_login_messge.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_login_regiser.xml" value="0.15172101449275363" />
-        <entry key="app/src/main/res/layout/activity_login_register.xml" value="0.3302611367127496" />
+        <entry key="app/src/main/res/layout/activity_login_register.xml" value="0.11" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_review_words_detail.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_search_words.xml" value="0.10208333333333333" />
-        <entry key="app/src/main/res/layout/activity_searchwordsroot.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_userinfo.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/activity_word_root_page.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_learn.xml" value="0.16790123456790124" />
-        <entry key="app/src/main/res/layout/fragment_main.xml" value="0.2953125" />
-        <entry key="app/src/main/res/layout/fragment_mine.xml" value="0.38568520126617045" />
-        <entry key="app/src/main/res/layout/fragment_recite.xml" value="0.18084220652393507" />
+        <entry key="app/src/main/res/layout/activity_myplan.xml" value="0.1503623188405797" />
+        <entry key="app/src/main/res/layout/activity_review_words_detail.xml" value="0.1503623188405797" />
+        <entry key="app/src/main/res/layout/activity_searchwordsroot.xml" value="0.14447463768115942" />
+        <entry key="app/src/main/res/layout/activity_set_pwd.xml" value="0.125" />
+        <entry key="app/src/main/res/layout/activity_signin.xml" value="0.12135416666666667" />
+        <entry key="app/src/main/res/layout/activity_userinfo.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_word_root_page.xml" value="0.14447463768115942" />
+        <entry key="app/src/main/res/layout/fragment_account.xml" value="0.1956521739130435" />
+        <entry key="app/src/main/res/layout/fragment_learn.xml" value="0.3098958333333333" />
+        <entry key="app/src/main/res/layout/fragment_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_message.xml" value="0.1956521739130435" />
+        <entry key="app/src/main/res/layout/fragment_mine.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/fragment_recite.xml" value="0.1503623188405797" />
         <entry key="app/src/main/res/layout/fragment_review.xml" value="0.3098958333333333" />
-        <entry key="app/src/main/res/layout/fragment_searchwordsroot.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/review_done.xml" value="0.3098958333333333" />
-        <entry key="app/src/main/res/layout/review_none.xml" value="0.15070921985815602" />
-        <entry key="app/src/main/res/layout/toolbar.xml" value="0.3098958333333333" />
-        <entry key="app/src/main/res/layout/wordroot_cells.xml" value="0.21159420289855072" />
-        <entry key="app/src/main/res/layout/words_cells.xml" value="0.335" />
-        <entry key="app/src/main/res/menu/learn_search_item.xml" value="0.15416666666666667" />
+        <entry key="app/src/main/res/layout/item_myplan_rv.xml" value="0.1721014492753623" />
+        <entry key="app/src/main/res/layout/network_security_config.xml" value="0.1480978260869565" />
+        <entry key="app/src/main/res/layout/review_done.xml" value="0.14175724637681159" />
+        <entry key="app/src/main/res/layout/review_none.xml" value="0.1503623188405797" />
+        <entry key="app/src/main/res/layout/toolbar.xml" value="0.1503623188405797" />
+        <entry key="app/src/main/res/layout/wordroot_cells.xml" value="0.14447463768115942" />
+        <entry key="app/src/main/res/layout/words_cells.xml" value="0.14447463768115942" />
+        <entry key="app/src/main/res/menu/learn_search_items.xml" value="0.2578125" />
         <entry key="app/src/main/res/menu/navigation_items.xml" value="0.2953125" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_13" default="true" project-jdk-name="13" project-jdk-type="JavaSDK" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_13" project-jdk-name="Embedded JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
 </project>

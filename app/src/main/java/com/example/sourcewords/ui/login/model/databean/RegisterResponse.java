@@ -1,11 +1,11 @@
 package com.example.sourcewords.ui.login.model.databean;
 
 public class RegisterResponse {
-    private Integer code;
+    private int code;
     private String message;
     private String data;
 
-    public Integer getCode() {
+    public int getCode() {
         return code;
     }
 
