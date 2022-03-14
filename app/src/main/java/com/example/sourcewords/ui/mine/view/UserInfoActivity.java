@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 
 import com.example.sourcewords.R;
 import com.example.sourcewords.commonUtils.SPUtils;
@@ -38,11 +39,38 @@ public class UserInfoActivity extends AppCompatActivity{
         ImageButton back = findViewById(R.id.info_back);
         Button girl = findViewById(R.id.info_female);
         Button boy = findViewById(R.id.info_male);
+
         dataBinding.setLifecycleOwner(this);
         dataBinding.setUserInfoViewModel(userInfoViewModel);
 
         userInfoViewModel.initW();
         userInfo = userInfoViewModel.getUserInfo().getValue();
+        if(userInfo == null)
+            userInfo = new UserInfo("1",1,"1","1","1","1","1");
+
+        userInfoViewModel.getUserInfo().observe(this, new Observer<UserInfo>() {
+            @Override
+            public void onChanged(UserInfo user) {
+                if(user.getGender() == 1)   girlButton();
+                else boyButton();
+
+                dataBinding.commit.setOnClickListener(v ->
+                {
+                    initInfo();
+                    userInfoViewModel.changeUserInfo(new Api.ChangeUserInfoApi() {
+                        @Override
+                        public void success() {
+                            Toast.makeText(UserInfoActivity.this, "修改成功！", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void failed() {
+                            Toast.makeText(UserInfoActivity.this, "出错啦！请检查网络设置~", Toast.LENGTH_SHORT).show();
+                        }
+                    }, userInfo);
+                });
+            }
+        });
 
         dataBinding.infoChangePwd.setOnClickListener(view -> {
             Intent intent = new Intent(this, ChangePwdActivity.class);
@@ -53,22 +81,6 @@ public class UserInfoActivity extends AppCompatActivity{
             SPUtils.getInstance(SPUtils.SP_CONFIG).clear();
             com.example.sourcewords.ui.login.model.UserWrapper.getInstance().setUser(null);
             startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-        });
-
-        dataBinding.commit.setOnClickListener(v ->
-        {
-            initInfo();
-            userInfoViewModel.changeUserInfo(new Api.ChangeUserInfoApi() {
-                @Override
-                public void success() {
-                    Toast.makeText(UserInfoActivity.this, "修改成功！", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void failed() {
-                    Toast.makeText(UserInfoActivity.this, "出错啦！请检查网络设置~", Toast.LENGTH_SHORT).show();
-                }
-            }, userInfo);
         });
 
         back.setOnClickListener(v ->
@@ -83,9 +95,6 @@ public class UserInfoActivity extends AppCompatActivity{
             flag = 2;
             boyButton();
         });
-
-        if(flag == 1)   girlButton();
-        else boyButton();
 
         getWindow().getDecorView().
                 setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |

@@ -4,9 +4,10 @@ import com.example.sourcewords.commonUtils.NetUtil;
 import com.example.sourcewords.ui.login.model.UserWrapper;
 import com.example.sourcewords.ui.mine.model.databean.UserInfoResponse;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class UserInfoRemoteDataSource implements Api.getUserInfo{
 
@@ -27,20 +28,30 @@ public class UserInfoRemoteDataSource implements Api.getUserInfo{
 
     @Override
     public void getUserStatus(LoadUserCallBack loadUserCallBack) {
-        NetUtil.getInstance().getApi().getUserInfo(token).enqueue(new Callback<UserInfoResponse>() {
-            @Override
-            public void onResponse(Call<UserInfoResponse> call, Response<UserInfoResponse> response) {
-                if(response.isSuccessful()){
-                    u = response.body().getData();
-                    loadUserCallBack.onUserLoaded(u);
-                } else
-                    loadUserCallBack.onDataNotAvailable();
-            }
+        NetUtil.getInstance().getApi().getUserInfo(token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<UserInfoResponse>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
-            @Override
-            public void onFailure(Call<UserInfoResponse> call, Throwable t) {
-                loadUserCallBack.onFailure();
-            }
-        });
+                    }
+
+                    @Override
+                    public void onNext(UserInfoResponse userInfoResponse) {
+                        u = userInfoResponse.getData();
+                        loadUserCallBack.onUserLoaded(u);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        loadUserCallBack.onFailure();
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 }

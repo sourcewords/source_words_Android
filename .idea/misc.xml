@@ -42,7 +42,7 @@
         <entry key="app/src/main/res/layout/activity_searchwordsroot.xml" value="0.14447463768115942" />
         <entry key="app/src/main/res/layout/activity_set_pwd.xml" value="0.125" />
         <entry key="app/src/main/res/layout/activity_signin.xml" value="0.12135416666666667" />
-        <entry key="app/src/main/res/layout/activity_userinfo.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/activity_userinfo.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_word_root_page.xml" value="0.14447463768115942" />
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.1956521739130435" />
         <entry key="app/src/main/res/layout/fragment_learn.xml" value="0.3098958333333333" />

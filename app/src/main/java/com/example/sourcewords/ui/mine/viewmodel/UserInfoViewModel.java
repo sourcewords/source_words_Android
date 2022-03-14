@@ -21,12 +21,11 @@ public class UserInfoViewModel extends ViewModel {
 
     public MutableLiveData<String> Name = new MutableLiveData<>();
     public MutableLiveData<String> Phone = new MutableLiveData<>();
-    public MutableLiveData<Integer> Gender = new MutableLiveData<>();
+    public MutableLiveData<String> Gender = new MutableLiveData<>();
     public MutableLiveData<String> Birth = new MutableLiveData<>();
     public MutableLiveData<String> Location = new MutableLiveData<>();
     public MutableLiveData<String> Signature = new MutableLiveData<>();
     public MutableLiveData<String> email = new MutableLiveData<>();
-    public MutableLiveData<Button> sex = new MutableLiveData<>();
     public static Integer flag = 1;
 
     public MutableLiveData<UserInfo> userMutableLiveData = new MutableLiveData<>();
@@ -61,11 +60,14 @@ public class UserInfoViewModel extends ViewModel {
                 if(u != null){
                     Name.setValue(u.getUsername());
                     Phone.setValue(u.getPhone());
+                    Gender.setValue(String.valueOf(u.getGender()));
                     flag = u.getGender();
                     Birth.setValue(u.getBirthday());
                     Location.setValue(u.getLocation());
                     Signature.setValue(u.getSignature());
                 }
+                UserInfo userInfo = new UserInfo(UserWrapper.getInstance().getUser().getAccount(),Integer.parseInt(Gender.getValue()),Phone.getValue(), Signature.getValue() , Location.getValue(), Name.getValue(),Birth.getValue());
+                userMutableLiveData.setValue(userInfo);
             }
 
             @Override
@@ -79,7 +81,6 @@ public class UserInfoViewModel extends ViewModel {
             }
         });
 
-        UserInfo userInfo = new UserInfo(UserWrapper.getInstance().getUser().getAccount(),Gender.getValue(),Phone.getValue(), Signature.getValue() , Location.getValue(), Name.getValue(),Birth.getValue());
-        userMutableLiveData.setValue(userInfo);
+
     }
 }

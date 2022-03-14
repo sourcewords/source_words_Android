@@ -14,6 +14,7 @@ import com.example.sourcewords.ui.mine.model.databean.UserInfoResponse;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.dataBean.WordRootStatus;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -43,7 +44,7 @@ public interface RetrofitApi {
 
     //userInfo
     @GET("user/info")
-    Call<UserInfoResponse> getUserInfo(@Header("Authorization") String token);
+    Observable<UserInfoResponse> getUserInfo(@Header("Authorization") String token);
 
     @PUT("user/info")
     Call<LoginResponse> putUserInfo(@Body UserInfo userInfo, @Header("Authorization") String token);

@@ -527,6 +527,7 @@
                 android:layout_height="60dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="24dp"
+                android:layout_marginBottom="12dp"
                 android:background="@drawable/shape_rectangle"
                 android:text="退出登录"
                 android:textColor="#FFFFFF"
