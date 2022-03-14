@@ -1,5 +1,7 @@
 package com.example.sourcewords.ui.mine.viewmodel;
 
+import android.widget.Button;
+
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
@@ -24,6 +26,8 @@ public class UserInfoViewModel extends ViewModel {
     public MutableLiveData<String> Location = new MutableLiveData<>();
     public MutableLiveData<String> Signature = new MutableLiveData<>();
     public MutableLiveData<String> email = new MutableLiveData<>();
+    public MutableLiveData<Button> sex = new MutableLiveData<>();
+    public static Integer flag = 1;
 
     public MutableLiveData<UserInfo> userMutableLiveData = new MutableLiveData<>();
     private String token = UserWrapper.getInstance().getToken();
@@ -39,7 +43,8 @@ public class UserInfoViewModel extends ViewModel {
         NetUtil.getInstance().getApi().putUserInfo(userInfo, token).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                api.success();
+                if(response.isSuccessful())
+                    api.success();
             }
 
             @Override
@@ -56,12 +61,11 @@ public class UserInfoViewModel extends ViewModel {
                 if(u != null){
                     Name.setValue(u.getUsername());
                     Phone.setValue(u.getPhone());
-                    Gender.setValue(u.getGender());
+                    flag = u.getGender();
                     Birth.setValue(u.getBirthday());
                     Location.setValue(u.getLocation());
                     Signature.setValue(u.getSignature());
                 }
-
             }
 
             @Override

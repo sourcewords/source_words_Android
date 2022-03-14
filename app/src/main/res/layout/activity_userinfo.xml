@@ -228,6 +228,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="12dp"
                     android:background="#AAE4E2"
+                    android:paddingLeft="8dp"
                     android:text="@={userInfoViewModel.Signature}"
                     android:textColorHint="#252629"
                     android:textSize="15sp" />

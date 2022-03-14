@@ -1,9 +1,7 @@
 package com.example.sourcewords.ui.mine.model;
 
-import com.example.sourcewords.ui.mine.model.databean.PlanBean;
 import com.example.sourcewords.ui.mine.model.databean.PlanItem;
 import com.example.sourcewords.ui.mine.model.databean.SigninBean;
-import com.example.sourcewords.ui.mine.model.databean.UserInfo;
 import com.example.sourcewords.ui.mine.model.databean.UserInfoResponse;
 
 public interface Api {

@@ -5,14 +5,14 @@ import androidx.databinding.Bindable;
 
 import com.example.sourcewords.BR;
 
-public class    UserInfo extends BaseObservable {
+public class UserInfo extends BaseObservable {
     private String phone;
     private String signature;
     private String email;
     private Integer gender;
     private String location;
     private String name;
-    private String birthDay;
+    private String birth_day;
 
     public UserInfo(String email,Integer gender,String phone, String signature, String location, String name, String birthDay) {
         this.email = email;
@@ -21,7 +21,7 @@ public class    UserInfo extends BaseObservable {
         this.signature = signature;
         this.location = location;
         this.name = name;
-        this.birthDay = birthDay;
+        this.birth_day = birthDay;
     }
 
     @Bindable
@@ -84,11 +84,11 @@ public class    UserInfo extends BaseObservable {
 
     @Bindable
     public String getBirthDay() {
-        return birthDay;
+        return birth_day;
     }
 
     public void setBirthDay(String birthDay) {
-        this.birthDay = birthDay;
+        this.birth_day = birthDay;
         notifyPropertyChanged(BR.birthDay);
     }
 

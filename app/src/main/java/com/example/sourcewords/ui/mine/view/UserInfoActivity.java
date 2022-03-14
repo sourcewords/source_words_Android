@@ -1,5 +1,7 @@
 package com.example.sourcewords.ui.mine.view;
 
+import static com.example.sourcewords.ui.mine.viewmodel.UserInfoViewModel.flag;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -21,12 +23,11 @@ import com.example.sourcewords.ui.mine.model.databean.UserInfo;
 import com.example.sourcewords.ui.mine.model.databean.UserWrapper;
 import com.example.sourcewords.ui.mine.viewmodel.UserInfoViewModel;
 
-public class UserInfoActivity extends AppCompatActivity {
+public class UserInfoActivity extends AppCompatActivity{
 
     private UserInfoViewModel userInfoViewModel;
     private ActivityUserinfoBinding dataBinding;
     private UserInfo userInfo;
-    private Integer flag = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,7 +43,6 @@ public class UserInfoActivity extends AppCompatActivity {
 
         userInfoViewModel.initW();
         userInfo = userInfoViewModel.getUserInfo().getValue();
-
 
         dataBinding.infoChangePwd.setOnClickListener(view -> {
             Intent intent = new Intent(this, ChangePwdActivity.class);
@@ -68,24 +68,24 @@ public class UserInfoActivity extends AppCompatActivity {
                 public void failed() {
                     Toast.makeText(UserInfoActivity.this, "出错啦！请检查网络设置~", Toast.LENGTH_SHORT).show();
                 }
-            },userInfo );
+            }, userInfo);
         });
 
         back.setOnClickListener(v ->
                 finish());
 
-        girl.setOnClickListener( v -> {
-            flag = 0;
+        girl.setOnClickListener(v -> {
+            flag = 1;
             girlButton();
         });
 
-        boy.setOnClickListener( v -> {
-            flag = 1;
+        boy.setOnClickListener(v -> {
+            flag = 2;
             boyButton();
         });
 
-//        if(UserInfoViewModel.getSex() == 0)   girlButton();
-//        else boyButton();
+        if(flag == 1)   girlButton();
+        else boyButton();
 
         getWindow().getDecorView().
                 setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
@@ -116,5 +116,4 @@ public class UserInfoActivity extends AppCompatActivity {
         dataBinding.infoFemale.setBackgroundColor(Color.WHITE);
         dataBinding.infoFemale.setTextColor(Color.GRAY);
     }
-
 }
