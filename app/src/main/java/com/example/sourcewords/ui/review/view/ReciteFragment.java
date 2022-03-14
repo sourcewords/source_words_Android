@@ -220,7 +220,7 @@ public class ReciteFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         // 清除所有已经保存的状态
-//        reviewCardViewModel.deleteWordCardState();
+        reviewCardViewModel.deleteWordCardState();
         String date = DateUtils.getDate();
         // 保存现有的状态
         WordCardState wordCardState = new WordCardState(date,reviewCardViewModel.getNewLearnedWords(),
@@ -236,15 +236,12 @@ public class ReciteFragment extends Fragment {
                 reviewCardViewModel.getNewLearnedWordsQueue(),
                 reviewCardViewModel.getHaveLearnedWordsQueue());
         reviewCardViewModel.saveWordCardState(wordCardState);
-        Log.d("wordCardState", wordCardState.getDate());
         super.onSaveInstanceState(outState);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         reviewCardViewModel.initFromDataBase(DateUtils.getDate());
-        Log.d("wordCardState", DateUtils.getDate());
         super.onActivityCreated(savedInstanceState);
-
     }
 }
