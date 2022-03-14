@@ -28,36 +28,28 @@ import java.util.List;
 
 public class AllPlanActivity extends AppCompatActivity {
 
-    RecyclerView recyclerView;
-    List<PlanBean> mList = new ArrayList<>();
+    RecyclerView rvCan, rvHave;
+    List<PlanBean> can, have, mList = new ArrayList<>();
     private int spaceTag = 1;
     private ImageButton back;
     private TextView myplan;
-    private ConstraintLayout myplan_item;
-    private TextView name, leastTime, b_eTime, progress;
-    private ProgressBar bar;
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_allplan);
-
         Intent intent = getIntent();
         setResult(RESULT_OK, new Intent().putExtra("plan", "error"));
-        recyclerView = findViewById(R.id.myplan_rv);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        rvCan = findViewById(R.id.myplan_rv_can);
+        rvCan.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        rvHave = findViewById(R.id.myplan_rv_have);
+        rvHave.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         initList();
         if(spaceTag == 1){
-            recyclerView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelOffset(R.dimen.dp_10), mList, this));
+            rvCan.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelOffset(R.dimen.dp_10), mList, this));
         }
         myplan = findViewById(R.id.myplan);
-        myplan_item = findViewById(R.id.allplan_rv_item);
-        name = findViewById(R.id.all_plan_name);
-        leastTime = findViewById(R.id.all_least_time_tv);
-        b_eTime = findViewById(R.id.all_b_e_time_tv);
-        progress = findViewById(R.id.all_plan_progress_num);
-        bar = findViewById(R.id.all_plan_progress_bar);
         back = findViewById(R.id.all_back);
         back.setOnClickListener(v->finish());
 
@@ -81,27 +73,11 @@ public class AllPlanActivity extends AppCompatActivity {
                 mList.add(plan4);
                 if(planBean.getData().getPlans() == null){
                     myplan.setVisibility(View.GONE);
-                    myplan_item.setVisibility(View.GONE);
-                }else if(planBean.getData().getPlans().get(0).getName().equals("四级")){
-                    mList.remove(0);
-                    name.setText(planBean.getData().getPlans().get(0).getName());
-                    b_eTime.setText(planBean.getData().getPlans().get(0).getStart() + "-" + planBean.getData().getPlans().get(0).getEnd());
-                    progress.setText(planBean.getData().getPlans().get(0).getPercent() + "%");
-                    bar.setProgress(planBean.getData().getPlans().get(0).getPercent());
-                }else if(planBean.getData().getPlans().get(0).getName().equals("六级单词")){
-                    mList.remove(1);
-                    name.setText(planBean.getData().getPlans().get(0).getName());
-                    b_eTime.setText(planBean.getData().getPlans().get(0).getStart() + "-" + planBean.getData().getPlans().get(0).getEnd());
-                    progress.setText(planBean.getData().getPlans().get(0).getPercent() + "%");
-                    bar.setProgress(planBean.getData().getPlans().get(0).getPercent());
-                }else if(planBean.getData().getPlans().get(0).getName().equals("雅思单词")){
-                    mList.remove(2);
-                    name.setText(planBean.getData().getPlans().get(0).getName());
-                    b_eTime.setText(planBean.getData().getPlans().get(0).getStart() + "-" + planBean.getData().getPlans().get(0).getEnd());
-                    progress.setText(planBean.getData().getPlans().get(0).getPercent() + "%");
-                    bar.setProgress(planBean.getData().getPlans().get(0).getPercent());
+                    rvHave.setVisibility(View.GONE);
+                }else{
+
                 }
-                recyclerView.setAdapter(new PlanAdapter(mList, new Api.addPlan() {
+                rvCan.setAdapter(new PlanAdapter(mList, new Api.addPlan() {
                     @Override
                     public void success(String name) {
                         setResult(RESULT_OK, new Intent().putExtra("plan", name));
