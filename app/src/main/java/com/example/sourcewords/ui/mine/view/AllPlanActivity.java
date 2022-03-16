@@ -68,16 +68,46 @@ public class AllPlanActivity extends AppCompatActivity {
                 PlanBean plan1 = new PlanBean("四级单词", "", "xx.xx-xx.xx", 0, 1);
                 PlanBean plan2 = new PlanBean("六级单词", "", "xx.xx-xx.xx", 0, 2);
                 PlanBean plan4 = new PlanBean("雅思单词", "", "xx.xx-xx.xx", 0, 3);
-                mList.add(plan1);
-                mList.add(plan2);
-                mList.add(plan4);
+                can.add(plan1);
+                can.add(plan2);
+                can.add(plan4);
                 if(planBean.getData().getPlans() == null){
                     myplan.setVisibility(View.GONE);
                     rvHave.setVisibility(View.GONE);
                 }else{
-
+                    for(PlanItem.DataDTO.PlansDTO dao : planBean.getData().getPlans()){
+                        int t = 0;
+                        switch (dao.getName()) {
+                            case "四级":
+                                t = 1;
+                                can.remove(plan1);
+                                break;
+                            case "六级":
+                                t = 2;
+                                can.remove(plan2);
+                                break;
+                            case "雅思":
+                                t = 3;
+                                can.remove(plan4);
+                                break;
+                        }
+                        have.add(new PlanBean(dao.getName(), "", dao.getStart()+ "-" + dao.getEnd(), dao.getPercent(), t));
+                    }
                 }
-                rvCan.setAdapter(new PlanAdapter(mList, new Api.addPlan() {
+                rvCan.setAdapter(new PlanAdapter(can, new Api.addPlan() {
+                    @Override
+                    public void success(String name) {
+                        setResult(RESULT_OK, new Intent().putExtra("plan", name));
+                        finish();
+                    }
+
+                    @Override
+                    public void failed() {
+
+                    }
+                }));
+
+                rvHave.setAdapter(new PlanAdapter(have, new Api.addPlan() {
                     @Override
                     public void success(String name) {
                         setResult(RESULT_OK, new Intent().putExtra("plan", name));

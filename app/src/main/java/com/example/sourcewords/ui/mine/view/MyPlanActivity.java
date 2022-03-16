@@ -50,18 +50,24 @@ public class MyPlanActivity extends AppCompatActivity {
                     dataBinding.myplanRvItem.setVisibility(View.GONE);
                     Toast.makeText(MyPlanActivity.this, "现在没有进行中的计划哦，快来添加一个吧！", Toast.LENGTH_SHORT).show();
                 }else{
-                    if(planBean.getData().getPlans().get(0).getName().equals("四级单词")){
-                        dataBinding.myPlanPic.setBackgroundResource(R.mipmap.cet4);
-                    }else if(planBean.getData().getPlans().get(0).getName().equals("六级单词")){
-                        dataBinding.myPlanPic.setBackgroundResource(R.mipmap.cet6);
-                    }else {
-                        dataBinding.myPlanPic.setBackgroundResource(R.mipmap.ielts);
+                    for(PlanItem.DataDTO.PlansDTO dao : planBean.getData().getPlans()){
+                        if(dao.getActive() == 1){
+                            if(planBean.getData().getPlans().get(0).getName().equals("四级")){
+                                dataBinding.myPlanPic.setBackgroundResource(R.mipmap.cet4);
+                            }else if(planBean.getData().getPlans().get(0).getName().equals("六级")){
+                                dataBinding.myPlanPic.setBackgroundResource(R.mipmap.cet6);
+                            }else {
+                                dataBinding.myPlanPic.setBackgroundResource(R.mipmap.ielts);
+                            }
+                            dataBinding.myBETimeTv.setText(dao.getStart() + "-" + planBean.getData().getPlans().get(0).getEnd());
+                            dataBinding.myPlanName.setText(dao.getName()+ "单词");
+                            dataBinding.myPlanProgressBar.setProgress(dao.getPercent());
+                            dataBinding.myPlanProgressNum.setText(dao.getPercent()+ "%");
+                        }
                     }
+
                     //dataBinding.myLeastTimeTv.setText(planBean.getData().getPlans().get(0));
-                    dataBinding.myBETimeTv.setText(planBean.getData().getPlans().get(0).getStart() + "-" + planBean.getData().getPlans().get(0).getEnd());
-                    dataBinding.myPlanName.setText(planBean.getData().getPlans().get(0).getName());
-                    dataBinding.myPlanProgressBar.setProgress(planBean.getData().getPlans().get(0).getPercent());
-                    dataBinding.myPlanProgressNum.setText(planBean.getData().getPlans().get(0).getPercent()+ "%");
+
                 }
             }
 

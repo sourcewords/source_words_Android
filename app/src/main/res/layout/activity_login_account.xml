@@ -175,7 +175,7 @@
                 android:id="@+id/checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="@{LoginViewModel.checkBox}"
+                android:checked="@={LoginViewModel.checkBox}"
                 android:text="已阅且同意《用户使用协议》和《隐私政策》" />
         </LinearLayout>
 
