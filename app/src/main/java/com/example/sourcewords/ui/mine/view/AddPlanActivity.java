@@ -15,9 +15,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.example.sourcewords.R;
 import com.example.sourcewords.databinding.ActivityAddplanBindingImpl;
+import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.ui.mine.model.Api;
 import com.example.sourcewords.ui.mine.model.PlanDataResource;
 import com.example.sourcewords.ui.mine.model.databean.PlanItem;
@@ -29,6 +31,7 @@ public class AddPlanActivity extends AppCompatActivity {
     private ActivityAddplanBindingImpl binding;
     private ImageButton addPlan, back;
     private PlanItem item = new PlanItem();
+    private LearnViewModel learnViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstance){
@@ -36,6 +39,8 @@ public class AddPlanActivity extends AppCompatActivity {
         setContentView(R.layout.activity_addplan);
 
         addPlanViewModel = new AddPlanViewModel(this);
+        learnViewModel = ViewModelProviders.of(this).get(LearnViewModel.class);
+
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_addplan);
         binding.setLifecycleOwner(this);
@@ -67,6 +72,10 @@ public class AddPlanActivity extends AppCompatActivity {
                 }
             }
             addPlan(name);
+            //learnViewModel.saveMakePlan()
+            int level = 0;
+            //switch ()
+
         });
 
 
@@ -97,6 +106,7 @@ public class AddPlanActivity extends AppCompatActivity {
             return intent.getStringExtra("plan");
         }
     }
+
     public void addPlan(String name){
         addPlanViewModel.addPlan(name, new Api.changePlanApi() {
             @Override

@@ -29,7 +29,7 @@ import java.util.List;
 public class AllPlanActivity extends AppCompatActivity {
 
     RecyclerView rvCan, rvHave;
-    List<PlanBean> can, have, mList = new ArrayList<>();
+    List<PlanBean> can = new ArrayList<>(), have = new ArrayList<>(), mList = new ArrayList<>();
     private int spaceTag = 1;
     private ImageButton back;
     private TextView myplan;
@@ -47,7 +47,8 @@ public class AllPlanActivity extends AppCompatActivity {
         rvHave.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
         initList();
         if(spaceTag == 1){
-            rvCan.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelOffset(R.dimen.dp_10), mList, this));
+            rvCan.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelOffset(R.dimen.dp_10), can, this));
+            rvHave.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelOffset(R.dimen.dp_10), have, this));
         }
         myplan = findViewById(R.id.myplan);
         back = findViewById(R.id.all_back);
@@ -65,9 +66,9 @@ public class AllPlanActivity extends AppCompatActivity {
         PlanDataResource.getInstance().getMyPlan(new Api.getPlan() {
             @Override
             public void success(PlanItem planBean) {
-                PlanBean plan1 = new PlanBean("四级单词", "", "xx.xx-xx.xx", 0, 1);
-                PlanBean plan2 = new PlanBean("六级单词", "", "xx.xx-xx.xx", 0, 2);
-                PlanBean plan4 = new PlanBean("雅思单词", "", "xx.xx-xx.xx", 0, 3);
+                PlanBean plan1 = new PlanBean("四级", "", "xx.xx-xx.xx", 0, 1);
+                PlanBean plan2 = new PlanBean("六级", "", "xx.xx-xx.xx", 0, 2);
+                PlanBean plan4 = new PlanBean("雅思", "", "xx.xx-xx.xx", 0, 3);
                 can.add(plan1);
                 can.add(plan2);
                 can.add(plan4);
