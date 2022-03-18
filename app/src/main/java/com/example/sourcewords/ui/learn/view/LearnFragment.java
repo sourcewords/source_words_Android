@@ -1,5 +1,6 @@
 package com.example.sourcewords.ui.learn.view;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -171,6 +172,7 @@ public void search(){
 }
 
  */
+@SuppressLint("HandlerLeak")
 class MessageHandler extends Handler {
 
     @Override
