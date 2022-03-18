@@ -32,6 +32,7 @@ public class LearnViewModel extends AndroidViewModel {
     private final static String KEY_TIME = "key_today_time";//记录登录时间
     private final static String KEY_LAST  = "key_last";//记录昨天学的最后一个词根
     private final static String KEY_MAKE_PLAN = "key_make_plan";
+    private final static String KEY_SPEED = "key_speed";
 
 
     public LearnViewModel(@NonNull Application application) {
@@ -60,10 +61,22 @@ public class LearnViewModel extends AndroidViewModel {
         SPUtils sp = SPUtils.getInstance(SPUtils.SP_LEARN_Last);
         return sp.getInt(KEY_LAST,0);
     }
+
     //TODO 储存上次计划进行到第几天
     public void saveLastPlan(int yesterday){
         SPUtils sp = SPUtils.getInstance(SPUtils.SP_LEARN_Last);
         sp.put(KEY_LAST, yesterday);
+    }
+
+    //TODO 获取每日词根的学习个数
+    public int getSpeed(){
+        SPUtils sp = SPUtils.getInstance(SPUtils.SP_LEARN_SPEED);
+        return sp.getInt(KEY_SPEED,5);
+    }
+
+    public void saveSpeed(int size){
+        SPUtils sp = SPUtils.getInstance(SPUtils.SP_LEARN_SPEED);
+        sp.put(KEY_SPEED,size);
     }
 
     public MutableLiveData<Integer> getNowPlan() {

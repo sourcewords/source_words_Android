@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import androidx.viewpager.widget.ViewPager;
@@ -62,7 +63,7 @@ public class LearnFragment extends Fragment implements RollInterface {
         reviewCardViewModel.getAllSingleWord().observe(getViewLifecycleOwner()
                 , singleWords -> Log.d("initDatac", "" + singleWords.size()));
         Handler handler = new MessageHandler();
-        handler.sendEmptyMessageDelayed(MESSAGE1,1500);
+        handler.sendEmptyMessageDelayed(MESSAGE1, 1500);
     }
 
     private void initView(View v) {
@@ -134,11 +135,14 @@ public class LearnFragment extends Fragment implements RollInterface {
         super.onResume();
         if (!viewModel.isToday()) {
             //更新操作
-            ////TODO 进过算法处理，储存当天的进度
-            viewModel.saveLong(viewModel.HowLongPlan() * 5 + 1);
+            //TODO 进过算法处理，储存当天的进度
+            viewModel.saveLong(viewModel.HowLongPlan() * viewModel.getSpeed() + 1);
             viewModel.getLearnFlag().setValue(false);
             viewModel.saveFlag(false);
             viewModel.saveTime();
+        }
+        if (isPlanChanged()){
+            dealWithPlanChanged();
         }
         refresh();
     }
@@ -156,31 +160,46 @@ public class LearnFragment extends Fragment implements RollInterface {
         viewModel.saveTime();
     }
 
-/*y应某个**的要求写的
-public void search(){
-    viewModel.getAll().observe(getViewLifecycleOwner(), new Observer<List<WordRoot>>() {
-        @Override
-        public void onChanged(List<WordRoot> list) {
-            for(WordRoot root : list){
-                Log.d("today","........");
-                if(root.getVideo_url().length() != 0){
-                    Log.d("视频", String.valueOf(root.getId()));
+    //TODO 判断计划判断以及处理计划更换
+    private boolean isPlanChanged(){
+        final boolean[] isChanged = {false};
+        viewModel.getNowPlan().observe(getViewLifecycleOwner(), integer -> {
+            isChanged[0] = (integer != viewModel.getNow());
+            viewModel.savePlan(integer);
+        });
+        return isChanged[0];
+    }
+
+    private void dealWithPlanChanged(){
+        index = 0;
+        viewModel.saveLong(viewModel.HowLongPlan() * viewModel.getSpeed() + 1);
+    }
+
+    /*y应某个**的要求写的
+    public void search(){
+        viewModel.getAll().observe(getViewLifecycleOwner(), new Observer<List<WordRoot>>() {
+            @Override
+            public void onChanged(List<WordRoot> list) {
+                for(WordRoot root : list){
+                    Log.d("today","........");
+                    if(root.getVideo_url().length() != 0){
+                        Log.d("视频", String.valueOf(root.getId()));
+                    }
                 }
             }
-        }
-    });
-}
-
- */
-@SuppressLint("HandlerLeak")
-class MessageHandler extends Handler {
-
-    @Override
-    public void handleMessage(@NonNull Message msg) {
-        super.handleMessage(msg);
-        if (msg.what == MESSAGE1) ((ViewGroup) loading.getParent()).removeView(loading);
+        });
     }
-}
+
+     */
+    @SuppressLint("HandlerLeak")
+    class MessageHandler extends Handler {
+
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == MESSAGE1) ((ViewGroup) loading.getParent()).removeView(loading);
+        }
+    }
 
 }
 

@@ -39,6 +39,7 @@ public final class SPUtils {
     public static final String SP_LEARN_Last = "sp_learn_plan_last";
     public static final String SP_LEARN_LONG = "sp_learn_long";
     public static final String SP_MAKE_PLAN = "sp_make_plan";
+    public static final String SP_LEARN_SPEED = "sp_learn_speed";
 
 
 
