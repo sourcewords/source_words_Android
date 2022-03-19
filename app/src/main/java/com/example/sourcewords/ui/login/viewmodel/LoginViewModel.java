@@ -18,6 +18,7 @@ import com.example.sourcewords.ui.login.model.UserWrapper;
 import com.example.sourcewords.ui.login.model.databean.LocalPage;
 import com.example.sourcewords.ui.login.model.databean.LoginUser;
 import com.example.sourcewords.ui.login.model.respository.LoginRemoteRespository;
+import com.example.sourcewords.ui.login.view.LoginActivity;
 import com.example.sourcewords.ui.login.view.LoginNavigator;
 import com.example.sourcewords.ui.main.MainActivity;
 
@@ -59,35 +60,37 @@ public class LoginViewModel extends ViewModel {
     public LoginViewModel(LoginRemoteRespository repository, Context context) {
         mContext = context;
         loginRemoteRespository = repository;
+        checkBox.setValue(false);
     }
 
     public void onClick(View view) {
-        KeyboardUtils.hideKeyboard((Activity) mContext);
-        String encode = Base64.encodeToString(Password.getValue().getBytes(),Base64.DEFAULT);
-
-        loginRemoteRespository.getLoginStatus(new LoginUser(Account.getValue(), encode), new LoginDataSource.LoadLoginCallBack() {
-            @Override
-            public void onLoginLoded() {
-                User user=new User(Account.getValue(), Password.getValue(),loginRemoteRespository.getToken());
-                UserWrapper.getInstance().setUser(user);
-                mContext.startActivity(new Intent(mContext, MainActivity.class));
-                SPUtils.getInstance("Token").put("Token",loginRemoteRespository.getToken());
-                loginNavigator.onFinish();
-            }
-
-            @Override
-            public void onDataNotAvailable() {
-                Toast.makeText(mContext,"账号或密码错误", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure() {
-                Toast.makeText(mContext,"网络连接失败",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        LocalPage localPage = new LocalPage(Account.getValue(), Password.getValue());
+        LocalPage localPage = new LocalPage(Account.getValue(), Password.getValue(),checkBox.getValue());
         userMutableLiveData.setValue(localPage);
-    }
 
+        if(LoginActivity.isCorrect){
+            KeyboardUtils.hideKeyboard((Activity) mContext);
+            String encode = Base64.encodeToString(Password.getValue().getBytes(),Base64.DEFAULT);
+
+            loginRemoteRespository.getLoginStatus(new LoginUser(Account.getValue(), encode), new LoginDataSource.LoadLoginCallBack() {
+                @Override
+                public void onLoginLoded() {
+                    User user=new User(Account.getValue(), Password.getValue(),loginRemoteRespository.getToken());
+                    UserWrapper.getInstance().setUser(user);
+                    mContext.startActivity(new Intent(mContext, MainActivity.class));
+                    SPUtils.getInstance("Token").put("Token",loginRemoteRespository.getToken());
+                    loginNavigator.onFinish();
+                }
+
+                @Override
+                public void onDataNotAvailable() {
+                    Toast.makeText(mContext,"邮箱或密码错误", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure() {
+                    Toast.makeText(mContext,"网络连接失败",Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
 }
