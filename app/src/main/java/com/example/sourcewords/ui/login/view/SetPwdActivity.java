@@ -7,6 +7,7 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +27,7 @@ public class SetPwdActivity extends AppCompatActivity {
     private EditText oldPwd;
     private EditText newPwd;
     private Button confirm;
+    private ImageButton back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,10 @@ public class SetPwdActivity extends AppCompatActivity {
         oldPwd = findViewById(R.id.old_password);
         newPwd = findViewById(R.id.new_password);
         confirm = findViewById(R.id.confirm_button);
+        back = findViewById(R.id.set_pwd_back);
+
+        back.setOnClickListener(v ->
+                finish());
 
         confirm.setOnClickListener((v) -> {
             if(!oldPwd.getText().toString().equals(newPwd.getText().toString())){

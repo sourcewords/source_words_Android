@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="#FFFFFF"
+        android:paddingTop="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageButton
+            android:id="@+id/user_agreement_back"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="15dp"
+            android:background="@drawable/ic_baseline_arrow_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="所思单词用户协议"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="#64BEBC"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="90dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="
+一、特别提示\n
+在此特别提醒您（用户）在注册成为所思单词用户之前，请认真阅读本《所思单词用户协议》（以下简称“协议”），确保您充分理解本协议中各条款。请您审慎阅读并选择接受或不接受本协议。您同意并点击确认本协议条款且完成注册程序后，才能成为所思单词的正式注册用户，并享受所思单词的各类服务。您的注册、登录、使用等行为将视为对本协议的接受，并同意接受本协议各项条款的约束。若您不同意本协议，或对本协议中的条款存在任何疑问，请您立即停止所思单词用户注册程序，并可以选择不使用本网站服务。
+所思单词APP始终坚持“教育不是灌输，而是点然火焰”的教育初心和产品理念，提供创新、高效的学习软件，让英语学习者利用有限的空余时间真正掌握英语。本协议约定所思单词与用户之间关于“所思单词用户协议”服务（以下简称“服务”）的权利义务。“用户”是指注册、登录、使用本服务的个人、单位。本协议可由所思单词随时更新，更新后的协议条款一旦公布即代替原来的协议条款，恕不再另行通知，用户可在本APP中查阅最新版协议条款。在修改协议条款后，如果用户不接受修改后的条款，请立即停止使用所思单词提供的服务，用户继续使用所思单词提供的服务将被视为接受修改后的协议。
+所思单词APP是武汉翰墨索思教育科技有限责任公司自主开发并运营的产品，致力于英语教育，革新英语学习的传统方式，让英语学习更高效、更轻松、更有趣。所思单词通过有趣、优质的视频吸引英语学习爱好者、激发用户学习兴趣，提供高效的词汇学习APP来满足用户的英语学习需求。让英语学习者利用有限的空余时间真正掌握英语。\n\n
+二、账号注册\n
+1、用户在使用本服务前需要注册一个“所思单词”账号。“所思单词”账号应当使用邮箱号码绑定注册，请用户使用尚未与“所思单词”账号绑定的邮箱号码，以及未被所思单词根据本协议封禁的邮箱号码注册“所思单词”账号。所思单词可以根据用户需求或产品需要对账号注册和绑定的方式进行变更，而无须事先通知用户。\n
+2、如果注册申请者有被所思单词封禁的先例或涉嫌虚假注册及滥用他人名义注册，及其他不能得到许可的理由，所思单词将拒绝其注册申请。\n
+3、鉴于“所思单词”账号的绑定注册方式,您同意所思单词在注册时将允许您的邮箱号码及识别码等信息用于注册。\n
+4、在用户注册及使用本服务时,所思单词需要搜集能识别用户身份的个人信息以便所思单词可以在必要时联系用户,或为用户提供更好的使用体验。所思单词搜集的信息包括但不限于用户的姓名、地址;所思单词同意对这些信息的使用将受限于第三条用户个人隐私信息保护的约束。\n\n
+三、账户安全\n
+1、用户一旦注册成功,成为所思单词的用户,将得到一个用户名和密码,并有权利使用自己的用户名及密码随时进行登陆\n
+2、用户对用户名和密码的安全负全部责任,同时对以其用户名进行的所有活动和事件负全责。\n
+3、用户不得以任何形式擅自转让或授权他人使用自己的所思单词用户名\n
+4、用户对密码加以妥善保管,切勿将密码告知他人,因密码保管不善而造成的所有损失由用户自行承担。\n
+5、如果用户泄漏了密码,有可能导致不利的法律后果,因此不管任何原因导致用户的密码安全受到威胁,应该立即和所思单词客服人员取得联系,否则后果自负。\n\n
+四、服务说明\n
+（1）因技术故障或其它不可抗力导致长时间无法正常服务时，不承担任何赔偿责任，所思单词APP保留不经事先通知为维修保养、升级或其它目的暂停任何部分的权利；\n
+（2）除非本使用协议另有其它明示规定，增加或强化目前本服务的任何新功能，包括所推出的新产品，均受到本使用协议之规范。\n\n
+五、隐私声明\n
+所思单词非常重视对用户隐私权的保护，所思承诺不会在任何情况下擅自将用户的个人资料即注册信息以任何方式提供给其他个人或组织\n\n
+六、用户行为\n
+用户对其自行发表、上传或传送的内容负全部责任，所有用户不得在所思单词任何页面发布、转载、传送含有下列内容之一的信息，否则所思单词有权自行处理并不通知用户：\n
+（1）违反宪法确定的基本原则的；\n
+（2）危害国家安全，泄漏国家机密，颠覆国家政权，破坏国家统一的；\n
+（3）损害国家荣誉和利益的；\n
+（4）煽动民族仇恨、民族歧视，破坏民族团结的；\n
+（5）破坏国家宗教政策，宣扬邪教和封建迷信的；\n
+（6）散布谣言，扰乱社会秩序，破坏社会稳定的；\n
+（7）散布淫秽、色情、赌博、暴力、恐怖或者教唆犯罪的；\n
+（8）侮辱或者诽谤他人，侵害他人合法权益的；\n
+（9）煽动非法集会、结社、游行、示威、聚众扰乱社会秩序的；\n
+（10）以非法民间组织名义活动的；\n
+（11）含有法律、行政法规禁止的其他内容的。\n\n
+七、责任赔偿\n
+由于您通过本服务提供、发布或传送之内容、您与本服务连线、您违反本使用协议、或您侵害他人任何权利因而衍生或导致任何第三人提出任何索赔或请求，包括合理的律师费，您同意赔偿所思单词及其子公司、关联企业、高级职员、代理人、品牌共有人或其它合作伙伴及员工，并使其免受损害，并承担由此引发的全部法律责任。\n\n
+八、责任声明\n
+（1）用户明确同意其使用所思单词服务所存在的风险及一切后果将完全由用户本人承担，所思单词对此不承担任何责任。\n
+（2）所思单词无法保证服务一定能满足用户的要求，也不保证服务的及时性、安全性、准确性。\n
+（3）对于因不可抗力或所思单词不能控制的原因造成的服务中断或其它缺陷，所思单词不承担任何责任，但将尽力减少因此而给用户造成的损失和影响。\n
+（4）所思单词有权于任何时间暂时或永久修改或终止本服务(或其任何部分)，而无论其通知与否，所思单词对用户和任何第三人均无需承担任何责任。\n\n
+九、责任声明\n
+（1）本协议的订立、执行和解释及争议的解决均应适用中华人民共和国法律。\n
+（2）如本协议中的任何条款无论因何种原因完全或部分无效或不具有执行力，本协议的其余条款仍应有效并且有约束力。\n
+（3）本协议解释权及修订权归武汉翰墨索思教育科技有限责任公司所有。
+" />
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,16 +7,20 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.example.sourcewords.R;
+import com.example.sourcewords.commonUtils.SPUtils;
 import com.example.sourcewords.databinding.ActivityMyplanBinding;
 import com.example.sourcewords.ui.mine.model.Api;
 import com.example.sourcewords.ui.mine.model.PlanDataResource;
 import com.example.sourcewords.ui.mine.model.databean.PlanBean;
 import com.example.sourcewords.ui.mine.model.databean.PlanItem;
 import com.example.sourcewords.ui.mine.viewmodel.MyPlanViewModel;
+
+import java.time.LocalDate;
 
 public class MyPlanActivity extends AppCompatActivity {
 
@@ -44,6 +48,7 @@ public class MyPlanActivity extends AppCompatActivity {
 
     private void initView() {
         PlanDataResource.getInstance().getMyPlan(new Api.getPlan() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void success(PlanItem planBean) {
                 if(planBean.getData().getPlans() == null){
@@ -52,22 +57,39 @@ public class MyPlanActivity extends AppCompatActivity {
                 }else{
                     for(PlanItem.DataDTO.PlansDTO dao : planBean.getData().getPlans()){
                         if(dao.getActive() == 1){
-                            if(planBean.getData().getPlans().get(0).getName().equals("四级")){
+                            if(dao.getName().equals("四级")){
                                 dataBinding.myPlanPic.setBackgroundResource(R.mipmap.cet4);
-                            }else if(planBean.getData().getPlans().get(0).getName().equals("六级")){
+                            }else if(dao.getName().equals("六级")){
                                 dataBinding.myPlanPic.setBackgroundResource(R.mipmap.cet6);
                             }else {
                                 dataBinding.myPlanPic.setBackgroundResource(R.mipmap.ielts);
                             }
+                            LocalDate start = LocalDate.now();
+                            int year, month, day;
+                            String endstring = dao.getEnd();
+                            year = Integer.parseInt(endstring.substring(0,4));
+                            if(endstring.charAt(endstring.length()-2) == '.'){
+                                day = Integer.parseInt(endstring.substring(endstring.length()-2,endstring.length()-1));
+                                if(endstring.charAt(endstring.length()-4) == '.'){
+                                    month = Integer.parseInt(endstring.substring(endstring.length()-4, endstring.length()-3));
+                                }else if(endstring.charAt(endstring.length()-5) == '.'){
+                                    month = Integer.parseInt(endstring.substring(endstring.length()-5, endstring.length()-3));
+                                }
+                            }else{
+                                day = Integer.parseInt(endstring.substring(endstring.length()-3,endstring.length()-2));
+                                if(endstring.charAt(endstring.length()-5) == '.'){
+                                    month = Integer.parseInt(endstring.substring(endstring.length()-5, endstring.length()-4));
+                                }else if(endstring.charAt(endstring.length()-6) == '.'){
+                                    month = Integer.parseInt(endstring.substring(endstring.length()-6, endstring.length()-4));
+                                }
+                            }
+
                             dataBinding.myBETimeTv.setText(dao.getStart() + "-" + planBean.getData().getPlans().get(0).getEnd());
                             dataBinding.myPlanName.setText(dao.getName()+ "单词");
                             dataBinding.myPlanProgressBar.setProgress(dao.getPercent());
                             dataBinding.myPlanProgressNum.setText(dao.getPercent()+ "%");
                         }
                     }
-
-                    //dataBinding.myLeastTimeTv.setText(planBean.getData().getPlans().get(0));
-
                 }
             }
 

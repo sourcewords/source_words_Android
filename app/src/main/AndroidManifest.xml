@@ -34,6 +34,8 @@
         <activity android:name=".ui.mine.view.AllPlanActivity" />
         <activity android:name=".ui.login.view.LoginActivity" />
         <activity android:name=".ui.mine.view.ChangePwdActivity" />
+        <activity android:name=".ui.mine.view.UserAgreementActivity" />
+        <activity android:name=".ui.mine.view.SettingActivity" />
         <activity android:name=".ui.mine.view.UserInfoActivity"
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".ui.login.view.RegisterActivity" />

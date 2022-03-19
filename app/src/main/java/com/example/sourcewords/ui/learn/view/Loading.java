@@ -13,6 +13,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import com.example.sourcewords.R;
+import com.example.sourcewords.commonUtils.SPUtils;
 
 public class Loading extends View {
     private Paint paint;

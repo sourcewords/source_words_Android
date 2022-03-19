@@ -25,7 +25,6 @@ import com.example.sourcewords.ui.login.view.LoginNavigator;
 import com.example.sourcewords.ui.mine.model.Api;
 import com.example.sourcewords.ui.mine.model.PlanDataResource;
 import com.example.sourcewords.ui.mine.model.SigninDateSource;
-import com.example.sourcewords.ui.mine.model.databean.PlanBean;
 import com.example.sourcewords.ui.mine.model.databean.PlanItem;
 import com.example.sourcewords.ui.mine.model.databean.SigninBean;
 
@@ -34,7 +33,7 @@ import java.util.TimeZone;
 
 //TODO 我模块
 public class MineFragment extends Fragment {
-    private ConstraintLayout mPersonalData,mAdjustmentPlan;
+    private ConstraintLayout mPersonalData,mAdjustmentPlan,mUserAgreement,mSettting;
     private ImageView signin;
     private ProgressBar mine_bar;
     private TextView mine_progress;
@@ -60,27 +59,28 @@ public class MineFragment extends Fragment {
 
     public void init(View view){
         mPersonalData = view.findViewById(R.id.personal_data);
-        mPersonalData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),UserInfoActivity.class);
-                startActivity(intent);
-            }
+        mPersonalData.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(),UserInfoActivity.class));
         });
 
         mAdjustmentPlan = view.findViewById(R.id.adjustment_plan);
-        mAdjustmentPlan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MyPlanActivity.class);
-                startActivity(intent);
-            }
+        mAdjustmentPlan.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), MyPlanActivity.class));
+        });
+
+        mUserAgreement = view.findViewById(R.id.user_agreement);
+        mUserAgreement.setOnClickListener(v ->{
+            startActivity(new Intent(getActivity(),UserAgreementActivity.class));
+        });
+
+        mSettting = view.findViewById(R.id.setting);
+        mSettting.setOnClickListener(v ->{
+            startActivity(new Intent(getActivity(),SettingActivity.class));
         });
 
         signin = view.findViewById(R.id.sign_in);
         signin.setOnClickListener(v ->{
-            Intent intent = new Intent(getActivity(), SigninActivity.class);
-            startActivity(intent);
+            startActivity(new Intent(getActivity(), SigninActivity.class));
         });
 
         unlogin = view.findViewById(R.id.unlogin_B);
@@ -112,6 +112,7 @@ public class MineFragment extends Fragment {
         PlanDataResource.getInstance().getMyPlan(new Api.getPlan() {
             @SuppressLint("SetTextI18n")
             @Override
+
             public void success(PlanItem myplan) {
                 if(myplan.getData().getPlans() != null){
                     mine_progress.setText(myplan.getData().getPlans().get(0).getPercent() + "%");

@@ -6,10 +6,15 @@ import com.example.sourcewords.ui.review.dataBean.SingleWord;
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordInfoBean;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
+import com.example.sourcewords.ui.review.view.reviewUtils.WordSample;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Stack;
 
 //数据转换类
 public class Converters {
@@ -67,6 +72,60 @@ public class Converters {
         }.getType());
     }
 
+    @TypeConverter
+    public static String HashMap2Json(HashMap<Integer, WordSample> map) {
+        return gs.toJson(map);
+    }
+
+    @TypeConverter
+    public static HashMap<Integer, WordSample> Json2HashMap(String json) {
+        return gs.fromJson(json, new TypeToken<HashMap<Integer, WordSample>>(){
+        }.getType());
+    }
+
+    @TypeConverter
+    public static String Stack2Json(Stack<WordSample> stack) {
+        return gs.toJson(stack);
+    }
+
+    @TypeConverter
+    public static Stack<WordSample> Json2Stack(String json) {
+        return gs.fromJson(json, new TypeToken<Stack<WordSample>>(){
+        }.getType());
+    }
+
+    @TypeConverter
+    public static String Queue2Json(Queue<WordSample> queue) {
+        return gs.toJson(queue);
+    }
+
+    @TypeConverter
+    public static Queue<WordSample> Json2Queue(String json) {
+        return gs.fromJson(json, new TypeToken<Queue<WordSample>>(){
+        }.getType());
+    }
+
+    @TypeConverter
+    public static String PQ2Json(PriorityQueue<WordSample> pq) {
+        return gs.toJson(pq);
+    }
+
+    @TypeConverter
+    public static PriorityQueue<WordSample> Json2PQ(String json) {
+        return gs.fromJson(json, new TypeToken<PriorityQueue<WordSample>>(){
+        }.getType());
+    }
+
+    @TypeConverter
+    public static String WordSample2Json(WordSample wordSample) {
+        return gs.toJson(wordSample);
+    }
+
+    @TypeConverter
+    public static WordSample Json2WordSample(String json) {
+        return gs.fromJson(json, new TypeToken<WordSample>(){
+        }.getType());
+    }
 
     public static List<WordRoot> WordRootJson2Class(String json) {
         return gs.fromJson(json, new TypeToken<List<WordRoot>>() {

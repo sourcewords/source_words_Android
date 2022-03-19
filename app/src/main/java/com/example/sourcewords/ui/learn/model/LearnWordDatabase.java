@@ -15,10 +15,8 @@ import com.example.sourcewords.utils.Converters;
 @TypeConverters({Converters.class})
 public abstract class LearnWordDatabase extends RoomDatabase {
     private static LearnWordDatabase INSTANCE;
-
     public static LearnWordDatabase getDatabase() {
         if (INSTANCE == null) {
-
             synchronized (LearnWordDatabase.class) {
                 INSTANCE = Room.databaseBuilder(App.getAppContext(), LearnWordDatabase.class, "WordRootDatabase")
                         .fallbackToDestructiveMigration()

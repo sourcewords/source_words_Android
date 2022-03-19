@@ -12,6 +12,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.sourcewords.commonUtils.NetUtil;
+import com.example.sourcewords.commonUtils.SPUtils;
 import com.example.sourcewords.ui.login.model.UserWrapper;
 import com.example.sourcewords.ui.login.model.databean.LoginResponse;
 import com.example.sourcewords.ui.mine.model.Api;
@@ -19,6 +20,7 @@ import com.example.sourcewords.ui.mine.model.databean.AddPlanBean;
 import com.example.sourcewords.ui.mine.model.databean.ChoosePlanBean;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,6 +32,7 @@ public class AddPlanViewModel extends ViewModel {
     public MutableLiveData<String> startDate = new MutableLiveData<>();
     public MutableLiveData<String> endDate = new MutableLiveData<>();
     private Context mContext;
+    LocalDate start, end;
     private AddPlanBean addPlanBean = new AddPlanBean();
     String token = UserWrapper.getInstance().getToken();
     int s_y, s_m, s_d, e_y, e_m, e_d;
@@ -47,8 +50,8 @@ public class AddPlanViewModel extends ViewModel {
             public void onDateSet(DatePicker view, int year, int month, int day)
             {
                 month = month + 1;
-                LocalDate date = LocalDate.of(year, month, day);
-                startDate.setValue(date.toString());
+                start = LocalDate.of(year, month, day);
+                startDate.setValue(start.toString());
                 addPlanBean.setStart(year + "." + month + "." + day);
             }
         };
@@ -72,8 +75,8 @@ public class AddPlanViewModel extends ViewModel {
             public void onDateSet(DatePicker view, int year, int month, int day)
             {
                 month = month + 1;
-                LocalDate date = LocalDate.of(year, month, day);
-                endDate.setValue(date.toString());
+                end = LocalDate.of(year, month, day);
+                endDate.setValue(end.toString());
                 addPlanBean.setEnd(year + "." + month + "." + day);
             }
         };
@@ -99,8 +102,10 @@ public class AddPlanViewModel extends ViewModel {
         initEndDatePicker();
         endDatePickerDialog.getValue().show();
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void addPlan(String name, Api.changePlanApi api){
         addPlanBean.setName(name);
+        long daysDiff = ChronoUnit.DAYS.between(start, end);
         if(addPlanBean.getName() != null && addPlanBean.getStart() != null && addPlanBean.getEnd() != null){
             NetUtil.getInstance().getApi().changePlan(token, addPlanBean).enqueue(new Callback<LoginResponse>() {
                 @Override

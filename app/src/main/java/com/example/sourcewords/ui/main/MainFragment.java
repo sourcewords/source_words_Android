@@ -3,6 +3,8 @@ package com.example.sourcewords.ui.main;
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.learn.view.LearnFragment;
+import com.example.sourcewords.ui.learn.view.Loading;
 import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.ui.mine.view.MineFragment;
 import com.example.sourcewords.ui.review.view.ReviewFragment;
@@ -29,6 +32,8 @@ public class MainFragment extends Fragment {
     private ViewPager viewPager;
     private BottomNavigationView bottomNavigationView;
     private List<Fragment> fragmentList;
+    private Loading loading;
+    private static final int MESSAGE1 = 0x1001;
 
 
     @Override
@@ -85,6 +90,7 @@ public class MainFragment extends Fragment {
 
             return false;
         });
+        initLoading();
         return view;
     }
 
@@ -94,5 +100,23 @@ public class MainFragment extends Fragment {
         fragmentList.add(new LearnFragment());
         fragmentList.add(new ReviewFragment());
         fragmentList.add(new MineFragment());
+    }
+
+    private void initLoading() {
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        loading = new Loading(getContext());
+        getActivity().addContentView(loading, lp);
+        Handler handler = new MessageHandler();
+        handler.sendEmptyMessageDelayed(MESSAGE1, 1500);
+    }
+
+    @SuppressLint("HandlerLeak")
+    class MessageHandler extends Handler {
+
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == MESSAGE1) ((ViewGroup) loading.getParent()).removeView(loading);
+        }
     }
 }
