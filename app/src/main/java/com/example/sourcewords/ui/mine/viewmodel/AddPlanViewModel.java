@@ -16,6 +16,7 @@ import com.example.sourcewords.ui.login.model.UserWrapper;
 import com.example.sourcewords.ui.login.model.databean.LoginResponse;
 import com.example.sourcewords.ui.mine.model.Api;
 import com.example.sourcewords.ui.mine.model.databean.AddPlanBean;
+import com.example.sourcewords.ui.mine.model.databean.ChoosePlanBean;
 
 import java.time.LocalDate;
 
@@ -98,9 +99,8 @@ public class AddPlanViewModel extends ViewModel {
         initEndDatePicker();
         endDatePickerDialog.getValue().show();
     }
-    public void changePlan(String name, Api.changePlanApi api){
+    public void addPlan(String name, Api.changePlanApi api){
         addPlanBean.setName(name);
-
         if(addPlanBean.getName() != null && addPlanBean.getStart() != null && addPlanBean.getEnd() != null){
             NetUtil.getInstance().getApi().changePlan(token, addPlanBean).enqueue(new Callback<LoginResponse>() {
                 @Override
@@ -119,7 +119,22 @@ public class AddPlanViewModel extends ViewModel {
         }else{
             api.requestTime();
         }
+    }
 
+    public void changePlan(Api.changePlanApi api, Integer id){
+        NetUtil.getInstance().getApi().choosePlan(token, new ChoosePlanBean(id)).enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                if(response.code() == 200){
+                    api.success();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                    api.failed();
+            }
+        });
     }
 
 }

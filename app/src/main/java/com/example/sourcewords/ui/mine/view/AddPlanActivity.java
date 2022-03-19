@@ -19,6 +19,8 @@ import androidx.databinding.DataBindingUtil;
 import com.example.sourcewords.R;
 import com.example.sourcewords.databinding.ActivityAddplanBindingImpl;
 import com.example.sourcewords.ui.mine.model.Api;
+import com.example.sourcewords.ui.mine.model.PlanDataResource;
+import com.example.sourcewords.ui.mine.model.databean.PlanItem;
 import com.example.sourcewords.ui.mine.viewmodel.AddPlanViewModel;
 
 public class AddPlanActivity extends AppCompatActivity {
@@ -26,6 +28,7 @@ public class AddPlanActivity extends AppCompatActivity {
     private AddPlanViewModel addPlanViewModel;
     private ActivityAddplanBindingImpl binding;
     private ImageButton addPlan, back;
+    private PlanItem item = new PlanItem();
 
     @Override
     protected void onCreate(Bundle savedInstance){
@@ -44,31 +47,26 @@ public class AddPlanActivity extends AppCompatActivity {
         } );
         back = findViewById(R.id.add_back);
         back.setOnClickListener(v->finish());
+        PlanDataResource.getInstance().getMyPlan(new Api.getPlan() {
+            @Override
+            public void success(PlanItem planItem) {
+                item = planItem;
+            }
+
+            @Override
+            public void failed() {
+
+            }
+        });
 
         binding.startPlan.setOnClickListener(v -> {
             String name = binding.addPlanName.getText().toString().substring(0,2);
-            addPlanViewModel.changePlan(name, new Api.changePlanApi() {
-                @Override
-                public void success() {
-                    Toast.makeText(AddPlanActivity.this, "添加成功！", Toast.LENGTH_SHORT).show();
-                    finish();
+            for(PlanItem.DataDTO.PlansDTO i : item.getData().getPlans()){
+                if(i.getName().equals(name)){
+                    changePlan(i.getPlanId());
                 }
-
-                @Override
-                public void failed() {
-
-                }
-
-                @Override
-                public void requestTime(){
-                    Toast.makeText(AddPlanActivity.this, "请选择开始和结束时间！", Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void requestName(){
-                    Toast.makeText(AddPlanActivity.this, "请选择想要进行的计划！", Toast.LENGTH_SHORT).show();
-                }
-            });
+            }
+            addPlan(name);
         });
 
 
@@ -99,5 +97,53 @@ public class AddPlanActivity extends AppCompatActivity {
             return intent.getStringExtra("plan");
         }
     }
+    public void addPlan(String name){
+        addPlanViewModel.addPlan(name, new Api.changePlanApi() {
+            @Override
+            public void success() {
+                Toast.makeText(AddPlanActivity.this, "添加成功！", Toast.LENGTH_SHORT).show();
+                finish();
+            }
 
+            @Override
+            public void failed() {
+
+            }
+
+            @Override
+            public void requestTime(){
+                Toast.makeText(AddPlanActivity.this, "请选择开始和结束时间！", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void requestName(){
+                Toast.makeText(AddPlanActivity.this, "请选择想要进行的计划！", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void changePlan(Integer id){
+        addPlanViewModel.changePlan(new Api.changePlanApi() {
+            @Override
+            public void success() {
+                Toast.makeText(AddPlanActivity.this, "修改成功！", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+
+            @Override
+            public void failed() {
+                
+            }
+
+            @Override
+            public void requestName() {
+
+            }
+
+            @Override
+            public void requestTime() {
+
+            }
+        }, id);
+    }
 }

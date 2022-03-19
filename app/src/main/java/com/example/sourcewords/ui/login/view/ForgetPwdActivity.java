@@ -8,6 +8,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -22,6 +23,7 @@ public class ForgetPwdActivity extends AppCompatActivity {
     private Button next;
     private EditText mail;
     private String s;
+    private ImageButton back;
 
     ActivityResultLauncher launcher = registerForActivityResult(new ResultContract(), new ActivityResultCallback<String>() {
         @Override
@@ -49,6 +51,11 @@ public class ForgetPwdActivity extends AppCompatActivity {
     private void initWidgets(){
         mail = findViewById(R.id.mail_forget);
         next = findViewById(R.id.next_btn);
+        back = findViewById(R.id.forget_pwd_back);
+
+        back.setOnClickListener(v ->
+                finish());
+
         next.setOnClickListener(v -> {
             if(!Patterns.EMAIL_ADDRESS.matcher(mail.getText()).matches()){
                 mail.setError("Enter a Valid E-mail Address");
