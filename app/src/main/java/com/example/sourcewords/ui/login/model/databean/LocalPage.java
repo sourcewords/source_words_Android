@@ -6,11 +6,12 @@ public class LocalPage {
 
     private String name;
     private String password;
-    private boolean checked;
+    private boolean checked = false;
 
-    public LocalPage(String name, String password) {
+    public LocalPage(String name, String password,boolean checked) {
         this.name = name;
         this.password = password;
+        this.checked = checked;
     }
 
     public String getName() {

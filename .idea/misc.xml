@@ -31,7 +31,7 @@
         <entry key="app/src/main/res/layout/activity_changepwd.xml" value="0.1956832317970166" />
         <entry key="app/src/main/res/layout/activity_forget_pwd.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/activity_login_account.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/activity_login_account.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_login_message.xml" value="0.11828774062816616" />
         <entry key="app/src/main/res/layout/activity_login_messge.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_login_regiser.xml" value="0.15172101449275363" />
@@ -41,7 +41,9 @@
         <entry key="app/src/main/res/layout/activity_review_words_detail.xml" value="0.1503623188405797" />
         <entry key="app/src/main/res/layout/activity_searchwordsroot.xml" value="0.14447463768115942" />
         <entry key="app/src/main/res/layout/activity_set_pwd.xml" value="0.125" />
+        <entry key="app/src/main/res/layout/activity_setting.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_signin.xml" value="0.12135416666666667" />
+        <entry key="app/src/main/res/layout/activity_useragreement.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_userinfo.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_word_root_page.xml" value="0.14447463768115942" />
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.1956521739130435" />
