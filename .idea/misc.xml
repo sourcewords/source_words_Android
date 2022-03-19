@@ -16,7 +16,9 @@
         <entry key="app/src/main/res/drawable/background_mine.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/ic_baseline_chevron_left_24.xml" value="0.23703703703703705" />
         <entry key="app/src/main/res/drawable/ic_baseline_keyboard_arrow_right_24.xml" value="0.23703703703703705" />
+
         <entry key="app/src/main/res/drawable/login_background.xml" value="0.23981481481481481" />
+        <entry key="app/src/main/res/drawable/login_input_frame.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/login_rectangle.xml" value="0.23981481481481481" />
         <entry key="app/src/main/res/drawable/login_select1_frame.xml" value="0.23981481481481481" />
         <entry key="app/src/main/res/drawable/login_select2_frame.xml" value="0.23981481481481481" />
@@ -37,6 +39,7 @@
         <entry key="app/src/main/res/layout/activity_login_regiser.xml" value="0.15172101449275363" />
         <entry key="app/src/main/res/layout/activity_login_register.xml" value="0.11" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+<<<<<<< HEAD
         <entry key="app/src/main/res/layout/activity_myplan.xml" value="0.1503623188405797" />
         <entry key="app/src/main/res/layout/activity_review_words_detail.xml" value="0.1503623188405797" />
         <entry key="app/src/main/res/layout/activity_searchwordsroot.xml" value="0.14447463768115942" />
@@ -50,6 +53,7 @@
         <entry key="app/src/main/res/layout/fragment_message.xml" value="0.1956521739130435" />
         <entry key="app/src/main/res/layout/fragment_mine.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_recite.xml" value="0.1503623188405797" />
+
         <entry key="app/src/main/res/layout/fragment_review.xml" value="0.3098958333333333" />
         <entry key="app/src/main/res/layout/item_myplan_rv.xml" value="0.1721014492753623" />
         <entry key="app/src/main/res/layout/network_security_config.xml" value="0.1480978260869565" />
