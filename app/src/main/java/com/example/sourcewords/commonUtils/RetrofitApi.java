@@ -5,6 +5,7 @@ import com.example.sourcewords.ui.login.model.databean.LoginUser;
 import com.example.sourcewords.ui.login.model.databean.RegisterEmail;
 import com.example.sourcewords.ui.login.model.databean.RegisterResponse;
 import com.example.sourcewords.ui.mine.model.databean.AddPlanBean;
+import com.example.sourcewords.ui.mine.model.databean.ChoosePlanBean;
 import com.example.sourcewords.ui.mine.model.databean.PlanItem;
 import com.example.sourcewords.ui.mine.model.databean.PutPwd;
 import com.example.sourcewords.ui.mine.model.databean.SigninBean;
@@ -53,8 +54,11 @@ public interface RetrofitApi {
     @GET("user/plan")
     Call<PlanItem> getMyPlan(@Header("Authorization")String token);
 
-    @POST("user/plan?")
+    @POST("user/plan")
     Call<LoginResponse> changePlan(@Header("Authorization") String token, @Body AddPlanBean addPlanBean);
+
+    @PUT("user/plan/active")
+    Call<LoginResponse> choosePlan(@Header("Authorization") String token, @Body ChoosePlanBean bean);
 
     //signin
     @POST("date/")
