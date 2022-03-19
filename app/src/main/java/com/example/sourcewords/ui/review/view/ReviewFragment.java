@@ -149,6 +149,15 @@ public class ReviewFragment extends Fragment {
     }
 
     @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        int count = fragmentManager.getBackStackEntryCount();
+        for (int i = 0; i < count; ++i) {
+            fragmentManager.popBackStack();
+        }
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onDestroy() {
         fragmentManager.beginTransaction().remove(noneFragment);
         fragmentManager.beginTransaction().remove(reciteFragment);

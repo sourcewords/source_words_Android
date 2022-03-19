@@ -1,5 +1,6 @@
 package com.example.sourcewords.ui.main;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Build;
@@ -16,6 +17,7 @@ import com.example.sourcewords.ui.review.model.WordRepository;
 public class MainActivity extends AppCompatActivity {
     private boolean isAdd = false;
     private long lastBackTime = 0;
+    private MainFragment mainFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,17 +30,25 @@ public class MainActivity extends AppCompatActivity {
                             View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
 
-        if(!isAdd)
+        if(savedInstanceState != null) {
+            isAdd = savedInstanceState.getBoolean("isAdd");
+        }
+
+        if(!isAdd) {
             addMainFragment();
+        }
         //WordRootRepository repository = new WordRootRepository(this);
         //repository.initWordRootList();
 
     }
 
     private void addMainFragment() {
+        if(mainFragment == null)
+            mainFragment = new MainFragment();
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.main_container, new MainFragment(), "mainFragment")
+                .add(R.id.main_container, mainFragment, "mainFragment")
                 .commit();
+        isAdd = true;
     }
 
     @Override
@@ -50,6 +60,12 @@ public class MainActivity extends AppCompatActivity {
             lastBackTime = System.currentTimeMillis();
 
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putBoolean("isAdd", isAdd);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
