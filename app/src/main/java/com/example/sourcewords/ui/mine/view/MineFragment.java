@@ -112,6 +112,7 @@ public class MineFragment extends Fragment {
         PlanDataResource.getInstance().getMyPlan(new Api.getPlan() {
             @SuppressLint("SetTextI18n")
             @Override
+
             public void success(PlanItem myplan) {
                 if(myplan.getData().getPlans() != null){
                     mine_progress.setText(myplan.getData().getPlans().get(0).getPercent() + "%");

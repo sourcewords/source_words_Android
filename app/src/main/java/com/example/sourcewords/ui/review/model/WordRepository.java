@@ -9,9 +9,12 @@ import androidx.lifecycle.LiveData;
 
 import com.example.sourcewords.ui.review.dataBean.SingleWord;
 import com.example.sourcewords.ui.review.dataBean.Word;
+import com.example.sourcewords.ui.review.dataBean.WordCardState;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.db.SingleWordDao;
 import com.example.sourcewords.ui.review.db.SingleWordDatabase;
+import com.example.sourcewords.ui.review.db.WordCardStateDao;
+import com.example.sourcewords.ui.review.db.WordCardStateDatabase;
 import com.example.sourcewords.ui.review.db.WordDao;
 import com.example.sourcewords.ui.review.db.WordDatabase;
 import com.example.sourcewords.ui.review.db.WordRootDao;
@@ -26,7 +29,7 @@ import java.util.List;
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class WordRepository {
     private final WordRootDao dao;
-
+    private final WordCardStateDao wordCardStateDao;
     private final WordDao wordDao;
     private LiveData<List<Word>> allWords;
 
@@ -43,28 +46,27 @@ public class WordRepository {
         WordRootDatabase db = WordRootDatabase.getDatabase();
         WordDatabase wordDatabase = WordDatabase.getDatabase();
         SingleWordDatabase singleWordDatabase = SingleWordDatabase.getDatabase();
+        WordCardStateDatabase wordCardStateDatabase = WordCardStateDatabase.getDatabase();
 
         dao = db.getWordDao();
-        /*
-        List<WordRoot> list = dao.getAllWordRootInSimple();
-        String time = DateUtils.getTime();
-        for(WordRoot wordRoot : list){
-            for(Word word : wordRoot.getWordlist()){
-                if(word.getWord_info().getStatus() == WordInfoBean.WORD_NEW) newWordsToday.add(word);
-                else if(word.getWord_info().getStatus() == WordInfoBean.WORD_TODAY_REVIEW_AGAIN) reviewAgainToday.add(word);
-                else if(word.getWord_info().getStatus() == WordInfoBean.WORD_PAST_REVIEWED) {
-                    if(time.substring(0,9).compareTo(word.getWord_info().getNextTime().substring(0,9)) <= 0){
-                        tobeReview.add(word);
-                    }
-                }
-            }
-        }
-        */
         wordDao = wordDatabase.getWordDao();
         singleWordDao = singleWordDatabase.getWordDao();
+        wordCardStateDao = wordCardStateDatabase.geWordCardStateDao();
 
         allWords = wordDao.getAllWord();
         allSingleWord = singleWordDao.getAllWord();
+    }
+
+    public void deleteWordCardState() {
+        wordCardStateDao.Delete();
+    }
+
+    public void insertWordCardState(WordCardState...wordCardStates) {
+        wordCardStateDao.Insert(wordCardStates);
+    }
+
+    public WordCardState getWordCardState(String date) {
+        return wordCardStateDao.Search(date);
     }
 
     public LiveData<List<SingleWord>> getAllSingleWord() {
@@ -248,28 +250,5 @@ public class WordRepository {
         }
     }
 
-    static class GetWordRootByID extends AsyncTask<Integer, Void, WordRoot>{
-        WordRootDao mWordRootDao;
-        GetWordRootByID(WordRootDao wordRootDao) {
-            this.mWordRootDao = wordRootDao;
-        }
-
-        @Override
-        protected WordRoot doInBackground(Integer... integers) {
-            int id = integers[0];
-            return mWordRootDao.getRootById(id);
-        }
-    }
-
-    static class GetAllWord extends AsyncTask<Void, Void, LiveData<List<Word>>>{
-        WordDao wordDao;
-        GetAllWord(WordDao wordDao) {
-            this.wordDao = wordDao;
-        }
-        @Override
-        protected LiveData<List<Word>> doInBackground(Void... voids) {
-            return wordDao.getAllWord();
-        }
-    }
 
 }
