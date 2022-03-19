@@ -1,19 +1,26 @@
 package com.example.sourcewords.ui.mine.view;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sourcewords.R;
+import com.example.sourcewords.ui.mine.model.Api;
+import com.example.sourcewords.ui.mine.model.PlanDataResource;
 import com.example.sourcewords.ui.mine.model.databean.PlanAdapter;
 import com.example.sourcewords.ui.mine.model.databean.PlanBean;
+import com.example.sourcewords.ui.mine.model.databean.PlanItem;
 import com.example.sourcewords.ui.mine.model.databean.SpacesItemDecoration;
 
 import java.util.ArrayList;
@@ -25,20 +32,32 @@ public class AllPlanActivity extends AppCompatActivity {
     List<PlanBean> mList = new ArrayList<>();
     private int spaceTag = 1;
     private ImageButton back;
+    private TextView myplan;
+    private ConstraintLayout myplan_item;
+    private TextView name, leastTime, b_eTime, progress;
+    private ProgressBar bar;
 
     @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_allplan);
-        initList();
 
+        Intent intent = getIntent();
+        setResult(RESULT_OK, new Intent().putExtra("plan", "error"));
         recyclerView = findViewById(R.id.myplan_rv);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
-        recyclerView.setAdapter(new PlanAdapter(mList));
+        initList();
         if(spaceTag == 1){
             recyclerView.addItemDecoration(new SpacesItemDecoration(getResources().getDimensionPixelOffset(R.dimen.dp_10), mList, this));
         }
+        myplan = findViewById(R.id.myplan);
+        myplan_item = findViewById(R.id.allplan_rv_item);
+        name = findViewById(R.id.all_plan_name);
+        leastTime = findViewById(R.id.all_least_time_tv);
+        b_eTime = findViewById(R.id.all_b_e_time_tv);
+        progress = findViewById(R.id.all_plan_progress_num);
+        bar = findViewById(R.id.all_plan_progress_bar);
         back = findViewById(R.id.all_back);
         back.setOnClickListener(v->finish());
 
@@ -50,14 +69,58 @@ public class AllPlanActivity extends AppCompatActivity {
     }
 
     public void initList(){
-        PlanBean plan2 = new PlanBean("六级单词", "", "xx.xx-xx.xx", 0, 2);
-        PlanBean plan4 = new PlanBean("雅思单词", "", "xx.xx-xx.xx", 0, 3);
 
-        mList.add(plan2);
-        mList.add(plan4);
+        PlanDataResource.getInstance().getMyPlan(new Api.getPlan() {
+            @Override
+            public void success(PlanItem planBean) {
+                PlanBean plan1 = new PlanBean("四级单词", "", "xx.xx-xx.xx", 0, 1);
+                PlanBean plan2 = new PlanBean("六级单词", "", "xx.xx-xx.xx", 0, 2);
+                PlanBean plan4 = new PlanBean("雅思单词", "", "xx.xx-xx.xx", 0, 3);
+                mList.add(plan1);
+                mList.add(plan2);
+                mList.add(plan4);
+                if(planBean.getData().getPlans() == null){
+                    myplan.setVisibility(View.GONE);
+                    myplan_item.setVisibility(View.GONE);
+                }else if(planBean.getData().getPlans().get(0).getName().equals("四级")){
+                    mList.remove(0);
+                    name.setText(planBean.getData().getPlans().get(0).getName());
+                    b_eTime.setText(planBean.getData().getPlans().get(0).getStart() + "-" + planBean.getData().getPlans().get(0).getEnd());
+                    progress.setText(planBean.getData().getPlans().get(0).getPercent() + "%");
+                    bar.setProgress(planBean.getData().getPlans().get(0).getPercent());
+                }else if(planBean.getData().getPlans().get(0).getName().equals("六级单词")){
+                    mList.remove(1);
+                    name.setText(planBean.getData().getPlans().get(0).getName());
+                    b_eTime.setText(planBean.getData().getPlans().get(0).getStart() + "-" + planBean.getData().getPlans().get(0).getEnd());
+                    progress.setText(planBean.getData().getPlans().get(0).getPercent() + "%");
+                    bar.setProgress(planBean.getData().getPlans().get(0).getPercent());
+                }else if(planBean.getData().getPlans().get(0).getName().equals("雅思单词")){
+                    mList.remove(2);
+                    name.setText(planBean.getData().getPlans().get(0).getName());
+                    b_eTime.setText(planBean.getData().getPlans().get(0).getStart() + "-" + planBean.getData().getPlans().get(0).getEnd());
+                    progress.setText(planBean.getData().getPlans().get(0).getPercent() + "%");
+                    bar.setProgress(planBean.getData().getPlans().get(0).getPercent());
+                }
+                recyclerView.setAdapter(new PlanAdapter(mList, new Api.addPlan() {
+                    @Override
+                    public void success(String name) {
+                        setResult(RESULT_OK, new Intent().putExtra("plan", name));
+                        finish();
+                    }
+
+                    @Override
+                    public void failed() {
+
+                    }
+                }));
+            }
+
+            @Override
+            public void failed() {
+
+            }
+        });
+
     }
 
-    private void back(View v){
-        finish();
-    }
 }

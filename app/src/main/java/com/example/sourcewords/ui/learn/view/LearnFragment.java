@@ -1,9 +1,11 @@
 package com.example.sourcewords.ui.learn.view;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,13 +20,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.sourcewords.App;
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.ui.learn.viewModel.RollInterface;
 import com.example.sourcewords.ui.main.MainViewPageAdapter;
 
 import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
+import com.example.sourcewords.utils.PreferencesUtils;
 
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -132,6 +138,11 @@ public class LearnFragment extends Fragment implements RollInterface {
             viewModel.getLearnFlag().setValue(false);
             viewModel.saveFlag(false);
             viewModel.saveTime();
+
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(PreferencesUtils.WORD_ROOT_HAVE_LEARNED, false);
+            editor.apply();
         }
         if (isPlanChanged()){
             dealWithPlanChanged();
@@ -143,6 +154,24 @@ public class LearnFragment extends Fragment implements RollInterface {
         //TODO 算法处理
         adapter.setFragments(initFragmentList());
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Pass_Wordroot_ID(viewModel.HowLongPlan()*size + 1,viewModel.getLong());
+    }
+
+    //TODO 传递今日所学的id
+    private void Pass_Wordroot_ID(int start,int end){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        JSONArray jsonArray = new JSONArray();
+        for(int i = start ; i < end ; i++){
+            jsonArray.put(i);
+        }
+        editor.putString(PreferencesUtils.WORD_ROOT_TODAY, jsonArray.toString());
+        editor.apply();
     }
 
     // 记录离开时间

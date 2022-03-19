@@ -31,8 +31,7 @@ public class RegisterActivity extends AppCompatActivity implements RegisterNavig
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_register);
 
-        registerViewModel = new RegisterViewModel(RegisterRemoteRespository.getINSTANCE(),getApplicationContext());
-        registerViewModel.onActivityCreated(this);
+        registerViewModel = new RegisterViewModel(RegisterRemoteRespository.getINSTANCE(),this);
 
         binding = DataBindingUtil.setContentView(this,R.layout.activity_login_register);
         binding.setLifecycleOwner(this);

@@ -40,7 +40,7 @@ public final class SPUtils {
     public static final String SP_LEARN_LONG = "sp_learn_long";
     public static final String SP_MAKE_PLAN = "sp_make_plan";
     public static final String SP_LEARN_SPEED = "sp_learn_speed";
-
+    public static final String SP_NAME = "limit_config";
 
 
     /**
@@ -472,4 +472,30 @@ public final class SPUtils {
         }
         return true;
     }
+
+    /**
+     * 保存long型
+     *
+//     * @param context
+     * @param key
+     * @param value
+     */
+    public void saveLong(String key, long value) {
+//        if (sp == null)
+//            sp = context.getSharedPreferences(SP_NAME, 0);
+        sp.edit().putLong(key, value).commit();
+    }
+
+//    /**
+//     * 获取long值
+//     *
+//     * @param context
+//     * @param key
+//     * @param defValue
+//     * @return
+//     */
+//    public long getLong(Context context, String key, long defValue) {
+//        sp = context.getSharedPreferences(SP_NAME, 0);
+//        return sp.getLong(key, defValue);
+//    }
 }

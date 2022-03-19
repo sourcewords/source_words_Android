@@ -1,9 +1,11 @@
 package com.example.sourcewords.ui.review.viewmodel;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -12,18 +14,27 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.SavedStateHandle;
+import androidx.savedstate.SavedStateRegistry;
 
 import com.example.sourcewords.App;
 import com.example.sourcewords.commonUtils.SPUtils;
 import com.example.sourcewords.ui.review.dataBean.SingleWord;
 import com.example.sourcewords.ui.review.dataBean.Word;
+import com.example.sourcewords.ui.review.dataBean.WordCardState;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.model.WordRepository;
 import com.example.sourcewords.ui.review.view.reviewUtils.WordSample;
 import com.example.sourcewords.utils.DateUtils;
 import com.example.sourcewords.utils.PreferencesUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -56,6 +67,51 @@ public class ReviewCardViewModel extends AndroidViewModel {
     private Queue<WordSample> haveLearnedWordsQueue;
 
 
+    public List<Word> getNewLearnedWords() {
+        return newLearnedWords;
+    }
+
+    public void setNewLearnedWords(List<Word> newLearnedWords) {
+        this.newLearnedWords = newLearnedWords;
+    }
+
+    public List<Word> getHaveLearnedWords() {
+        return haveLearnedWords;
+    }
+
+    public void setHaveLearnedWords(List<Word> haveLearnedWords) {
+        this.haveLearnedWords = haveLearnedWords;
+    }
+
+    public List<Word> getReviewWords() {
+        return reviewWords;
+    }
+
+    public void setReviewWords(List<Word> reviewWords) {
+        this.reviewWords = reviewWords;
+    }
+
+    public void setNewLearnedCount(MutableLiveData<Integer> newLearnedCount) {
+        this.newLearnedCount = newLearnedCount;
+    }
+
+    public void setHaveLearnedCount(MutableLiveData<Integer> haveLearnedCount) {
+        this.haveLearnedCount = haveLearnedCount;
+    }
+
+    public void setReviewCount(MutableLiveData<Integer> reviewCount) {
+        this.reviewCount = reviewCount;
+    }
+
+    public MutableLiveData<WordSample> getWordSampleMutableLiveData() {
+        return wordSampleMutableLiveData;
+    }
+
+    public void setWordSampleMutableLiveData(MutableLiveData<WordSample> wordSampleMutableLiveData) {
+        this.wordSampleMutableLiveData = wordSampleMutableLiveData;
+    }
+
+
     public Queue<WordSample> getNewLearnedWordsQueue() {
         return newLearnedWordsQueue;
     }
@@ -83,10 +139,21 @@ public class ReviewCardViewModel extends AndroidViewModel {
 
     public void initData() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
-        int rootId = sharedPreferences.getInt(PreferencesUtils.WORD_ROOT_TODAY, 0);
-        Log.d("preferences", "" + rootId);
-        newLearnedWords = mWordRepository.getNewWords(rootId);
-        haveLearnedWords = mWordRepository.getLearnedWords(DateUtils.getData());
+        String target = sharedPreferences.getString(PreferencesUtils.WORD_ROOT_TODAY,"[0]");
+        List<Integer> rootIds = new ArrayList<>();
+        try{
+            JSONArray jsonArray = new JSONArray(target);
+            for(int i = 0 ; i < jsonArray.length() ; i++){
+                rootIds.add((Integer) jsonArray.get(i));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        for(int rootId : rootIds){
+            Log.d("preferences", "" + rootId);
+            newLearnedWords = mWordRepository.getNewWords(rootId);
+        }
+        haveLearnedWords = mWordRepository.getLearnedWords(DateUtils.getDate());
         reviewWords = new ArrayList<>(0);
 
         newLearnedCount = new MutableLiveData<>(newLearnedWords.size());
@@ -120,7 +187,31 @@ public class ReviewCardViewModel extends AndroidViewModel {
         newLearnedCount.setValue(newLearnedWordsQueue.size());
         haveLearnedCount.setValue(haveLearnedWordsQueue.size());
         reviewCount.setValue(priorityQueue.size());
-        if(priorityQueue.isEmpty() || priorityQueue.peek().getTime().compareTo(lastLearnTime) > 0)
+
+        // 队列当前第一个单词的时间和此刻时间的差值
+        long elapsed = 0l;
+        if(!priorityQueue.isEmpty()) {
+            @SuppressLint("SimpleDateFormat")
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+            Date t1 = null;
+            try {
+                t1 = sdf.parse(lastLearnTime);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            Date t2 = null;
+            try {
+                t2 = sdf.parse(priorityQueue.peek().getTime());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            assert t2 != null;
+            assert t1 != null;
+            elapsed = t2.getTime() - t1.getTime();
+            Log.d("time",lastLearnTime + " " + priorityQueue.peek().getTime());
+        }
+
+        if(priorityQueue.isEmpty() || elapsed > 0)
         if(!newLearnedWordsQueue.isEmpty()) {
             Log.d("nq", "" + newLearnedWordsQueue.size());
             wordSample = newLearnedWordsQueue.poll();
@@ -248,5 +339,31 @@ public class ReviewCardViewModel extends AndroidViewModel {
 
     public void loadAllWordsToDataBase() {
         mWordRepository.loadAllWordsToDataBase(wordPool);
+    }
+
+    public void initFromDataBase(String date) {
+        WordCardState wordCardState = mWordRepository.getWordCardState(date);
+        if(wordCardState == null) return;
+        this.newLearnedWords = wordCardState.getNewLearnedWords();
+        this.haveLearnedWords = wordCardState.getHaveLearnedWords();
+        this.reviewWords = wordCardState.getReviewWords();
+        this.newLearnedCount.setValue(wordCardState.getNewLearnedCount());
+        this.haveLearnedCount.setValue(wordCardState.getHaveLearnedCount());
+        this.reviewCount.setValue(wordCardState.getReviewCount());
+        this.wordSampleMutableLiveData.setValue(wordCardState.getWordSample());
+        this.wordPool = wordCardState.getWordPool();
+        this.lastLearnTime = wordCardState.getLastLearnTime();
+        this.historyStack = wordCardState.getHistoryStack();
+        this.priorityQueue = wordCardState.getPriorityQueue();
+        this.newLearnedWordsQueue = wordCardState.getNewLearnedWordsQueue();
+        this.haveLearnedWordsQueue = wordCardState.getHaveLearnedWordsQueue();
+    }
+
+    public void saveWordCardState(WordCardState wordCardState) {
+        mWordRepository.insertWordCardState(wordCardState);
+    }
+
+    public void deleteWordCardState() {
+        mWordRepository.deleteWordCardState();
     }
 }

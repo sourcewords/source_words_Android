@@ -44,7 +44,7 @@ public class ChangePwdActivity extends AppCompatActivity {
                 Toast.makeText(this, "两次输入的密码不一致哦！",Toast.LENGTH_SHORT).show();
             }
             else{
-                myViewModel.putChange(new Api.ChangePwdApi() {
+                myViewModel.putChange(newp, new Api.ChangePwdApi() {
                     @Override
                     public void success() {
                         Toast.makeText(ChangePwdActivity.this, "修改成功！", Toast.LENGTH_SHORT).show();
