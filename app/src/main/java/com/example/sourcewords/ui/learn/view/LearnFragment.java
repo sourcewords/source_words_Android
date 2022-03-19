@@ -36,8 +36,7 @@ public class LearnFragment extends Fragment implements RollInterface {
     private MainViewPageAdapter adapter;
     private ViewPager viewPager;
     private static int size;
-    private Loading loading;
-    private static final int MESSAGE1 = 0x1001;
+
 
     @NonNull
     @Override
@@ -45,15 +44,6 @@ public class LearnFragment extends Fragment implements RollInterface {
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_learn_new, container, false);
         viewModel = ViewModelProviders.of(this).get(LearnViewModel.class);
-        initLoading();
-        initView(v);
-        return v;
-    }
-
-    private void initLoading() {
-        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        loading = new Loading(getContext());
-        getActivity().addContentView(loading, lp);
         ReviewCardViewModel reviewCardViewModel = ViewModelProviders.of(getActivity()).get(ReviewCardViewModel.class);
         reviewCardViewModel.getAllWord().observe(getViewLifecycleOwner(), words -> {
             assert words != null;
@@ -62,9 +52,12 @@ public class LearnFragment extends Fragment implements RollInterface {
         reviewCardViewModel.getAllWordRoot().observe(getViewLifecycleOwner(), wordRoots -> Log.d("initDataa", "" + wordRoots.size()));
         reviewCardViewModel.getAllSingleWord().observe(getViewLifecycleOwner()
                 , singleWords -> Log.d("initDatac", "" + singleWords.size()));
-        Handler handler = new MessageHandler();
-        handler.sendEmptyMessageDelayed(MESSAGE1, 1500);
+        size = viewModel.getSpeed();
+        initView(v);
+        return v;
     }
+
+
 
     private void initView(View v) {
         viewPager = v.findViewById(R.id.learn_viewPager);
@@ -92,12 +85,11 @@ public class LearnFragment extends Fragment implements RollInterface {
     private List<Fragment> initFragmentList() {
         int date = viewModel.HowLongPlan();
         List<Fragment> ans = new ArrayList<>();
-        for (int i = 1; i <= 5; i++) {
-            LearnWordRootFragment fragment = LearnWordRootFragment.newInstance(i + date * 5);
+        for (int i = 1; i <= size; i++) {
+            LearnWordRootFragment fragment = LearnWordRootFragment.newInstance(i + date * size);
             fragment.setRollCallBack(this);
             ans.add(fragment);
         }
-        size = ans.size();
 
         /*
         Random random = new Random();
@@ -136,7 +128,7 @@ public class LearnFragment extends Fragment implements RollInterface {
         if (!viewModel.isToday()) {
             //更新操作
             //TODO 进过算法处理，储存当天的进度
-            viewModel.saveLong(viewModel.HowLongPlan() * viewModel.getSpeed() + 1);
+            viewModel.saveLong(viewModel.HowLongPlan() * size + 1);
             viewModel.getLearnFlag().setValue(false);
             viewModel.saveFlag(false);
             viewModel.saveTime();
@@ -172,7 +164,7 @@ public class LearnFragment extends Fragment implements RollInterface {
 
     private void dealWithPlanChanged(){
         index = 0;
-        viewModel.saveLong(viewModel.HowLongPlan() * viewModel.getSpeed() + 1);
+        viewModel.saveLong(viewModel.HowLongPlan() * size + 1);
     }
 
     /*y应某个**的要求写的
@@ -191,15 +183,7 @@ public class LearnFragment extends Fragment implements RollInterface {
     }
 
      */
-    @SuppressLint("HandlerLeak")
-    class MessageHandler extends Handler {
 
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == MESSAGE1) ((ViewGroup) loading.getParent()).removeView(loading);
-        }
-    }
 
 }
 
