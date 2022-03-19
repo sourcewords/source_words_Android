@@ -1,5 +1,6 @@
 package com.example.sourcewords.ui.main;
 
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;

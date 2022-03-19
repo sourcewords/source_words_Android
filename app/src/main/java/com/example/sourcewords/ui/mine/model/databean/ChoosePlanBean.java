@@ -2,17 +2,17 @@ package com.example.sourcewords.ui.mine.model.databean;
 
 
 public class ChoosePlanBean {
-    public ChoosePlanBean(Integer planId) {
-        this.planId = planId;
+    public ChoosePlanBean(Integer plan_id) {
+        this.plan_id = plan_id;
     }
 
     public Integer getPlanId() {
-        return planId;
+        return plan_id;
     }
 
-    public void setPlanId(Integer planId) {
-        this.planId = planId;
+    public void setPlanId(Integer plan_id) {
+        this.plan_id = plan_id;
     }
 
-    private Integer planId;
+    private Integer plan_id;
 }
