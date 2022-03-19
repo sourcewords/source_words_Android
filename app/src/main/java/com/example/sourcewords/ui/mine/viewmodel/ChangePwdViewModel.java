@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.sourcewords.commonUtils.NetUtil;
 import com.example.sourcewords.ui.login.model.databean.LoginResponse;
+import com.example.sourcewords.ui.login.model.databean.LoginUser;
 import com.example.sourcewords.ui.mine.model.Api;
 import com.example.sourcewords.ui.mine.model.databean.PassWord;
 import com.example.sourcewords.ui.mine.model.databean.PutPwd;
@@ -34,7 +35,7 @@ public class ChangePwdViewModel extends ViewModel {
     public void putChange(String newp, Api.ChangePwdApi callback){
 
         String encode = Base64.encodeToString(newp.getBytes(),Base64.DEFAULT);
-        NetUtil.getInstance().getApi().changPwd(new PutPwd(UserWrapper.getInstance().getName(),
+        NetUtil.getInstance().getApi().resetPwd(new LoginUser(UserWrapper.getInstance().getName(),
                 encode))
                 .enqueue(new Callback<LoginResponse>() {
                     @Override

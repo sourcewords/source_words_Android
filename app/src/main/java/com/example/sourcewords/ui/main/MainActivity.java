@@ -11,9 +11,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.sourcewords.R;
-import com.example.sourcewords.ui.learn.model.WordRootRepository;
-import com.example.sourcewords.ui.review.model.WordRepository;
-
 
 //TODO 开机动画 引导页
 public class MainActivity extends AppCompatActivity {
