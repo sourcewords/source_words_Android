@@ -176,6 +176,9 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
         if (viewModel.getLong() > root_id) {
             button_learned.setClickable(false);
             changeButtonUI();
+        }else{
+            button_learned.setClickable(true);
+            changeButtonUIBack();
         }
         Log.d("LearnFragment", "刷新拉!!!!");
     }
