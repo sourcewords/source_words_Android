@@ -139,9 +139,9 @@ public class ReviewCardViewModel extends AndroidViewModel {
 
     public void initData() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
-        String target = sharedPreferences.getString(PreferencesUtils.WORD_ROOT_TODAY,"[1]");
+        String target = sharedPreferences.getString(PreferencesUtils.WORD_ROOT_TODAY,"[0]");
         List<Integer> rootIds = new ArrayList<>();
-        reviewWords = new ArrayList<>(0);
+
         try{
             JSONArray jsonArray = new JSONArray(target);
             for(int i = 0 ; i < jsonArray.length() ; i++){
@@ -152,6 +152,7 @@ public class ReviewCardViewModel extends AndroidViewModel {
         }
         for(int rootId : rootIds){
             Log.d("preferences", "" + rootId);
+            reviewWords = new ArrayList<>(0);
             newLearnedWords = mWordRepository.getNewWords(rootId);
             haveLearnedWords = mWordRepository.getLearnedWords(DateUtils.getDate());
             newLearnedCount = new MutableLiveData<>(newLearnedWords.size());

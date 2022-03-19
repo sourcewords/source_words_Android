@@ -2,9 +2,11 @@ package com.example.sourcewords.ui.learn.view;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -26,11 +28,16 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sourcewords.App;
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.ui.learn.viewModel.RollInterface;
 import com.example.sourcewords.ui.learn.viewModel.WordsAdapter;
 import com.example.sourcewords.ui.review.dataBean.Word;
+import com.example.sourcewords.utils.PreferencesUtils;
+
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,11 +127,16 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
             case R.id.learn_AllLearned:
                 if(viewModel.getLong() == root_id ) {
                     changeButtonUI();
-                    viewModel.saveFlag(true);
-                    viewModel.getLearnFlag().setValue(true);
+
                     button_learned.setClickable(false);
                     viewModel.saveLong(viewModel.getLong() + 1);
                     viewModel.whatILearnedToday(list);
+                    rollInterface.next();
+                    if(root_id == (viewModel.HowLongPlan()+1) * viewModel.getSpeed()){
+                        viewModel.saveFlag(true);
+                        viewModel.getLearnFlag().setValue(true);
+                    }
+                    //Pass_Wordroot_ID(viewModel.HowLongPlan()*viewModel.getSpeed() + 1, viewModel.getLong());
                 }else{
                     Toast.makeText(getContext(), "您还没学到这个", Toast.LENGTH_SHORT).show();
                 }
@@ -218,4 +230,6 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
         super.onResume();
         refresh();
     }
+
+
 }
