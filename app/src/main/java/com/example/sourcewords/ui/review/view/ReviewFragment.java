@@ -1,5 +1,6 @@
 package com.example.sourcewords.ui.review.view;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -27,6 +28,10 @@ import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.utils.DateUtils;
 import com.example.sourcewords.utils.PreferencesUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 //TODO 习模块
 @RequiresApi(api = Build.VERSION_CODES.N)
@@ -39,9 +44,9 @@ public class ReviewFragment extends Fragment {
     private ReciteFragment reciteFragment;
     private FragmentManager fragmentManager;
 
-    private static int count = 0;
     private boolean hasInit = false;
     boolean flag = false;
+    private SharedPreferences sharedPreferences;
 
 
     @Override
@@ -57,20 +62,20 @@ public class ReviewFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_review, null);
         frameLayout = view.findViewById(R.id.review_container);
         noneFragment = new NoneFragment();
+        reciteFragment = new ReciteFragment();
 
         fragmentManager = getChildFragmentManager();
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
 
         String lastReviewDay = sharedPreferences.getString(PreferencesUtils.LAST_REVIEW_DAY, "2022-1-1");
 
-        // 上次复习时间是之前的日期，不是今天，且当前时间大于4：00则可以认为今日没有学习词根,且没有点击过学按钮
-        if (lastReviewDay.compareTo(DateUtils.getData()) < 0 && DateUtils.getTime().compareTo("4:00") > 0) {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean(PreferencesUtils.WORD_ROOT_HAVE_LEARNED, false);
-            editor.putBoolean(PreferencesUtils.CLICK_LEARAN_BUTTON, false);
-            editor.commit();
-        }
+        String updateTime = "4:00";
+        String nowTime = DateUtils.getTime();
+
+        initSP(lastReviewDay, updateTime, nowTime);
+
+
         flag = sharedPreferences.getBoolean(PreferencesUtils.WORD_ROOT_HAVE_LEARNED, false);
         viewModel.getLearnFlag().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
@@ -82,11 +87,12 @@ public class ReviewFragment extends Fragment {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putBoolean(PreferencesUtils.CLICK_LEARAN_BUTTON, true);
                     editor.commit();
-                    initWordView(new ReciteFragment());
+                    initWordView(reciteFragment);
 
                 } else if (sharedPreferences.getBoolean(PreferencesUtils.CLICK_LEARAN_BUTTON, false)) {
-                    initWordView(new ReciteFragment());
-                } else initNoneView();
+                    initWordView(reciteFragment);
+                } else
+                    initNoneView();
 
             }
         });
@@ -94,6 +100,18 @@ public class ReviewFragment extends Fragment {
         initViewAndListener(view);
 
         return view;
+    }
+
+    private void initSP(String lastReviewDay,String updateTime, String nowTime) {
+        // 上次复习时间是之前的日期，不是今天，且当前时间大于4：00则可以认为今日没有学习词根,且没有点击过学按钮
+        if (DateUtils.compareDate(lastReviewDay, DateUtils.getDate()) > 0 && DateUtils.compareTime(updateTime,nowTime) > 0) {
+            viewModel.getLearnFlag().setValue(false);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(PreferencesUtils.WORD_ROOT_HAVE_LEARNED, false);
+            editor.putBoolean(PreferencesUtils.CLICK_LEARAN_BUTTON, false);
+            editor.putString(PreferencesUtils.LAST_REVIEW_DAY, DateUtils.getDate());
+            editor.commit();
+        }
     }
 
     public void initViewAndListener(View view) {
@@ -119,5 +137,30 @@ public class ReviewFragment extends Fragment {
         }
         fragmentManager.beginTransaction().add(R.id.review_container, reciteFragment, "ReciteFragment")
                 .commit();
+    }
+
+    @Override
+    public void onResume() {
+        String lastReviewDay = sharedPreferences.getString(PreferencesUtils.LAST_REVIEW_DAY, "2022-1-1");
+        String updateTime = "4:00";
+        String nowTime = DateUtils.getTime();
+        initSP(lastReviewDay, updateTime, nowTime);
+        super.onResume();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        int count = fragmentManager.getBackStackEntryCount();
+        for (int i = 0; i < count; ++i) {
+            fragmentManager.popBackStack();
+        }
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onDestroy() {
+        fragmentManager.beginTransaction().remove(noneFragment);
+        fragmentManager.beginTransaction().remove(reciteFragment);
+        super.onDestroy();
     }
 }

@@ -5,20 +5,18 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
 
 import com.example.sourcewords.R;
 import com.example.sourcewords.databinding.ActivityMyplanBinding;
+import com.example.sourcewords.ui.mine.model.Api;
+import com.example.sourcewords.ui.mine.model.PlanDataResource;
 import com.example.sourcewords.ui.mine.model.databean.PlanBean;
+import com.example.sourcewords.ui.mine.model.databean.PlanItem;
 import com.example.sourcewords.ui.mine.viewmodel.MyPlanViewModel;
-
-import java.lang.invoke.ConstantCallSite;
 
 public class MyPlanActivity extends AppCompatActivity {
 
@@ -45,17 +43,39 @@ public class MyPlanActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        myPlan = viewModel.getMyPlan().getValue();
-        if(myPlan == null){
-            dataBinding.myplanRvItem.setVisibility(View.GONE);
-            Toast.makeText(this, "现在没有进行中的计划哦，快来添加一个吧！", Toast.LENGTH_SHORT).show();
-        }else{
-            dataBinding.leastTimeTv.setText(myPlan.getLeastTime());
-            dataBinding.bETimeTv.setText(myPlan.getB_eTime());
-            dataBinding.planName.setText(myPlan.getPlanName());
-            dataBinding.planProgressBar.setProgress(myPlan.getProgress());
-            dataBinding.planProgressNum.setText(myPlan.getProgress());
-        }
+        PlanDataResource.getInstance().getMyPlan(new Api.getPlan() {
+            @Override
+            public void success(PlanItem planBean) {
+                if(planBean.getData().getPlans() == null){
+                    dataBinding.myplanRvItem.setVisibility(View.GONE);
+                    Toast.makeText(MyPlanActivity.this, "现在没有进行中的计划哦，快来添加一个吧！", Toast.LENGTH_SHORT).show();
+                }else{
+                    for(PlanItem.DataDTO.PlansDTO dao : planBean.getData().getPlans()){
+                        if(dao.getActive() == 1){
+                            if(planBean.getData().getPlans().get(0).getName().equals("四级")){
+                                dataBinding.myPlanPic.setBackgroundResource(R.mipmap.cet4);
+                            }else if(planBean.getData().getPlans().get(0).getName().equals("六级")){
+                                dataBinding.myPlanPic.setBackgroundResource(R.mipmap.cet6);
+                            }else {
+                                dataBinding.myPlanPic.setBackgroundResource(R.mipmap.ielts);
+                            }
+                            dataBinding.myBETimeTv.setText(dao.getStart() + "-" + planBean.getData().getPlans().get(0).getEnd());
+                            dataBinding.myPlanName.setText(dao.getName()+ "单词");
+                            dataBinding.myPlanProgressBar.setProgress(dao.getPercent());
+                            dataBinding.myPlanProgressNum.setText(dao.getPercent()+ "%");
+                        }
+                    }
+
+                    //dataBinding.myLeastTimeTv.setText(planBean.getData().getPlans().get(0));
+
+                }
+            }
+
+            @Override
+            public void failed() {
+
+            }
+        });
 
         dataBinding.myplanAdd.setOnClickListener(v -> {
             Intent intent = new Intent(this, AddPlanActivity.class);
@@ -66,5 +86,9 @@ public class MyPlanActivity extends AppCompatActivity {
         back.setOnClickListener(v->finish());
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initView();
+    }
 }

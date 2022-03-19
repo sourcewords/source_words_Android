@@ -1,24 +1,34 @@
 package com.example.sourcewords.ui.mine.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageButton;
 import android.os.Build;
 import android.view.View;
+import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.example.sourcewords.R;
 import com.example.sourcewords.databinding.ActivityAddplanBindingImpl;
+import com.example.sourcewords.ui.mine.model.Api;
+import com.example.sourcewords.ui.mine.model.PlanDataResource;
+import com.example.sourcewords.ui.mine.model.databean.PlanItem;
 import com.example.sourcewords.ui.mine.viewmodel.AddPlanViewModel;
 
 public class AddPlanActivity extends AppCompatActivity {
 
     private AddPlanViewModel addPlanViewModel;
     private ActivityAddplanBindingImpl binding;
-
     private ImageButton addPlan, back;
+    private PlanItem item = new PlanItem();
 
     @Override
     protected void onCreate(Bundle savedInstance){
@@ -33,11 +43,33 @@ public class AddPlanActivity extends AppCompatActivity {
 
         addPlan = findViewById(R.id.add_plan);
         addPlan.setOnClickListener(v ->{
-            Intent intent = new Intent(this, AllPlanActivity.class);
-            startActivity(intent);
+            launcher.launch(true);
         } );
         back = findViewById(R.id.add_back);
         back.setOnClickListener(v->finish());
+        PlanDataResource.getInstance().getMyPlan(new Api.getPlan() {
+            @Override
+            public void success(PlanItem planItem) {
+                item = planItem;
+            }
+
+            @Override
+            public void failed() {
+
+            }
+        });
+
+        binding.startPlan.setOnClickListener(v -> {
+            String name = binding.addPlanName.getText().toString().substring(0,2);
+            for(PlanItem.DataDTO.PlansDTO i : item.getData().getPlans()){
+                if(i.getName().equals(name)){
+                    changePlan(i.getPlanId());
+                }
+            }
+            addPlan(name);
+        });
+
+
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().
@@ -45,9 +77,73 @@ public class AddPlanActivity extends AppCompatActivity {
                             View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
     }
+    ActivityResultLauncher launcher = registerForActivityResult(new AddPlanActivity.AddResultContract(), new ActivityResultCallback<String>() {
+        @Override
+        public void onActivityResult(String result) {
+            binding.addPlanName.setText(result);
+        }
+    });
 
-    private void back(View v){
-        finish();
+    class AddResultContract extends ActivityResultContract<Boolean, String> {
+        @NonNull
+        @Override
+        public Intent createIntent(@NonNull Context context, Boolean input) {
+            Intent intent = new Intent(AddPlanActivity.this, AllPlanActivity.class);
+            return intent;
+        }
+
+        @Override
+        public String parseResult(int resultCode, @Nullable Intent intent) {
+            return intent.getStringExtra("plan");
+        }
+    }
+    public void addPlan(String name){
+        addPlanViewModel.addPlan(name, new Api.changePlanApi() {
+            @Override
+            public void success() {
+                Toast.makeText(AddPlanActivity.this, "添加成功！", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+
+            @Override
+            public void failed() {
+
+            }
+
+            @Override
+            public void requestTime(){
+                Toast.makeText(AddPlanActivity.this, "请选择开始和结束时间！", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void requestName(){
+                Toast.makeText(AddPlanActivity.this, "请选择想要进行的计划！", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
+    public void changePlan(Integer id){
+        addPlanViewModel.changePlan(new Api.changePlanApi() {
+            @Override
+            public void success() {
+                Toast.makeText(AddPlanActivity.this, "修改成功！", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+
+            @Override
+            public void failed() {
+                
+            }
+
+            @Override
+            public void requestName() {
+
+            }
+
+            @Override
+            public void requestTime() {
+
+            }
+        }, id);
+    }
 }
