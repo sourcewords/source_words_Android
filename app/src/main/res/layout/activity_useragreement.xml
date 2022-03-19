@@ -18,7 +18,7 @@
         app:layout_constraintVertical_bias="0.0">
 
         <ImageButton
-            android:id="@+id/all_back"
+            android:id="@+id/user_agreement_back"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="15dp"
