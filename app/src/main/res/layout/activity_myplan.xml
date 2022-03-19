@@ -127,7 +127,7 @@
             app:layout_constraintTop_toBottomOf="@+id/con1">
 
             <ImageView
-                android:id="@+id/plan_pic"
+                android:id="@+id/my_plan_pic"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
                 android:layout_marginStart="20dp"
@@ -139,7 +139,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/plan_name"
+                android:id="@+id/my_plan_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -147,31 +147,31 @@
                 android:text="四级单词"
                 android:textColor="#8DD0CE"
                 android:textSize="16sp"
-                app:layout_constraintStart_toEndOf="@+id/plan_pic"
+                app:layout_constraintStart_toEndOf="@+id/my_plan_pic"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/least_time_tv"
+                android:id="@+id/my_least_time_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="倒计时： 天"
                 android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/plan_name"
-                app:layout_constraintTop_toBottomOf="@+id/plan_name" />
+                app:layout_constraintStart_toStartOf="@+id/my_plan_name"
+                app:layout_constraintTop_toBottomOf="@+id/my_plan_name" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/b_e_time_tv"
+                android:id="@+id/my_b_e_time_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="起止日期：00.00~00.00"
                 android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="@+id/least_time_tv"
-                app:layout_constraintTop_toBottomOf="@+id/least_time_tv" />
+                app:layout_constraintStart_toStartOf="@+id/my_least_time_tv"
+                app:layout_constraintTop_toBottomOf="@+id/my_least_time_tv" />
 
             <ProgressBar
-                android:id="@+id/plan_progress_bar"
+                android:id="@+id/my_plan_progress_bar"
                 style="@style/update_progress_horizontal"
                 android:layout_width="162dp"
                 android:layout_height="19dp"
@@ -179,26 +179,26 @@
                 android:layout_marginTop="5dp"
                 android:max="100"
                 android:progress="60"
-                app:layout_constraintStart_toEndOf="@+id/plan_pic"
-                app:layout_constraintTop_toBottomOf="@+id/b_e_time_tv" />
+                app:layout_constraintStart_toEndOf="@+id/my_plan_pic"
+                app:layout_constraintTop_toBottomOf="@+id/my_b_e_time_tv" />
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/plan_progress_num"
+                android:id="@+id/my_plan_progress_num"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:text="80%"
                 android:textColor="#8DD0CE"
-                app:layout_constraintBottom_toBottomOf="@+id/plan_progress_bar"
+                app:layout_constraintBottom_toBottomOf="@+id/my_plan_progress_bar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/plan_progress_bar"
-                app:layout_constraintTop_toTopOf="@+id/plan_progress_bar" />
+                app:layout_constraintStart_toEndOf="@+id/my_plan_progress_bar"
+                app:layout_constraintTop_toTopOf="@+id/my_plan_progress_bar" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
-            android:id="@+id/start_plan"
+            android:id="@+id/update"
             android:layout_width="300dp"
             android:layout_height="60dp"
             android:layout_gravity="center_horizontal"

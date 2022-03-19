@@ -27,7 +27,7 @@ public class ForgetPwdActivity extends AppCompatActivity {
         @Override
         public void onActivityResult(String result) {
             if(result.equals("successful")){
-                //finish();
+                finish();
             }
         }
     });
