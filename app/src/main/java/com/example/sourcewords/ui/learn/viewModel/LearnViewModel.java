@@ -210,7 +210,7 @@ public class LearnViewModel extends AndroidViewModel {
         for(int i = Integer.parseInt(start[1]); i < end ;i++ ){
             sum+=months[(i -1)%12];
         }
-        return sum + y*365 + Integer.parseInt(now[2]) - Integer.parseInt(start[2]) + 1;
+        return sum + y*365 + Integer.parseInt(now[2]) - Integer.parseInt(start[2]);
     }
 
 }

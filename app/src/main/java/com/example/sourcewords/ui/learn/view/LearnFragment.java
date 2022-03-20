@@ -42,11 +42,9 @@ import java.util.List;
 public class LearnFragment extends Fragment implements RollInterface {
     private int index = 0;//对于ViewPager中的list的下标
     private LearnViewModel viewModel;
-    private ReviewCardViewModel reviewCardViewModel;
     private MainViewPageAdapter adapter;
     private ViewPager viewPager;
     private static int size;
-    private LoadingCallBack loadingCallBack;
 
 
 
@@ -55,8 +53,8 @@ public class LearnFragment extends Fragment implements RollInterface {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_learn_new, container, false);
-        viewModel = ViewModelProviders.of(this).get(LearnViewModel.class);
-        reviewCardViewModel = ViewModelProviders.of(getActivity()).get(ReviewCardViewModel.class);
+        viewModel = ViewModelProviders.of(getActivity()).get(LearnViewModel.class);
+        ReviewCardViewModel reviewCardViewModel = ViewModelProviders.of(getActivity()).get(ReviewCardViewModel.class);
         reviewCardViewModel.getAllWord().observe(getViewLifecycleOwner(), words -> {
             assert words != null;
             Log.d("initDataab", "" + words.size());
@@ -95,6 +93,7 @@ public class LearnFragment extends Fragment implements RollInterface {
 
     private List<Fragment> initFragmentList() {
         int date = viewModel.HowLongPlan();
+        Log.d("已学习天数", String.valueOf(date));
         List<Fragment> ans = new ArrayList<>();
         for (int i = 1; i <= size; i++) {
             LearnWordRootFragment fragment = LearnWordRootFragment.newInstance(i + date * size);
@@ -164,7 +163,7 @@ public class LearnFragment extends Fragment implements RollInterface {
     @Override
     public void onPause() {
         super.onPause();
-        Pass_Wordroot_ID(viewModel.HowLongPlan() * viewModel.getSpeed() + 1,viewModel.getLong());
+        //Pass_Wordroot_ID(viewModel.HowLongPlan() * viewModel.getSpeed() + 1,viewModel.getLong());
     }
 
     // 记录离开时间
@@ -214,15 +213,11 @@ public class LearnFragment extends Fragment implements RollInterface {
         for(int i = start ; i < end ; i++){
             jsonArray.put(i);
         }
+        Log.d("targetSource", jsonArray.toString());
         editor.putString(PreferencesUtils.WORD_ROOT_TODAY, jsonArray.toString());
         editor.apply();
     }
 
-
-
-    public void setLoadingCallBack(LoadingCallBack callBack){
-        this.loadingCallBack = callBack;
-    }
 }
 
 

@@ -98,12 +98,9 @@ public class MainFragment extends Fragment implements LoadingCallBack{
         return view;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void initFragmentList() {
         fragmentList = new ArrayList<>(3);
-        LearnFragment fragment = new LearnFragment();
-        fragment.setLoadingCallBack(this);
-        fragmentList.add(fragment);
+        fragmentList.add(new LearnFragment());
         fragmentList.add(new ReviewFragment());
         fragmentList.add(new MineFragment());
     }
@@ -113,7 +110,7 @@ public class MainFragment extends Fragment implements LoadingCallBack{
         loading = new Loading(getContext());
         getActivity().addContentView(loading, lp);
         Handler handler = new MessageHandler();
-        //handler.sendEmptyMessageDelayed(MESSAGE1,1500);
+        handler.sendEmptyMessageDelayed(MESSAGE1,1500);
     }
 
     @Override
