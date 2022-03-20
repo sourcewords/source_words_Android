@@ -140,6 +140,7 @@ public class ReviewCardViewModel extends AndroidViewModel {
     public void initData() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
         String target = sharedPreferences.getString(PreferencesUtils.WORD_ROOT_TODAY,"[0]");
+        Log.d("target", target);
         List<Integer> rootIds = new ArrayList<>();
 
         try{
@@ -223,6 +224,13 @@ public class ReviewCardViewModel extends AndroidViewModel {
         else wordSample = priorityQueue.poll();
 
         return wordSample;
+    }
+
+    private void refreshNewLearnedWords() {
+        for (Word w : newLearnedWords) {
+            WordSample wordSample = new WordSample(w, w.getWord_info().getStatus(),"");
+            newLearnedWordsQueue.offer(wordSample);
+        }
     }
 
 

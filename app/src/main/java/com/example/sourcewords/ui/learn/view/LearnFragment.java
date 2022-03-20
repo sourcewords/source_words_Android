@@ -51,7 +51,7 @@ public class LearnFragment extends Fragment implements RollInterface {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_learn_new, container, false);
-        viewModel = ViewModelProviders.of(this).get(LearnViewModel.class);
+        viewModel = ViewModelProviders.of(getActivity()).get(LearnViewModel.class);
         ReviewCardViewModel reviewCardViewModel = ViewModelProviders.of(getActivity()).get(ReviewCardViewModel.class);
         reviewCardViewModel.getAllWord().observe(getViewLifecycleOwner(), words -> {
             assert words != null;
@@ -214,11 +214,10 @@ public class LearnFragment extends Fragment implements RollInterface {
         for(int i = start ; i < end ; i++){
             jsonArray.put(i);
         }
+        Log.d("targetSource", jsonArray.toString());
         editor.putString(PreferencesUtils.WORD_ROOT_TODAY, jsonArray.toString());
         editor.apply();
     }
-
-
 
 
 }

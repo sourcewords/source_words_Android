@@ -98,7 +98,6 @@ public class MainFragment extends Fragment {
         return view;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void initFragmentList() {
         fragmentList = new ArrayList<>(3);
         fragmentList.add(new LearnFragment());

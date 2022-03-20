@@ -34,7 +34,6 @@ import java.util.Date;
 
 
 //TODO 习模块
-@RequiresApi(api = Build.VERSION_CODES.N)
 public class ReviewFragment extends Fragment {
     private ImageView search;
     private FrameLayout frameLayout;
