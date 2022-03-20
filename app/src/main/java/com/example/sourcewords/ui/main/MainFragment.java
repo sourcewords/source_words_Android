@@ -28,7 +28,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements LoadingCallBack{
     private ViewPager viewPager;
     private BottomNavigationView bottomNavigationView;
     private List<Fragment> fragmentList;
@@ -101,7 +101,9 @@ public class MainFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void initFragmentList() {
         fragmentList = new ArrayList<>(3);
-        fragmentList.add(new LearnFragment());
+        LearnFragment fragment = new LearnFragment();
+        fragment.setLoadingCallBack(this);
+        fragmentList.add(fragment);
         fragmentList.add(new ReviewFragment());
         fragmentList.add(new MineFragment());
     }
@@ -111,7 +113,12 @@ public class MainFragment extends Fragment {
         loading = new Loading(getContext());
         getActivity().addContentView(loading, lp);
         Handler handler = new MessageHandler();
-        handler.sendEmptyMessageDelayed(MESSAGE1,1500);
+        //handler.sendEmptyMessageDelayed(MESSAGE1,1500);
+    }
+
+    @Override
+    public void toRemoveLoading() {
+        ((ViewGroup) loading.getParent()).removeView(loading);
     }
 
     @SuppressLint("HandlerLeak")

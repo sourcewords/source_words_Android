@@ -2,6 +2,7 @@ package com.example.sourcewords.ui.learn.view;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -24,6 +25,7 @@ import com.example.sourcewords.App;
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.ui.learn.viewModel.RollInterface;
+import com.example.sourcewords.ui.main.LoadingCallBack;
 import com.example.sourcewords.ui.main.MainFragment;
 import com.example.sourcewords.ui.main.MainViewPageAdapter;
 
@@ -40,9 +42,11 @@ import java.util.List;
 public class LearnFragment extends Fragment implements RollInterface {
     private int index = 0;//对于ViewPager中的list的下标
     private LearnViewModel viewModel;
+    private ReviewCardViewModel reviewCardViewModel;
     private MainViewPageAdapter adapter;
     private ViewPager viewPager;
     private static int size;
+    private LoadingCallBack loadingCallBack;
 
 
 
@@ -52,7 +56,7 @@ public class LearnFragment extends Fragment implements RollInterface {
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_learn_new, container, false);
         viewModel = ViewModelProviders.of(this).get(LearnViewModel.class);
-        ReviewCardViewModel reviewCardViewModel = ViewModelProviders.of(getActivity()).get(ReviewCardViewModel.class);
+        reviewCardViewModel = ViewModelProviders.of(getActivity()).get(ReviewCardViewModel.class);
         reviewCardViewModel.getAllWord().observe(getViewLifecycleOwner(), words -> {
             assert words != null;
             Log.d("initDataab", "" + words.size());
@@ -65,10 +69,6 @@ public class LearnFragment extends Fragment implements RollInterface {
 
         return v;
     }
-
-
-
-
 
     private void initView(View v) {
         viewPager = v.findViewById(R.id.learn_viewPager);
@@ -220,7 +220,9 @@ public class LearnFragment extends Fragment implements RollInterface {
 
 
 
-
+    public void setLoadingCallBack(LoadingCallBack callBack){
+        this.loadingCallBack = callBack;
+    }
 }
 
 
