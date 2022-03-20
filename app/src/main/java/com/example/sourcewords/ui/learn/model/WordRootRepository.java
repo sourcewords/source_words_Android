@@ -78,6 +78,7 @@ public class WordRootRepository {
         return dealWordRoot;
     }
 
+    /*
     public void learnedTodayRoot(int root_id){
         Learned learned = new Learned(root_id,1);
         dealWordRoot.haveLearnedRoots(Authorization,learned).enqueue(new Callback<Void>() {
@@ -91,7 +92,7 @@ public class WordRootRepository {
 
             }
         });
-    }
+    }*/
 
     static class InsertWordRoot extends AsyncTask<WordRoot,Void,Void>{
         private final WordRootDao dao;
@@ -137,7 +138,7 @@ public class WordRootRepository {
      */
 
     public void whatILearnedToday(List<Integer> list){
-        dealWordRoot.learnToday(Authorization,list)
+        dealWordRoot.learnToday(Authorization,new Learned(list))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Void>() {

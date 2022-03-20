@@ -109,9 +109,10 @@ public class LearnViewModel extends AndroidViewModel {
         return rootRepository.getAllWordRoots();
     }
 
+    /*
     public void updateRoot(int root_id) {
         rootRepository.learnedTodayRoot(root_id);
-    }
+    }*/
 
     public void insertRoots(WordRoot root) {
         rootRepository.insertRoots(root);

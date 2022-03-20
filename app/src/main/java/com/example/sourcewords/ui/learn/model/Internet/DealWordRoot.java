@@ -19,12 +19,11 @@ public interface DealWordRoot {
     Observable<Test> getWordList(@Header("Authorization") String Authorization
             , @Query("verbose") String verbose);
 
-    @PUT("roots/status")
-    Call<Void> haveLearnedRoots(@Header("Authorization") String Authorization,
-                                @Body Learned learned);
-
     @PUT("user/plan")
     Observable<Void> learnToday(@Header("Authorization") String Authorization,
-                                @Body List<Integer> todayWord);
+                                @Body Learned todayWord);
 
 }
+
+         //http://112.126.76.187:9999/api/v1/user/plan
+         //http://112.126.76.187:9999/api/v1/user/plan
