@@ -24,6 +24,7 @@ import com.example.sourcewords.App;
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.ui.learn.viewModel.RollInterface;
+import com.example.sourcewords.ui.main.MainFragment;
 import com.example.sourcewords.ui.main.MainViewPageAdapter;
 
 import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
@@ -42,6 +43,8 @@ public class LearnFragment extends Fragment implements RollInterface {
     private MainViewPageAdapter adapter;
     private ViewPager viewPager;
     private static int size;
+    private Loading loading;
+    private static final int MESSAGE1 = 0x1001;
 
 
     @NonNull
@@ -60,7 +63,16 @@ public class LearnFragment extends Fragment implements RollInterface {
                 , singleWords -> Log.d("initDatac", "" + singleWords.size()));
         size = viewModel.getSpeed();
         initView(v);
+        initLoading();
         return v;
+    }
+
+    private void initLoading() {
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        loading = new Loading(getContext());
+        getActivity().addContentView(loading, lp);
+        Handler handler = new MessageHandler();
+        handler.sendEmptyMessageDelayed(MESSAGE1,1500);
     }
 
 
@@ -159,19 +171,7 @@ public class LearnFragment extends Fragment implements RollInterface {
     @Override
     public void onPause() {
         super.onPause();
-        Pass_Wordroot_ID(viewModel.HowLongPlan()*size + 1,viewModel.getLong());
-    }
-
-    //TODO 传递今日所学的id
-    private void Pass_Wordroot_ID(int start,int end){
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        JSONArray jsonArray = new JSONArray();
-        for(int i = start ; i < end ; i++){
-            jsonArray.put(i);
-        }
-        editor.putString(PreferencesUtils.WORD_ROOT_TODAY, jsonArray.toString());
-        editor.apply();
+        Pass_Wordroot_ID(viewModel.HowLongPlan() * viewModel.getSpeed() + 1,viewModel.getLong());
     }
 
     // 记录离开时间
@@ -212,6 +212,28 @@ public class LearnFragment extends Fragment implements RollInterface {
     }
 
      */
+
+    //TODO 传递今日所学的id
+    private void Pass_Wordroot_ID(int start,int end){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        JSONArray jsonArray = new JSONArray();
+        for(int i = start ; i < end ; i++){
+            jsonArray.put(i);
+        }
+        editor.putString(PreferencesUtils.WORD_ROOT_TODAY, jsonArray.toString());
+        editor.apply();
+    }
+
+    @SuppressLint("HandlerLeak")
+    class MessageHandler extends Handler {
+
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == MESSAGE1) ((ViewGroup) loading.getParent()).removeView(loading);
+        }
+    }
 
 
 }
