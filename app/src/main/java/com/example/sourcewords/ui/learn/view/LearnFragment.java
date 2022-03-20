@@ -1,8 +1,11 @@
 package com.example.sourcewords.ui.learn.view;
 
+import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,20 +15,27 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.sourcewords.App;
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.ui.learn.viewModel.RollInterface;
+import com.example.sourcewords.ui.main.MainFragment;
 import com.example.sourcewords.ui.main.MainViewPageAdapter;
 
 import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
+import com.example.sourcewords.utils.PreferencesUtils;
 
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
+
 //TODO 学模块
 public class LearnFragment extends Fragment implements RollInterface {
     private int index = 0;//对于ViewPager中的list的下标
@@ -33,8 +43,8 @@ public class LearnFragment extends Fragment implements RollInterface {
     private MainViewPageAdapter adapter;
     private ViewPager viewPager;
     private static int size;
-    private Loading loading;
-    private int MESSAGE1 = 0x1001;
+
+
 
     @NonNull
     @Override
@@ -42,37 +52,22 @@ public class LearnFragment extends Fragment implements RollInterface {
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_learn_new, container, false);
         viewModel = ViewModelProviders.of(this).get(LearnViewModel.class);
-        initLoading();
+        ReviewCardViewModel reviewCardViewModel = ViewModelProviders.of(getActivity()).get(ReviewCardViewModel.class);
+        reviewCardViewModel.getAllWord().observe(getViewLifecycleOwner(), words -> {
+            assert words != null;
+            Log.d("initDataab", "" + words.size());
+        });
+        reviewCardViewModel.getAllWordRoot().observe(getViewLifecycleOwner(), wordRoots -> Log.d("initDataa", "" + wordRoots.size()));
+        reviewCardViewModel.getAllSingleWord().observe(getViewLifecycleOwner()
+                , singleWords -> Log.d("initDatac", "" + singleWords.size()));
+        size = viewModel.getSpeed();
         initView(v);
         return v;
     }
 
-    private void initLoading(){
-        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        loading = new Loading(getContext());
-        getActivity().addContentView(loading,lp);
-        new Thread() {
-            @Override
-            public void run() {
-                super.run();
-                try {
-                    ReviewCardViewModel reviewCardViewModel = ViewModelProviders.of(getActivity()).get(ReviewCardViewModel.class);
-                    reviewCardViewModel.getAllWord().observe(getViewLifecycleOwner(), words -> {
-                        assert words != null;
-                        Log.d("initDataab", "" + words.size());
-                    });
-                    reviewCardViewModel.getAllWordRoot().observe(getViewLifecycleOwner(), wordRoots -> Log.d("initDataa", "" + wordRoots.size()));
-                    reviewCardViewModel.getAllSingleWord().observe(getViewLifecycleOwner()
-                            , singleWords -> Log.d("initDatac", "" + singleWords.size()));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
 
-            }
-        }.start();
-        final Handler handler = new MessageHandler();
-        handler.sendEmptyMessageDelayed(MESSAGE1,7500);
-    }
+
+
 
     private void initView(View v) {
         viewPager = v.findViewById(R.id.learn_viewPager);
@@ -100,12 +95,11 @@ public class LearnFragment extends Fragment implements RollInterface {
     private List<Fragment> initFragmentList() {
         int date = viewModel.HowLongPlan();
         List<Fragment> ans = new ArrayList<>();
-        for (int i = 1; i <= 5; i++) {
-            LearnWordRootFragment fragment = LearnWordRootFragment.newInstance(i + date * 5);
+        for (int i = 1; i <= size; i++) {
+            LearnWordRootFragment fragment = LearnWordRootFragment.newInstance(i + date * size);
             fragment.setRollCallBack(this);
             ans.add(fragment);
         }
-        size = ans.size();
 
         /*
         Random random = new Random();
@@ -143,13 +137,21 @@ public class LearnFragment extends Fragment implements RollInterface {
         super.onResume();
         if (!viewModel.isToday()) {
             //更新操作
-            ////TODO 进过算法处理，储存当天的进度
-            viewModel.saveLong(viewModel.HowLongPlan() * 5 + 1);
+            //TODO 进过算法处理，储存当天的进度
+            viewModel.saveLong(viewModel.HowLongPlan() * size + 1);
             viewModel.getLearnFlag().setValue(false);
             viewModel.saveFlag(false);
             viewModel.saveTime();
-            refresh();
+
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean(PreferencesUtils.WORD_ROOT_HAVE_LEARNED, false);
+            editor.apply();
         }
+        if (isPlanChanged()){
+            dealWithPlanChanged();
+        }
+        refresh();
     }
 
     private void refresh() {
@@ -158,11 +160,32 @@ public class LearnFragment extends Fragment implements RollInterface {
         adapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        Pass_Wordroot_ID(viewModel.HowLongPlan() * viewModel.getSpeed() + 1,viewModel.getLong());
+    }
+
     // 记录离开时间
     @Override
     public void onDestroy() {
         super.onDestroy();
         viewModel.saveTime();
+    }
+
+    //TODO 判断计划判断以及处理计划更换
+    private boolean isPlanChanged(){
+        final boolean[] isChanged = {false};
+        viewModel.getNowPlan().observe(getViewLifecycleOwner(), integer -> {
+            isChanged[0] = (integer != viewModel.getNow());
+            viewModel.savePlan(integer);
+        });
+        return isChanged[0];
+    }
+
+    private void dealWithPlanChanged(){
+        index = 0;
+        viewModel.saveLong(viewModel.HowLongPlan() * size + 1);
     }
 
     /*y应某个**的要求写的
@@ -181,14 +204,21 @@ public class LearnFragment extends Fragment implements RollInterface {
     }
 
      */
-    class MessageHandler extends Handler {
 
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == MESSAGE1) ((ViewGroup) loading.getParent()).removeView(loading);
+    //TODO 传递今日所学的id
+    private void Pass_Wordroot_ID(int start,int end){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        JSONArray jsonArray = new JSONArray();
+        for(int i = start ; i < end ; i++){
+            jsonArray.put(i);
         }
+        editor.putString(PreferencesUtils.WORD_ROOT_TODAY, jsonArray.toString());
+        editor.apply();
     }
+
+
+
 
 }
 

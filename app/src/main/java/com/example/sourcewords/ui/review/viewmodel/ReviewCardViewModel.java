@@ -28,6 +28,9 @@ import com.example.sourcewords.ui.review.view.reviewUtils.WordSample;
 import com.example.sourcewords.utils.DateUtils;
 import com.example.sourcewords.utils.PreferencesUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -136,20 +139,27 @@ public class ReviewCardViewModel extends AndroidViewModel {
 
     public void initData() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
-        int rootId = sharedPreferences.getInt(PreferencesUtils.WORD_ROOT_TODAY, 0);
-        Log.d("preferences", "" + rootId);
-        newLearnedWords = mWordRepository.getNewWords(rootId);
-        haveLearnedWords = mWordRepository.getLearnedWords(DateUtils.getDate());
-        reviewWords = new ArrayList<>(0);
+        String target = sharedPreferences.getString(PreferencesUtils.WORD_ROOT_TODAY,"[0]");
+        List<Integer> rootIds = new ArrayList<>();
 
-        newLearnedCount = new MutableLiveData<>(newLearnedWords.size());
-        haveLearnedCount = new MutableLiveData<>(haveLearnedWords.size());
-        reviewCount = new MutableLiveData<>(priorityQueue.size());
-
-        addInQueue();
-
-
-
+        try{
+            JSONArray jsonArray = new JSONArray(target);
+            for(int i = 0 ; i < jsonArray.length() ; i++){
+                rootIds.add((Integer) jsonArray.get(i));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        for(int rootId : rootIds){
+            Log.d("preferences", "" + rootId);
+            reviewWords = new ArrayList<>(0);
+            newLearnedWords = mWordRepository.getNewWords(rootId);
+            haveLearnedWords = mWordRepository.getLearnedWords(DateUtils.getDate());
+            newLearnedCount = new MutableLiveData<>(newLearnedWords.size());
+            haveLearnedCount = new MutableLiveData<>(haveLearnedWords.size());
+            reviewCount = new MutableLiveData<>(priorityQueue.size());
+            addInQueue();
+        }
     }
 
     public MutableLiveData<Integer> getNewLearnedCount() {

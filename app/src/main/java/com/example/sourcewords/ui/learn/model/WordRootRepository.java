@@ -11,6 +11,7 @@ import com.example.sourcewords.ui.learn.model.Internet.DealWordRoot;
 import com.example.sourcewords.ui.learn.model.Internet.Demo;
 import com.example.sourcewords.ui.learn.model.Internet.Learned;
 import com.example.sourcewords.ui.learn.model.Internet.Test;
+import com.example.sourcewords.ui.login.model.UserWrapper;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.db.WordRootDao;
 import com.example.sourcewords.ui.review.db.WordRootDatabase;
@@ -34,7 +35,7 @@ public class WordRootRepository {
     private final HistoryWordRootDao mHistoryWordRootDao;
     private static DealWordRoot dealWordRoot;
     //TODO 请在这里引入登录的token
-    private final String Authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDQ0Nzk5NDksImlhdCI6MTY0NDM5MzU0OSwidWlkIjoxN30.3fA571_ktll7xL1aBSwEiAyoXc0QvmwdXt3XlyCw1VQ";
+    private final String Authorization = UserWrapper.getInstance().getToken();
 
     public WordRootRepository(){
         final WordRootDatabase wordDatabase = WordRootDatabase.getDatabase();
