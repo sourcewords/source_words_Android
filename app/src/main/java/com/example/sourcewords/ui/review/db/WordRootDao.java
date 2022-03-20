@@ -33,6 +33,9 @@ public interface WordRootDao {
     @Query("SELECT * FROM wordRoot_table WHERE 词根 LIKE '%' || :searchMessage || '%'")
     LiveData<List<WordRoot>> getWordRootsSimilar(String searchMessage);
 
+    @Query("SELECT * FROM wordRoot_table WHERE 词根 LIKE :key || '%'")
+    List<WordRoot> getLikelyWordRoot(String key);
+
     @Query("SELECT * FROM wordRoot_table WHERE 词根序号 =:id")
     WordRoot getRootById(int id);
 }

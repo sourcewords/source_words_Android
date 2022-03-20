@@ -24,6 +24,7 @@ import com.example.sourcewords.App;
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.ui.learn.viewModel.RollInterface;
+import com.example.sourcewords.ui.main.MainFragment;
 import com.example.sourcewords.ui.main.MainViewPageAdapter;
 
 import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
@@ -44,6 +45,7 @@ public class LearnFragment extends Fragment implements RollInterface {
     private static int size;
 
 
+
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -62,6 +64,8 @@ public class LearnFragment extends Fragment implements RollInterface {
         initView(v);
         return v;
     }
+
+
 
 
 
@@ -127,7 +131,7 @@ public class LearnFragment extends Fragment implements RollInterface {
             Toast.makeText(getContext(), "这就是今天开始的地方", Toast.LENGTH_SHORT).show();
     }
 
-
+    @Override
     //TODO 更新存储的系统时间
     public void onResume() {
         super.onResume();
@@ -159,19 +163,7 @@ public class LearnFragment extends Fragment implements RollInterface {
     @Override
     public void onPause() {
         super.onPause();
-        Pass_Wordroot_ID(viewModel.HowLongPlan()*size + 1,viewModel.getLong());
-    }
-
-    //TODO 传递今日所学的id
-    private void Pass_Wordroot_ID(int start,int end){
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        JSONArray jsonArray = new JSONArray();
-        for(int i = start ; i < end ; i++){
-            jsonArray.put(i);
-        }
-        editor.putString(PreferencesUtils.WORD_ROOT_TODAY, jsonArray.toString());
-        editor.apply();
+        Pass_Wordroot_ID(viewModel.HowLongPlan() * viewModel.getSpeed() + 1,viewModel.getLong());
     }
 
     // 记录离开时间
@@ -212,6 +204,20 @@ public class LearnFragment extends Fragment implements RollInterface {
     }
 
      */
+
+    //TODO 传递今日所学的id
+    private void Pass_Wordroot_ID(int start,int end){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        JSONArray jsonArray = new JSONArray();
+        for(int i = start ; i < end ; i++){
+            jsonArray.put(i);
+        }
+        editor.putString(PreferencesUtils.WORD_ROOT_TODAY, jsonArray.toString());
+        editor.apply();
+    }
+
+
 
 
 }

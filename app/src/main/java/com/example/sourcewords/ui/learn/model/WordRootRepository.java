@@ -5,6 +5,8 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.sourcewords.ui.learn.db.HistoryWordRootDao;
+import com.example.sourcewords.ui.learn.db.HistoryWordRootDatabase;
 import com.example.sourcewords.ui.learn.model.Internet.DealWordRoot;
 import com.example.sourcewords.ui.learn.model.Internet.Demo;
 import com.example.sourcewords.ui.learn.model.Internet.Learned;
@@ -30,13 +32,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 //TODO 各种数据处理
 public class WordRootRepository {
     private final WordRootDao wordRootDao;
+    private final HistoryWordRootDao mHistoryWordRootDao;
     private static DealWordRoot dealWordRoot;
     //TODO 请在这里引入登录的token
     private final String Authorization = UserWrapper.getInstance().getToken();
 
     public WordRootRepository(){
         final WordRootDatabase wordDatabase = WordRootDatabase.getDatabase();
+        final HistoryWordRootDatabase historyWordRootDatabase = HistoryWordRootDatabase.getDatabase();
         wordRootDao = wordDatabase.getWordDao();
+        mHistoryWordRootDao = historyWordRootDatabase.getHistoryWordRootDao();
         dealWordRoot = getRetrofit();
     }
 
@@ -52,6 +57,11 @@ public class WordRootRepository {
     public LiveData<List<WordRoot>> searchSimilar(String message){
         return wordRootDao.getWordRootsSimilar(message);
     }
+
+    public void getLikelyWordRoots(String key, WordRootDBCallBack wordRootDBCallBack){
+        new SearchWordRootSimilar(wordRootDao, wordRootDBCallBack).execute(key);
+    }
+
 
     //
     public void insertRoots(WordRoot wordRoot){
@@ -93,10 +103,15 @@ public class WordRootRepository {
         });
     }
 
-    static class InsertWordRoot extends AsyncTask<WordRoot,Void,Void>{
+    static class InsertWordRoot extends AsyncTask<WordRoot,Integer,Void>{
         private final WordRootDao dao;
         InsertWordRoot(WordRootDao dao){
             this.dao = dao;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
         }
 
         @Override
@@ -104,10 +119,18 @@ public class WordRootRepository {
             dao.insertRoot(wordRoots);
             return null;
         }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+        }
     }
 
-
-    /*
 
     static class SearchWordRoot extends AsyncTask<Integer,Void,WordRoot>{
         private final WordRootDao dao;
@@ -123,18 +146,22 @@ public class WordRootRepository {
 
     static class SearchWordRootSimilar extends AsyncTask<String,Void,List<WordRoot>>{
         private final WordRootDao dao;
-        SearchWordRootSimilar(WordRootDao dao){
+        private WordRootDBCallBack mWordRootDBCallBack;
+        SearchWordRootSimilar(WordRootDao dao, WordRootDBCallBack wordRootDBCallBack){
             this.dao = dao;
+            mWordRootDBCallBack = wordRootDBCallBack;
         }
         @Override
-        protected List<WordRoot> doInBackground(String... strings) {
-            String message = strings[0];
-            //return dao.getWordRootsSimilar(message);
-            return null;
+        protected List<WordRoot> doInBackground(String... key) {
+            return dao.getLikelyWordRoot(key[0]);
+        }
+
+        @Override
+        protected void onPostExecute(List<WordRoot> wordRoots) {
+            super.onPostExecute(wordRoots);
+            mWordRootDBCallBack.CallBack(wordRoots);
         }
     }
-
-     */
 
     public void whatILearnedToday(List<Integer> list){
         dealWordRoot.learnToday(Authorization,list)
