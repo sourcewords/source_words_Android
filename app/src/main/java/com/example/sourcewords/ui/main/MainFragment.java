@@ -35,6 +35,7 @@ public class MainFragment extends Fragment {
 
 
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +100,24 @@ public class MainFragment extends Fragment {
         fragmentList.add(new LearnFragment());
         fragmentList.add(new ReviewFragment());
         fragmentList.add(new MineFragment());
+    }
+
+    @SuppressLint("HandlerLeak")
+    class MessageHandler extends Handler {
+
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == MESSAGE1) ((ViewGroup) loading.getParent()).removeView(loading);
+        }
+    }
+
+    private void initLoading() {
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        loading = new Loading(getContext());
+        getActivity().addContentView(loading, lp);
+        Handler handler = new MessageHandler();
+        handler.sendEmptyMessageDelayed(MESSAGE1,1500);
     }
 
 

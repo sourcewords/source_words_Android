@@ -2,6 +2,7 @@ package com.example.sourcewords.ui.learn.viewModel;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.os.AsyncTask;
 import android.text.format.Time;
 import android.util.Log;
 
@@ -12,6 +13,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.sourcewords.commonUtils.SPUtils;
 import com.example.sourcewords.ui.learn.model.LearnedRepository;
+import com.example.sourcewords.ui.learn.model.WordRootDBCallBack;
 import com.example.sourcewords.ui.learn.model.WordRootRepository;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 
@@ -125,7 +127,6 @@ public class LearnViewModel extends AndroidViewModel {
         return rootRepository.getWordRootById(Id);
     }
 
-
     public WordRoot getRootByID(int id) {
         return rootRepository.getRootById(id);
     }
@@ -177,6 +178,7 @@ public class LearnViewModel extends AndroidViewModel {
         return rootRepository.getAllWordRoots();
     }
 
+
     //储存记录指定计划的时间
     public void saveMakePlan(){
         SPUtils sp = SPUtils.getInstance(SPUtils.SP_MAKE_PLAN);
@@ -212,4 +214,5 @@ public class LearnViewModel extends AndroidViewModel {
         return sum + y*365 + Integer.parseInt(now[2]) - Integer.parseInt(start[2]) + 1;
     }
 
+    public void getLikelyWordRoot(String keyWords, WordRootDBCallBack wordRootDBCallBack){rootRepository.getLikelyWordRoots(keyWords, wordRootDBCallBack);}
 }

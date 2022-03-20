@@ -47,6 +47,7 @@ public class LearnFragment extends Fragment implements RollInterface {
     private static final int MESSAGE1 = 0x1001;
 
 
+
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -74,6 +75,8 @@ public class LearnFragment extends Fragment implements RollInterface {
         Handler handler = new MessageHandler();
         handler.sendEmptyMessageDelayed(MESSAGE1,1500);
     }
+
+
 
 
 
@@ -139,7 +142,7 @@ public class LearnFragment extends Fragment implements RollInterface {
             Toast.makeText(getContext(), "这就是今天开始的地方", Toast.LENGTH_SHORT).show();
     }
 
-
+    @Override
     //TODO 更新存储的系统时间
     public void onResume() {
         super.onResume();
@@ -234,6 +237,7 @@ public class LearnFragment extends Fragment implements RollInterface {
             if (msg.what == MESSAGE1) ((ViewGroup) loading.getParent()).removeView(loading);
         }
     }
+
 
 
 }

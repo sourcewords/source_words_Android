@@ -26,7 +26,7 @@ public interface SingleWordDao {
     @Query("SELECT * FROM single_word_table WHERE 复习时间 like :time")
     List<SingleWord> getHaveLearnedWordsByTime(String time);
 
-    @Query("SELECT * FROM single_word_table WHERE 单词 LIKE '%' || :word || '%' ")
+    @Query("SELECT * FROM single_word_table WHERE 单词 LIKE :word || '%' ")
     List<SingleWord> getLikelyWords(String word);
 
     @Query("SELECT * FROM SINGLE_WORD_TABLE WHERE 含义 LIKE '%' || :meaning || '%' ")

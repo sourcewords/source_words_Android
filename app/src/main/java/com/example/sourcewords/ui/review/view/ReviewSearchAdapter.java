@@ -1,9 +1,8 @@
 package com.example.sourcewords.ui.review.view;
 
 import android.annotation.SuppressLint;
+import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
-import android.preference.Preference;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,26 +14,19 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sourcewords.R;
+import com.example.sourcewords.ui.SearchAdapter;
+import com.example.sourcewords.ui.learn.dataBean.HistoryWordRoot;
 import com.example.sourcewords.ui.review.dataBean.HistoryWord;
 import com.example.sourcewords.ui.review.dataBean.SingleWord;
 import com.example.sourcewords.ui.review.viewmodel.HistoryViewModel;
-import com.example.sourcewords.ui.review.viewmodel.ReviewViewModel;
 import com.example.sourcewords.utils.OptimizeMeaningUtils;
-import com.example.sourcewords.utils.PreferencesUtils;
 
 import java.util.List;
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHolder>{
-    private List<HistoryWord> list;
-    private List<SingleWord> SList;
-    private AdapterCallBack mAdapterCallBack;
-    private HistoryViewModel mHistoryViewModel;
-    private Context mContext;
-    private boolean isHistory;
+public class ReviewSearchAdapter extends SearchAdapter {
 
-    public SearchAdapter(Context mContext, HistoryViewModel historyViewModel){
-        this.mContext = mContext;
-        mHistoryViewModel = historyViewModel;
+    public ReviewSearchAdapter(Application application){
+        mHistoryViewModel = new HistoryViewModel(application);
     }
 
     public void setList(List<HistoryWord> list) {
@@ -47,20 +39,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
         isHistory = false;
     }
 
-    public void setAdapterCallBack(AdapterCallBack adapterCallBack){
-        mAdapterCallBack = adapterCallBack;
-    }
-
-    @NonNull
     @Override
-    public SearchHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_search_words, parent, false);
-        return new SearchHolder(itemView);
-    }
-
-    @SuppressLint("NotifyDataSetChanged")
-    @Override
-    public void onBindViewHolder(@NonNull SearchHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SearchAdapter.SearchHolder holder, int position) {
         if(isHistory) {
             HistoryWord historyWord = list.get(position);
             holder.words.setText(historyWord.getRoot());
@@ -87,19 +67,5 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchHold
     @Override
     public int getItemCount() {
         return isHistory ? list.size() : SList.size();
-    }
-
-    static class SearchHolder extends RecyclerView.ViewHolder{
-        TextView words, info;
-        ImageView delete;
-        ConstraintLayout mConstraintLayout;
-
-        public SearchHolder(@NonNull View itemView) {
-            super(itemView);
-            words = itemView.findViewById(R.id.item_search_words_word);
-            info = itemView.findViewById(R.id.item_search_words_details);
-            delete = itemView.findViewById(R.id.item_search_words_clear);
-            mConstraintLayout = itemView.findViewById(R.id.item_sw_consLayout);
-        }
     }
 }
