@@ -137,7 +137,6 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
                     if(root_id == (viewModel.HowLongPlan()) * viewModel.getSpeed() + 1){
                         viewModel.saveFlag(true);
                         viewModel.getLearnFlag().setValue(true);
-
                     }
                     //Pass_Wordroot_ID(viewModel.HowLongPlan()*viewModel.getSpeed() + 1, viewModel.getLong());
                 }else{

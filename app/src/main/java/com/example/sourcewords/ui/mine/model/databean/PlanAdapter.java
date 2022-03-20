@@ -64,7 +64,7 @@ public class PlanAdapter extends RecyclerView.Adapter<PlanAdapter.ViewHolder> {
         holder.layout.setOnClickListener(v->{
             api.success(mList.get(position).getPlanName());
         });
-        holder.planName.setText(mList.get(position).getPlanName());
+        holder.planName.setText(mList.get(position).getPlanName() + "单词");
         holder.leastTime.setText("倒计时：" + mList.get(position).getLeastTime() + "天");
         holder.b_eTime.setText(mList.get(position).getB_eTime());
         holder.progress.setProgress(mList.get(position).getProgress());

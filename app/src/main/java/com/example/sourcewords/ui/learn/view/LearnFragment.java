@@ -1,11 +1,8 @@
 package com.example.sourcewords.ui.learn.view;
-
-import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
+
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,13 +22,10 @@ import com.example.sourcewords.App;
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.ui.learn.viewModel.RollInterface;
-import com.example.sourcewords.ui.main.LoadingCallBack;
-import com.example.sourcewords.ui.main.MainFragment;
 import com.example.sourcewords.ui.main.MainViewPageAdapter;
 
 import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
 import com.example.sourcewords.utils.PreferencesUtils;
-
 
 import org.json.JSONArray;
 
@@ -54,6 +48,7 @@ public class LearnFragment extends Fragment implements RollInterface {
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_learn_new, container, false);
         viewModel = ViewModelProviders.of(getActivity()).get(LearnViewModel.class);
+
         ReviewCardViewModel reviewCardViewModel = ViewModelProviders.of(getActivity()).get(ReviewCardViewModel.class);
         reviewCardViewModel.getAllWord().observe(getViewLifecycleOwner(), words -> {
             assert words != null;
@@ -67,6 +62,10 @@ public class LearnFragment extends Fragment implements RollInterface {
 
         return v;
     }
+
+
+
+
 
     private void initView(View v) {
         viewPager = v.findViewById(R.id.learn_viewPager);
@@ -217,6 +216,9 @@ public class LearnFragment extends Fragment implements RollInterface {
         editor.putString(PreferencesUtils.WORD_ROOT_TODAY, jsonArray.toString());
         editor.apply();
     }
+
+
+
 
 }
 
