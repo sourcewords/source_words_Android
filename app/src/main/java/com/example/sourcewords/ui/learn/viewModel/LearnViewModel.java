@@ -165,9 +165,10 @@ public class LearnViewModel extends AndroidViewModel {
         return rootRepository.getAllWordRoots();
     }
 
+
     //储存记录指定计划的时间
     public void saveMakePlan(){
-        SPUtils sp = SPUtils.getInstance(SPUtils.SP_MAKE_PLAN);
+        SPUtils sp = SPUtils.getInstance(SPUtils.KEY_MAKE_PLAN);
         sp.put(KEY_MAKE_PLAN,getTodayTime());
     }
 
