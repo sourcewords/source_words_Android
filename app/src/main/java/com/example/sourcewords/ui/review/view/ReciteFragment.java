@@ -26,6 +26,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.example.sourcewords.App;
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.review.dataBean.Word;
+import com.example.sourcewords.ui.review.dataBean.WordCardState;
 import com.example.sourcewords.ui.review.dataBean.WordInfoBean;
 import com.example.sourcewords.ui.review.view.reviewUtils.ContextUtils;
 import com.example.sourcewords.ui.review.view.reviewUtils.WordSample;
@@ -105,10 +106,11 @@ public class ReciteFragment extends Fragment {
         mWordCard.setClickable(false);
         button.setClickable(false);
         reviewCardViewModel.loadAllWordsToDataBase();
+        reviewCardViewModel.deleteWordCardState();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(PreferencesUtils.WORD_ROOT_HAVE_LEARNED, true);
-        editor.putString(PreferencesUtils.LAST_REVIEW_DAY, DateUtils.getData());
+        editor.putString(PreferencesUtils.LAST_REVIEW_DAY, DateUtils.getDate());
         editor.commit();
     }
 
@@ -157,6 +159,7 @@ public class ReciteFragment extends Fragment {
             intent.putExtra("count",count);
 
             reviewCardViewModel.setLastLearnTime(DateUtils.getTime());
+            Log.d("lastLearnTime", DateUtils.getTime());
 
             if(status == WORD_NEW) {
                 intent.putExtra("code", WORD_NEW);
@@ -214,5 +217,31 @@ public class ReciteFragment extends Fragment {
         reviewCardViewModel.getPreWord(wordSample.getValue().getWord().getWord_info().getStatus());
     }
 
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        // 清除所有已经保存的状态
+        reviewCardViewModel.deleteWordCardState();
+        String date = DateUtils.getDate();
+        // 保存现有的状态
+        WordCardState wordCardState = new WordCardState(date,reviewCardViewModel.getNewLearnedWords(),
+                reviewCardViewModel.getHaveLearnedWords(), reviewCardViewModel.getReviewWords(),
+                reviewCardViewModel.getNewLearnedCount().getValue(),
+                reviewCardViewModel.getHaveLearnedCount().getValue(),
+                reviewCardViewModel.getReviewCount().getValue(),
+                reviewCardViewModel.getWordSampleMutableLiveData().getValue(),
+                reviewCardViewModel.getWordPool(),
+                reviewCardViewModel.getLastLearnTime(),
+                reviewCardViewModel.getHistoryStack(),
+                reviewCardViewModel.getPriorityQueue(),
+                reviewCardViewModel.getNewLearnedWordsQueue(),
+                reviewCardViewModel.getHaveLearnedWordsQueue());
+        reviewCardViewModel.saveWordCardState(wordCardState);
+        super.onSaveInstanceState(outState);
+    }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        reviewCardViewModel.initFromDataBase(DateUtils.getDate());
+        super.onActivityCreated(savedInstanceState);
+    }
 }

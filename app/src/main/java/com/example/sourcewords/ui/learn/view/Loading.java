@@ -1,6 +1,5 @@
 package com.example.sourcewords.ui.learn.view;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,10 +13,12 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import com.example.sourcewords.R;
+import com.example.sourcewords.commonUtils.SPUtils;
 
 public class Loading extends View {
     private Paint paint;
     private float mHeight , mWidth;
+
     public Loading(Context context) {
         super(context);
         init();
@@ -35,23 +36,24 @@ public class Loading extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         mHeight = getMeasuredHeight();
-        mWidth = getMinimumWidth();
+        mWidth = getMeasuredWidth();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        //canvas.drawColor(Color.MAGENTA);
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.logo);
         Matrix matrix = new Matrix();
+        matrix.setScale(mWidth/bitmap.getWidth(),mHeight/bitmap.getHeight());
         canvas.drawBitmap(bitmap,matrix,paint);
     }
+
 
     private void init(){
         paint = new Paint();
         paint.setStrokeWidth(2);
         paint.setColor(Color.GREEN);
-        paint.setStyle(Paint.Style.STROKE);
+        paint.setStyle(Paint.Style.FILL);
     }
 
 }

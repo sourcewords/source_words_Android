@@ -9,11 +9,15 @@ import java.util.List;
 
 public class MainViewPageAdapter extends FragmentPagerAdapter {
 
-    private final List<Fragment> list;
+    private List<Fragment> list;
 
     public MainViewPageAdapter(@NonNull FragmentManager fm, @NonNull List<Fragment> list) {
         super(fm);
         this.list = list;
+    }
+
+    public MainViewPageAdapter(FragmentManager fm){
+        super(fm);
     }
 
     @NonNull
@@ -25,5 +29,9 @@ public class MainViewPageAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return list.size();
+    }
+
+    public void setFragments(List<Fragment> fragments){
+        this.list = fragments;
     }
 }

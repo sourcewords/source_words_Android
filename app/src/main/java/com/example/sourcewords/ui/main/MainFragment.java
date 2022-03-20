@@ -3,9 +3,10 @@ package com.example.sourcewords.ui.main;
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,6 +19,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.learn.view.LearnFragment;
+import com.example.sourcewords.ui.learn.view.Loading;
 import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.ui.mine.view.MineFragment;
 import com.example.sourcewords.ui.review.view.ReviewFragment;
@@ -26,11 +28,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements LoadingCallBack{
     private ViewPager viewPager;
     private BottomNavigationView bottomNavigationView;
     private List<Fragment> fragmentList;
-    private LearnViewModel viewModel;
+    private Loading loading;
+    private static final int MESSAGE1 = 0x1001;
+
 
 
     @Override
@@ -38,6 +42,7 @@ public class MainFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @SuppressLint("NonConstantResourceId")
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Nullable
     @Override
@@ -46,7 +51,6 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main,container,false);
         viewPager = view.findViewById(R.id.viewpage);
         bottomNavigationView = view.findViewById(R.id.navigation);
-        viewModel = ViewModelProviders.of(getActivity()).get(LearnViewModel.class);
         initFragmentList();
         viewPager.setAdapter(new MainViewPageAdapter(getChildFragmentManager(),fragmentList));
 
@@ -68,37 +72,62 @@ public class MainFragment extends Fragment {
             }
         });
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @SuppressLint("NonConstantResourceId")
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
 
-                switch (item.getItemId()){
-                    case R.id.learn:
-                        viewPager.setCurrentItem(0);
-                        break;
+            switch (item.getItemId()){
+                case R.id.learn:
+                    viewPager.setCurrentItem(0);
+                    break;
 
-                    case R.id.review:
-                        viewPager.setCurrentItem(1);
-                        break;
+                case R.id.review:
+                    viewPager.setCurrentItem(1);
+                    break;
 
-                    case R.id.mine:
-                        viewPager.setCurrentItem(2);
-                        break;
+                case R.id.mine:
+                    viewPager.setCurrentItem(2);
+                    break;
 
-                }
-
-                return false;
             }
+
+            return false;
         });
+
+
+        initLoading();
+
         return view;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void initFragmentList() {
         fragmentList = new ArrayList<>(3);
         fragmentList.add(new LearnFragment());
         fragmentList.add(new ReviewFragment());
         fragmentList.add(new MineFragment());
     }
+
+    private void initLoading() {
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        loading = new Loading(getContext());
+        getActivity().addContentView(loading, lp);
+        Handler handler = new MessageHandler();
+        handler.sendEmptyMessageDelayed(MESSAGE1,1500);
+    }
+
+    @Override
+    public void toRemoveLoading() {
+        ((ViewGroup) loading.getParent()).removeView(loading);
+    }
+
+    @SuppressLint("HandlerLeak")
+    class MessageHandler extends Handler {
+
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == MESSAGE1) ((ViewGroup) loading.getParent()).removeView(loading);
+        }
+    }
+
+
+
 }

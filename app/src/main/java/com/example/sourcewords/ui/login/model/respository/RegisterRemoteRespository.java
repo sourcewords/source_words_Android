@@ -45,15 +45,14 @@ public class RegisterRemoteRespository implements RegisterDataSource {
 
     @Override
     public void getRegisterStatus(LoginUser user, LoadRegisterCallBack loadRegisterCallBack) {
-        NetUtil.getInstance().getApi().register(user).enqueue(new Callback<RegisterResponse>() {
+        NetUtil.getInstance().getApi().registerByEmail(user).enqueue(new Callback<RegisterResponse>() {
             @Override
             public void onResponse(Call<RegisterResponse> call, Response<RegisterResponse> response) {
                 if(response.isSuccessful()){
                     loadRegisterCallBack.onRegisterLoaded();
                 } else if(response.code() == 401){
                     Toast.makeText(App.getAppContext(), "该账户已经存在！", Toast.LENGTH_SHORT).show();
-                }
-                else{
+                } else{
                     loadRegisterCallBack.onDataNotAvailable();
                 }
             }

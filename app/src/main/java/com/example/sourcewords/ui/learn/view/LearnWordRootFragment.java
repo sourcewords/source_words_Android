@@ -2,9 +2,11 @@ package com.example.sourcewords.ui.learn.view;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.MediaController;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
@@ -25,11 +28,15 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.sourcewords.App;
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
+import com.example.sourcewords.ui.learn.viewModel.RollInterface;
 import com.example.sourcewords.ui.learn.viewModel.WordsAdapter;
 import com.example.sourcewords.ui.review.dataBean.Word;
-import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
+import com.example.sourcewords.utils.PreferencesUtils;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,38 +48,29 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
     private LearnViewModel viewModel;
     private AppCompatTextView textView_wordRoot, textView_meaning, textView_source;
     private AppCompatButton button_learned;
+    private RollInterface rollInterface;
     private WordsAdapter adapter;
-    private static List<Integer> list = new ArrayList<>();
+    private List<Integer> list = new ArrayList<>();
     private static final String Param = "LearnRootFragment";
 
-    public static Fragment newInstance(int id){
-        Fragment fragment = new LearnFragment();
+    public static LearnWordRootFragment newInstance(int id){
+        LearnWordRootFragment fragment = new LearnWordRootFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(Param,id);
         fragment.setArguments(bundle);
         return fragment;
     }
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         @SuppressLint("InflateParams") View v = inflater.inflate(R.layout.fragment_learn, null);
         viewModel = ViewModelProviders.of(this.getActivity()).get(LearnViewModel.class);
-        ReviewCardViewModel reviewCardViewModel = ViewModelProviders.of(this).get(ReviewCardViewModel.class);
-        reviewCardViewModel.getAllWord().observe(getViewLifecycleOwner(), words -> {
-            assert words != null;
-            Log.d("initDataab", "" + words.size());
-        });
-
+        initView(v);
         Bundle bundle = getArguments();
         assert bundle != null;
         root_id = bundle.getInt(Param,0);
-
-        reviewCardViewModel.getAllWordRoot().observe(getViewLifecycleOwner(), wordRoots -> Log.d("initDataa", "" + wordRoots.size()));
-        reviewCardViewModel.getAllSingleWord().observe(getViewLifecycleOwner()
-                , singleWords -> Log.d("initDatac", "" + singleWords.size()));
-        initView(v);
+        Log.d("词根页的id是：", String.valueOf(root_id));
         return v;
     }
 
@@ -96,12 +94,16 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
         initButton(v);
         viewModel.getNowDay().setValue(viewModel.getNow());
         imageButton.setOnClickListener(this);
+        AppCompatButton button_next = v.findViewById(R.id.learn_next);
+        button_next.setOnClickListener(this);
+        AppCompatButton button_perform = v.findViewById(R.id.learn_per);
+        button_perform.setOnClickListener(this);
     }
 
     private void initButton(View v) {
         button_learned = v.findViewById(R.id.learn_AllLearned);
         button_learned.setOnClickListener(this);
-        if (viewModel.getSaveFlag()) {
+        if (viewModel.getLong() > root_id) {
             button_learned.setClickable(false);
             changeButtonUI();
         }
@@ -124,12 +126,23 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.learn_AllLearned:
-                changeButtonUI();
-                viewModel.saveFlag(true);
-                viewModel.getLearnFlag().setValue(true);
-                button_learned.setClickable(false);
-                //通知后端
-                viewModel.whatILearnedToday(list);
+                if(viewModel.getLong() == root_id ) {
+                    changeButtonUI();
+                    button_learned.setClickable(false);
+                    viewModel.saveLong(viewModel.getLong() + 1);
+                    viewModel.whatILearnedToday(list);
+                    rollInterface.next();
+                    //正常的if(root_id == (viewModel.HowLongPlan() + 1) * viewModel.getSpeed()){
+                    //临时的
+                    if(root_id == (viewModel.HowLongPlan()) * viewModel.getSpeed() + 1){
+                        viewModel.saveFlag(true);
+                        viewModel.getLearnFlag().setValue(true);
+
+                    }
+                    //Pass_Wordroot_ID(viewModel.HowLongPlan()*viewModel.getSpeed() + 1, viewModel.getLong());
+                }else{
+                    Toast.makeText(getContext(), "您还没学到这个", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.learn_searcher:
                 Intent intent = new Intent(getActivity(), LearnSearchActivity.class);
@@ -140,6 +153,12 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
                     videoView.pause();
                 else
                     videoView.start();
+                break;
+            case R.id.learn_per:
+                rollInterface.perform();
+                break;
+            case R.id.learn_next:
+                rollInterface.next();
                 break;
         }
 
@@ -167,34 +186,15 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
         });
     }
 
-
-    @Override
-    //TODO 更新存储的系统时间
-    public void onResume() {
-        super.onResume();
-        if (!viewModel.isToday()) {
-            //更新操作
-            if(viewModel.getSaveFlag()){
-                viewModel.saveLong(viewModel.getLong() + 1);
-            }
-            viewModel.getLearnFlag().setValue(false);
-            viewModel.saveFlag(false);
-            viewModel.saveTime();
-            refresh();
-        }
-    }
-
-    //TODO 记录离开时间
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        viewModel.saveTime();
-    }
-
     public void refresh() {
         getTodayLearn();
-        changeButtonUIBack();
-        button_learned.setClickable(true);
+        if (viewModel.getLong() > root_id) {
+            button_learned.setClickable(false);
+            changeButtonUI();
+        }else{
+            button_learned.setClickable(true);
+            changeButtonUIBack();
+        }
         Log.d("LearnFragment", "刷新拉!!!!");
     }
 
@@ -223,4 +223,27 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
         ans.setSpan(new ForegroundColorSpan(Color.parseColor("#64BEBC")),0,len, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
         return ans;
     }
+
+    public void setRollCallBack(LearnFragment fragment){
+        rollInterface = fragment;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refresh();
+    }
+
+
+    //TODO 传递今日所学的id**临时性
+    private void Pass_Wordroot_ID(){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.put(viewModel.HowLongPlan() * viewModel.getSpeed() + 1);
+        Log.d("targetSource", jsonArray.toString());
+        editor.putString(PreferencesUtils.WORD_ROOT_TODAY, jsonArray.toString());
+        editor.apply();
+    }
+
 }

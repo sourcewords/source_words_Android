@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.sourcewords.R;
+import com.example.sourcewords.commonUtils.SPUtils;
 import com.example.sourcewords.ui.mine.model.Api;
 import com.example.sourcewords.ui.mine.model.SigninDateSource;
 import com.example.sourcewords.ui.mine.model.databean.Decorator;
@@ -30,11 +31,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.TimeZone;
 
 public class SigninActivity extends AppCompatActivity {
 
     private MaterialCalendarView calendarView;
-    private TextView signInDay;
+    private TextView signInDay,time;
     private Button signIn;
     private List<String> datestring = new ArrayList<>();
     private HashSet<CalendarDay> dates = new HashSet<>();
@@ -51,11 +53,14 @@ public class SigninActivity extends AppCompatActivity {
 
         signIn = findViewById(R.id.sign_in_btn);
         signIn.setOnClickListener(v -> {
+
             String date = CalendarDay.today().getYear() + "." + CalendarDay.today().getMonth() + "." + CalendarDay.today().getDay();
             SigninDateSource.getInstance().putSignInDate(new SigninDate(date), new Api.putSignInApi() {
                 @Override
                 public void success() {
                     Toast.makeText(SigninActivity.this, "签到成功！", Toast.LENGTH_SHORT).show();
+                    signIn.setEnabled(false);
+                    signIn.setBackgroundColor(Color.GRAY);
                     initData();
                 }
 
@@ -65,6 +70,9 @@ public class SigninActivity extends AppCompatActivity {
                 }
             });
         });
+
+        time = findViewById(R.id.signin_time);
+        time.setText(String.valueOf(SPUtils.getInstance().getLong("APP_USE_TIME", 0L)/60000));
 
         back = findViewById(R.id.mine_back);
         back.setOnClickListener(v -> {
@@ -79,6 +87,15 @@ public class SigninActivity extends AppCompatActivity {
                             View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
     }
+
+    private String getFormatTime(long app_use_time) {
+        SimpleDateFormat format = new SimpleDateFormat("mm:ss");
+        //设置时区，跳过此步骤会默认设置为"GMT+08:00" 得到的结果会多出来8个小时
+        format.setTimeZone(TimeZone.getTimeZone("GMT+00:00"));
+
+        return format.format(app_use_time);
+    }
+
     void initData(){
         SigninDateSource.getInstance().getAllSignDate(new Api.getSignInApi() {
             @Override
@@ -89,7 +106,7 @@ public class SigninActivity extends AppCompatActivity {
                 for(SigninBean.DataDTO.PlansDTO p : signin.getData().getPlans()){
                     datestring.add(p.getData());
                 }
-                @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf =   new SimpleDateFormat( "yyyy.MM.dd" );
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat( "yyyy.MM.dd" );
                 for(String s : datestring) {
                     try {
                         Date date1 = sdf.parse(s);
@@ -145,6 +162,12 @@ public class SigninActivity extends AppCompatActivity {
                 }
                 Decorator decorator = new Decorator(Color.RED, dates);
                 calendarView.addDecorator(decorator);
+                for(CalendarDay d : dates){
+                    if(d.equals(CalendarDay.today())){
+                        signIn.setEnabled(false);
+                        signIn.setBackgroundColor(Color.GRAY);
+                    }
+                }
             }
 
             @Override
@@ -154,7 +177,4 @@ public class SigninActivity extends AppCompatActivity {
         });
     }
 
-//    private void back(View v){
-//        onBackPressed();
-//    }
 }

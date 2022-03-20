@@ -34,10 +34,13 @@ public final class SPUtils {
     public static final String SP_CONFIG="sp_config";
     public static final String SP_DOWNLOAD="sp_file_download";
     public static final String SP_TIME = "sp_time_last";//记录上次登录的时间
-    public static final String SP_LEARN_TODAT = "sp_learn_today";
+    public static final String SP_LEARN_TODAY = "sp_learn_today";
     public static final String SP_LEARN_PLAN = "sp_learn_plan";
+    public static final String SP_LEARN_Last = "sp_learn_plan_last";
     public static final String SP_LEARN_LONG = "sp_learn_long";
-
+    public static final String SP_MAKE_PLAN = "sp_make_plan";
+    public static final String SP_LEARN_SPEED = "sp_learn_speed";
+    public static final String SP_NAME = "limit_config";
 
 
     /**
@@ -469,4 +472,30 @@ public final class SPUtils {
         }
         return true;
     }
+
+    /**
+     * 保存long型
+     *
+//     * @param context
+     * @param key
+     * @param value
+     */
+    public void saveLong(String key, long value) {
+//        if (sp == null)
+//            sp = context.getSharedPreferences(SP_NAME, 0);
+        sp.edit().putLong(key, value).commit();
+    }
+
+//    /**
+//     * 获取long值
+//     *
+//     * @param context
+//     * @param key
+//     * @param defValue
+//     * @return
+//     */
+//    public long getLong(Context context, String key, long defValue) {
+//        sp = context.getSharedPreferences(SP_NAME, 0);
+//        return sp.getLong(key, defValue);
+//    }
 }

@@ -9,6 +9,7 @@ import com.example.sourcewords.ui.learn.model.Internet.DealWordRoot;
 import com.example.sourcewords.ui.learn.model.Internet.Demo;
 import com.example.sourcewords.ui.learn.model.Internet.Learned;
 import com.example.sourcewords.ui.learn.model.Internet.Test;
+import com.example.sourcewords.ui.login.model.UserWrapper;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.db.WordRootDao;
 import com.example.sourcewords.ui.review.db.WordRootDatabase;
@@ -31,7 +32,7 @@ public class WordRootRepository {
     private final WordRootDao wordRootDao;
     private static DealWordRoot dealWordRoot;
     //TODO 请在这里引入登录的token
-    private final String Authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2NDQ0Nzk5NDksImlhdCI6MTY0NDM5MzU0OSwidWlkIjoxN30.3fA571_ktll7xL1aBSwEiAyoXc0QvmwdXt3XlyCw1VQ";
+    private final String Authorization = UserWrapper.getInstance().getToken();
 
     public WordRootRepository(){
         final WordRootDatabase wordDatabase = WordRootDatabase.getDatabase();
@@ -77,6 +78,7 @@ public class WordRootRepository {
         return dealWordRoot;
     }
 
+    /*
     public void learnedTodayRoot(int root_id){
         Learned learned = new Learned(root_id,1);
         dealWordRoot.haveLearnedRoots(Authorization,learned).enqueue(new Callback<Void>() {
@@ -90,7 +92,7 @@ public class WordRootRepository {
 
             }
         });
-    }
+    }*/
 
     static class InsertWordRoot extends AsyncTask<WordRoot,Void,Void>{
         private final WordRootDao dao;
@@ -104,6 +106,8 @@ public class WordRootRepository {
             return null;
         }
     }
+
+
     /*
 
     static class SearchWordRoot extends AsyncTask<Integer,Void,WordRoot>{
@@ -134,7 +138,7 @@ public class WordRootRepository {
      */
 
     public void whatILearnedToday(List<Integer> list){
-        dealWordRoot.learnToday(Authorization,list)
+        dealWordRoot.learnToday(Authorization,new Learned(list))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Void>() {

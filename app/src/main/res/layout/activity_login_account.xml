@@ -166,7 +166,7 @@
 
         <LinearLayout
             android:layout_width="300dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
@@ -175,8 +175,14 @@
                 android:id="@+id/checkbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="@{LoginViewModel.checkBox}"
-                android:text="已阅且同意《用户使用协议》和《隐私政策》" />
+                android:checked="@={LoginViewModel.checkBox}" />
+
+            <TextView
+                android:id="@+id/agreement_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autoLink="all"
+                android:text="已阅且同意《用户使用协议》和《隐私政策》"/>
         </LinearLayout>
 
         <ImageView
