@@ -136,31 +136,41 @@ public class ReviewCardViewModel extends AndroidViewModel {
         wordSampleMutableLiveData = new MutableLiveData<>();
     }
 
-
     public void initData() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
-        String target = sharedPreferences.getString(PreferencesUtils.WORD_ROOT_TODAY,"[0]");
-        Log.d("target", target);
-        List<Integer> rootIds = new ArrayList<>();
+        reviewWords = new ArrayList<>(0);
+        newLearnedWords =new ArrayList<>(0);
+        haveLearnedWords = mWordRepository.getLearnedWords(DateUtils.getDate());
+        newLearnedCount = new MutableLiveData<>(newLearnedWords.size());
+        haveLearnedCount = new MutableLiveData<>(haveLearnedWords.size());
+        reviewCount = new MutableLiveData<>(priorityQueue.size());
+        addInQueue();
+    }
 
-        try{
-            JSONArray jsonArray = new JSONArray(target);
-            for(int i = 0 ; i < jsonArray.length() ; i++){
-                rootIds.add((Integer) jsonArray.get(i));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+
+    public void initData(int rootId) {
+        newLearnedWords = mWordRepository.getNewWords(rootId);
+        for (Word w : newLearnedWords) {
+            WordSample wordSample = new WordSample(w, w.getWord_info().getStatus(),"");
+            newLearnedWordsQueue.offer(wordSample);
         }
-        for(int rootId : rootIds){
-            Log.d("preferences", "" + rootId);
-            reviewWords = new ArrayList<>(0);
-            newLearnedWords = mWordRepository.getNewWords(rootId);
-            haveLearnedWords = mWordRepository.getLearnedWords(DateUtils.getDate());
-            newLearnedCount = new MutableLiveData<>(newLearnedWords.size());
-            haveLearnedCount = new MutableLiveData<>(haveLearnedWords.size());
-            reviewCount = new MutableLiveData<>(priorityQueue.size());
-            addInQueue();
-        }
+        newLearnedCount.setValue(newLearnedWordsQueue.size());
+
+//        String target = sharedPreferences.getString(PreferencesUtils.WORD_ROOT_TODAY,"[0]");
+//        Log.d("target", target);
+//        List<Integer> rootIds = new ArrayList<>();
+//
+//        try{
+//            JSONArray jsonArray = new JSONArray(target);
+//            for(int i = 0 ; i < jsonArray.length() ; i++){
+//                rootIds.add((Integer) jsonArray.get(i));
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        for(int rootId : rootIds){
+//            Log.d("preferences", "" + rootId);
+//
+//        }
     }
 
     public MutableLiveData<Integer> getNewLearnedCount() {
@@ -227,9 +237,9 @@ public class ReviewCardViewModel extends AndroidViewModel {
     }
 
     private void refreshNewLearnedWords() {
-        for (Word w : newLearnedWords) {
-            WordSample wordSample = new WordSample(w, w.getWord_info().getStatus(),"");
-            newLearnedWordsQueue.offer(wordSample);
+        newLearnedWords = new ArrayList<>();
+        while(!newLearnedWordsQueue.isEmpty()) {
+            newLearnedWords.add(newLearnedWordsQueue.poll().getWord());
         }
     }
 

@@ -25,6 +25,7 @@ import com.example.sourcewords.ui.learn.viewModel.RollInterface;
 import com.example.sourcewords.ui.main.MainViewPageAdapter;
 
 import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
+import com.example.sourcewords.utils.DateUtils;
 import com.example.sourcewords.utils.PreferencesUtils;
 
 import org.json.JSONArray;
@@ -39,7 +40,7 @@ public class LearnFragment extends Fragment implements RollInterface {
     private MainViewPageAdapter adapter;
     private ViewPager viewPager;
     private static int size;
-
+    private ReviewCardViewModel reviewCardViewModel;
 
 
     @NonNull
@@ -49,7 +50,8 @@ public class LearnFragment extends Fragment implements RollInterface {
         View v = inflater.inflate(R.layout.fragment_learn_new, container, false);
         viewModel = ViewModelProviders.of(getActivity()).get(LearnViewModel.class);
 
-        ReviewCardViewModel reviewCardViewModel = ViewModelProviders.of(getActivity()).get(ReviewCardViewModel.class);
+        reviewCardViewModel = ViewModelProviders.of(getActivity()).get(ReviewCardViewModel.class);
+        reviewCardViewModel.initData();
         reviewCardViewModel.getAllWord().observe(getViewLifecycleOwner(), words -> {
             assert words != null;
             Log.d("initDataab", "" + words.size());
@@ -176,7 +178,7 @@ public class LearnFragment extends Fragment implements RollInterface {
     private boolean isPlanChanged(){
         final boolean[] isChanged = {false};
         viewModel.getNowPlan().observe(getViewLifecycleOwner(), integer -> {
-            isChanged[0] = (integer != viewModel.getNow());
+            isChanged[0] = (integer != viewModel.getPlan());
             viewModel.savePlan(integer);
         });
         return isChanged[0];
@@ -218,7 +220,11 @@ public class LearnFragment extends Fragment implements RollInterface {
     }
 
 
-
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        reviewCardViewModel.initFromDataBase(DateUtils.getDate());
+        super.onActivityCreated(savedInstanceState);
+    }
 
 }
 
