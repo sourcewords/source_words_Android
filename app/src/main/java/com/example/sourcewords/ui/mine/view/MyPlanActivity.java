@@ -35,7 +35,7 @@ public class MyPlanActivity extends AppCompatActivity {
     int syear = 0, smonth = 0, sday = 0, eyear = 0,emonth = 0,eday = 0;
     String startstring, endstring;
     @Override
-    protected void onCreate(Bundle savedInstance){
+    protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         learnViewModel = ViewModelProviders.of(this).get(LearnViewModel.class);
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_myplan);
@@ -44,7 +44,7 @@ public class MyPlanActivity extends AppCompatActivity {
 
         initView();
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().
                     setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
                             View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
@@ -54,21 +54,42 @@ public class MyPlanActivity extends AppCompatActivity {
 
     private void initView() {
         PlanDataResource.getInstance().getMyPlan(new Api.getPlan() {
+
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void success(PlanItem planBean) {
-                if(planBean.getData().getPlans() == null){
+                if (planBean.getData().getPlans() == null) {
                     dataBinding.myplanRvItem.setVisibility(View.GONE);
                     Toast.makeText(MyPlanActivity.this, "现在没有进行中的计划哦，快来添加一个吧！", Toast.LENGTH_SHORT).show();
-                }else{
-                    for(PlanItem.DataDTO.PlansDTO dao : planBean.getData().getPlans()){
-                        if(dao.getActive() == 1){
-                            if(dao.getName().equals("四级")){
+                } else {
+                    for (PlanItem.DataDTO.PlansDTO dao : planBean.getData().getPlans()) {
+                        if (dao.getActive() == 1) {
+                            if (dao.getName().equals("四级")) {
                                 dataBinding.myPlanPic.setBackgroundResource(R.mipmap.cet4);
-                            }else if(dao.getName().equals("六级")){
+                            } else if (dao.getName().equals("六级")) {
                                 dataBinding.myPlanPic.setBackgroundResource(R.mipmap.cet6);
-                            }else {
+                            } else {
                                 dataBinding.myPlanPic.setBackgroundResource(R.mipmap.ielts);
+                            }
+
+                            LocalDate start = LocalDate.now();
+                            int year, month, day;
+                            String endstring = dao.getEnd();
+                            year = Integer.parseInt(endstring.substring(0, 4));
+                            if (endstring.charAt(endstring.length() - 2) == '.') {
+                                day = Integer.parseInt(endstring.substring(endstring.length() - 2, endstring.length() - 1));
+                                if (endstring.charAt(endstring.length() - 4) == '.') {
+                                    month = Integer.parseInt(endstring.substring(endstring.length() - 4, endstring.length() - 3));
+                                } else if (endstring.charAt(endstring.length() - 5) == '.') {
+                                    month = Integer.parseInt(endstring.substring(endstring.length() - 5, endstring.length() - 3));
+                                }
+                            } else {
+                                day = Integer.parseInt(endstring.substring(endstring.length() - 3, endstring.length() - 2));
+                                if (endstring.charAt(endstring.length() - 5) == '.') {
+                                    month = Integer.parseInt(endstring.substring(endstring.length() - 5, endstring.length() - 4));
+                                } else if (endstring.charAt(endstring.length() - 6) == '.') {
+                                    month = Integer.parseInt(endstring.substring(endstring.length() - 6, endstring.length() - 4));
+                                }
                             }
 
 
@@ -85,11 +106,12 @@ public class MyPlanActivity extends AppCompatActivity {
                             learnViewModel.saveSpeed(speed);
                             dataBinding.myLeastTimeTv.setText("倒计时：" + daysDiff + "天");
                             dataBinding.myBETimeTv.setText(dao.getStart() + "-" + planBean.getData().getPlans().get(0).getEnd());
-                            dataBinding.myPlanName.setText(dao.getName()+ "单词");
+                            dataBinding.myPlanName.setText(dao.getName() + "单词");
                             dataBinding.myPlanProgressBar.setProgress(dao.getPercent());
-                            dataBinding.myPlanProgressNum.setText(dao.getPercent()+ "%");
+                            dataBinding.myPlanProgressNum.setText(dao.getPercent() + "%");
                         }
                     }
+
                 }
             }
 
@@ -105,7 +127,7 @@ public class MyPlanActivity extends AppCompatActivity {
         });
 
         back = findViewById(R.id.my_back);
-        back.setOnClickListener(v->finish());
+        back.setOnClickListener(v -> finish());
     }
 
     public void getDay(){

@@ -28,7 +28,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainFragment extends Fragment {
+public class MainFragment extends Fragment implements LoadingCallBack{
     private ViewPager viewPager;
     private BottomNavigationView bottomNavigationView;
     private List<Fragment> fragmentList;
@@ -94,12 +94,24 @@ public class MainFragment extends Fragment {
         return view;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     private void initFragmentList() {
         fragmentList = new ArrayList<>(3);
         fragmentList.add(new LearnFragment());
         fragmentList.add(new ReviewFragment());
         fragmentList.add(new MineFragment());
+    }
+
+    private void initLoading() {
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        loading = new Loading(getContext());
+        getActivity().addContentView(loading, lp);
+        Handler handler = new MessageHandler();
+        handler.sendEmptyMessageDelayed(MESSAGE1,1500);
+    }
+
+    @Override
+    public void toRemoveLoading() {
+        ((ViewGroup) loading.getParent()).removeView(loading);
     }
 
     @SuppressLint("HandlerLeak")
@@ -111,15 +123,6 @@ public class MainFragment extends Fragment {
             if (msg.what == MESSAGE1) ((ViewGroup) loading.getParent()).removeView(loading);
         }
     }
-
-    private void initLoading() {
-        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        loading = new Loading(getContext());
-        getActivity().addContentView(loading, lp);
-        Handler handler = new MessageHandler();
-        handler.sendEmptyMessageDelayed(MESSAGE1,1500);
-    }
-
 
 
 

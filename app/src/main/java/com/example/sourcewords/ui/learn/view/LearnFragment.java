@@ -1,10 +1,8 @@
 package com.example.sourcewords.ui.learn.view;
-
-import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
+
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,12 +22,11 @@ import com.example.sourcewords.App;
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.ui.learn.viewModel.RollInterface;
-import com.example.sourcewords.ui.main.MainFragment;
 import com.example.sourcewords.ui.main.MainViewPageAdapter;
 
 import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
+import com.example.sourcewords.utils.DateUtils;
 import com.example.sourcewords.utils.PreferencesUtils;
-
 
 import org.json.JSONArray;
 
@@ -46,6 +43,8 @@ public class LearnFragment extends Fragment implements RollInterface {
     private Loading loading;
     private static final int MESSAGE1 = 0x1001;
 
+    private ReviewCardViewModel reviewCardViewModel;
+
 
 
     @NonNull
@@ -53,8 +52,10 @@ public class LearnFragment extends Fragment implements RollInterface {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_learn_new, container, false);
-        viewModel = ViewModelProviders.of(this).get(LearnViewModel.class);
-        ReviewCardViewModel reviewCardViewModel = ViewModelProviders.of(getActivity()).get(ReviewCardViewModel.class);
+        viewModel = ViewModelProviders.of(getActivity()).get(LearnViewModel.class);
+
+        reviewCardViewModel = ViewModelProviders.of(getActivity()).get(ReviewCardViewModel.class);
+        reviewCardViewModel.initData();
         reviewCardViewModel.getAllWord().observe(getViewLifecycleOwner(), words -> {
             assert words != null;
             Log.d("initDataab", "" + words.size());
@@ -65,6 +66,7 @@ public class LearnFragment extends Fragment implements RollInterface {
         size = viewModel.getSpeed();
         initView(v);
         initLoading();
+
         return v;
     }
 
@@ -105,6 +107,7 @@ public class LearnFragment extends Fragment implements RollInterface {
 
     private List<Fragment> initFragmentList() {
         int date = viewModel.HowLongPlan();
+        Log.d("已学习天数", String.valueOf(date));
         List<Fragment> ans = new ArrayList<>();
         for (int i = 1; i <= size; i++) {
             LearnWordRootFragment fragment = LearnWordRootFragment.newInstance(i + date * size);
@@ -142,7 +145,7 @@ public class LearnFragment extends Fragment implements RollInterface {
             Toast.makeText(getContext(), "这就是今天开始的地方", Toast.LENGTH_SHORT).show();
     }
 
-    @Override
+
     //TODO 更新存储的系统时间
     public void onResume() {
         super.onResume();
@@ -174,7 +177,7 @@ public class LearnFragment extends Fragment implements RollInterface {
     @Override
     public void onPause() {
         super.onPause();
-        Pass_Wordroot_ID(viewModel.HowLongPlan() * viewModel.getSpeed() + 1,viewModel.getLong());
+        //Pass_Wordroot_ID(viewModel.HowLongPlan() * viewModel.getSpeed() + 1,viewModel.getLong());
     }
 
     // 记录离开时间
@@ -188,7 +191,7 @@ public class LearnFragment extends Fragment implements RollInterface {
     private boolean isPlanChanged(){
         final boolean[] isChanged = {false};
         viewModel.getNowPlan().observe(getViewLifecycleOwner(), integer -> {
-            isChanged[0] = (integer != viewModel.getNow());
+            isChanged[0] = (integer != viewModel.getPlan());
             viewModel.savePlan(integer);
         });
         return isChanged[0];
@@ -224,6 +227,7 @@ public class LearnFragment extends Fragment implements RollInterface {
         for(int i = start ; i < end ; i++){
             jsonArray.put(i);
         }
+        Log.d("targetSource", jsonArray.toString());
         editor.putString(PreferencesUtils.WORD_ROOT_TODAY, jsonArray.toString());
         editor.apply();
     }
@@ -238,7 +242,11 @@ public class LearnFragment extends Fragment implements RollInterface {
         }
     }
 
-
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        reviewCardViewModel.initFromDataBase(DateUtils.getDate());
+        super.onActivityCreated(savedInstanceState);
+    }
 
 }
 

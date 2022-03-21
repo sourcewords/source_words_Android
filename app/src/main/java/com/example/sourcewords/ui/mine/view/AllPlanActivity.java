@@ -66,6 +66,7 @@ public class AllPlanActivity extends AppCompatActivity {
         PlanDataResource.getInstance().getMyPlan(new Api.getPlan() {
             @Override
             public void success(PlanItem planBean) {
+
                 PlanBean plan1 = new PlanBean("四级", "", "xx.xx-xx.xx", 0, 1);
                 PlanBean plan2 = new PlanBean("六级", "", "xx.xx-xx.xx", 0, 2);
                 PlanBean plan4 = new PlanBean("雅思", "", "xx.xx-xx.xx", 0, 3);

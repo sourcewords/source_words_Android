@@ -13,6 +13,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
@@ -33,6 +34,7 @@ public class AddPlanActivity extends AppCompatActivity {
     private PlanItem item = new PlanItem();
     private LearnViewModel learnViewModel;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
@@ -125,6 +127,8 @@ public class AddPlanActivity extends AppCompatActivity {
             }
         });
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void addPlan(String name){
         addPlanViewModel.addPlan(name, new Api.changePlanApi() {
             @Override
@@ -167,7 +171,7 @@ public class AddPlanActivity extends AppCompatActivity {
 
             @Override
             public void failed() {
-                
+
             }
 
             @Override

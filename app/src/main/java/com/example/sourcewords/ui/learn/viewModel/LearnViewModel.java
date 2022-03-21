@@ -2,7 +2,6 @@ package com.example.sourcewords.ui.learn.viewModel;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
-import android.os.AsyncTask;
 import android.text.format.Time;
 import android.util.Log;
 
@@ -12,7 +11,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.sourcewords.commonUtils.SPUtils;
-import com.example.sourcewords.ui.learn.model.LearnedRepository;
 import com.example.sourcewords.ui.learn.model.WordRootDBCallBack;
 import com.example.sourcewords.ui.learn.model.WordRootRepository;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
@@ -111,9 +109,10 @@ public class LearnViewModel extends AndroidViewModel {
         return rootRepository.getAllWordRoots();
     }
 
+    /*
     public void updateRoot(int root_id) {
         rootRepository.learnedTodayRoot(root_id);
-    }
+    }*/
 
     public void insertRoots(WordRoot root) {
         rootRepository.insertRoots(root);
@@ -178,7 +177,6 @@ public class LearnViewModel extends AndroidViewModel {
         return rootRepository.getAllWordRoots();
     }
 
-
     //储存记录指定计划的时间
     public void saveMakePlan(){
         SPUtils sp = SPUtils.getInstance(SPUtils.SP_MAKE_PLAN);
@@ -211,8 +209,9 @@ public class LearnViewModel extends AndroidViewModel {
         for(int i = Integer.parseInt(start[1]); i < end ;i++ ){
             sum+=months[(i -1)%12];
         }
-        return sum + y*365 + Integer.parseInt(now[2]) - Integer.parseInt(start[2]) + 1;
+        return sum + y*365 + Integer.parseInt(now[2]) - Integer.parseInt(start[2]);
     }
+
 
     public void getLikelyWordRoot(String keyWords, WordRootDBCallBack wordRootDBCallBack){rootRepository.getLikelyWordRoots(keyWords, wordRootDBCallBack);}
 }

@@ -137,7 +137,7 @@ public class AddPlanViewModel extends ViewModel {
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
-                    api.failed();
+                api.failed();
             }
         });
     }
