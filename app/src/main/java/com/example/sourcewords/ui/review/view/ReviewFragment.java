@@ -134,7 +134,8 @@ public class ReviewFragment extends Fragment {
         if (hasInit) {
             fragmentManager.beginTransaction().hide(noneFragment).commit();
         }
-        fragmentManager.beginTransaction().add(R.id.review_container, reciteFragment, "ReciteFragment")
+        if(!reciteFragment.isAdded())
+            fragmentManager.beginTransaction().add(R.id.review_container, reciteFragment, "ReciteFragment")
                 .commit();
     }
 
