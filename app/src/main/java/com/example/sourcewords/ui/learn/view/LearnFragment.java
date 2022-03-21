@@ -1,6 +1,5 @@
 package com.example.sourcewords.ui.learn.view;
 import android.content.SharedPreferences;
-
 import android.os.Bundle;
 
 import android.preference.PreferenceManager;
@@ -25,7 +24,6 @@ import com.example.sourcewords.ui.learn.viewModel.RollInterface;
 import com.example.sourcewords.ui.main.MainViewPageAdapter;
 
 import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
-import com.example.sourcewords.utils.DateUtils;
 import com.example.sourcewords.utils.PreferencesUtils;
 
 import org.json.JSONArray;
@@ -40,10 +38,6 @@ public class LearnFragment extends Fragment implements RollInterface {
     private MainViewPageAdapter adapter;
     private ViewPager viewPager;
     private static int size;
-    private Loading loading;
-    private static final int MESSAGE1 = 0x1001;
-
-    private ReviewCardViewModel reviewCardViewModel;
 
 
 
@@ -53,9 +47,7 @@ public class LearnFragment extends Fragment implements RollInterface {
         super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_learn_new, container, false);
         viewModel = ViewModelProviders.of(getActivity()).get(LearnViewModel.class);
-
-        reviewCardViewModel = ViewModelProviders.of(getActivity()).get(ReviewCardViewModel.class);
-        reviewCardViewModel.initData();
+        ReviewCardViewModel reviewCardViewModel = ViewModelProviders.of(getActivity()).get(ReviewCardViewModel.class);
         reviewCardViewModel.getAllWord().observe(getViewLifecycleOwner(), words -> {
             assert words != null;
             Log.d("initDataab", "" + words.size());
@@ -65,21 +57,8 @@ public class LearnFragment extends Fragment implements RollInterface {
                 , singleWords -> Log.d("initDatac", "" + singleWords.size()));
         size = viewModel.getSpeed();
         initView(v);
-        initLoading();
-
         return v;
     }
-
-    private void initLoading() {
-        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        loading = new Loading(getContext());
-        getActivity().addContentView(loading, lp);
-        Handler handler = new MessageHandler();
-        handler.sendEmptyMessageDelayed(MESSAGE1,1500);
-    }
-
-
-
 
 
     private void initView(View v) {
@@ -122,7 +101,6 @@ public class LearnFragment extends Fragment implements RollInterface {
             fragment.setRollCallBack(this);
             ans.add(fragment);
         }
-
          */
         return ans;
     }
@@ -191,7 +169,7 @@ public class LearnFragment extends Fragment implements RollInterface {
     private boolean isPlanChanged(){
         final boolean[] isChanged = {false};
         viewModel.getNowPlan().observe(getViewLifecycleOwner(), integer -> {
-            isChanged[0] = (integer != viewModel.getPlan());
+            isChanged[0] = (integer != viewModel.getNow());
             viewModel.savePlan(integer);
         });
         return isChanged[0];
@@ -216,7 +194,6 @@ public class LearnFragment extends Fragment implements RollInterface {
             }
         });
     }
-
      */
 
     //TODO 传递今日所学的id
@@ -232,22 +209,4 @@ public class LearnFragment extends Fragment implements RollInterface {
         editor.apply();
     }
 
-    @SuppressLint("HandlerLeak")
-    class MessageHandler extends Handler {
-
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == MESSAGE1) ((ViewGroup) loading.getParent()).removeView(loading);
-        }
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        reviewCardViewModel.initFromDataBase(DateUtils.getDate());
-        super.onActivityCreated(savedInstanceState);
-    }
-
 }
-
-

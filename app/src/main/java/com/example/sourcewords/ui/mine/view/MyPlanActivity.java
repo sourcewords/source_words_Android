@@ -71,28 +71,6 @@ public class MyPlanActivity extends AppCompatActivity {
                             } else {
                                 dataBinding.myPlanPic.setBackgroundResource(R.mipmap.ielts);
                             }
-
-                            LocalDate start = LocalDate.now();
-                            int year, month, day;
-                            String endstring = dao.getEnd();
-                            year = Integer.parseInt(endstring.substring(0, 4));
-                            if (endstring.charAt(endstring.length() - 2) == '.') {
-                                day = Integer.parseInt(endstring.substring(endstring.length() - 2, endstring.length() - 1));
-                                if (endstring.charAt(endstring.length() - 4) == '.') {
-                                    month = Integer.parseInt(endstring.substring(endstring.length() - 4, endstring.length() - 3));
-                                } else if (endstring.charAt(endstring.length() - 5) == '.') {
-                                    month = Integer.parseInt(endstring.substring(endstring.length() - 5, endstring.length() - 3));
-                                }
-                            } else {
-                                day = Integer.parseInt(endstring.substring(endstring.length() - 3, endstring.length() - 2));
-                                if (endstring.charAt(endstring.length() - 5) == '.') {
-                                    month = Integer.parseInt(endstring.substring(endstring.length() - 5, endstring.length() - 4));
-                                } else if (endstring.charAt(endstring.length() - 6) == '.') {
-                                    month = Integer.parseInt(endstring.substring(endstring.length() - 6, endstring.length() - 4));
-                                }
-                            }
-
-
                             startstring = dao.getStart();
                             endstring = dao.getEnd();
                             getDay();
