@@ -32,8 +32,7 @@ public class MainFragment extends Fragment implements LoadingCallBack{
     private ViewPager viewPager;
     private BottomNavigationView bottomNavigationView;
     private List<Fragment> fragmentList;
-    private Loading loading;
-    private static final int MESSAGE1 = 0x1001;
+
 
 
 
@@ -91,7 +90,7 @@ public class MainFragment extends Fragment implements LoadingCallBack{
 
             return false;
         });
-        initLoading();
+
         return view;
     }
 

@@ -40,7 +40,11 @@ public class LearnFragment extends Fragment implements RollInterface {
     private MainViewPageAdapter adapter;
     private ViewPager viewPager;
     private static int size;
+    private Loading loading;
+    private static final int MESSAGE1 = 0x1001;
+
     private ReviewCardViewModel reviewCardViewModel;
+
 
 
     @NonNull
@@ -61,8 +65,17 @@ public class LearnFragment extends Fragment implements RollInterface {
                 , singleWords -> Log.d("initDatac", "" + singleWords.size()));
         size = viewModel.getSpeed();
         initView(v);
+        initLoading();
 
         return v;
+    }
+
+    private void initLoading() {
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        loading = new Loading(getContext());
+        getActivity().addContentView(loading, lp);
+        Handler handler = new MessageHandler();
+        handler.sendEmptyMessageDelayed(MESSAGE1,1500);
     }
 
 
@@ -219,6 +232,15 @@ public class LearnFragment extends Fragment implements RollInterface {
         editor.apply();
     }
 
+    @SuppressLint("HandlerLeak")
+    class MessageHandler extends Handler {
+
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            if (msg.what == MESSAGE1) ((ViewGroup) loading.getParent()).removeView(loading);
+        }
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
