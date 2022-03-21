@@ -54,11 +54,12 @@ public class PlanItem {
 
         public static class PlansDTO {
             public Integer getPlanId() {
-                return planId;
+
+                return plan_id;
             }
 
-            public void setPlanId(Integer planId) {
-                this.planId = planId;
+            public void setPlanId(Integer plan_id) {
+                this.plan_id = plan_id;
             }
 
             public Integer getUid() {
@@ -125,7 +126,7 @@ public class PlanItem {
                 this.percent = percent;
             }
 
-            private Integer planId;
+            private Integer plan_id;
             private Integer uid;
             private String name;
             private String start;

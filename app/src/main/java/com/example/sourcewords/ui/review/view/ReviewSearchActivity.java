@@ -2,21 +2,13 @@ package com.example.sourcewords.ui.review.view;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sourcewords.R;
+import com.example.sourcewords.ui.SearchActivity;
 import com.example.sourcewords.ui.review.dataBean.HistoryWord;
 import com.example.sourcewords.ui.review.dataBean.SingleWord;
 import com.example.sourcewords.ui.review.viewmodel.HistoryViewModel;
@@ -27,46 +19,31 @@ import com.example.sourcewords.utils.PreferencesUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReviewSearchActivity extends AppCompatActivity {
+public class ReviewSearchActivity extends SearchActivity {
     private List<SingleWord> searchedWordsList = new ArrayList<>();
-    private EditText searchText;
-    private ImageView back, search, clear;
-    private TextView unfold;
     private HistoryViewModel mHistoryViewModel;
-    private SearchAdapter mSearchAdapter;
-    private RecyclerView mRecyclerView;
-    private boolean isFold = true;
-    private boolean isHistory = true;
+    private ReviewSearchAdapter mReviewSearchAdapter;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_words);
-
-        initView();
-        Listener();
-    }
-
     @SuppressLint("NotifyDataSetChanged")
     public void initView(){
+        super.initView();
+
         mHistoryViewModel = new HistoryViewModel(getApplication());
 
-        searchText = findViewById(R.id.search_word_editView);
-        back = findViewById(R.id.search_word_back);
-        search = findViewById(R.id.search_words);
-        mRecyclerView = findViewById(R.id.searchRecyclerView);
-        unfold = findViewById(R.id.unfold);
-        clear = findViewById(R.id.clearHistory);
+        mReviewSearchAdapter = new ReviewSearchAdapter(getApplication());
 
-        mSearchAdapter = new SearchAdapter(getApplication(), mHistoryViewModel);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(mSearchAdapter);
+        mRecyclerView.setAdapter(mReviewSearchAdapter);
 
         initRV();
     }
 
+    @Override
     public void Listener(){
-        mSearchAdapter.setAdapterCallBack(new AdapterCallBack() {
+        super.Listener();
+
+        mReviewSearchAdapter.setAdapterCallBack(new AdapterCallBack<SingleWord, HistoryWord>(){
             @Override
             public void startSearch(SingleWord singleWord) {
                 boolean isExist = false;
@@ -112,26 +89,7 @@ public class ReviewSearchActivity extends AppCompatActivity {
                     isFold = false;
                     isHistory = false;
                     keyWords = searchText.getText().toString();
-                    ReviewViewModel reviewViewModel = new ReviewViewModel(getApplication());
-                    char c = keyWords.toCharArray()[0];
-                    if(Character.isLowerCase(c) || Character.isUpperCase(c))
-                        reviewViewModel.getLikelyWords(keyWords, list -> {
-                            if(list.size() <= 15){
-                                searchedWordsList = list;
-                            } else {
-                                searchedWordsList = list.subList(0,14);
-                            }
-                            initRV();
-                        });
-                    else
-                        reviewViewModel.getLikelyMeaning(keyWords, list -> {
-                            if(list.size() <= 15){
-                                searchedWordsList = list;
-                            } else {
-                                searchedWordsList = list.subList(0,14);
-                            }
-                            initRV();
-                        });
+                    DynamicSearch(keyWords);
                 }
                 else
                 {
@@ -141,10 +99,6 @@ public class ReviewSearchActivity extends AppCompatActivity {
                 }
 
             }
-        });
-
-        back.setOnClickListener(v -> {
-            finish();
         });
 
         unfold.setOnClickListener(v->{
@@ -159,6 +113,29 @@ public class ReviewSearchActivity extends AppCompatActivity {
         });
     }
 
+    void DynamicSearch(String keyWords){
+        ReviewViewModel reviewViewModel = new ReviewViewModel(getApplication());
+        char c = keyWords.toCharArray()[0];
+        if(Character.isLowerCase(c) || Character.isUpperCase(c))
+            reviewViewModel.getLikelyWords(keyWords, list -> {
+                if(list.size() <= 15){
+                    searchedWordsList = list;
+                } else {
+                    searchedWordsList = list.subList(0,14);
+                }
+                initRV();
+            });
+        else
+            reviewViewModel.getLikelyMeaning(keyWords, list -> {
+                if(list.size() <= 15){
+                    searchedWordsList = list;
+                } else {
+                    searchedWordsList = list.subList(0,14);
+                }
+                initRV();
+            });
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     public void initRV(){
         if(isHistory) {
@@ -167,32 +144,28 @@ public class ReviewSearchActivity extends AppCompatActivity {
             List<HistoryWord> maxList = new ArrayList<>();
             if (list.size() >= 6 && isFold) {
                 maxList = list.subList(0,6);
-                mSearchAdapter.setList(maxList);
+                mReviewSearchAdapter.setList(maxList);
                 unfold.setVisibility(View.VISIBLE);
             } else {
-                mSearchAdapter.setList(list);
+                mReviewSearchAdapter.setList(list);
                 unfold.setVisibility(View.GONE);
             }
 
             if (!isFold) {
-                mSearchAdapter.setList(list);
+                mReviewSearchAdapter.setList(list);
                 unfold.setVisibility(View.GONE);
             }
         } else {
-            mSearchAdapter.setSList(searchedWordsList);
+            mReviewSearchAdapter.setSList(searchedWordsList);
         }
-        mSearchAdapter.notifyDataSetChanged();
+        mReviewSearchAdapter.notifyDataSetChanged();
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onResume() {
         super.onResume();
-        isFold = true;
-        isHistory = true;
-        searchText.setText("");
         List<HistoryWord> list = mHistoryViewModel.getList();
-        mSearchAdapter.setList(list);
-        mSearchAdapter.notifyDataSetChanged();
+        mReviewSearchAdapter.setList(list);
+        mReviewSearchAdapter.notifyDataSetChanged();
     }
 }

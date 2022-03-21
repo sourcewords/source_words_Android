@@ -11,7 +11,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.sourcewords.commonUtils.SPUtils;
-import com.example.sourcewords.ui.learn.model.LearnedRepository;
+import com.example.sourcewords.ui.learn.model.WordRootDBCallBack;
 import com.example.sourcewords.ui.learn.model.WordRootRepository;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 
@@ -126,7 +126,6 @@ public class LearnViewModel extends AndroidViewModel {
         return rootRepository.getWordRootById(Id);
     }
 
-
     public WordRoot getRootByID(int id) {
         return rootRepository.getRootById(id);
     }
@@ -213,4 +212,6 @@ public class LearnViewModel extends AndroidViewModel {
         return sum + y*365 + Integer.parseInt(now[2]) - Integer.parseInt(start[2]);
     }
 
+
+    public void getLikelyWordRoot(String keyWords, WordRootDBCallBack wordRootDBCallBack){rootRepository.getLikelyWordRoots(keyWords, wordRootDBCallBack);}
 }

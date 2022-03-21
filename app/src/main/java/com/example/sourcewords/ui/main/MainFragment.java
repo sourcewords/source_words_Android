@@ -91,10 +91,7 @@ public class MainFragment extends Fragment implements LoadingCallBack{
 
             return false;
         });
-
-
         initLoading();
-
         return view;
     }
 

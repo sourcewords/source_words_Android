@@ -13,11 +13,14 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContract;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.example.sourcewords.R;
 import com.example.sourcewords.databinding.ActivityAddplanBindingImpl;
+import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.ui.mine.model.Api;
 import com.example.sourcewords.ui.mine.model.PlanDataResource;
 import com.example.sourcewords.ui.mine.model.databean.PlanItem;
@@ -29,13 +32,17 @@ public class AddPlanActivity extends AppCompatActivity {
     private ActivityAddplanBindingImpl binding;
     private ImageButton addPlan, back;
     private PlanItem item = new PlanItem();
+    private LearnViewModel learnViewModel;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_addplan);
 
         addPlanViewModel = new AddPlanViewModel(this);
+        learnViewModel = ViewModelProviders.of(this).get(LearnViewModel.class);
+
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_addplan);
         binding.setLifecycleOwner(this);
@@ -47,26 +54,35 @@ public class AddPlanActivity extends AppCompatActivity {
         } );
         back = findViewById(R.id.add_back);
         back.setOnClickListener(v->finish());
-        PlanDataResource.getInstance().getMyPlan(new Api.getPlan() {
-            @Override
-            public void success(PlanItem planItem) {
-                item = planItem;
-            }
-
-            @Override
-            public void failed() {
-
-            }
-        });
+        getPlan();
 
         binding.startPlan.setOnClickListener(v -> {
+            int flag = 0;
             String name = binding.addPlanName.getText().toString().substring(0,2);
             for(PlanItem.DataDTO.PlansDTO i : item.getData().getPlans()){
                 if(i.getName().equals(name)){
                     changePlan(i.getPlanId());
+                    flag = 1;
                 }
             }
-            addPlan(name);
+            if(flag == 0){
+                addPlan(name);
+            }
+            learnViewModel.saveMakePlan();
+            int level = 0;
+            switch (name){
+                case "四级":
+                    level = 1;
+                    break;
+                case "六级":
+                    level = 2;
+                    break;
+                default:
+                    level = 3;
+                    break;
+            }
+            learnViewModel.getNowPlan().setValue(level);
+
         });
 
 
@@ -80,7 +96,7 @@ public class AddPlanActivity extends AppCompatActivity {
     ActivityResultLauncher launcher = registerForActivityResult(new AddPlanActivity.AddResultContract(), new ActivityResultCallback<String>() {
         @Override
         public void onActivityResult(String result) {
-            binding.addPlanName.setText(result);
+            binding.addPlanName.setText(result + "单词");
         }
     });
 
@@ -97,10 +113,33 @@ public class AddPlanActivity extends AppCompatActivity {
             return intent.getStringExtra("plan");
         }
     }
+
+    public void getPlan(){
+        PlanDataResource.getInstance().getMyPlan(new Api.getPlan() {
+            @Override
+            public void success(PlanItem planItem) {
+                item = planItem;
+            }
+
+            @Override
+            public void failed() {
+
+            }
+        });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void addPlan(String name){
         addPlanViewModel.addPlan(name, new Api.changePlanApi() {
             @Override
             public void success() {
+                getPlan();
+                String name = binding.addPlanName.getText().toString().substring(0,2);
+                for(PlanItem.DataDTO.PlansDTO i : item.getData().getPlans()){
+                    if(i.getName().equals(name)){
+                        changePlan(i.getPlanId());
+                    }
+                }
                 Toast.makeText(AddPlanActivity.this, "添加成功！", Toast.LENGTH_SHORT).show();
                 finish();
             }
@@ -132,7 +171,7 @@ public class AddPlanActivity extends AppCompatActivity {
 
             @Override
             public void failed() {
-                
+
             }
 
             @Override

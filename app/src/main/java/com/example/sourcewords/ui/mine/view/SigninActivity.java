@@ -110,7 +110,7 @@ public class SigninActivity extends AppCompatActivity {
                 for(String s : datestring) {
                     try {
                         Date date1 = sdf.parse(s);
-                        String month = date1.toGMTString().substring(2, 5);
+                        String month = date1.toGMTString().substring(3, 6);
                         int m;
                         switch (month) {
                             case "Jan":
@@ -151,7 +151,8 @@ public class SigninActivity extends AppCompatActivity {
                                 break;
 
                         }
-                        String year = date1.toGMTString().substring(6, 10);
+                        String d = date1.toGMTString();
+                        String year = d.substring(7,11);
                         int y = Integer.parseInt(year);
                         CalendarDay date = CalendarDay.from(y, m, date1.getDate());
 

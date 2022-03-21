@@ -20,6 +20,7 @@ import android.widget.VideoView;
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.learn.viewModel.WordsAdapter;
 import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
+import com.example.sourcewords.utils.PreferencesUtils;
 
 public class WordRootPage extends AppCompatActivity implements View.OnClickListener {
     private static final String GET_ID = "getWordRoot_id";
@@ -41,7 +42,7 @@ public class WordRootPage extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_word_root_page);
         viewModel = ViewModelProviders.of(this).get(LearnViewModel.class);
         Intent intent = getIntent();
-        id = intent.getIntExtra(GET_ID, 0);
+        id = intent.getIntExtra(PreferencesUtils.WORD_ID, 0);
         init();
     }
 
@@ -57,7 +58,7 @@ public class WordRootPage extends AppCompatActivity implements View.OnClickListe
         recyclerView.setAdapter(adapter);
         //getWordRootAndUpdateUI(id);
         viewModel.getWordRootById(id).observe(this, root -> {
-            textView.setText(root.getRoot());
+            textView.setText(root.getRoot() + " = " + root.getMeaning());
             adapter.setList(root.getWordlist());
             final String path = root.getVideo_url();
             Log.d("能否隐藏", path + "长度为" + path.length());
