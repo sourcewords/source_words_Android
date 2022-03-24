@@ -34,7 +34,6 @@ import java.util.Date;
 
 
 //TODO 习模块
-@RequiresApi(api = Build.VERSION_CODES.N)
 public class ReviewFragment extends Fragment {
     private ImageView search;
     private FrameLayout frameLayout;
@@ -135,7 +134,8 @@ public class ReviewFragment extends Fragment {
         if (hasInit) {
             fragmentManager.beginTransaction().hide(noneFragment).commit();
         }
-        fragmentManager.beginTransaction().add(R.id.review_container, reciteFragment, "ReciteFragment")
+        if(!reciteFragment.isAdded())
+            fragmentManager.beginTransaction().add(R.id.review_container, reciteFragment, "ReciteFragment")
                 .commit();
     }
 

@@ -34,6 +34,7 @@ import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.ui.learn.viewModel.RollInterface;
 import com.example.sourcewords.ui.learn.viewModel.WordsAdapter;
 import com.example.sourcewords.ui.review.dataBean.Word;
+import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
 import com.example.sourcewords.utils.PreferencesUtils;
 
 import org.json.JSONArray;
@@ -52,6 +53,7 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
     private WordsAdapter adapter;
     private List<Integer> list = new ArrayList<>();
     private static final String Param = "LearnRootFragment";
+    private ReviewCardViewModel reviewCardViewModel;
 
     public static LearnWordRootFragment newInstance(int id){
         LearnWordRootFragment fragment = new LearnWordRootFragment();
@@ -66,10 +68,12 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         @SuppressLint("InflateParams") View v = inflater.inflate(R.layout.fragment_learn, null);
         viewModel = ViewModelProviders.of(this.getActivity()).get(LearnViewModel.class);
+        reviewCardViewModel = ViewModelProviders.of(this.getActivity()).get(ReviewCardViewModel.class);
         initView(v);
         Bundle bundle = getArguments();
         assert bundle != null;
         root_id = bundle.getInt(Param,0);
+        Log.d("词根页的id是：", String.valueOf(root_id));
         return v;
     }
 
@@ -127,16 +131,17 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
             case R.id.learn_AllLearned:
                 if(viewModel.getLong() == root_id ) {
                     changeButtonUI();
-
                     button_learned.setClickable(false);
                     viewModel.saveLong(viewModel.getLong() + 1);
                     viewModel.whatILearnedToday(list);
                     rollInterface.next();
-                    if(root_id == (viewModel.HowLongPlan()+1) * viewModel.getSpeed()){
+                    //正常的if(root_id == (viewModel.HowLongPlan() + 1) * viewModel.getSpeed()){
+                    //临时的
+                    if(root_id == (viewModel.HowLongPlan()) * viewModel.getSpeed() + 1){
                         viewModel.saveFlag(true);
                         viewModel.getLearnFlag().setValue(true);
                     }
-                    //Pass_Wordroot_ID(viewModel.HowLongPlan()*viewModel.getSpeed() + 1, viewModel.getLong());
+                    reviewCardViewModel.initData(root_id);
                 }else{
                     Toast.makeText(getContext(), "您还没学到这个", Toast.LENGTH_SHORT).show();
                 }
@@ -231,5 +236,17 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
         refresh();
     }
 
+
+    //TODO 传递今日所学的id**临时性
+    private void Pass_Wordroot_ID(int root_id){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        JSONArray jsonArray = new JSONArray();
+//        jsonArray.put(viewModel.HowLongPlan() * viewModel.getSpeed() + 1);
+//        Log.d("targetSource", jsonArray.toString());
+//        editor.putString(PreferencesUtils.WORD_ROOT_TODAY, jsonArray.toString());
+        editor.putInt(PreferencesUtils.WORD_ROOT_TODAY, root_id);
+        editor.apply();
+    }
 
 }

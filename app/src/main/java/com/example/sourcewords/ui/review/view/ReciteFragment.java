@@ -221,6 +221,7 @@ public class ReciteFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         // 清除所有已经保存的状态
         reviewCardViewModel.deleteWordCardState();
+        reviewCardViewModel.loadAllWordsToDataBase();
         String date = DateUtils.getDate();
         // 保存现有的状态
         WordCardState wordCardState = new WordCardState(date,reviewCardViewModel.getNewLearnedWords(),

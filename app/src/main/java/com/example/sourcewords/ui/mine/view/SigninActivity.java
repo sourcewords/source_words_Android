@@ -36,7 +36,7 @@ import java.util.TimeZone;
 public class SigninActivity extends AppCompatActivity {
 
     private MaterialCalendarView calendarView;
-    private TextView signInDay,time;
+    private TextView signInDay, time;
     private Button signIn;
     private List<String> datestring = new ArrayList<>();
     private HashSet<CalendarDay> dates = new HashSet<>();
@@ -44,7 +44,7 @@ public class SigninActivity extends AppCompatActivity {
     private ImageButton back;
 
     @Override
-    protected void onCreate(Bundle savedInstance){
+    protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
         setContentView(R.layout.activity_signin);
 
@@ -72,7 +72,7 @@ public class SigninActivity extends AppCompatActivity {
         });
 
         time = findViewById(R.id.signin_time);
-        time.setText(String.valueOf(SPUtils.getInstance().getLong("APP_USE_TIME", 0L)/60000));
+        time.setText(String.valueOf(SPUtils.getInstance().getLong("APP_USE_TIME", 0L) / 60000));
 
         back = findViewById(R.id.mine_back);
         back.setOnClickListener(v -> {
@@ -81,7 +81,7 @@ public class SigninActivity extends AppCompatActivity {
         calendarView = findViewById(R.id.calendar);
 
         calendarView.setSelectionMode(MaterialCalendarView.SELECTION_MODE_NONE);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().
                     setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN |
                             View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
@@ -96,75 +96,44 @@ public class SigninActivity extends AppCompatActivity {
         return format.format(app_use_time);
     }
 
-    void initData(){
+    void initData() {
         SigninDateSource.getInstance().getAllSignDate(new Api.getSignInApi() {
             @Override
             public void success(SigninBean signinBean) {
                 dates.clear();
                 signin = signinBean;
                 signInDay.setText(String.valueOf(signin.getData().getAll()));
-                for(SigninBean.DataDTO.PlansDTO p : signin.getData().getPlans()){
+                for (SigninBean.DataDTO.PlansDTO p : signin.getData().getPlans()) {
                     datestring.add(p.getData());
                 }
-                @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat( "yyyy.MM.dd" );
-                for(String s : datestring) {
-                    try {
-                        Date date1 = sdf.parse(s);
-                        String month = date1.toGMTString().substring(3, 6);
-                        int m;
-                        switch (month) {
-                            case "Jan":
-                                m = 1;
-                                break;
-                            case "Feb":
-                                m = 2;
-                                break;
-                            case "Mar":
-                                m = 3;
-                                break;
-                            case "Apr":
-                                m = 4;
-                                break;
-                            case "May":
-                                m = 5;
-                                break;
-                            case "Jun":
-                                m = 6;
-                                break;
-                            case "Jul":
-                                m = 7;
-                                break;
-                            case "Aug":
-                                m = 8;
-                                break;
-                            case "Sep":
-                                m = 9;
-                                break;
-                            case "Oct":
-                                m = 10;
-                                break;
-                            case "Nov":
-                                m = 11;
-                                break;
-                            default:
-                                m = 12;
-                                break;
-
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+                for (String s : datestring) {
+                    int syear = 0, sday = 0, smonth = 0;
+                    syear = Integer.parseInt(s.substring(0, 4));
+                    if (s.charAt(s.length() - 2) == '.') {//日期一位数 2022.11.1
+                        sday = Integer.parseInt(s.substring(s.length() - 1));
+                        if (s.charAt(s.length() - 4) == '.') {
+                            smonth = Integer.parseInt(s.substring(s.length() - 3, s.length() - 2));
+                        } else if (s.charAt(s.length() - 5) == '.') {
+                            smonth = Integer.parseInt(s.substring(s.length() - 4, s.length() - 2));
                         }
-                        String d = date1.toGMTString();
-                        String year = d.substring(7,11);
-                        int y = Integer.parseInt(year);
-                        CalendarDay date = CalendarDay.from(y, m, date1.getDate());
-
-                        dates.add(new CalendarDay(date.getYear(), date.getMonth(), date.getDay()));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+                    } else {
+                        sday = Integer.parseInt(s.substring(s.length() - 2, s.length()));
+                        if (s.charAt(s.length() - 5) == '.') {
+                            smonth = Integer.parseInt(s.substring(s.length() - 4, s.length() - 3));
+                        } else if (s.charAt(s.length() - 6) == '.') {
+                            smonth = Integer.parseInt(s.substring(s.length() - 5, s.length() - 3));
+                        }
                     }
+
+                    CalendarDay date = CalendarDay.from(syear, smonth, sday);
+
+                    dates.add(new CalendarDay(date.getYear(), date.getMonth(), date.getDay()));
                 }
                 Decorator decorator = new Decorator(Color.RED, dates);
                 calendarView.addDecorator(decorator);
-                for(CalendarDay d : dates){
-                    if(d.equals(CalendarDay.today())){
+                for (CalendarDay d : dates) {
+                    if (d.equals(CalendarDay.today())) {
                         signIn.setEnabled(false);
                         signIn.setBackgroundColor(Color.GRAY);
                     }
