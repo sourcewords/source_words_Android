@@ -380,4 +380,28 @@ public class ReviewCardViewModel extends AndroidViewModel {
     public void deleteWordCardState() {
         mWordRepository.deleteWordCardState();
     }
+
+    public void uploadReviewCardState(String s) {
+        mWordRepository.uploadReviewCardState(s);
+    }
+
+    public void downloadWordCardState() {
+        mWordRepository.downloadWordCardState(this);
+    }
+
+    public void refreshViewModel(WordCardState wordCardState) {
+        this.newLearnedWords = wordCardState.getNewLearnedWords();
+        this.haveLearnedWords = wordCardState.getHaveLearnedWords();
+        this.reviewWords = wordCardState.getReviewWords();
+        this.newLearnedCount.setValue(wordCardState.getNewLearnedCount());
+        this.haveLearnedCount.setValue(wordCardState.getHaveLearnedCount());
+        this.reviewCount.setValue(wordCardState.getReviewCount());
+        this.wordSampleMutableLiveData.setValue(wordCardState.getWordSample());
+        this.wordPool = wordCardState.getWordPool();
+        this.lastLearnTime = wordCardState.getLastLearnTime();
+        this.historyStack = wordCardState.getHistoryStack();
+        this.priorityQueue = wordCardState.getPriorityQueue();
+        this.newLearnedWordsQueue = wordCardState.getNewLearnedWordsQueue();
+        this.haveLearnedWordsQueue = wordCardState.getHaveLearnedWordsQueue();
+    }
 }

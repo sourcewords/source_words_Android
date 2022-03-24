@@ -79,6 +79,10 @@ public class WordCardState {
         this.haveLearnedWordsQueue = haveLearnedWordsQueue;
     }
 
+    public WordCardState() {
+
+    }
+
     public long getId() {
         return id;
     }
