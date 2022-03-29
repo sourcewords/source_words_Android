@@ -11,9 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sourcewords.R;
-import com.example.sourcewords.ui.review.dataBean.HistoryWord;
-
-import java.util.List;
 
 public abstract class SearchActivity extends AppCompatActivity {
     protected EditText searchText;
