@@ -2,6 +2,7 @@ package com.example.sourcewords.ui.mine.model.databean;
 
 import java.util.List;
 
+
 public class PlanItem {
 
     public Integer getCode() {
@@ -53,13 +54,18 @@ public class PlanItem {
         private List<PlansDTO> plans;
 
         public static class PlansDTO {
-            public Integer getPlanId() {
+            private Integer planId;
+            private Integer uid;
+            private String name;
+            private String start;
+            private String end;
 
-                return plan_id;
+            public Integer getPlanId() {
+                return planId;
             }
 
-            public void setPlanId(Integer plan_id) {
-                this.plan_id = plan_id;
+            public void setPlanId(Integer planId) {
+                this.planId = planId;
             }
 
             public Integer getUid() {
@@ -118,23 +124,18 @@ public class PlanItem {
                 this.active = active;
             }
 
-            public Integer getPercent() {
+            public Double getPercent() {
                 return percent;
             }
 
-            public void setPercent(Integer percent) {
+            public void setPercent(Double percent) {
                 this.percent = percent;
             }
 
-            private Integer plan_id;
-            private Integer uid;
-            private String name;
-            private String start;
-            private String end;
             private String word;
             private String img;
             private Integer active;
-            private Integer percent;
+            private Double percent;
         }
     }
 }
