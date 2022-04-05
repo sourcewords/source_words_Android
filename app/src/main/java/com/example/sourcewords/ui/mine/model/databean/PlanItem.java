@@ -54,18 +54,18 @@ public class PlanItem {
         private List<PlansDTO> plans;
 
         public static class PlansDTO {
-            private Integer planId;
+            private Integer plan_id;
             private Integer uid;
             private String name;
             private String start;
             private String end;
 
             public Integer getPlanId() {
-                return planId;
+                return plan_id;
             }
 
             public void setPlanId(Integer planId) {
-                this.planId = planId;
+                this.plan_id = planId;
             }
 
             public Integer getUid() {
