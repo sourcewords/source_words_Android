@@ -1,10 +1,12 @@
 package com.example.sourcewords.ui.main;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,32 +16,36 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.sourcewords.App;
 import com.example.sourcewords.R;
 import com.example.sourcewords.ui.learn.view.LearnFragment;
 import com.example.sourcewords.ui.learn.view.Loading;
 import com.example.sourcewords.ui.learn.viewModel.LearnViewModel;
 import com.example.sourcewords.ui.mine.view.MineFragment;
 import com.example.sourcewords.ui.review.view.ReviewFragment;
+import com.example.sourcewords.utils.PreferencesUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainFragment extends Fragment implements LoadingCallBack{
+public class MainFragment extends Fragment {
     private ViewPager viewPager;
     private BottomNavigationView bottomNavigationView;
     private List<Fragment> fragmentList;
     private Loading loading;
     private static final int MESSAGE1 = 0x1001;
 
-
-
+    public static MutableLiveData<Integer> remove;//以应对3个AsyncTask都结束时要实现的复杂结构的观察者模式，我的选择是内存泄漏
+    public static int num = 0;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        remove = new MutableLiveData<>(0);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -53,7 +59,15 @@ public class MainFragment extends Fragment implements LoadingCallBack{
         bottomNavigationView = view.findViewById(R.id.navigation);
         initFragmentList();
         viewPager.setAdapter(new MainViewPageAdapter(getChildFragmentManager(),fragmentList));
-
+        remove.observe(getViewLifecycleOwner(),x -> {
+            if(x == 3) {
+                ((ViewGroup) loading.getParent()).removeView(loading);
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putInt(PreferencesUtils.isFirst,x);
+                editor.apply();
+            }
+        });
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -92,6 +106,11 @@ public class MainFragment extends Fragment implements LoadingCallBack{
             return false;
         });
         initLoading();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
+        if(preferences.getInt(PreferencesUtils.isFirst,0) == 3){
+            Handler handler = new MessageHandler();
+            handler.sendEmptyMessageDelayed(MESSAGE1,500);
+        }
         return view;
     }
 
@@ -106,13 +125,8 @@ public class MainFragment extends Fragment implements LoadingCallBack{
         ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         loading = new Loading(getContext());
         getActivity().addContentView(loading, lp);
-        Handler handler = new MessageHandler();
-        handler.sendEmptyMessageDelayed(MESSAGE1,1500);
-    }
-
-    @Override
-    public void toRemoveLoading() {
-        ((ViewGroup) loading.getParent()).removeView(loading);
+        //Handler handler = new MessageHandler();
+        //handler.sendEmptyMessageDelayed(MESSAGE1,1500);
     }
 
     @SuppressLint("HandlerLeak")

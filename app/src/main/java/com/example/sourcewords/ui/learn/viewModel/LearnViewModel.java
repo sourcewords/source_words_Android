@@ -25,7 +25,7 @@ public class LearnViewModel extends AndroidViewModel {
     private final WordRootRepository rootRepository;
     private final MutableLiveData<Boolean> learnFlag;
     private final MutableLiveData<Integer> nowDay;//记录现在是所在年份的第几天
-    private final MutableLiveData<Integer> nowPlan;
+    private final MutableLiveData<Integer> nowPlan;//记录所学的计划等级
     private final static String KEY_PLAN = "key_plan";
     private final static String KEY_LEARNED = "key_wordroot_learned";
     private final static String KEY_LONG = "key_long";
@@ -57,16 +57,6 @@ public class LearnViewModel extends AndroidViewModel {
     }
 
 
-    public int getLastPlan(){
-        SPUtils sp = SPUtils.getInstance(SPUtils.SP_LEARN_Last);
-        return sp.getInt(KEY_LAST,0);
-    }
-
-    //TODO 储存上次计划进行到第几天
-    public void saveLastPlan(int yesterday){
-        SPUtils sp = SPUtils.getInstance(SPUtils.SP_LEARN_Last);
-        sp.put(KEY_LAST, yesterday);
-    }
 
     //TODO 获取每日词根的学习个数
     public int getSpeed(){
@@ -213,5 +203,19 @@ public class LearnViewModel extends AndroidViewModel {
     }
 
 
-    public void getLikelyWordRoot(String keyWords, WordRootDBCallBack wordRootDBCallBack){rootRepository.getLikelyWordRoots(keyWords, wordRootDBCallBack);}
+    public void getLikelyWordRoot(String keyWords, WordRootDBCallBack wordRootDBCallBack){
+        rootRepository.getLikelyWordRoots(keyWords, wordRootDBCallBack);
+    }
+
+    //储存每天要学的首id
+    public void saveIDtoLearn(int id){
+        SPUtils sp = SPUtils.getInstance();
+        sp.put(SPUtils.SP_ID_LEARN,id);
+    }
+
+    //获取每天要学的首id
+    public int getIDtoLearn() {
+        SPUtils sp = SPUtils.getInstance();
+        return sp.getInt(SPUtils.SP_ID_LEARN,1);
+    }
 }
