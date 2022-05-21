@@ -96,6 +96,7 @@ public class AddPlanActivity extends AppCompatActivity {
     ActivityResultLauncher launcher = registerForActivityResult(new AddPlanActivity.AddResultContract(), new ActivityResultCallback<String>() {
         @Override
         public void onActivityResult(String result) {
+            if(result.equals("error")) return;
             binding.addPlanName.setText(result + "单词");
         }
     });

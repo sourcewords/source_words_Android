@@ -10,7 +10,6 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.sourcewords.R;
@@ -32,7 +31,7 @@ public class MyPlanActivity extends AppCompatActivity {
     private LearnViewModel learnViewModel;
     private ActivityMyplanBinding dataBinding;
     private ImageButton back;
-    int syear = 0, smonth = 0, sday = 0, eyear = 0,emonth = 0,eday = 0;
+    int syear = 0, smonth = 0, sday = 0, eyear = 0,emonth = 0,eday = 0, speed = 0;
     String startstring, endstring;
     @Override
     protected void onCreate(Bundle savedInstance) {
@@ -80,12 +79,16 @@ public class MyPlanActivity extends AppCompatActivity {
                             LocalDate end = LocalDate.of(eyear, emonth+1, eday);
                             long daysDiff = ChronoUnit.DAYS.between(today, end);
                             long allDay = ChronoUnit.DAYS.between(start, end);
-                            int speed = (int) (486 / allDay);
+                            try{
+                                speed = (int) (486 / allDay);
+                            }catch(Exception e) {
+                                e.printStackTrace();
+                            }
                             learnViewModel.saveSpeed(speed);
                             dataBinding.myLeastTimeTv.setText("倒计时：" + daysDiff + "天");
                             dataBinding.myBETimeTv.setText(dao.getStart() + "-" + planBean.getData().getPlans().get(0).getEnd());
                             dataBinding.myPlanName.setText(dao.getName() + "单词");
-                            dataBinding.myPlanProgressBar.setProgress(dao.getPercent());
+                            dataBinding.myPlanProgressBar.setProgress(dao.getPercent().intValue());
                             dataBinding.myPlanProgressNum.setText(dao.getPercent() + "%");
                         }
                     }
