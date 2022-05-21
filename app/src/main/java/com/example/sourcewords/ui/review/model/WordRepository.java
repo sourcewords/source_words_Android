@@ -7,9 +7,13 @@ import android.util.Log;
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 
+import com.example.sourcewords.commonUtils.NetUtil;
+import com.example.sourcewords.ui.login.model.UserWrapper;
 import com.example.sourcewords.ui.review.dataBean.SingleWord;
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordCardState;
+import com.example.sourcewords.ui.review.dataBean.WordCardStateResponse;
+import com.example.sourcewords.ui.review.dataBean.WordCardStateString;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.db.SingleWordDao;
 import com.example.sourcewords.ui.review.db.SingleWordDatabase;
@@ -19,11 +23,17 @@ import com.example.sourcewords.ui.review.db.WordDao;
 import com.example.sourcewords.ui.review.db.WordDatabase;
 import com.example.sourcewords.ui.review.db.WordRootDao;
 import com.example.sourcewords.ui.review.db.WordRootDatabase;
+import com.example.sourcewords.ui.review.view.reviewUtils.ReciteCardConverter;
 import com.example.sourcewords.ui.review.view.reviewUtils.WordSample;
+import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 @RequiresApi(api = Build.VERSION_CODES.N)
@@ -166,6 +176,44 @@ public class WordRepository {
             singleWordDao.insertSingleWord(singleWord);
         }
     }
+
+    public void uploadReviewCardState(String s) {
+        String token = UserWrapper.getInstance().getToken();
+        if(token.equals("")) return;
+        WordCardStateString wordCardStateString = new WordCardStateString();
+        wordCardStateString.setStatus(s);
+        NetUtil.getInstance().getApi().postState(token, wordCardStateString).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void downloadWordCardState(ReviewCardViewModel reviewCardViewModel) {
+        String token = UserWrapper.getInstance().getToken();
+        if(token.equals("")) return;
+        NetUtil.getInstance().getApi().getState(token).enqueue(new Callback<WordCardStateResponse>() {
+            @Override
+            public void onResponse(Call<WordCardStateResponse> call, Response<WordCardStateResponse> response) {
+                if(response.code() == 200) {
+                    String stateString = response.body().getData().getStatus();
+                    WordCardState wordCardState = ReciteCardConverter.String2ReciteCardState(stateString);
+                    reviewCardViewModel.refreshViewModel(wordCardState);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<WordCardStateResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
 
     static class InsertWords extends AsyncTask<Word,Void,Void> {
         WordDao dao;

@@ -42,6 +42,10 @@ public class Word {
         root_id = word_info.getRoot();
     }
 
+    public Word() {
+
+    }
+
     public WordInfoBean getWord_info() {
         return word_info;
     }
