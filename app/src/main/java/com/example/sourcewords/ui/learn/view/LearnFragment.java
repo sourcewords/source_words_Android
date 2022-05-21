@@ -85,11 +85,10 @@ public class LearnFragment extends Fragment implements RollInterface {
     }
 
     private List<Fragment> initFragmentList() {
-        int date = viewModel.HowLongPlan();
-        Log.d("已学习天数", String.valueOf(date));
+        int date = viewModel.getIDtoLearn();
         List<Fragment> ans = new ArrayList<>();
-        for (int i = 1; i <= size; i++) {
-            LearnWordRootFragment fragment = LearnWordRootFragment.newInstance(i + date * size);
+        for (int i = 0; i < size; i++) {
+            LearnWordRootFragment fragment = LearnWordRootFragment.newInstance(i + date);
             fragment.setRollCallBack(this);
             ans.add(fragment);
         }
@@ -130,7 +129,8 @@ public class LearnFragment extends Fragment implements RollInterface {
         if (!viewModel.isToday()) {
             //更新操作
             //TODO 进过算法处理，储存当天的进度
-            viewModel.saveLong(viewModel.HowLongPlan() * size + 1);
+            //viewModel.saveLong(viewModel.HowLongPlan() * size + 1);
+            viewModel.saveIDtoLearn(viewModel.getLong());
             viewModel.getLearnFlag().setValue(false);
             viewModel.saveFlag(false);
             viewModel.saveTime();

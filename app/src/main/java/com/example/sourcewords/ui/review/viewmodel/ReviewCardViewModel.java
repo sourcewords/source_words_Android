@@ -146,10 +146,18 @@ public class ReviewCardViewModel extends AndroidViewModel {
         addInQueue();
     }
 
-
+    //新增过滤的效果，按照所选的计划等级筛选
     public void initData(int rootId) {
         newLearnedWords = mWordRepository.getNewWords(rootId);
-        for (Word w : newLearnedWords) {
+        SPUtils sp = SPUtils.getInstance(SPUtils.SP_LEARN_PLAN);
+        int level = sp.getInt("key_plan",1);
+        List<Word> res = new ArrayList<>();
+        for (Word word : newLearnedWords) {
+            if (word.getWord_info().getExam_grading().get(level - 1)) {
+                res.add(word);
+            }
+        }
+        for (Word w : res) {
             WordSample wordSample = new WordSample(w, w.getWord_info().getStatus(),"");
             newLearnedWordsQueue.offer(wordSample);
         }
