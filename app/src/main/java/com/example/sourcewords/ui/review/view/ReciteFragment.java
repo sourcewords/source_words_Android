@@ -40,8 +40,6 @@ public class ReciteFragment extends Fragment {
     private Word word;
     private MutableLiveData<WordSample> wordSample;
     private FloatingActionButton button;
-    private FloatingActionButton upload;
-    private FloatingActionButton download;
     private TextView wordEng;
     private TextView soundMark;
     private TextView newLearned,haveLearned,review;
@@ -80,8 +78,8 @@ public class ReciteFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recite,container,false);
         button = view.findViewById(R.id.next_btn);
-        upload = view.findViewById(R.id.upload_btn);
-        download = view.findViewById(R.id.download_btn);
+        //upload = view.findViewById(R.id.upload_btn);
+        //download = view.findViewById(R.id.download_btn);
         wordEng = view.findViewById(R.id.word);
         soundMark = view.findViewById(R.id.sound_mark);
         newLearned = view.findViewById(R.id.new_learn);
@@ -182,7 +180,7 @@ public class ReciteFragment extends Fragment {
         button.setOnClickListener(v -> {
             getPreWord();
         });
-
+        /*
         upload.setOnClickListener(v -> {
             String date = DateUtils.getDate();
             WordCardState wordCardState = new WordCardState(date,reviewCardViewModel.getNewLearnedWords(),
@@ -202,6 +200,7 @@ public class ReciteFragment extends Fragment {
         download.setOnClickListener(v -> {
             reviewCardViewModel.downloadWordCardState();
         });
+         */
 
     }
 
