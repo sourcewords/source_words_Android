@@ -166,7 +166,7 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
     private void getTodayLearn() {
         viewModel.getWordRootById(root_id).observe(getViewLifecycleOwner(), wordRoot -> {
             if (wordRoot != null) {
-                textView_wordRoot.setText("词根：" + wordRoot.getRoot());
+                textView_wordRoot.setText("词根详情：" + wordRoot.getRoot());
                 textView_meaning.setText(handleWords("词根" + wordRoot.getRoot() + "的意思是:" + wordRoot.getMeaning()));
                 textView_source.setText(handleWords("词根" + wordRoot.getRoot() + "的来源与解释:" + wordRoot.getMeaning()));
                 adapter.setList(getPlanList(wordRoot.getWordlist()));
