@@ -169,7 +169,7 @@ public class LearnFragment extends Fragment implements RollInterface {
     private boolean isPlanChanged(){
         final boolean[] isChanged = {false};
         viewModel.getNowPlan().observe(getViewLifecycleOwner(), integer -> {
-            isChanged[0] = (integer != viewModel.getNow());
+            isChanged[0] = (integer != viewModel.getPlan());
             viewModel.savePlan(integer);
         });
         return isChanged[0];
