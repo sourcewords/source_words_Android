@@ -146,10 +146,18 @@ public class ReviewCardViewModel extends AndroidViewModel {
         addInQueue();
     }
 
-
+    //新增过滤的效果，按照所选的计划等级筛选
     public void initData(int rootId) {
         newLearnedWords = mWordRepository.getNewWords(rootId);
-        for (Word w : newLearnedWords) {
+        SPUtils sp = SPUtils.getInstance(SPUtils.SP_LEARN_PLAN);
+        int level = sp.getInt("key_plan",1);
+        List<Word> res = new ArrayList<>();
+        for (Word word : newLearnedWords) {
+            if (word.getWord_info().getExam_grading().get(level - 1)) {
+                res.add(word);
+            }
+        }
+        for (Word w : res) {
             WordSample wordSample = new WordSample(w, w.getWord_info().getStatus(),"");
             newLearnedWordsQueue.offer(wordSample);
         }
@@ -379,5 +387,29 @@ public class ReviewCardViewModel extends AndroidViewModel {
 
     public void deleteWordCardState() {
         mWordRepository.deleteWordCardState();
+    }
+
+    public void uploadReviewCardState(String s) {
+        mWordRepository.uploadReviewCardState(s);
+    }
+
+    public void downloadWordCardState() {
+        mWordRepository.downloadWordCardState(this);
+    }
+
+    public void refreshViewModel(WordCardState wordCardState) {
+        this.newLearnedWords = wordCardState.getNewLearnedWords();
+        this.haveLearnedWords = wordCardState.getHaveLearnedWords();
+        this.reviewWords = wordCardState.getReviewWords();
+        this.newLearnedCount.setValue(wordCardState.getNewLearnedCount());
+        this.haveLearnedCount.setValue(wordCardState.getHaveLearnedCount());
+        this.reviewCount.setValue(wordCardState.getReviewCount());
+        this.wordSampleMutableLiveData.setValue(wordCardState.getWordSample());
+        this.wordPool = wordCardState.getWordPool();
+        this.lastLearnTime = wordCardState.getLastLearnTime();
+        this.historyStack = wordCardState.getHistoryStack();
+        this.priorityQueue = wordCardState.getPriorityQueue();
+        this.newLearnedWordsQueue = wordCardState.getNewLearnedWordsQueue();
+        this.haveLearnedWordsQueue = wordCardState.getHaveLearnedWordsQueue();
     }
 }

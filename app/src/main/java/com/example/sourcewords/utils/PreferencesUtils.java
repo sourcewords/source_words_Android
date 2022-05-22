@@ -6,4 +6,5 @@ public class PreferencesUtils {
     public static final String WORD_ROOT_HAVE_LEARNED = "WordRootHaveLearned";
     public static final String LAST_REVIEW_DAY = "LastReviewDay";
     public static final String CLICK_LEARAN_BUTTON = "ClickLearnButton";
+    public static final String isFirst = "isFirstInit";
 }

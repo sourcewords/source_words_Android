@@ -131,8 +131,6 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator{
             @Override
             public void onClick(View widget) {
                 showShortToast(type);
-//                Intent intent = new Intent(LoginActivity.this, AgreeActivity.class);
-//                startActivity(intent);
             }
         };
         spannableString.setSpan(clickableSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -145,7 +143,7 @@ public class LoginActivity extends AppCompatActivity implements LoginNavigator{
         UnderlineSpan colorSpan = new UnderlineSpan() {
             @Override
             public void updateDrawState(TextPaint ds) {
-                ds.setColor(Color.parseColor("#5e89ef"));//设置颜色
+                ds.setColor(Color.parseColor("#5e89ef"));
             }
         };
         spannableString.setSpan(colorSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

@@ -12,6 +12,7 @@ import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.sourcewords.App;
+import com.example.sourcewords.ui.main.MainFragment;
 import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.model.WordDataSource;
@@ -72,6 +73,14 @@ public abstract class WordDatabase extends RoomDatabase {
             }
 
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            MainFragment.num++;
+            MainFragment.remove.postValue(MainFragment.num);
+            super.onPostExecute(unused);
+
         }
     }
 }
