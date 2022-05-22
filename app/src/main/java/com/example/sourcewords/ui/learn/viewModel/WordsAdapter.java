@@ -50,7 +50,7 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordsHolder>
 
     static class WordsHolder extends RecyclerView.ViewHolder {
 
-        private TextView english, chinese;
+        private TextView english, chinese, explian;
 
         public WordsHolder(@NonNull View itemView) {
             super(itemView);
@@ -60,11 +60,13 @@ public class WordsAdapter extends RecyclerView.Adapter<WordsAdapter.WordsHolder>
         private void init() {
             english = itemView.findViewById(R.id.cell_English);
             chinese = itemView.findViewById(R.id.cell_Chinese);
+            explian = itemView.findViewById(R.id.cell_explain);
         }
 
         public void bind(Word word) {
             english.setText(word.getWord());
             chinese.setText(word.getMeaning());
+            explian.setText(word.getExplanation());
         }
     }
 }

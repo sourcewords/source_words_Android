@@ -47,6 +47,9 @@ public class WordInfoBean {
         this.example_sentences = example_sentences;
     }
 
+    public WordInfoBean() {
+    }
+
     public String getZh_source() {
         return zh_source;
     }

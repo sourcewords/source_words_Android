@@ -17,6 +17,10 @@ public class WordSample implements Comparable<WordSample> {
         this.time = time;
     }
 
+    public WordSample() {
+
+    }
+
     public Word getWord() {
         return word;
     }

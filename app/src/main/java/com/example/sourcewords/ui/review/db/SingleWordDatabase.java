@@ -12,6 +12,7 @@ import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.sourcewords.App;
+import com.example.sourcewords.ui.main.MainFragment;
 import com.example.sourcewords.ui.review.dataBean.SingleWord;
 import com.example.sourcewords.ui.review.model.WordDataSource;
 import com.example.sourcewords.utils.Converters;
@@ -67,6 +68,14 @@ public abstract class SingleWordDatabase extends RoomDatabase {
             for(SingleWord singleWord : words)
                 mDao.insertSingleWord(singleWord);
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            MainFragment.num++;
+            MainFragment.remove.postValue(MainFragment.num);
+            super.onPostExecute(unused);
+
         }
     }
 }

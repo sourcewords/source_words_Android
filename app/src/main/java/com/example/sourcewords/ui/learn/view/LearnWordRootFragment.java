@@ -24,7 +24,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,13 +37,11 @@ import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
 import com.example.sourcewords.utils.PreferencesUtils;
 
-import org.json.JSONArray;
-
 import java.util.ArrayList;
 import java.util.List;
 
 //TODO 此页面代替原来的LearnFragment，传入词根的id
-public class LearnWordRootFragment extends Fragment implements View.OnClickListener{
+public class LearnWordRootFragment extends Fragment implements View.OnClickListener {
     private int root_id;
     private VideoView videoView;
     private LearnViewModel viewModel;
@@ -55,10 +53,10 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
     private static final String Param = "LearnRootFragment";
     private ReviewCardViewModel reviewCardViewModel;
 
-    public static LearnWordRootFragment newInstance(int id){
+    public static LearnWordRootFragment newInstance(int id) {
         LearnWordRootFragment fragment = new LearnWordRootFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(Param,id);
+        bundle.putInt(Param, id);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -67,12 +65,12 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         @SuppressLint("InflateParams") View v = inflater.inflate(R.layout.fragment_learn, null);
-        viewModel = ViewModelProviders.of(this.getActivity()).get(LearnViewModel.class);
-        reviewCardViewModel = ViewModelProviders.of(this.getActivity()).get(ReviewCardViewModel.class);
+        viewModel = new ViewModelProvider(this.getActivity()).get(LearnViewModel.class);
+        reviewCardViewModel = new ViewModelProvider(this.getActivity()).get(ReviewCardViewModel.class);
         initView(v);
         Bundle bundle = getArguments();
         assert bundle != null;
-        root_id = bundle.getInt(Param,0);
+        root_id = bundle.getInt(Param, 0);
         Log.d("词根页的id是：", String.valueOf(root_id));
         return v;
     }
@@ -129,20 +127,16 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.learn_AllLearned:
-                if(viewModel.getLong() == root_id ) {
+                if (viewModel.getLong() == root_id) {
                     changeButtonUI();
                     button_learned.setClickable(false);
                     viewModel.saveLong(viewModel.getLong() + 1);
                     viewModel.whatILearnedToday(list);
                     rollInterface.next();
-                    //正常的if(root_id == (viewModel.HowLongPlan() + 1) * viewModel.getSpeed()){
-                    //临时的
-                    if(root_id == (viewModel.HowLongPlan()) * viewModel.getSpeed() + 1){
-                        viewModel.saveFlag(true);
-                        viewModel.getLearnFlag().setValue(true);
-                    }
+                    viewModel.saveFlag(true);
+                    viewModel.getLearnFlag().setValue(true);
                     reviewCardViewModel.initData(root_id);
-                }else{
+                } else {
                     Toast.makeText(getContext(), "您还没学到这个", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -172,7 +166,7 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
     private void getTodayLearn() {
         viewModel.getWordRootById(root_id).observe(getViewLifecycleOwner(), wordRoot -> {
             if (wordRoot != null) {
-                textView_wordRoot.setText("词根：" + wordRoot.getRoot());
+                textView_wordRoot.setText("词根详情：" + wordRoot.getRoot());
                 textView_meaning.setText(handleWords("词根" + wordRoot.getRoot() + "的意思是:" + wordRoot.getMeaning()));
                 textView_source.setText(handleWords("词根" + wordRoot.getRoot() + "的来源与解释:" + wordRoot.getMeaning()));
                 adapter.setList(getPlanList(wordRoot.getWordlist()));
@@ -193,7 +187,7 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
         if (viewModel.getLong() > root_id) {
             button_learned.setClickable(false);
             changeButtonUI();
-        }else{
+        } else {
             button_learned.setClickable(true);
             changeButtonUIBack();
         }
@@ -219,14 +213,14 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
         return res;
     }
 
-    private SpannableStringBuilder handleWords(String s){
+    private SpannableStringBuilder handleWords(String s) {
         int len = s.indexOf(":");
         SpannableStringBuilder ans = new SpannableStringBuilder(s);
-        ans.setSpan(new ForegroundColorSpan(Color.parseColor("#64BEBC")),0,len, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+        ans.setSpan(new ForegroundColorSpan(Color.parseColor("#64BEBC")), 0, len, Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
         return ans;
     }
 
-    public void setRollCallBack(LearnFragment fragment){
+    public void setRollCallBack(LearnFragment fragment) {
         rollInterface = fragment;
     }
 
@@ -238,7 +232,7 @@ public class LearnWordRootFragment extends Fragment implements View.OnClickListe
 
 
     //TODO 传递今日所学的id**临时性
-    private void Pass_Wordroot_ID(int root_id){
+    private void Pass_Wordroot_ID(int root_id) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(App.getAppContext());
         SharedPreferences.Editor editor = sharedPreferences.edit();
 //        JSONArray jsonArray = new JSONArray();

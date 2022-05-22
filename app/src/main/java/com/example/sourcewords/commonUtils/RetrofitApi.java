@@ -12,6 +12,8 @@ import com.example.sourcewords.ui.mine.model.databean.SigninBean;
 import com.example.sourcewords.ui.mine.model.databean.SigninDate;
 import com.example.sourcewords.ui.mine.model.databean.UserInfo;
 import com.example.sourcewords.ui.mine.model.databean.UserInfoResponse;
+import com.example.sourcewords.ui.review.dataBean.WordCardStateResponse;
+import com.example.sourcewords.ui.review.dataBean.WordCardStateString;
 import com.example.sourcewords.ui.review.dataBean.WordRoot;
 import com.example.sourcewords.ui.review.dataBean.WordRootStatus;
 
@@ -80,4 +82,10 @@ public interface RetrofitApi {
     //chang-pwd
     @PUT("user/reset")
     Call<LoginResponse> changPwd(@Body PutPwd newpwd);
+
+    @PUT("sync/practices")
+    Call<Void> postState(@Header("Authorization") String token, @Body WordCardStateString wordCardStateString);
+
+    @GET("sync/practices")
+    Call<WordCardStateResponse> getState(@Header("Authorization") String token);
 }
