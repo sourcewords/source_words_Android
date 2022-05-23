@@ -59,10 +59,12 @@ public class AddPlanActivity extends AppCompatActivity {
         binding.startPlan.setOnClickListener(v -> {
             int flag = 0;
             String name = binding.addPlanName.getText().toString().substring(0,2);
-            for(PlanItem.DataDTO.PlansDTO i : item.getData().getPlans()){
-                if(i.getName().equals(name)){
-                    changePlan(i.getPlanId());
-                    flag = 1;
+            if(item.getData().getPlans() != null) {
+                for(PlanItem.DataDTO.PlansDTO i : item.getData().getPlans()){
+                    if(i.getName().equals(name)){
+                        changePlan(i.getPlanId());
+                        flag = 1;
+                    }
                 }
             }
             if(flag == 0){
@@ -82,7 +84,6 @@ public class AddPlanActivity extends AppCompatActivity {
                     break;
             }
             learnViewModel.getNowPlan().setValue(level);
-
         });
 
 
@@ -134,13 +135,16 @@ public class AddPlanActivity extends AppCompatActivity {
         addPlanViewModel.addPlan(name, new Api.changePlanApi() {
             @Override
             public void success() {
-                getPlan();
-                String name = binding.addPlanName.getText().toString().substring(0,2);
-                for(PlanItem.DataDTO.PlansDTO i : item.getData().getPlans()){
-                    if(i.getName().equals(name)){
-                        changePlan(i.getPlanId());
-                    }
-                }
+                //getPlan();
+//                String name = binding.addPlanName.getText().toString().substring(0,2);
+//                if(item.getData().getPlans() != null) {
+//                    for(PlanItem.DataDTO.PlansDTO i : item.getData().getPlans()){
+//                        if(i.getName().equals(name)){
+//                            changePlan(i.getPlanId());
+//                        }
+//                    }
+//                }
+
                 Toast.makeText(AddPlanActivity.this, "添加成功！", Toast.LENGTH_SHORT).show();
                 finish();
             }
