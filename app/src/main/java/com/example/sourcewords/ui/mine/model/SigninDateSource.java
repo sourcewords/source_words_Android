@@ -15,9 +15,6 @@ public class SigninDateSource {
     private static SigninDateSource INSTANCE;
     private SigninBean signinBean;
 
-
-    private final String token = UserWrapper.getInstance().getToken();
-
     public static SigninDateSource getInstance() {
         if(INSTANCE == null){
             synchronized (SigninDateSource.class) {
@@ -32,7 +29,7 @@ public class SigninDateSource {
     private SigninDateSource (){}
 
     public void getAllSignDate(Api.getSignInApi api){
-        NetUtil.getInstance().getApi().getAllSigninDate(token).enqueue(new Callback<SigninBean>() {
+        NetUtil.getInstance().getApi().getAllSigninDate(UserWrapper.getInstance().getToken()).enqueue(new Callback<SigninBean>() {
             @Override
             public void onResponse(Call<SigninBean> call, Response<SigninBean> response) {
                 if(response.body()!= null){
@@ -49,7 +46,7 @@ public class SigninDateSource {
     }
 
     public void putSignInDate(SigninDate date, Api.putSignInApi api){
-        NetUtil.getInstance().getApi().putTodaySignin(date, token).enqueue(new Callback<LoginResponse>() {
+        NetUtil.getInstance().getApi().putTodaySignin(date, UserWrapper.getInstance().getToken()).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
           //      if(response.code() == )
