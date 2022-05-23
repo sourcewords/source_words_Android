@@ -75,7 +75,7 @@ public class RegisterViewModel extends ViewModel {
             RegisterRemoteRespository.getINSTANCE().getRegisterStatus(new LoginUser(Email.getValue(), encode), new RegisterDataSource.LoadRegisterCallBack() {
                 @Override
                 public void onRegisterLoaded() {
-                    // 注册成功自动闪退。
+                    registerNavigator.onRegisterCompleted();
                     Toast.makeText(mContext.getApplicationContext(), "注册成功!", Toast.LENGTH_SHORT).show();
                 }
 

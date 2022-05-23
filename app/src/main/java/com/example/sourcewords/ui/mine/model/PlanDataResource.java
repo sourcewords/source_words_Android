@@ -12,7 +12,6 @@ public class PlanDataResource {
 
     private static PlanDataResource INSTANCE;
     private PlanItem myplan = new PlanItem();
-    private final String token = UserWrapper.getInstance().getToken();
 
     public static PlanDataResource getInstance() {
         if(INSTANCE == null){
@@ -28,7 +27,7 @@ public class PlanDataResource {
     private PlanDataResource (){}
 
     public void getMyPlan(Api.getPlan api){
-        NetUtil.getInstance().getApi().getMyPlan(token).enqueue(new Callback<PlanItem>() {
+        NetUtil.getInstance().getApi().getMyPlan(UserWrapper.getInstance().getToken()).enqueue(new Callback<PlanItem>() {
             @Override
             public void onResponse(Call<PlanItem> call, Response<PlanItem> response) {
                 if(response.code() == 200){

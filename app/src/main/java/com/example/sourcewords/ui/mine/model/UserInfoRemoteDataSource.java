@@ -13,7 +13,6 @@ public class UserInfoRemoteDataSource implements Api.getUserInfo{
 
     private static UserInfoRemoteDataSource INSTANCE;
     private UserInfoResponse.DataDTO u;
-    private final String token = UserWrapper.getInstance().getToken();
 
     public static UserInfoRemoteDataSource getInstance(){
         if(INSTANCE == null){
@@ -28,7 +27,7 @@ public class UserInfoRemoteDataSource implements Api.getUserInfo{
 
     @Override
     public void getUserStatus(LoadUserCallBack loadUserCallBack) {
-        NetUtil.getInstance().getApi().getUserInfo(token)
+        NetUtil.getInstance().getApi().getUserInfo(UserWrapper.getInstance().getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<UserInfoResponse>() {

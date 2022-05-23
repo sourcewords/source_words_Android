@@ -166,8 +166,8 @@
 
                     <ImageView
                         android:id="@+id/update"
-                        android:layout_width="55dp"
-                        android:layout_height="58dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:layout_marginStart="16dp"
                         android:background="@android:drawable/stat_notify_sync"
                         android:backgroundTint="#9CDFDD"
