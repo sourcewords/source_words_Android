@@ -33,6 +33,7 @@ public class AddPlanViewModel extends ViewModel {
     public MutableLiveData<String> endDate = new MutableLiveData<>();
     private Context mContext;
     LocalDate start, end;
+    String startString, endString;
     private AddPlanBean addPlanBean = new AddPlanBean();
     String token = UserWrapper.getInstance().getToken();
     int s_y, s_m, s_d, e_y, e_m, e_d;
@@ -52,6 +53,7 @@ public class AddPlanViewModel extends ViewModel {
                 month = month + 1;
                 start = LocalDate.of(year, month, day);
                 startDate.setValue(start.toString());
+                startString = year + "." + month + "." + day;
                 addPlanBean.setStart(year + "." + month + "." + day);
             }
         };
@@ -77,6 +79,7 @@ public class AddPlanViewModel extends ViewModel {
                 month = month + 1;
                 end = LocalDate.of(year, month, day);
                 endDate.setValue(end.toString());
+                endString = year + "." + month + "." + day;
                 addPlanBean.setEnd(year + "." + month + "." + day);
             }
         };
@@ -127,7 +130,7 @@ public class AddPlanViewModel extends ViewModel {
     }
 
     public void changePlan(Api.changePlanApi api, Integer id){
-        NetUtil.getInstance().getApi().choosePlan(token, new ChoosePlanBean(id)).enqueue(new Callback<LoginResponse>() {
+        NetUtil.getInstance().getApi().choosePlan(token, new ChoosePlanBean(startString, id, endString)).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if(response.code() == 200){

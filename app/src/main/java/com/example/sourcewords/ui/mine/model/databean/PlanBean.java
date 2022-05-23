@@ -3,7 +3,7 @@ package com.example.sourcewords.ui.mine.model.databean;
 public class PlanBean {
 
     public PlanBean(){}
-    public PlanBean(String planName, String leastTime, String b_eTime, int progress, int type) {
+    public PlanBean(String planName, String leastTime, String b_eTime, double progress, int type) {
         this.planName = planName;
         this.leastTime = leastTime;
         this.b_eTime = b_eTime;
@@ -35,7 +35,7 @@ public class PlanBean {
         this.b_eTime = b_eTime;
     }
 
-    public int getProgress() {
+    public double getProgress() {
         return progress;
     }
 
@@ -46,7 +46,7 @@ public class PlanBean {
     private String planName;
     private String leastTime;
     private String b_eTime;
-    private int progress;
+    private double progress;
 
     public int getType() {
         return type;

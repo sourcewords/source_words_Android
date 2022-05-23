@@ -23,6 +23,7 @@
 
         <activity
             android:name=".ui.login.view.LoginActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,23 +32,40 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.mine.view.AllPlanActivity" />
-        <activity android:name=".ui.main.MainActivity" />
-        <activity android:name=".ui.mine.view.ChangePwdActivity" />
-        <activity android:name=".ui.mine.view.UserAgreementActivity" />
+        <activity android:name=".ui.mine.view.AllPlanActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.main.MainActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.mine.view.ChangePwdActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.mine.view.UserAgreementActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".ui.mine.view.SettingActivity" />
         <activity android:name=".ui.mine.view.UserInfoActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".ui.login.view.RegisterActivity" />
-        <activity android:name=".ui.mine.view.AddPlanActivity" />
-        <activity android:name=".ui.review.view.DetailActivity" />
-        <activity android:name=".ui.review.view.SearchWordsDetailActivity" />
-        <activity android:name=".ui.review.view.ReviewSearchActivity"/>
-        <activity android:name=".ui.learn.view.LearnSearchActivity"/>
-        <activity android:name=".ui.learn.view.WordRootPage"/>
-        <activity android:name=".ui.mine.view.SigninActivity"/>
-        <activity android:name=".ui.mine.view.MyPlanActivity"/>
-        <activity android:name=".ui.login.view.ForgetPwdActivity"/>
-        <activity android:name=".ui.login.view.SetPwdActivity"/>
+        <activity android:name=".ui.login.view.RegisterActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.mine.view.AddPlanActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.review.view.DetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.review.view.SearchWordsDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.review.view.ReviewSearchActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.learn.view.LearnSearchActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.learn.view.WordRootPage"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.mine.view.SigninActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.mine.view.MyPlanActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.login.view.ForgetPwdActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.login.view.SetPwdActivity"
+            android:screenOrientation="portrait"/>
     </application>
+
 </manifest>

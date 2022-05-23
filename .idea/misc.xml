@@ -13,8 +13,11 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/activity_myplan.xml" value="0.23641304347826086" />
         <entry key="app/src/main/res/layout/activity_userinfo.xml" value="0.23641304347826086" />
+        <entry key="app/src/main/res/layout/fragment_learn.xml" value="0.22735507246376813" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/fragment_mine.xml" value="0.6759867129118546" />
+        <entry key="app/src/main/res/layout/fragment_recite.xml" value="0.22735507246376813" />
+        <entry key="app/src/main/res/layout/words_cells.xml" value="0.22735507246376813" />
       </map>
     </option>
   </component>

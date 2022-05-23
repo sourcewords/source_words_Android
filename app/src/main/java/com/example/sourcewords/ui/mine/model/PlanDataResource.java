@@ -2,8 +2,6 @@ package com.example.sourcewords.ui.mine.model;
 
 import com.example.sourcewords.commonUtils.NetUtil;
 import com.example.sourcewords.ui.login.model.UserWrapper;
-import com.example.sourcewords.ui.login.model.respository.LoginRemoteRespository;
-import com.example.sourcewords.ui.mine.model.databean.PlanBean;
 import com.example.sourcewords.ui.mine.model.databean.PlanItem;
 
 import retrofit2.Call;

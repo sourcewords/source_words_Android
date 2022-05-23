@@ -29,6 +29,7 @@ import com.example.sourcewords.ui.review.dataBean.Word;
 import com.example.sourcewords.ui.review.dataBean.WordCardState;
 import com.example.sourcewords.ui.review.dataBean.WordInfoBean;
 import com.example.sourcewords.ui.review.view.reviewUtils.ContextUtils;
+import com.example.sourcewords.ui.review.view.reviewUtils.ReciteCardConverter;
 import com.example.sourcewords.ui.review.view.reviewUtils.WordSample;
 import com.example.sourcewords.ui.review.viewmodel.ReviewCardViewModel;
 import com.example.sourcewords.utils.DateUtils;
@@ -77,6 +78,8 @@ public class ReciteFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_recite,container,false);
         button = view.findViewById(R.id.next_btn);
+        //upload = view.findViewById(R.id.upload_btn);
+        //download = view.findViewById(R.id.download_btn);
         wordEng = view.findViewById(R.id.word);
         soundMark = view.findViewById(R.id.sound_mark);
         newLearned = view.findViewById(R.id.new_learn);
@@ -177,6 +180,27 @@ public class ReciteFragment extends Fragment {
         button.setOnClickListener(v -> {
             getPreWord();
         });
+        /*
+        upload.setOnClickListener(v -> {
+            String date = DateUtils.getDate();
+            WordCardState wordCardState = new WordCardState(date,reviewCardViewModel.getNewLearnedWords(),
+                    reviewCardViewModel.getHaveLearnedWords(), reviewCardViewModel.getReviewWords(),
+                    reviewCardViewModel.getNewLearnedCount().getValue(),
+                    reviewCardViewModel.getHaveLearnedCount().getValue(),
+                    reviewCardViewModel.getReviewCount().getValue(),
+                    reviewCardViewModel.getWordSampleMutableLiveData().getValue(),
+                    reviewCardViewModel.getWordPool(),
+                    reviewCardViewModel.getLastLearnTime(),
+                    reviewCardViewModel.getHistoryStack(),
+                    reviewCardViewModel.getPriorityQueue(),
+                    reviewCardViewModel.getNewLearnedWordsQueue(),
+                    reviewCardViewModel.getHaveLearnedWordsQueue());
+            reviewCardViewModel.uploadReviewCardState(ReciteCardConverter.ReciteCardState2String(wordCardState));
+        });
+        download.setOnClickListener(v -> {
+            reviewCardViewModel.downloadWordCardState();
+        });
+         */
 
     }
 

@@ -35,11 +35,11 @@ public final class SPUtils {
     public static final String SP_DOWNLOAD="sp_file_download";
     public static final String SP_TIME = "sp_time_last";//记录上次登录的时间
     public static final String SP_LEARN_TODAY = "sp_learn_today";
-    public static final String SP_LEARN_PLAN = "sp_learn_plan";
-    public static final String SP_LEARN_Last = "sp_learn_plan_last";
-    public static final String SP_LEARN_LONG = "sp_learn_long";
-    public static final String SP_MAKE_PLAN = "sp_make_plan";
-    public static final String SP_LEARN_SPEED = "sp_learn_speed";
+    public static final String SP_LEARN_PLAN = "sp_learn_plan";//记录上次选择的计划编号
+    public static final String SP_LEARN_LONG = "sp_learn_long";//记录下个要学的词根
+    public static final String SP_ID_LEARN = "sp_id_learn";//记录每天要学习的第一个词根的id
+    public static final String SP_MAKE_PLAN = "sp_make_plan";//记录选择计划的时间
+    public static final String SP_LEARN_SPEED = "sp_learn_speed";//记录每天学习单词的数目
     public static final String SP_NAME = "limit_config";
 
 
