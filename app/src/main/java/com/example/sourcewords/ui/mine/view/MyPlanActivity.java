@@ -61,6 +61,7 @@ public class MyPlanActivity extends AppCompatActivity {
                     dataBinding.myplanRvItem.setVisibility(View.GONE);
                     Toast.makeText(MyPlanActivity.this, "现在没有进行中的计划哦，快来添加一个吧！", Toast.LENGTH_SHORT).show();
                 } else {
+                    dataBinding.myplanRvItem.setVisibility(View.VISIBLE);
                     for (PlanItem.DataDTO.PlansDTO dao : planBean.getData().getPlans()) {
                         if (dao.getActive() == 1) {
                             if (dao.getName().equals("四级")) {
