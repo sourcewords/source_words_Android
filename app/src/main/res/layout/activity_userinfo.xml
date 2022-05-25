@@ -103,6 +103,8 @@
                     app:boxBackgroundColor="@color/white">
 
                     <EditText
+                        android:textColor="#000"
+                        android:textCursorDrawable="@null"
                         android:id="@+id/info_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -122,6 +124,8 @@
                     app:boxBackgroundColor="@color/white">
 
                     <EditText
+                        android:textColor="#000"
+                        android:textCursorDrawable="@null"
                         android:id="@+id/info_telephone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -189,6 +193,8 @@
                     app:boxBackgroundColor="@color/white">
 
                     <EditText
+                        android:textColor="#000"
+                        android:textCursorDrawable="@null"
                         android:id="@+id/info_birthday"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -208,6 +214,8 @@
                     app:boxBackgroundColor="@color/white">
 
                     <EditText
+                        android:textColor="#000"
+                        android:textCursorDrawable="@null"
                         android:id="@+id/info_zone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

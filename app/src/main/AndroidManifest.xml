@@ -16,6 +16,7 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.SourceWords"
+        android:forceDarkAllowed="true"
         android:hardwareAccelerated="false"
         android:exported = "true"
         tools:targetApi="m">
@@ -24,6 +25,8 @@
         <activity
             android:name=".ui.login.view.LoginActivity"
             android:screenOrientation="portrait"
+            android:hardwareAccelerated="true"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

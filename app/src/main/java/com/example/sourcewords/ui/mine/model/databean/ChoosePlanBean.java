@@ -12,11 +12,11 @@ public class ChoosePlanBean {
     }
 
     public Integer getPlanId() {
-        return planId;
+        return plan_id;
     }
 
     public void setPlanId(Integer planId) {
-        this.planId = planId;
+        this.plan_id = plan_id;
     }
 
     public String getEnd() {
@@ -29,12 +29,12 @@ public class ChoosePlanBean {
 
     private String start;
 
-    public ChoosePlanBean(String start, Integer planId, String end) {
+    public ChoosePlanBean(String start, Integer plan_id, String end) {
         this.start = start;
-        this.planId = planId;
+        this.plan_id = plan_id;
         this.end = end;
     }
 
-    private Integer planId;
+    private Integer plan_id;
     private String end;
 }

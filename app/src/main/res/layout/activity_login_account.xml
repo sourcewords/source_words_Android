@@ -76,11 +76,13 @@
                 <EditText
                     android:id="@+id/et_account"
                     android:layout_width="0dp"
+                    android:textColor="#000"
+                    android:textCursorDrawable="@null"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="15dp"
                     android:layout_weight="5"
                     android:background="@drawable/login_input_frame"
-                    android:hint="请输入正确的邮箱"
+                    android:hint="请输入正确的qq邮箱"
                     android:paddingStart="10dp"
                     android:text="@={LoginViewModel.Account}" />
 
@@ -102,6 +104,8 @@
                     android:textSize="16sp" />
 
                 <EditText
+                    android:textColor="#000"
+                    android:textCursorDrawable="@null"
                     android:id="@+id/et_password"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

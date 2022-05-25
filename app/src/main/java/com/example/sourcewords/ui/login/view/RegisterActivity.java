@@ -20,7 +20,7 @@ import com.example.sourcewords.ui.login.viewmodel.RegisterViewModel;
 
 import java.util.Objects;
 
-public class RegisterActivity extends AppCompatActivity implements RegisterNavigator{
+public class RegisterActivity extends AppCompatActivity{
 
     private RegisterViewModel registerViewModel;
     private ActivityLoginRegisterBinding binding;
@@ -37,6 +37,12 @@ public class RegisterActivity extends AppCompatActivity implements RegisterNavig
         binding.setLifecycleOwner(this);
         binding.setRegisterViewModel(registerViewModel);
         binding.btnCaptcha.setBackgroundColor(Color.parseColor("#9CDFDD"));
+        registerViewModel.onActivityCreated(new RegisterNavigator() {
+            @Override
+            public void onRegisterCompleted() {
+                finish();
+            }
+        });
 
         registerViewModel.getRegister().observe(this, new Observer<RegisterPage>() {
             @Override
@@ -76,12 +82,6 @@ public class RegisterActivity extends AppCompatActivity implements RegisterNavig
                             View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
     }
-
-    @Override
-    public void onRegisterCompleted() {
-        finish();
-    }
-
 
     /**
      * 点击按钮后倒计时

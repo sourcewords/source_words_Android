@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
 
@@ -115,6 +116,8 @@ public class AddPlanViewModel extends ViewModel {
                 public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                     if(response.code() == 200){
                         api.success();
+                    }else {
+                        Log.d("tag", String.valueOf(response.code()));
                     }
                 }
                 @Override
